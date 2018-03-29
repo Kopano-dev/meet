@@ -1,0 +1,31 @@
+{
+  "short_name": "Meet",
+  "name": "Kopano Meet",
+  "icons": [
+    {
+      "src": "icon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    }, {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    }, {
+      "src": "ms-touch-icon-144x144-precomposed.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }, {
+      "src": "chrome-touch-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }, {
+      "src": "splash-screen-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/meet/r/meet?utm_source=homescreen",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "fullscreen"
+}

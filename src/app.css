@@ -1,0 +1,13 @@
+/* additionall css on top of kpop */
+
+#bg {
+  background-color: white;
+  background-image: url(../src/images/kopano-icon.svg);
+  background-repeat:no-repeat;
+  background-position: center center;
+  background-size: auto 50%;
+}
+
+#root, main {
+  background-color: white;
+}

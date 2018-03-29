@@ -1,0 +1,17 @@
+{
+  "apiPrefix": "/api/gc/v0",
+  "oidc": {
+	  "iss": "",
+	  "clientID": "kopano-calendar-web"
+  },
+  "user": {
+    "profile": {
+      "email": "user1@localhost",
+      "email_verified": true,
+      "family_name": "TheFamily",
+      "given_name": "User1",
+      "name": "User1 TheFamily",
+      "sub": ""
+    }
+  }
+}
