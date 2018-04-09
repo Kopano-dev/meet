@@ -15,3 +15,15 @@ function responseProcessor(dispatch, expectedStatus=200) {
     }
   };
 }
+
+export function fetchUsers() {
+  return (dispatch, getState) => {
+    const { config, user } = getState().common;
+    return fetch(
+      config.apiPrefix + '/users', {
+        method: 'GET',
+        headers: getHeadersFromConfig(config, user),
+      }
+    ).then(responseProcessor(dispatch));
+  };
+}

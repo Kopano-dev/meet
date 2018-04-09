@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 
 import { withStyles } from 'material-ui/styles';
 
+import { Route, Redirect, Switch } from 'react-router';
+
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+import CallView from './CallView';
 
 const styles = theme => {
   console.debug('theme', theme); // eslint-disable-line no-console
@@ -14,7 +17,7 @@ const styles = theme => {
   return {
     root: {
       height: '100vh',
-      minWidth: 400,
+      overflow: 'hidden',
     },
     appFrame: {
       position: 'relative',
@@ -45,7 +48,7 @@ const styles = theme => {
   };
 };
 
-class Calendarscreen extends React.PureComponent {
+class Meetscreen extends React.PureComponent {
   syncedOnce = false;
 
   state = {
@@ -61,7 +64,10 @@ class Calendarscreen extends React.PureComponent {
           <main
             className={classes.content}
           >
-            <p>Meet - not meat ...</p>
+            <Switch>
+              <Route exact path="/r/call" component={CallView}/>
+              <Redirect to="/r/call"/>
+            </Switch>
           </main>
         </div>
       </div>
@@ -69,7 +75,7 @@ class Calendarscreen extends React.PureComponent {
   }
 }
 
-Calendarscreen.propTypes = {
+Meetscreen.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
   classes: PropTypes.object.isRequired,
@@ -85,7 +91,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(null, mapDispatchToProps)(
   withStyles(styles, {withTheme: true})(
     DragDropContext(HTML5Backend)(
-      Calendarscreen
+      Meetscreen
     )
   )
 );

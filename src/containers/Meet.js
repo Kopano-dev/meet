@@ -20,7 +20,7 @@ const styles = () => ({
 
 const routes = [
   {
-    path: '/r/:view(meet)?',
+    path: '/r/:view(call)?',
     exact: true,
     component: Meetscreen,
   },
