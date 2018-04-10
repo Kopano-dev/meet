@@ -5,6 +5,7 @@
   "homepage": "/meet",
   "dependencies": {
     "kpop": "http://longsleep.lxd.kopano.lan/npm-packages/kpop-0.0.3.tgz",
+    "kwmjs": "https://stash.kopano.io/scm/kwm/kwmjs.git#v0.4.1",
     "material-ui": "^1.0.0-beta.34",
     "material-ui-icons": "^1.0.0-beta.17",
     "oidc-client": "^1.4.1",
@@ -23,7 +24,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "render-if": "^0.1.1",
-    "typeface-roboto": "^0.0.54"
+    "typeface-roboto": "^0.0.54",
+    "webrtc-adapter": "^6.1.5"
   },
   "scripts": {
     "start": "react-scripts start",

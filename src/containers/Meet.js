@@ -11,6 +11,7 @@ import Meetscreen  from '../components/Meetscreen';
 import ErrorDialog from '../components/ErrorDialog';
 import { fetchConfig } from '../actions/config';
 import { fetchUser, receiveUser } from '../actions/auth';
+import { connectToKWM } from '../actions/kwm';
 
 const styles = () => ({
   root: {
@@ -37,8 +38,10 @@ class App extends PureComponent {
       } else {
         return dispatch(fetchUser());
       }
+    }).then(() => {
+      return dispatch(connectToKWM());
     }).catch(err => {
-      console.error('failed to fetch config and user', err); // eslint-disable-line no-console
+      console.error('failed to fetch config, user or kwm', err); // eslint-disable-line no-console
     });
   }
 

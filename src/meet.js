@@ -10,6 +10,8 @@ import store from './store';
 import { MuiThemeProvider } from 'material-ui/styles';
 import theme from './theme';
 
+import 'webrtc-adapter';
+
 import registerServiceWorker from './registerServiceWorker';
 registerServiceWorker(store);
 
