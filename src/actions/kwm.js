@@ -90,11 +90,21 @@ function createKWMManager() {
 }
 
 function error(event) {
+  console.warn('KWM error event', event); // eslint-disable-line no-console
+
   return async (dispatch) => {
+    let fatal = true;
+    switch (event.code) {
+      case 'no_session_for_user':
+        fatal = false;
+        break;
+      default:
+    }
+
     // TODO(longsleep): Make only fatal if kwm is not reconnecting.
     const error = {
       message: `Error: KWM error - ${event.msg} (${event.code})`,
-      fatal: true,
+      fatal: fatal,
     };
 
     await dispatch(setError(error));
