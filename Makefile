@@ -1,4 +1,4 @@
-PACKAGE_NAME = kopano-calendar
+PACKAGE_NAME = kopano-meet
 
 # Tools
 
@@ -52,7 +52,7 @@ dist: ; $(info building dist tarball ...)
 	cp -avf ../README.md "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../config.json.in "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../Caddyfile.example "${PACKAGE_NAME}-${VERSION}" && \
-	cp -avr ../build "${PACKAGE_NAME}-${VERSION}/calendar-webapp" && \
+	cp -avr ../build "${PACKAGE_NAME}-${VERSION}/meet-webapp" && \
 	tar --owner=0 --group=0 -czvf ${PACKAGE_NAME}-${VERSION}.tar.gz "${PACKAGE_NAME}-${VERSION}" && \
 	cd ..
 
