@@ -15,14 +15,10 @@ VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2>/dev/null |
 all: build
 
 .PHONY: build
-build:  vendor | src ; $(info building ...)	@
+build:  vendor ; $(info building ...)	@
 	@rm -rf build
 
 	REACT_APP_KOPANO_BUILD="${VERSION}" $(YARN) run build
-
-.PHONY: src
-src:
-	@$(MAKE) -C src
 
 .PHONY: lint
 lint: vendor ; $(info running eslint ...)	@

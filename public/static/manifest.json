@@ -24,8 +24,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/meet/r/meet?utm_source=homescreen",
+  "start_url": "/meet/?utm_source=homescreen",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  "display": "fullscreen"
+  "display": "standalone"
 }
