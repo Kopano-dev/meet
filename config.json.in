@@ -2,10 +2,10 @@
   "apiPrefix": "/api/gc/v0",
   "oidc": {
     "iss": "",
-    "clientID": "kopano-calendar-web"
+    "clientID": "kopano-meet-web"
   },
   "kwm": {
-    "url": "/api/kwm/v1",
+    "url": ""
   },
   "user": {
     "profile": {
