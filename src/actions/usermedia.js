@@ -2,7 +2,7 @@ import 'webrtc-adapter';
 
 import * as types from './types';
 
-let requestUserMediaIdx = 0;
+const requestUserMediaStatus = {};
 
 const enumerateDevices = async () => {
   const devices = await navigator.mediaDevices.enumerateDevices();
@@ -23,13 +23,20 @@ const enumerateDevices = async () => {
   };
 };
 
-export function requestUserMedia(video=true, audio=true) {
-  const idx = ++requestUserMediaIdx;
-  console.info('requestUserMedia', requestUserMediaIdx ,video, audio); // eslint-disable-line no-console
+export function requestUserMedia(id='', video=true, audio=true) {
+  let status = requestUserMediaStatus[id];
+  if (!status) {
+    status = requestUserMediaStatus[id] = {
+      id: id,
+      idx: 0,
+    };
+  }
 
-  return async (dispatch, getState) => {
+  const idx = ++status.idx;
+  console.info('requestUserMedia', status, video, audio); // eslint-disable-line no-console
+
+  return async () => {
     const { videoSource, audioSource } = await enumerateDevices();
-    const { audioVideoStream: oldStream } = getState().usermedia;
 
     const constraints = {};
     if (video) {
@@ -56,18 +63,32 @@ export function requestUserMedia(video=true, audio=true) {
     return navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         console.log('gUM stream', idx, stream); // eslint-disable-line no-console
-        if (idx !== requestUserMediaIdx) {
+        if (idx !== status.idx) {
           stopUserMediaStream(stream);
           return null;
         }
 
-        dispatch(userMediaAudioVideoStream(stream));
-        if (oldStream) {
+        if (status.stream) {
           // Stop previous stream.
-          stopUserMediaStream(oldStream);
+          stopUserMediaStream(status.stream);
         }
+        status.stream = stream;
         return stream;
       });
+  };
+}
+
+export function stopUserMedia(id='') {
+  return async () => {
+    let status = requestUserMediaStatus[id];
+    if (status) {
+      status.idx++;
+      if (status.stream) {
+        stopUserMediaStream(status.stream);
+        status.stream = null;
+      }
+
+    }
   };
 }
 

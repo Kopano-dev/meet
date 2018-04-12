@@ -23,7 +23,7 @@ export function connectToKWM() {
   };
 }
 
-export function createKWMManager() {
+function createKWMManager() {
   return async (dispatch, getState) => {
     const { config } = getState().common;
     const { options } = getState().kwm;
@@ -36,17 +36,58 @@ export function createKWMManager() {
     const k = new KWM(config.kwm.url, options);
 
     k.onstatechanged = event => {
-      dispatch(kwmStateChange(event));
+      if (event.target !== kwm) {
+        return;
+      }
+
+      dispatch(stateChanged(event));
     };
     k.onerror = event => {
-      dispatch(kwmError(event));
+      if (event.target !== kwm) {
+        return;
+      }
+
+      dispatch(error(event));
+    };
+    k.webrtc.onpeer = event => {
+      if (event.target.kwm !== kwm) {
+        return;
+      }
+
+      switch (event.event) {
+        case 'newcall':
+          dispatch(newCall(event));
+          break;
+        case 'destroycall':
+          dispatch(destroyAndHangupCall(event));
+          break;
+        case 'abortcall':
+          dispatch(abortAndHangupCall(event));
+          break;
+        default:
+          console.warn('KWM unknown peer event', event.event); // eslint-disable-line no-console
+          break;
+      }
+
+      if (event.target.peers.size === 0 && event.target.channel !== '') {
+        console.log('KWM hangup as no peers are left'); // eslint-disable-line no-console
+        dispatch(doHangup());
+      }
+    };
+    k.webrtc.onstream = event => {
+      if (event.target.kwm !== kwm) {
+        return;
+      }
+
+      console.log('xxx kwm onstream event', event);
+      dispatch(streamReceived(event));
     };
 
     return k;
   };
 }
 
-export function kwmError(event) {
+function error(event) {
   return async (dispatch) => {
     // TODO(longsleep): Make only fatal if kwm is not reconnecting.
     const error = {
@@ -58,13 +99,112 @@ export function kwmError(event) {
   };
 }
 
-export function kwmStateChange(event) {
+function stateChanged(event) {
   const { connecting, connected, reconnecting } = event;
 
   return {
-    type: types.KWM_STATE_CHANGE,
+    type: types.KWM_STATE_CHANGED,
     connecting,
     connected,
     reconnecting,
+  };
+}
+
+function channelChanged(channel) {
+  return {
+    type: types.KWM_CHANNEL_CHANGED,
+    channel,
+  };
+}
+
+function newCall(event) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_CALL_NEW,
+    record,
+  };
+}
+
+function destroyCall(event) {
+  const { record } = event;
+
+  // TODO(longsleep): Reconnect instead of hangup?
+  if (kwm.webrtc.peers.get(record.user)) {
+    kwm.webrtc.doHangup(record.user);
+  }
+
+  return {
+    type: types.KWM_CALL_DESTROY,
+    record,
+  };
+}
+
+function destroyAndHangupCall(event) {
+  const { record } = event;
+
+  return async dispatch => {
+    dispatch(destroyCall(event));
+    if (kwm.webrtc.peers.get(record.user)) {
+      await kwm.webrtc.doHangup(record.user);
+    }
+  };
+}
+
+function abortCall(event) {
+  const { record, details } = event;
+
+  return {
+    type: types.KWM_CALL_ABORT,
+    record,
+    details,
+  };
+}
+
+function abortAndHangupCall(event) {
+  const { record } = event;
+
+  return async dispatch => {
+    dispatch(abortCall(event));
+    if (kwm.webrtc.peers.get(record.user)) {
+      await kwm.webrtc.doHangup(record.user);
+    }
+  };
+}
+
+function streamReceived(event) {
+  const { record, stream } = event;
+
+  return {
+    type: types.KWM_STREAM_RECEIVED,
+    record,
+    stream,
+  };
+}
+
+export function doCall(id) {
+  return dispatch => {
+    return kwm.webrtc.doCall(id).then(channel => {
+      console.info('KWM channel create', channel); // eslint-disable-line no-console
+      dispatch(channelChanged(channel));
+      return channel;
+    });
+  };
+}
+
+export function doHangup() {
+  return dispatch => {
+    // Hangs up all and everyone.
+    return kwm.webrtc.doHangup().then(channel => {
+      console.info('KWM channel release', channel); // eslint-disable-line no-console
+      dispatch(channelChanged(null));
+    });
+  };
+}
+
+export function setLocalStream(stream) {
+  return () => {
+    console.info('KWM setting local stream', stream); // eslint-disable-line no-console
+    kwm.webrtc.setLocalStream(stream);
   };
 }

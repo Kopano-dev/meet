@@ -1,5 +1,6 @@
 import {
-  KWM_STATE_CHANGE,
+  KWM_STATE_CHANGED,
+  KWM_CHANNEL_CHANGED,
 } from '../actions/types';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
@@ -12,6 +13,10 @@ const defaultState = {
   connecting: false,
   connected: false,
   reconnecting: false,
+
+  channel: null,
+  calling: false,
+  ringing: false,
 
   options,
 };
@@ -29,11 +34,16 @@ function kwmReducer(state = defaultState, action) {
       }
       return state;
 
-    case KWM_STATE_CHANGE:
+    case KWM_STATE_CHANGED:
       return Object.assign({}, state, {
         connecting: action.connecting,
         connected: action.connected,
         reconnecting: action.reconnecting,
+      });
+
+    case KWM_CHANNEL_CHANGED:
+      return Object.assign({}, state, {
+        channel: action.channel,
       });
 
     default:

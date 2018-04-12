@@ -63,10 +63,7 @@ class CallGrid extends React.PureComponent {
       });
     } else {
       remoteStreams.map(stream => {
-        streams.push({
-          id: stream.id,
-          stream,
-        });
+        streams.push(stream);
         return true;
       });
     }
@@ -123,9 +120,11 @@ CallGrid.propTypes = {
 const mapStateToProps = state => {
   const { audioVideoStream } = state.usermedia;
 
+  const remoteStreams = Object.values(state.streams);
+
   return {
     localStream: audioVideoStream,
-    remoteStreams: [],
+    remoteStreams: remoteStreams,
   };
 };
 

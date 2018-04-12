@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -18,10 +19,11 @@ import TextField from 'material-ui/TextField';
 import renderIf from 'render-if';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { requestUserMedia } from '../actions/usermedia';
+import { setLocalStream, doCall } from '../actions/kwm';
+import { requestUserMedia, userMediaAudioVideoStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     height: '100vh',
     display: 'flex',
@@ -31,8 +33,20 @@ const styles = () => ({
     height: '60vh',
     background: '#ddd',
     minHeight: 100,
+    overflow: 'hidden',
+    boxSizing: 'border-box',
+    transition: theme.transitions.create('height', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  callWithCall: {
+    height: '100vh',
   },
   menu: {
+    boxSizing: 'border-box',
+    height: 0,
+    flex: 1,
   },
   tabs: {
     flexGrow: 1,
@@ -51,7 +65,7 @@ const styles = () => ({
     margin: '0 auto',
     maxWidth: 600,
     width: '100%',
-    maxHeight: '60vh',
+    height: 'calc(100% - 140px)',
     overflow: 'auto',
   },
 });
@@ -78,6 +92,25 @@ class CallView extends React.PureComponent {
     this.requestUserMedia(mode);
   };
 
+  handleContactsClick = (event) => {
+    const { doCall } = this.props;
+
+    if (event.target !== event.currentTarget) {
+      // Climb the tree.
+      let elem = event.target;
+      let row = null;
+      for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
+        row = elem;
+      }
+
+      // Contact id is Base64 URL encoding. Simple conversion here. See
+      // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
+      const id = row.getAttribute('data-contact-id').replace(/-/g, '+').replace(/_/, '/');
+
+      doCall(id);
+    }
+  };
+
   requestUserMedia = (mode) => {
     const { requestUserMedia } = this.props;
 
@@ -97,12 +130,19 @@ class CallView extends React.PureComponent {
   };
 
   render() {
-    const { classes, contacts } = this.props;
+    const { classes, contacts, channel } = this.props;
     const { mode } = this.state;
 
-    return (
-      <div className={classes.root}>
-        <CallGrid className={classes.call} mode={mode} />
+    const callClassName = classNames(
+      classes.call,
+      {
+        [classes.callWithCall]: !!channel,
+      },
+    );
+
+    let menu = null;
+    if (!channel) {
+      menu = (
         <div className={classes.menu}>
           <AppBar position="static" color="inherit" elevation={0}>
             <Toolbar>
@@ -139,9 +179,9 @@ class CallView extends React.PureComponent {
           </List>
           {renderIf(mode === 'videocall' || mode === 'call')(() => (
             <div className={classes.contacts}>
-              <List disablePadding>
+              <List disablePadding onClick={this.handleContactsClick}>
                 {contacts.map((contact) =>
-                  <ListItem button key={contact.id}>
+                  <ListItem button data-contact-id={contact.id} key={contact.id}>
                     <Avatar>{contact.displayName.substr(0, 2)}</Avatar>
                     <ListItemText primary={contact.displayName} secondary={contact.userPrincipalName} />
                   </ListItem>
@@ -150,6 +190,13 @@ class CallView extends React.PureComponent {
             </div>
           ))}
         </div>
+      );
+    }
+
+    return (
+      <div className={classes.root}>
+        <CallGrid className={callClassName} mode={mode} />
+        {menu}
       </div>
     );
   }
@@ -157,15 +204,33 @@ class CallView extends React.PureComponent {
 
 CallView.propTypes = {
   classes: PropTypes.object.isRequired,
+
   contacts: PropTypes.array.isRequired,
+  channel: PropTypes.string,
 
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
+  doCall: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
+  const { sorted: sortedContacts } = state.contacts;
+  const { user } = state.common;
+  const { channel } = state.kwm;
+
+  // Base64 URL encoding required, simple conversion here. See
+  // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
+  const subURLSafe = user.profile.sub.replace(/\+/g, '-').replace(/\//, '_');
+
+  // Filter self from contacts.
+  const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
+    const res = contact.id !== subURLSafe;
+    return res;
+  });
+
   return {
-    contacts: state.contacts.sorted,
+    contacts: sortedContactsWithoutSelf,
+    channel,
   };
 };
 
@@ -176,9 +241,14 @@ const mapDispatchToProps = (dispatch) => {
       await dispatch(addContacts(contacts.value));
     },
     requestUserMedia: async (video=true, audio=true) => {
-      await dispatch(requestUserMedia(video, audio));
+      const stream = await dispatch(requestUserMedia('main', video, audio));
+      dispatch(setLocalStream(stream));
+      dispatch(userMediaAudioVideoStream(stream));
+    },
+    doCall: async(id) => {
+      await dispatch(doCall(id));
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CallView));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(CallView));

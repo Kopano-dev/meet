@@ -12,11 +12,20 @@ const styles = () => ({
 
 class AudioVideo extends React.PureComponent {
   componentDidMount() {
-    this.element.srcObject = this.props.stream;
+    this.updateStream();
   }
 
   componentDidUpdate() {
-    this.element.srcObject = this.props.stream;
+    this.updateStream();
+  }
+
+  updateStream() {
+    const { stream } = this.props;
+    if (stream) {
+      this.element.srcObject = stream;
+    } else {
+      this.element.src = '';
+    }
   }
 
   handleElement = (element) => {
