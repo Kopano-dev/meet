@@ -8,7 +8,6 @@ import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
-  withMobileDialog,
 } from 'material-ui/Dialog';
 
 import { doAccept, doReject } from '../actions/kwm';
@@ -31,7 +30,6 @@ class IncomingCallDialog extends React.PureComponent {
 
   render() {
     const {
-      fullScreen,
       record,
       dispatch, // eslint-disable-line
       contacts,
@@ -56,7 +54,6 @@ class IncomingCallDialog extends React.PureComponent {
 
     return (
       <Dialog
-        fullScreen={fullScreen}
         {...other}
       >
         <DialogContent>
@@ -85,7 +82,6 @@ IncomingCallDialog.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
   record: PropTypes.object.isRequired,
-  fullScreen: PropTypes.bool.isRequired,
 
   contacts: PropTypes.object.isRequired,
 };
@@ -98,4 +94,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withMobileDialog()(withStyles(styles)(IncomingCallDialog)));
+export default connect(mapStateToProps)(withStyles(styles)(IncomingCallDialog));
