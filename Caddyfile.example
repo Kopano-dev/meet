@@ -1,0 +1,38 @@
+# Example Caddyfile to use with https://caddyserver.com
+#
+# This assumes this project was build and the built files are found in `./build`
+# and hat Kopano API via kapid is running on 127.0.0.1:8039.
+
+0.0.0.0:8096 {
+	errors stderr
+	log stdout
+
+	tls self_signed
+
+	gzip
+
+	# Kopano Meet web app in build folder
+	redir /meet /meet/r 301
+	rewrite /meet/r {
+		regexp (.*)
+		to /build/
+	}
+	rewrite /meet/ {
+		regexp (.*)
+		to /build/{1}
+	}
+	# Never cache the service worker.
+	header /build/service-worker.js {
+		Cache-Control "no-cache, no-store, must-revalidate"
+		Pragma "no-cache"
+		Expires "0"
+	}
+
+	# fake api
+	rewrite /api/meet/v0/config /config.json
+
+	# Kopano API kapid
+    proxy /api/gc/ 127.0.0.1:8039 {
+        transparent
+    }
+}
