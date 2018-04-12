@@ -1,6 +1,9 @@
 import {
   KWM_STATE_CHANGED,
   KWM_CHANNEL_CHANGED,
+  KWM_CALL_INCOMING,
+  KWM_CALL_NEW,
+  KWM_CALL_DESTROY,
 } from '../actions/types';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
@@ -15,8 +18,8 @@ const defaultState = {
   reconnecting: false,
 
   channel: null,
-  calling: false,
-  ringing: false,
+  calling: [],
+  ringing: [],
 
   options,
 };
@@ -45,6 +48,27 @@ function kwmReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         channel: action.channel,
       });
+
+    case KWM_CALL_INCOMING: {
+      const ringing = Object.assign({}, state.ringing, {
+        [action.record.user]: {
+          ignore: false,
+          id: action.record.user,
+        },
+      });
+      return Object.assign({}, state, {
+        ringing,
+      });
+    }
+
+    case KWM_CALL_NEW:
+    case KWM_CALL_DESTROY: {
+      const ringing = Object.assign({}, state.ringing);
+      delete ringing[action.record.user];
+      return Object.assign({}, state, {
+        ringing,
+      });
+    }
 
     default:
       return state;

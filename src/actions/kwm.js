@@ -64,8 +64,11 @@ function createKWMManager() {
         case 'abortcall':
           dispatch(abortAndHangupCall(event));
           break;
+        case 'incomingcall':
+          dispatch(incomingCall(event));
+          break;
         default:
-          console.warn('KWM unknown peer event', event.event); // eslint-disable-line no-console
+          console.warn('KWM unknown peer event', event.event, event); // eslint-disable-line no-console
           break;
       }
 
@@ -79,7 +82,6 @@ function createKWMManager() {
         return;
       }
 
-      console.log('xxx kwm onstream event', event);
       dispatch(streamReceived(event));
     };
 
@@ -114,6 +116,30 @@ function channelChanged(channel) {
   return {
     type: types.KWM_CHANNEL_CHANGED,
     channel,
+  };
+}
+
+function incomingCall(event, doneHandler = null) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_CALL_INCOMING,
+    record,
+    doneHandler,
+  };
+}
+
+function incomingCallWithTimeout(event) {
+  return dispatch => {
+    return new Promise((resolve, reject) => {
+      const t = setTimeout(reject, 5000);
+      dispatch(incomingCall(event, (...args) => {
+        clearTimeout(t);
+        resolve(...args);
+      }));
+    }).catch(() => {
+      console.log('timeout');
+    });
   };
 }
 
@@ -199,6 +225,22 @@ export function doHangup() {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
       dispatch(channelChanged(null));
     });
+  };
+}
+
+export function doAccept(id) {
+  return dispatch => {
+    return kwm.webrtc.doAnswer(id).then(channel => {
+      console.info('KWM channel create', channel); // eslint-disable-line no-console
+      dispatch(channelChanged(channel));
+      return channel;
+    });
+  };
+}
+
+export function doReject(id, reason='reject') {
+  return () => {
+    return kwm.webrtc.doHangup(id, reason);
   };
 }
 

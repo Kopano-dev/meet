@@ -5,7 +5,7 @@ export function setError(error) {
       error,
     });
     if (!error.fatal) {
-      //dispatch(setView(ERROR_VIEW))
+      console.error('Non fatal error', error); // eslint-disable-line no-console
     }
   };
 }

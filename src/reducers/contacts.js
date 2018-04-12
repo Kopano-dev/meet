@@ -4,6 +4,7 @@ import {
 
 const defaultState = {
   sorted: [],
+  table: {},
 };
 
 const sortable = (a) => {
@@ -22,9 +23,14 @@ function contactsReducer(state = defaultState, action) {
     case ADD_CONTACTS: {
       const sorted = [...action.contacts];
       sorted.sort(sorter);
+      const table = sorted.reduce((map, contact) => {
+        map[contact.id] = contact;
+        return map;
+      }, {});
 
       return Object.assign({}, state, {
         sorted,
+        table,
       });
     }
 

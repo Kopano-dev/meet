@@ -15,19 +15,50 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import { InputAdornment } from 'material-ui/Input';
 import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import HangupIcon from 'material-ui-icons/CallEnd';
+import red from 'material-ui/colors/red';
 
 import renderIf from 'render-if';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { setLocalStream, doCall } from '../actions/kwm';
+import { setLocalStream, doCall, doHangup } from '../actions/kwm';
 import { requestUserMedia, userMediaAudioVideoStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
+import IncomingCallDialog from './IncomingCallDialog';
 
 const styles = theme => ({
   root: {
     height: '100vh',
+    position: 'relative',
+  },
+  container: {
+    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
+  },
+  controls: {
+    height: 0,
+  },
+  controlsMiddle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: theme.spacing.unit * 4,
+    zIndex: 5,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  hangupButton: {
+    backgroundColor: red[500],
+    color: 'white',
+    '&:hover': {
+      backgroundColor: red[700],
+      // Reset on touch devices, it doesn't add specificity
+      '@media (hover: none)': {
+        backgroundColor: red[700],
+      },
+    },
   },
   call: {
     height: '60vh',
@@ -111,6 +142,12 @@ class CallView extends React.PureComponent {
     }
   };
 
+  handleHangupClick = () => {
+    const { doHangup } = this.props;
+
+    doHangup();
+  };
+
   requestUserMedia = (mode) => {
     const { requestUserMedia } = this.props;
 
@@ -130,7 +167,7 @@ class CallView extends React.PureComponent {
   };
 
   render() {
-    const { classes, contacts, channel } = this.props;
+    const { classes, contacts, channel, ringing } = this.props;
     const { mode } = this.state;
 
     const callClassName = classNames(
@@ -140,8 +177,26 @@ class CallView extends React.PureComponent {
       },
     );
 
+    let controls = null;
     let menu = null;
-    if (!channel) {
+    let dialogs = [];
+    if (channel) {
+      controls = (
+        <div className={classes.controls}>
+          <div className={classes.controlsMiddle}>
+            <Button
+              variant="fab"
+              color="inherit"
+              aria-label="hangup"
+              className={classes.hangupButton}
+              onClick={this.handleHangupClick}
+            >
+              <HangupIcon />
+            </Button>
+          </div>
+        </div>
+      );
+    } else {
       menu = (
         <div className={classes.menu}>
           <AppBar position="static" color="inherit" elevation={0}>
@@ -193,10 +248,28 @@ class CallView extends React.PureComponent {
       );
     }
 
+    if (ringing) {
+      for (const id in ringing) {
+        const record = ringing[id];
+        dialogs.push(
+          <IncomingCallDialog
+            open={!record.ignore}
+            key={id}
+            record={record}
+          >
+          </IncomingCallDialog>
+        );
+      }
+    }
+
     return (
       <div className={classes.root}>
-        <CallGrid className={callClassName} mode={mode} />
-        {menu}
+        {controls}
+        <div className={classes.container}>
+          <CallGrid className={callClassName} mode={mode} />
+          {menu}
+        </div>
+        {dialogs}
       </div>
     );
   }
@@ -211,12 +284,13 @@ CallView.propTypes = {
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
+  doHangup: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
   const { user } = state.common;
-  const { channel } = state.kwm;
+  const { channel, ringing } = state.kwm;
 
   // Base64 URL encoding required, simple conversion here. See
   // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
@@ -231,6 +305,7 @@ const mapStateToProps = state => {
   return {
     contacts: sortedContactsWithoutSelf,
     channel,
+    ringing,
   };
 };
 
@@ -247,6 +322,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     doCall: async(id) => {
       await dispatch(doCall(id));
+    },
+    doHangup: async() => {
+      await dispatch(doHangup());
     },
   };
 };
