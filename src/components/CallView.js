@@ -23,7 +23,7 @@ import renderIf from 'render-if';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
 import { setLocalStream, doCall, doHangup } from '../actions/kwm';
-import { requestUserMedia, userMediaAudioVideoStream } from '../actions/usermedia';
+import { requestUserMedia } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 
@@ -102,6 +102,8 @@ const styles = theme => ({
 });
 
 class CallView extends React.PureComponent {
+  localStreamID = 'callview-main';
+
   state = {
     mode: 'videocall',
   };
@@ -160,14 +162,21 @@ class CallView extends React.PureComponent {
         audio = true;
         break;
       default:
-        throw new Error('unknown mode');
+        throw new Error(`unknown mode: ${mode}`);
     }
 
-    return requestUserMedia(video, audio);
+    return requestUserMedia(this.localStreamID, video, audio);
   };
 
   render() {
-    const { classes, contacts, channel, ringing } = this.props;
+    const {
+      classes,
+      contacts,
+      channel,
+      ringing,
+      localAudioVideoStreams,
+      remoteStreams,
+    } = this.props;
     const { mode } = this.state;
 
     const callClassName = classNames(
@@ -262,11 +271,17 @@ class CallView extends React.PureComponent {
       }
     }
 
+    const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={classes.root}>
         {controls}
         <div className={classes.container}>
-          <CallGrid className={callClassName} mode={mode} />
+          <CallGrid
+            className={callClassName}
+            mode={mode}
+            localStream={localStream}
+            remoteStreams={remoteStreams}
+          />
           {menu}
         </div>
         {dialogs}
@@ -280,17 +295,24 @@ CallView.propTypes = {
 
   contacts: PropTypes.array.isRequired,
   channel: PropTypes.string,
+  ringing: PropTypes.object.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
+
+  localAudioVideoStreams: PropTypes.object.isRequired,
+  remoteStreams: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
   const { user } = state.common;
   const { channel, ringing } = state.kwm;
+  const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
+
+  const remoteStreams = Object.values(state.streams);
 
   // Base64 URL encoding required, simple conversion here. See
   // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
@@ -306,6 +328,9 @@ const mapStateToProps = state => {
     contacts: sortedContactsWithoutSelf,
     channel,
     ringing,
+
+    localAudioVideoStreams,
+    remoteStreams,
   };
 };
 
@@ -315,10 +340,9 @@ const mapDispatchToProps = (dispatch) => {
       const contacts = await dispatch(fetchContacts());
       await dispatch(addContacts(contacts.value));
     },
-    requestUserMedia: async (video=true, audio=true) => {
-      const stream = await dispatch(requestUserMedia('main', video, audio));
+    requestUserMedia: async (id='', video=true, audio=true) => {
+      const stream = await dispatch(requestUserMedia(id, video, audio));
       dispatch(setLocalStream(stream));
-      dispatch(userMediaAudioVideoStream(stream));
     },
     doCall: async(id) => {
       await dispatch(doCall(id));

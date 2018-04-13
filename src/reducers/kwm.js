@@ -19,7 +19,7 @@ const defaultState = {
 
   channel: null,
   calling: [],
-  ringing: [],
+  ringing: {},
 
   options,
 };

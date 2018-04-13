@@ -4,7 +4,19 @@ import * as types from './types';
 
 const requestUserMediaStatus = {};
 
-const enumerateDevices = async () => {
+const getSupportedConstraints = () => {
+  try {
+    const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
+    console.debug('supportedConstraints', supportedConstraints); // eslint-disable-line no-console
+    return supportedConstraints;
+  } catch(err) {
+    console.debug('supportedConstraints failed with error', err); // eslint-disable-line no-console
+    return {};
+  }
+};
+export const supportedConstraints = getSupportedConstraints();
+
+/*const enumerateDevices = async () => {
   const devices = await navigator.mediaDevices.enumerateDevices();
 
   let videoSource = null;
@@ -21,7 +33,7 @@ const enumerateDevices = async () => {
     videoSource,
     audioSource,
   };
-};
+};*/
 
 export function requestUserMedia(id='', video=true, audio=true) {
   let status = requestUserMediaStatus[id];
@@ -33,29 +45,47 @@ export function requestUserMedia(id='', video=true, audio=true) {
   }
 
   const idx = ++status.idx;
-  console.info('requestUserMedia', status, video, audio); // eslint-disable-line no-console
+  console.info('requestUserMedia', idx, status, video, audio); // eslint-disable-line no-console
 
-  return async () => {
-    const { videoSource, audioSource } = await enumerateDevices();
-
+  return async dispatch => {
+    // Generate constraints syntax according to the standard.
+    // https://w3c.github.io/mediacapture-main/#constrainable-interface
     const constraints = {};
+    const videoConstraints = {
+      advanced: [],
+    };
+    const audioConstraints = {
+      advanced: [],
+    };
     if (video) {
-      constraints.video = {
-        optional: [
-          {
-            sourceId: videoSource,
-          },
-        ],
-      };
+      if (supportedConstraints.width && supportedConstraints.height) {
+        videoConstraints.width = {
+          ideal: 640,
+        };
+        videoConstraints.height = {
+          ideal: 360,
+        };
+      }
+      if (supportedConstraints.frameRate) {
+        videoConstraints.frameRate = {
+          min: 10,
+          ideal: 15,
+        };
+      }
+      if (supportedConstraints.facingMode) {
+        videoConstraints.advanced.push({facingMode: 'user'});
+      }
     }
+
+    // Apply.
+    if (video) {
+      constraints.video = videoConstraints;
+    } else
+      constraints.video = false;
     if (audio) {
-      constraints.audio = {
-        optional: [
-          {
-            sourceId: audioSource,
-          },
-        ],
-      };
+      constraints.audio = audioConstraints;
+    } else {
+      constraints.audio = false;
     }
 
     console.log('gUM constraints', constraints); // eslint-disable-line no-console
@@ -73,13 +103,22 @@ export function requestUserMedia(id='', video=true, audio=true) {
           stopUserMediaStream(status.stream);
         }
         status.stream = stream;
+        dispatch(userMediaAudioVideoStream(id, stream));
         return stream;
       });
   };
 }
 
+function userMediaAudioVideoStream(id='', stream) {
+  return {
+    type: types.USERMEDIA_AUDIOVIDEO_STREAM,
+    id,
+    stream,
+  };
+}
+
 export function stopUserMedia(id='') {
-  return async () => {
+  return async dispatch => {
     let status = requestUserMediaStatus[id];
     if (status) {
       status.idx++;
@@ -87,20 +126,18 @@ export function stopUserMedia(id='') {
         stopUserMediaStream(status.stream);
         status.stream = null;
       }
-
+      dispatch(userMediaAudioVideoStream(id, null));
     }
   };
 }
 
 function stopUserMediaStream(stream) {
-  for (const track of stream.getTracks()) {
-    track.stop();
+  if (stream.stop) {
+    // NOTE(longsleep): Backwards compatibilty. Is this still required?
+    stream.stop();
+  } else {
+    for (const track of stream.getTracks()) {
+      track.stop();
+    }
   }
-}
-
-export function userMediaAudioVideoStream(stream) {
-  return {
-    type: types.USERMEDIA_AUDIOVIDEO_STREAM,
-    stream,
-  };
 }

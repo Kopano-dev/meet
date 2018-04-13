@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
@@ -117,7 +116,7 @@ CallGrid.propTypes = {
   remoteStreams: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => {
+/*const mapStateToProps = state => {
   const { audioVideoStream } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
@@ -126,6 +125,6 @@ const mapStateToProps = state => {
     localStream: audioVideoStream,
     remoteStreams: remoteStreams,
   };
-};
+};*/
 
-export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(CallGrid));
+export default withStyles(styles, {withTheme: true})(CallGrid);
