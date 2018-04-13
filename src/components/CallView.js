@@ -11,6 +11,10 @@ import VideocallIcon from 'material-ui-icons/Videocam';
 import CallIcon from 'material-ui-icons/Call';
 import RoomIcon from 'material-ui-icons/Group';
 import SearchIcon from 'material-ui-icons/Search';
+import MicIcon from 'material-ui-icons/Mic';
+import MicOffIcon from 'material-ui-icons/MicOff';
+import CamIcon from 'material-ui-icons/Videocam';
+import CamOffIcon from 'material-ui-icons/VideocamOff';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import { InputAdornment } from 'material-ui/Input';
@@ -24,7 +28,7 @@ import renderIf from 'render-if';
 import { setError } from '../actions/common';
 import { fetchContacts, addContacts } from '../actions/contacts';
 import { setLocalStream, doCall, doHangup } from '../actions/kwm';
-import { requestUserMedia } from '../actions/usermedia';
+import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 
@@ -49,6 +53,18 @@ const styles = theme => ({
     zIndex: 5,
     display: 'flex',
     justifyContent: 'center',
+  },
+  controlsPermanent: {
+    position: 'absolute',
+    left: theme.spacing.unit * 4,
+    top: theme.spacing.unit * 4,
+    zIndex: 5,
+    display: 'flex',
+    flexDirection: 'column',
+    '& > *': {
+      marginBottom: theme.spacing.unit * 2,
+    },
+    opacity: 0.7,
   },
   hangupButton: {
     backgroundColor: red[500],
@@ -107,24 +123,52 @@ class CallView extends React.PureComponent {
 
   state = {
     mode: 'videocall',
+    muteCam: false,
+    muteMic: false,
   };
 
   componentDidMount() {
     const { fetchContacts } = this.props;
-    const { mode } = this.state;
+    const { mode, muteCam, muteMic } = this.state;
     fetchContacts().catch(() => {
       // Ignore errors here, let global handler do it.
     });
 
-    this.requestUserMedia(mode);
+    this.requestUserMedia(mode, muteCam, muteMic);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { mode, muteCam, muteMic } = this.state;
+
+    if (mode !== prevState.mode) {
+      this.requestUserMedia(mode, muteCam, muteMic);
+    }
+
+    if (muteCam !== prevState.muteCam) {
+      this.props.muteVideoStream(this.props.localAudioVideoStreams[this.localStreamID], muteCam);
+    }
+    if (muteMic !== prevState.muteMic) {
+      this.props.muteAudioStream(this.props.localAudioVideoStreams[this.localStreamID], muteMic);
+    }
   }
 
   handleModeChange = (event, mode) => {
     this.setState({
       mode,
     });
-    this.requestUserMedia(mode);
   };
+
+  handleMuteCamClick = () => {
+    this.setState({
+      muteCam: !this.state.muteCam,
+    });
+  }
+
+  handleMuteMicClick = () => {
+    this.setState({
+      muteMic: !this.state.muteMic,
+    });
+  }
 
   handleContactsClick = (event) => {
     const { doCall } = this.props;
@@ -151,7 +195,7 @@ class CallView extends React.PureComponent {
     doHangup();
   };
 
-  requestUserMedia = (mode) => {
+  requestUserMedia = (mode, muteVide=true, muteAudio=true) => {
     const { requestUserMedia, setError } = this.props;
 
     let video = false;
@@ -166,7 +210,7 @@ class CallView extends React.PureComponent {
         throw new Error(`unknown mode: ${mode}`);
     }
 
-    return requestUserMedia(this.localStreamID, video, audio).catch(err => {
+    return requestUserMedia(this.localStreamID, video, audio, muteVide, muteAudio).catch(err => {
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
@@ -184,7 +228,7 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode } = this.state;
+    const { mode, muteCam, muteMic } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -193,23 +237,52 @@ class CallView extends React.PureComponent {
       },
     );
 
-    let controls = null;
+    let controls = [];
     let menu = null;
     let dialogs = [];
+
+    let muteCamButton = null;
+    let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
+    let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
+    if (mode === 'videocall') {
+      muteCamButton = (<Button
+        variant="fab"
+        color="inherit"
+        aria-label="hangup"
+        className={classes.muteCamButton}
+        onClick={this.handleMuteCamClick}
+      >
+        {muteCamButtonIcon}
+      </Button>);
+    }
+
+    controls.push(
+      <div key='permanent' className={classes.controlsPermanent}>
+        {muteCamButton}
+        <Button
+          variant="fab"
+          color="inherit"
+          aria-label="hangup"
+          className={classes.muteMicButton}
+          onClick={this.handleMuteMicClick}
+        >
+          {muteMicButtonIcon}
+        </Button>
+      </div>
+    );
+
     if (channel) {
-      controls = (
-        <div className={classes.controls}>
-          <div className={classes.controlsMiddle}>
-            <Button
-              variant="fab"
-              color="inherit"
-              aria-label="hangup"
-              className={classes.hangupButton}
-              onClick={this.handleHangupClick}
-            >
-              <HangupIcon />
-            </Button>
-          </div>
+      controls.push(
+        <div key='middle' className={classes.controlsMiddle}>
+          <Button
+            variant="fab"
+            color="inherit"
+            aria-label="hangup"
+            className={classes.hangupButton}
+            onClick={this.handleHangupClick}
+          >
+            <HangupIcon />
+          </Button>
         </div>
       );
     } else {
@@ -281,7 +354,9 @@ class CallView extends React.PureComponent {
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={classes.root}>
-        {controls}
+        <div className={classes.controls}>
+          {controls}
+        </div>
         <div className={classes.container}>
           <CallGrid
             className={callClassName}
@@ -308,6 +383,8 @@ CallView.propTypes = {
   requestUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
+  muteVideoStream: PropTypes.func.isRequired,
+  muteAudioStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
@@ -348,8 +425,16 @@ const mapDispatchToProps = (dispatch) => {
       const contacts = await dispatch(fetchContacts());
       await dispatch(addContacts(contacts.value));
     },
-    requestUserMedia: async (id='', video=true, audio=true) => {
+    requestUserMedia: async (id='', video=true, audio=true, muteVideo=true, muteAudio=true) => {
       const stream = await dispatch(requestUserMedia(id, video, audio));
+      const promises = [];
+      if (muteVideo) {
+        promises.push(dispatch(muteVideoStream(stream)));
+      }
+      if (muteAudio) {
+        promises.push(dispatch(muteAudioStream(stream)));
+      }
+      await Promise.all(promises);
       dispatch(setLocalStream(stream));
     },
     doCall: async (id) => {
@@ -357,6 +442,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     doHangup: async () => {
       return dispatch(doHangup());
+    },
+    muteVideoStream: async (stream, mute=true) => {
+      return dispatch(muteVideoStream(stream, mute));
+    },
+    muteAudioStream: async (stream, mute=true) => {
+      return dispatch(muteAudioStream(stream, mute));
     },
     setError: async (error) => {
       return dispatch(setError(error));

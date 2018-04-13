@@ -141,3 +141,29 @@ function stopUserMediaStream(stream) {
     }
   }
 }
+
+export function muteVideoStream(stream, mute=true) {
+  return () => {
+    const videoTracks = stream.getVideoTracks();
+    if (videoTracks.length === 0) {
+      return;
+    }
+
+    for (var i = 0; i < videoTracks.length; ++i) {
+      videoTracks[i].enabled = !mute;
+    }
+  };
+}
+
+export function muteAudioStream(stream, mute=true) {
+  return () => {
+    const audioTracks = stream.getAudioTracks();
+    if (audioTracks.length === 0) {
+      return;
+    }
+
+    for (let i = 0; i < audioTracks.length; ++i) {
+      audioTracks[i].enabled = !mute;
+    }
+  };
+}

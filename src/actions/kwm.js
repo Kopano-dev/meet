@@ -139,6 +139,7 @@ function incomingCall(event, doneHandler = null) {
   };
 }
 
+/*
 function incomingCallWithTimeout(event) {
   return dispatch => {
     return new Promise((resolve, reject) => {
@@ -151,7 +152,7 @@ function incomingCallWithTimeout(event) {
       console.log('timeout');
     });
   };
-}
+}*/
 
 function newCall(event) {
   const { record } = event;
