@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/meet",
   "dependencies": {
-    "kpop": "http://longsleep.lxd.kopano.lan/npm-packages/kpop-0.0.3.tgz",
+    "kpop": "https://download.kopano.io/community/kapp:/kpop-0.0.5.tgz",
     "kwmjs": "http://longsleep.lxd.kopano.lan/npm-packages/kwmjs-0.4.1-2-g6502966.tgz",
     "material-ui": "^1.0.0-beta.34",
     "material-ui-icons": "^1.0.0-beta.17",

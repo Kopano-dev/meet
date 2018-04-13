@@ -4521,9 +4521,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-"kpop@http://longsleep.lxd.kopano.lan/npm-packages/kpop-0.0.3.tgz":
-  version "0.0.3"
-  resolved "http://longsleep.lxd.kopano.lan/npm-packages/kpop-0.0.3.tgz#aeb94e9b16aa555b5279e2b90f171e31eee01b34"
+"kpop@https://download.kopano.io/community/kapp:/kpop-0.0.5.tgz":
+  version "0.0.5"
+  resolved "https://download.kopano.io/community/kapp:/kpop-0.0.5.tgz#0d6f48f7f159bc69c6aa9570a2d50e91733423e7"
   dependencies:
     prop-types "^15.6.1"
 
