@@ -4527,9 +4527,9 @@ klaw@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
-"kwmjs@https://stash.kopano.io/scm/kwm/kwmjs.git#v0.4.1":
-  version "0.4.1"
-  resolved "https://stash.kopano.io/scm/kwm/kwmjs.git#5235a35fa5b234cda3ea2e1358506c1430927b25"
+"kwmjs@http://longsleep.lxd.kopano.lan/npm-packages/kwmjs-0.4.1-2-g6502966.tgz":
+  version "0.5.0"
+  resolved "http://longsleep.lxd.kopano.lan/npm-packages/kwmjs-0.4.1-2-g6502966.tgz#76d39f7fe16dcd65badd3b09a66f2d5dcace9f2e"
   dependencies:
     simple-peer "^8.1.1"
 
