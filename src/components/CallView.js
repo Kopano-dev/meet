@@ -21,6 +21,7 @@ import red from 'material-ui/colors/red';
 
 import renderIf from 'render-if';
 
+import { setError } from '../actions/common';
 import { fetchContacts, addContacts } from '../actions/contacts';
 import { setLocalStream, doCall, doHangup } from '../actions/kwm';
 import { requestUserMedia } from '../actions/usermedia';
@@ -151,7 +152,7 @@ class CallView extends React.PureComponent {
   };
 
   requestUserMedia = (mode) => {
-    const { requestUserMedia } = this.props;
+    const { requestUserMedia, setError } = this.props;
 
     let video = false;
     let audio = false;
@@ -165,7 +166,13 @@ class CallView extends React.PureComponent {
         throw new Error(`unknown mode: ${mode}`);
     }
 
-    return requestUserMedia(this.localStreamID, video, audio);
+    return requestUserMedia(this.localStreamID, video, audio).catch(err => {
+      setError({
+        detail: `${err}`,
+        message: 'Failed to access camera and/or microphone',
+        fatal: true,
+      });
+    });
   };
 
   render() {
@@ -301,6 +308,7 @@ CallView.propTypes = {
   requestUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteStreams: PropTypes.array.isRequired,
@@ -344,11 +352,14 @@ const mapDispatchToProps = (dispatch) => {
       const stream = await dispatch(requestUserMedia(id, video, audio));
       dispatch(setLocalStream(stream));
     },
-    doCall: async(id) => {
-      await dispatch(doCall(id));
+    doCall: async (id) => {
+      return dispatch(doCall(id));
     },
-    doHangup: async() => {
-      await dispatch(doHangup());
+    doHangup: async () => {
+      return dispatch(doHangup());
+    },
+    setError: async (error) => {
+      return dispatch(setError(error));
     },
   };
 };
