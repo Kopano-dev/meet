@@ -4570,11 +4570,12 @@ klaw@^1.0.0:
   version "0.0.5"
   resolved "https://download.kopano.io/community/kapp:/kpop-0.2.0.tgz#579455367c5f3c4814a9647f71abf94a182c2b00"
 
-"kwmjs@http://longsleep.lxd.kopano.lan/npm-packages/kwmjs-0.4.1-2-g6502966.tgz":
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.5.0.tgz":
   version "0.5.0"
-  resolved "http://longsleep.lxd.kopano.lan/npm-packages/kwmjs-0.4.1-2-g6502966.tgz#76d39f7fe16dcd65badd3b09a66f2d5dcace9f2e"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.5.0.tgz#7fc9f707bfc7617739a5c3a8e764a38424756d29"
   dependencies:
-    simple-peer "^8.1.1"
+    simple-peer "^9.0.0"
+    url-search-params "^0.10.0"
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -6843,6 +6844,16 @@ simple-peer@^8.1.1:
     randombytes "^2.0.3"
     readable-stream "^2.3.4"
 
+simple-peer@^9.0.0:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/simple-peer/-/simple-peer-9.1.1.tgz#d4aa5b16ab912b170cd44509814f9e30cefe5d43"
+  dependencies:
+    debug "^3.1.0"
+    get-browser-rtc "^1.0.0"
+    inherits "^2.0.1"
+    randombytes "^2.0.3"
+    readable-stream "^2.3.4"
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -7604,6 +7615,10 @@ url-parse@^1.1.8:
   dependencies:
     querystringify "~1.0.0"
     requires-port "~1.0.0"
+
+url-search-params@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-0.10.0.tgz#d428c1fa9d78d5c5a3feb634147873890f4adcf0"
 
 url@^0.11.0:
   version "0.11.0"
