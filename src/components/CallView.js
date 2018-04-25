@@ -25,9 +25,10 @@ import red from 'material-ui/colors/red';
 
 import renderIf from 'render-if';
 
-import { setError } from '../actions/common';
+import { setError } from 'kpop/es/common/actions';
+
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { setLocalStream, doCall, doHangup } from '../actions/kwm';
+import { setLocalStream, unsetLocalStream, doCall, doHangup } from '../actions/kwm';
 import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -139,6 +140,7 @@ class CallView extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { mode, muteCam, muteMic } = this.state;
+    const { connected, localAudioVideoStreams } = this.props;
 
     if (mode !== prevState.mode) {
       this.requestUserMedia(mode, muteCam, muteMic);
@@ -149,6 +151,14 @@ class CallView extends React.PureComponent {
     }
     if (muteMic !== prevState.muteMic) {
       this.props.muteAudioStream(this.props.localAudioVideoStreams[this.localStreamID], muteMic);
+    }
+
+    if (connected !== prevProps.connected) {
+      const stream = localAudioVideoStreams[this.localStreamID];
+      if (connected && stream) {
+        console.debug('KWM connected changed while having a stream');
+        this.props.setLocalStream(stream);
+      }
     }
   }
 
@@ -196,7 +206,7 @@ class CallView extends React.PureComponent {
   };
 
   requestUserMedia = (mode, muteVide=true, muteAudio=true) => {
-    const { requestUserMedia, setError } = this.props;
+    const { requestUserMedia, setLocalStream, unsetLocalStream, setError } = this.props;
 
     let video = false;
     let audio = false;
@@ -211,11 +221,14 @@ class CallView extends React.PureComponent {
     }
 
     return requestUserMedia(this.localStreamID, video, audio, muteVide, muteAudio).catch(err => {
+      unsetLocalStream();
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
         fatal: true,
       });
+    }).then(stream => {
+      setLocalStream(stream);
     });
   };
 
@@ -376,6 +389,8 @@ CallView.propTypes = {
   classes: PropTypes.object.isRequired,
 
   contacts: PropTypes.array.isRequired,
+
+  connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
 
@@ -385,6 +400,8 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
+  setLocalStream: PropTypes.func.isRequired,
+  unsetLocalStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
@@ -394,7 +411,7 @@ CallView.propTypes = {
 const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
   const { user } = state.common;
-  const { channel, ringing } = state.kwm;
+  const { connected, channel, ringing } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
@@ -411,6 +428,8 @@ const mapStateToProps = state => {
 
   return {
     contacts: sortedContactsWithoutSelf,
+
+    connected,
     channel,
     ringing,
 
@@ -435,7 +454,7 @@ const mapDispatchToProps = (dispatch) => {
         promises.push(dispatch(muteAudioStream(stream)));
       }
       await Promise.all(promises);
-      dispatch(setLocalStream(stream));
+      return stream;
     },
     doCall: async (id) => {
       return dispatch(doCall(id));
@@ -448,6 +467,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     muteAudioStream: async (stream, mute=true) => {
       return dispatch(muteAudioStream(stream, mute));
+    },
+    setLocalStream: async (stream) => {
+      return dispatch(setLocalStream(stream));
+    },
+    unsetLocalStream: async () => {
+      return dispatch(unsetLocalStream());
     },
     setError: async (error) => {
       return dispatch(setError(error));

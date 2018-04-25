@@ -3,21 +3,30 @@ import ReactDOM from 'react-dom';
 import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
 
-import Loading from 'kpop/es/Loading';
-
-import store from './store';
-
 import { MuiThemeProvider } from 'material-ui/styles';
-import theme from './theme';
 
 import 'webrtc-adapter';
 
-import registerServiceWorker from './registerServiceWorker';
-registerServiceWorker(store);
+import { defaultTheme as theme } from 'kpop/es/theme';
+import IntlContainer from 'kpop/es/IntlContainer';
+import Loading from 'kpop/es/Loading';
+import registerServiceWorker from 'kpop/es/serviceWorker';
+
+import store from './store';
+import translations from './locales';
+
+registerServiceWorker(store, {
+  env: process.env.NODE_ENV, /*eslint-disable-line no-undef*/
+  publicUrl: process.env.PUBLIC_URL, /*eslint-disable-line no-undef*/
+});
+
+const onLocaleChanged = async locale => {
+  console.info('locale', locale); // eslint-disable-line no-console
+};
 
 // NOTE(longsleep): Load async with loader, this enables code splitting via Webpack.
 const LoadableApp = Loadable({
-  loader: () => import('./containers/Meet'),
+  loader: () => import(/* webpackChunkName: "meet-container" */ './containers/Meet'),
   loading: Loading,
   timeout: 20000,
 });
@@ -25,7 +34,9 @@ const LoadableApp = Loadable({
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <LoadableApp />
+      <IntlContainer onLocaleChanged={onLocaleChanged} messages={translations}>
+        <LoadableApp />
+      </IntlContainer>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')

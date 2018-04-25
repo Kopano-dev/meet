@@ -2,15 +2,13 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import renderIf from 'render-if';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import Snackbar from 'material-ui/Snackbar';
-import Button from 'material-ui/Button';
+
+import BaseContainer from 'kpop/es/BaseContainer';
+import { fetchConfig } from 'kpop/es/config/actions';
+import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
 
 import Meetscreen  from '../components/Meetscreen';
-import ErrorDialog from '../components/ErrorDialog';
-import { fetchConfig } from '../actions/config';
-import { fetchUser, receiveUser } from '../actions/auth';
 import { connectToKWM } from '../actions/kwm';
 
 const styles = () => ({
@@ -46,45 +44,19 @@ class App extends PureComponent {
   }
 
   render() {
-    const { classes, config, user, error, updateAvailable } = this.props;
-    const ready = config && user;
+    const { config, user, ...other } = this.props;
+    const ready = config && user ? true : false;
+
     return (
-      <div className={classes.root}>
-        {renderIf(ready)(() => (
-          <Router basename="/meet">
-            <Switch>
-              {routes.map((route, i) => <Route key={i} {...route} />)}
-              <Redirect to="/r" />
-            </Switch>
-          </Router>
-        ))}
-        {renderIf(!ready)(() => (
-          <div id="loader">Initializing...</div>
-        ))}
-        {renderIf(error && error.fatal)(() => (
-          <ErrorDialog open />
-        ))}
-        {renderIf(updateAvailable)(() => (
-          <Snackbar
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left'}}
-            open
-            action={<Button color="secondary" size="small" onClick={(event) => this.reload(event)}>
-              Reload
-            </Button>}
-            SnackbarContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">Update available</span>}
-          />
-        ))}
-      </div>
+      <BaseContainer ready={ready} {...other}>
+        <Router basename="/meet">
+          <Switch>
+            {routes.map((route, i) => <Route key={i} {...route} />)}
+            <Redirect to="/r" />
+          </Switch>
+        </Router>
+      </BaseContainer>
     );
-  }
-
-  reload(event) {
-    event.preventDefault();
-
-    window.location.reload();
   }
 }
 

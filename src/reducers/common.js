@@ -1,6 +1,17 @@
 import {
-  SERVICE_WORKER_NEW_CONTENT,
-} from '../actions/types';
+  KPOP_RECEIVE_CONFIG,
+  KPOP_RESET_CONFIG,
+} from 'kpop/es/config/constants';
+import {
+  KPOP_SERVICE_WORKER_NEW_CONTENT,
+} from 'kpop/es/serviceWorker/constants';
+import {
+  KPOP_RECEIVE_USER,
+} from 'kpop/es/oidc/constants';
+import {
+  KPOP_SET_ERROR,
+} from 'kpop/es/common/constants';
+
 
 const defaultState = {
   updateAvailable: false,
@@ -11,31 +22,31 @@ const defaultState = {
 
 function commonReducer(state = defaultState, action) {
   switch (action.type) {
-    case SERVICE_WORKER_NEW_CONTENT:
+    case KPOP_SERVICE_WORKER_NEW_CONTENT:
       return Object.assign({}, state, {
         updateAvailable: true,
       });
 
-    case 'RESET_CONFIG':
+    case KPOP_RESET_CONFIG:
       return Object.assign({}, state, {
         config: null,
       });
 
-    case 'RECEIVE_CONFIG':
+    case KPOP_RECEIVE_CONFIG:
       return Object.assign({}, state, {
         config: action.config,
       });
 
-    case 'RECEIVE_USER':
+    case KPOP_RECEIVE_USER:
       return Object.assign({}, state, {
         user: action.user,
       });
 
-    case 'ERROR':
+    case KPOP_SET_ERROR:
+      action.error.fatal = true;
       return Object.assign({}, state, {
         error: action.error,
       });
-
     default:
       return state;
   }

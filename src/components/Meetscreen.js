@@ -25,26 +25,6 @@ const styles = theme => {
       width: '100%',
       height: '100%',
     },
-    appBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      boxSizing: 'border-box',
-      borderBottom: `1px solid ${theme.palette.divider}`,
-    },
-    logo: {
-      height: 24,
-      verticalAlign: 'middle',
-      paddingRight: 10,
-    },
-    flex: {
-      flex: 1,
-    },
-    menuButton: {
-      marginLeft: 12,
-      marginRight: 20,
-    },
   };
 };
 

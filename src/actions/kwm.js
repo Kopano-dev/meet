@@ -1,7 +1,8 @@
+import { setError } from 'kpop/es/common/actions';
+
 import * as KWM from 'kwmjs';
 
 import * as types from './types';
-import { setError } from './common';
 
 console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no-console
 
@@ -11,9 +12,10 @@ let kwm = null;
 export function connectToKWM() {
   return async (dispatch, getState) => {
     const { user } = getState().common;
+    const { options } = getState().kwm;
 
-    if (user === null || !user.profile) {
-      throw new Error('no user for KWM connect');
+    if (user === null || !options.authorizationType) {
+      throw new Error('no user or options set for KWM connect');
     }
     if (kwm === null) {
       kwm = await dispatch(createKWMManager());
@@ -259,5 +261,14 @@ export function setLocalStream(stream) {
   return () => {
     console.info('KWM setting local stream', stream); // eslint-disable-line no-console
     kwm.webrtc.setLocalStream(stream);
+  };
+}
+
+export function unsetLocalStream() {
+  return () => {
+    console.info('KWM unsetting local stream'); // eslint-disable-line no-console
+    if (kwm) {
+      kwm.webrtc.setLocalStream(); // clears.
+    }
   };
 }
