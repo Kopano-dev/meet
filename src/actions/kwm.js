@@ -36,6 +36,17 @@ function createKWMManager() {
 
     KWM.KWMInit.init({}); // Set default options.
     const k = new KWM(config.kwm.url, options);
+    k.webrtc.config = {};
+    k.webrtc.options = {
+      answerConstraints: {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
+      },
+      offerConstraints: {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
+      },
+    };
 
     k.onstatechanged = event => {
       if (event.target !== kwm) {
@@ -69,6 +80,17 @@ function createKWMManager() {
         case 'incomingcall':
           dispatch(incomingCall(event));
           break;
+
+        // Reduce logging.
+        case 'pc.signalingStateChange':
+        case 'pc.iceStateChange':
+        case 'pc.error':
+        case 'pc.close':
+        case 'pc.connect':
+          //console.debug(`KWM event ${event.event}`, event.details, event.record);
+          break;
+
+        // Catch unknowns.
         default:
           console.warn('KWM unknown peer event', event.event, event); // eslint-disable-line no-console
           break;
@@ -258,17 +280,37 @@ export function doReject(id, reason='reject') {
 }
 
 export function setLocalStream(stream) {
-  return () => {
+  return async () => {
     console.info('KWM setting local stream', stream); // eslint-disable-line no-console
     kwm.webrtc.setLocalStream(stream);
+    return stream;
   };
 }
 
 export function unsetLocalStream() {
-  return () => {
+  return async () => {
     console.info('KWM unsetting local stream'); // eslint-disable-line no-console
     if (kwm) {
       kwm.webrtc.setLocalStream(); // clears.
     }
+  };
+}
+
+export function applyLocalStreamTracks(info) {
+  return async () => {
+    if (!info || !info.stream) {
+      return info;
+    }
+
+    console.info('KWM updating local stream tracks', info); // eslint-disable-line no-console
+    if (kwm) {
+      for (const track of info.removedTracks) {
+        kwm.webrtc.removeLocalStreamTrack(track, info.stream);
+      }
+      for (const track of info.newTracks) {
+        kwm.webrtc.addLocalStreamTrack(track, info.stream);
+      }
+    }
+    return info;
   };
 }

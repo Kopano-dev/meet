@@ -28,7 +28,7 @@ import renderIf from 'render-if';
 import { setError } from 'kpop/es/common/actions';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { setLocalStream, unsetLocalStream, doCall, doHangup } from '../actions/kwm';
+import { setLocalStream, unsetLocalStream, applyLocalStreamTracks, doCall, doHangup } from '../actions/kwm';
 import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -140,24 +140,28 @@ class CallView extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { mode, muteCam, muteMic } = this.state;
-    const { connected, localAudioVideoStreams } = this.props;
+    const {
+      connected,
+      localAudioVideoStreams,
+      setLocalStream,
+    } = this.props;
 
     if (mode !== prevState.mode) {
       this.requestUserMedia(mode, muteCam, muteMic);
     }
 
     if (muteCam !== prevState.muteCam) {
-      this.props.muteVideoStream(this.props.localAudioVideoStreams[this.localStreamID], muteCam);
+      this.muteVideoStream(muteCam);
     }
     if (muteMic !== prevState.muteMic) {
-      this.props.muteAudioStream(this.props.localAudioVideoStreams[this.localStreamID], muteMic);
+      this.muteAudioStream(muteMic);
     }
 
     if (connected !== prevProps.connected) {
       const stream = localAudioVideoStreams[this.localStreamID];
       if (connected && stream) {
-        console.debug('KWM connected changed while having a stream');
-        this.props.setLocalStream(stream);
+        console.debug('KWM connected changed while having a stream'); // eslint-disable-line no-console
+        setLocalStream(stream);
       }
     }
   }
@@ -205,8 +209,41 @@ class CallView extends React.PureComponent {
     doHangup();
   };
 
-  requestUserMedia = (mode, muteVide=true, muteAudio=true) => {
-    const { requestUserMedia, setLocalStream, unsetLocalStream, setError } = this.props;
+  muteVideoStream = (mute=true) => {
+    const {
+      localAudioVideoStreams,
+      muteVideoStream,
+      applyLocalStreamTracks,
+    } = this.props;
+
+    const stream = localAudioVideoStreams[this.localStreamID];
+    if (stream) {
+      muteVideoStream(stream, mute).then(info => applyLocalStreamTracks(info));
+    }
+  }
+
+  muteAudioStream = (mute=true) => {
+    const {
+      localAudioVideoStreams,
+      muteAudioStream,
+      applyLocalStreamTracks,
+    } = this.props;
+
+    const stream = localAudioVideoStreams[this.localStreamID];
+    if (stream) {
+      muteAudioStream(stream, mute).then(info => applyLocalStreamTracks(info));
+    }
+  }
+
+  requestUserMedia = (mode, muteVideo=true, muteAudio=true) => {
+    const {
+      requestUserMedia,
+      setLocalStream,
+      unsetLocalStream,
+      muteVideoStream,
+      muteAudioStream,
+      setError,
+    } = this.props;
 
     let video = false;
     let audio = false;
@@ -220,15 +257,33 @@ class CallView extends React.PureComponent {
         throw new Error(`unknown mode: ${mode}`);
     }
 
-    return requestUserMedia(this.localStreamID, video, audio, muteVide, muteAudio).catch(err => {
-      unsetLocalStream();
+    return requestUserMedia(this.localStreamID, video, audio, muteVideo, muteAudio).catch(err => {
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
         fatal: true,
       });
+      return null;
+    }).then(info => {
+      if (info && info.stream) {
+        const promises = [];
+        if (muteVideo) {
+          promises.push(muteVideoStream(info.stream));
+        }
+        if (muteAudio) {
+          promises.push(muteAudioStream(info.stream));
+        }
+        return Promise.all(promises).then(() => {
+          return info.stream;
+        });
+      }
+      return null;
     }).then(stream => {
-      setLocalStream(stream);
+      if (stream) {
+        setLocalStream(stream);
+      } else {
+        unsetLocalStream();
+      }
     });
   };
 
@@ -400,6 +455,7 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
+  applyLocalStreamTracks: PropTypes.func.isRequired,
   setLocalStream: PropTypes.func.isRequired,
   unsetLocalStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
@@ -444,17 +500,8 @@ const mapDispatchToProps = (dispatch) => {
       const contacts = await dispatch(fetchContacts());
       await dispatch(addContacts(contacts.value));
     },
-    requestUserMedia: async (id='', video=true, audio=true, muteVideo=true, muteAudio=true) => {
-      const stream = await dispatch(requestUserMedia(id, video, audio));
-      const promises = [];
-      if (muteVideo) {
-        promises.push(dispatch(muteVideoStream(stream)));
-      }
-      if (muteAudio) {
-        promises.push(dispatch(muteAudioStream(stream)));
-      }
-      await Promise.all(promises);
-      return stream;
+    requestUserMedia: async (id='', video=true, audio=true) => {
+      return dispatch(requestUserMedia(id, video, audio));
     },
     doCall: async (id) => {
       return dispatch(doCall(id));
@@ -467,6 +514,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     muteAudioStream: async (stream, mute=true) => {
       return dispatch(muteAudioStream(stream, mute));
+    },
+    applyLocalStreamTracks: async (info) => {
+      return dispatch(applyLocalStreamTracks(info));
     },
     setLocalStream: async (stream) => {
       return dispatch(setLocalStream(stream));

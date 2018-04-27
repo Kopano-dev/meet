@@ -2,6 +2,17 @@ import 'webrtc-adapter';
 
 import * as types from './types';
 
+export const globalSettings = (() => {
+  const s = {
+    // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
+    // tracks in established RTC connections. It works in Chrome :) - rest is
+    // so far untested.
+    muteWithAddRemoveTracks: true,
+  };
+
+  return s;
+})();
+
 const requestUserMediaStatus = {};
 
 const getSupportedConstraints = () => {
@@ -55,7 +66,9 @@ export function requestUserMedia(id='', video=true, audio=true) {
       if (idx !== status.idx) {
         console.warn('requestUserMedia is outdated after enumerateDevices', // eslint-disable-line no-console
           idx, status);
-        return null;
+        return {
+          stream: null,
+        };
       }
 
       // Generate constraints syntax according to the standard.
@@ -106,7 +119,9 @@ export function requestUserMedia(id='', video=true, audio=true) {
         // No constraints, do not request gUM, directly pretend to have no stream.
         console.warn('requestUserMedia no constraints', // eslint-disable-line no-console
           idx, status);
-        return null;
+        return {
+          stream: null,
+        };
       }
       return navigator.mediaDevices.getUserMedia(constraints);
     }).then(stream => {
@@ -116,16 +131,46 @@ export function requestUserMedia(id='', video=true, audio=true) {
         console.warn('requestUserMedia is outdated after gUM', // eslint-disable-line no-console
           idx, status);
         stopUserMediaStream(stream);
-        return null;
+        return {
+          stream: null,
+        };
       }
 
+      // Result set.
+      const info = {
+        stream,
+      };
       if (status.stream) {
-        // Stop previous stream.
-        stopUserMediaStream(status.stream);
+        // Keep stream, just replace tracks.
+        // NOTE(longsleep): Is this a good idea? Check support for this.
+        info.stream = status.stream;
+        info.removedTracks = [];
+        info.newTracks = [];
+        const oldTracks = status.stream.getTracks();
+        const newTracks = stream.getTracks();
+        for (const track of oldTracks) {
+          // Stop old track.
+          track.stop();
+          // Remove old track from existing stream.
+          status.stream.removeTrack(track);
+          // Remember.
+          info.removedTracks.push(track);
+        }
+        for (const track of newTracks) {
+          // Add new track to existing stream.
+          status.stream.addTrack(track);
+          // Remove new track from new stream.
+          stream.removeTrack(track);
+          // Remember.
+          info.newTracks.push(track);
+        }
       }
-      status.stream = stream;
-      dispatch(userMediaAudioVideoStream(id, stream));
-      return stream;
+      status.stream = info.stream;
+      dispatch(userMediaAudioVideoStream(id, info.stream));
+      return info;
+    }).catch(err => {
+      dispatch(userMediaAudioVideoStream(id, null));
+      throw err;
     });
   };
 }
@@ -163,28 +208,81 @@ function stopUserMediaStream(stream) {
   }
 }
 
-export function muteVideoStream(stream, mute=true) {
-  return () => {
-    const videoTracks = stream.getVideoTracks();
-    if (videoTracks.length === 0) {
-      return;
+export function muteStreamByType(stream, mute=true, type='video') {
+  return async dispatch => {
+    const helpers = {
+      audio: false,
+      video: false,
+    };
+    switch (type) {
+      case 'video':
+        helpers.getTracks = s => s.getVideoTracks();
+        break;
+      case 'audio':
+        helpers.getTracks = s => s.getAudioTracks();
+        break;
+      default:
+        throw new Error(`unsupported type: ${type}`);
+    }
+    helpers.id = `_mute_${type}_stream`;
+    helpers[type] = true;
+
+    const info = {
+      stream,
+      removedTracks: [],
+      newTracks: [],
+    };
+    const tracks = helpers.getTracks(stream);
+    if (mute && tracks.length === 0) {
+      return info;
     }
 
-    for (var i = 0; i < videoTracks.length; ++i) {
-      videoTracks[i].enabled = !mute;
+    if (mute) {
+      for (const track of tracks) {
+        track.enabled = false;
+        if (globalSettings.muteWithAddRemoveTracks) {
+          track.stop();
+          stream.removeTrack(track);
+          info.removedTracks.push(track);
+        }
+      }
+      return info;
+    } else {
+      return Promise.resolve().then(() => {
+        if (globalSettings.muteWithAddRemoveTracks) {
+          return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio)).then(newInfo => {
+            if (newInfo && newInfo.stream) {
+              const newTracks = helpers.getTracks(newInfo.stream);
+              for (const track of newTracks) {
+                stream.addTrack(track);
+                newInfo.stream.removeTrack(track);
+                info.newTracks.push(track);
+              }
+              return newTracks;
+            }
+            return [];
+          });
+        } else {
+          return tracks;
+        }
+      }).then(tracks => {
+        for (const track of tracks) {
+          track.enabled = true;
+        }
+        return info;
+      });
     }
   };
 }
 
-export function muteAudioStream(stream, mute=true) {
-  return () => {
-    const audioTracks = stream.getAudioTracks();
-    if (audioTracks.length === 0) {
-      return;
-    }
+export function muteVideoStream(stream, mute=true) {
+  return async dispatch => {
+    return dispatch(muteStreamByType(stream, mute, 'video'));
+  };
+}
 
-    for (let i = 0; i < audioTracks.length; ++i) {
-      audioTracks[i].enabled = !mute;
-    }
+export function muteAudioStream(stream, mute=true) {
+  return async dispatch => {
+    return dispatch(muteStreamByType(stream, mute, 'audio'));
   };
 }
