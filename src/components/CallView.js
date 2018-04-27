@@ -79,9 +79,9 @@ const styles = theme => ({
     },
   },
   call: {
-    height: '60vh',
+    height: '40vh',
     background: '#ddd',
-    minHeight: 100,
+    minHeight: 200,
     overflow: 'hidden',
     boxSizing: 'border-box',
     transition: theme.transitions.create('height', {
@@ -94,8 +94,8 @@ const styles = theme => ({
   },
   menu: {
     boxSizing: 'border-box',
-    height: 0,
     flex: 1,
+    position: 'relative',
   },
   tabs: {
     flexGrow: 1,
@@ -114,7 +114,11 @@ const styles = theme => ({
     margin: '0 auto',
     maxWidth: 600,
     width: '100%',
-    height: 'calc(100% - 140px)',
+    top: 140,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    position: 'absolute',
     overflow: 'auto',
   },
 });
