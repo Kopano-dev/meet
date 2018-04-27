@@ -5,10 +5,12 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import CallIcon from 'material-ui-icons/Call';
+import Slide from 'material-ui/transitions/Slide';
 
 import renderIf from 'render-if';
 
 import AudioVideo from './AudioVideo';
+import FloatingAudioVideo from './FloatingAudioVideo';
 
 const styles = theme => ({
   root: {
@@ -34,6 +36,15 @@ const styles = theme => ({
     flex: 1,
     objectFit: 'cover',
     objectPosition: 'center',
+  },
+  floatingLocal: {
+    position: 'absolute',
+    right: theme.spacing.unit * 4,
+    bottom: theme.spacing.unit * 4,
+    zIndex: 5,
+    minHeight: 100,
+    minWidth: 100,
+    boxShadow: theme.shadows[6],
   },
 });
 
@@ -75,10 +86,8 @@ class CallGrid extends React.PureComponent {
               <AudioVideo
                 className={classes.video}
                 key={stream.id}
-                autoPlay
                 muted={stream.muted}
                 mirrored={stream.mirrored}
-                playsInline
                 stream={stream.stream}
               >
               </AudioVideo>
@@ -91,7 +100,6 @@ class CallGrid extends React.PureComponent {
               <AudioVideo
                 key={stream.id}
                 audio
-                autoPlay
                 muted={stream.muted}
                 stream={stream.stream}
               >
@@ -102,6 +110,9 @@ class CallGrid extends React.PureComponent {
             </Grid>
           </Grid>
         ))}
+        <Slide direction="up" in={remoteStreams.length > 0 && !!localStream} mountOnEnter unmountOnExit>
+          <FloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted/>
+        </Slide>
       </div>
     );
   }

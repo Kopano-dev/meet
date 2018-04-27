@@ -84,6 +84,9 @@ AudioVideo.defaultProps = {
   mirrored: false,
   children: null,
   stream: null,
+
+  autoPlay: true,
+  playsInline: true,
 };
 
 AudioVideo.propTypes = {
@@ -94,6 +97,9 @@ AudioVideo.propTypes = {
   mirrored: PropTypes.bool,
   children: PropTypes.element,
   stream: PropTypes.object,
+
+  autoPlay: PropTypes.bool,
+  playsInline: PropTypes.bool,
 };
 
 export default withStyles(styles)(AudioVideo);
