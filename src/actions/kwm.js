@@ -86,6 +86,7 @@ function createKWMManager() {
         case 'pc.iceStateChange':
         case 'pc.error':
         case 'pc.close':
+        case 'pc.closed':
         case 'pc.connect':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
           break;
