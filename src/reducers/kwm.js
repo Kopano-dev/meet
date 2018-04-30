@@ -5,8 +5,10 @@ import {
 import {
   KWM_STATE_CHANGED,
   KWM_CHANNEL_CHANGED,
+  KWM_DO_CALL,
+  KWM_DO_ACCEPT,
   KWM_CALL_INCOMING,
-  KWM_CALL_NEW,
+  KWM_CALL_OUTGOING,
   KWM_CALL_DESTROY,
 } from '../actions/types';
 
@@ -22,7 +24,7 @@ const defaultState = {
   reconnecting: false,
 
   channel: null,
-  calling: [],
+  calling: {},
   ringing: {},
 
   options,
@@ -48,6 +50,23 @@ function kwmReducer(state = defaultState, action) {
         reconnecting: action.reconnecting,
       });
 
+    case KWM_DO_CALL: {
+      const calling = Object.assign({}, state.calling, {
+        [action.id]: true,
+      });
+      return Object.assign({}, state, {
+        calling,
+      });
+    }
+
+    case KWM_DO_ACCEPT: {
+      const ringing = Object.assign({}, state.ringing);
+      delete ringing[action.id];
+      return Object.assign({}, state, {
+        ringing,
+      });
+    }
+
     case KWM_CHANNEL_CHANGED:
       return Object.assign({}, state, {
         channel: action.channel,
@@ -65,12 +84,24 @@ function kwmReducer(state = defaultState, action) {
       });
     }
 
-    case KWM_CALL_NEW:
+    case KWM_CALL_OUTGOING: {
+      console.log('xxx call outgoing', action.record);
+      const calling = Object.assign({}, state.calling);
+      delete calling[action.record.user];
+      return Object.assign({}, state, {
+        calling,
+      });
+    }
+
     case KWM_CALL_DESTROY: {
+      console.log('xxx destroy', action.record);
       const ringing = Object.assign({}, state.ringing);
+      const calling = Object.assign({}, state.calling);
       delete ringing[action.record.user];
+      delete calling[action.record.user];
       return Object.assign({}, state, {
         ringing,
+        calling,
       });
     }
 

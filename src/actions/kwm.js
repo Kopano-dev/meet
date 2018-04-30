@@ -80,14 +80,23 @@ function createKWMManager() {
         case 'incomingcall':
           dispatch(incomingCall(event));
           break;
+        case 'outgoingcall':
+          dispatch(outgoingCall(event));
+          break;
+
+        case 'pc.connect':
+          dispatch(pcConnect(event));
+          break;
+        case 'pc.closed':
+          dispatch(pcClosed(event));
+          break;
+        case 'pc.signalingStateChange':
+          dispatch(pcStateChanged(event));
+          break;
 
         // Reduce logging.
-        case 'pc.signalingStateChange':
         case 'pc.iceStateChange':
         case 'pc.error':
-        case 'pc.close':
-        case 'pc.closed':
-        case 'pc.connect':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
           break;
 
@@ -106,6 +115,13 @@ function createKWMManager() {
       if (event.target.kwm !== kwm) {
         return;
       }
+
+      event.stream.onremovetrack = (event) => {
+        console.log('xxx onremovetrack', event);
+      };
+      event.stream.onaddtrack = (event) => {
+        console.log('xxx onaddtrack', event);
+      };
 
       dispatch(streamReceived(event));
     };
@@ -164,6 +180,17 @@ function incomingCall(event, doneHandler = null) {
   };
 }
 
+function outgoingCall(event, doneHandler = null) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_CALL_OUTGOING,
+    record,
+    doneHandler,
+  };
+}
+
+
 /*
 function incomingCallWithTimeout(event) {
   return dispatch => {
@@ -198,6 +225,33 @@ function destroyCall(event) {
 
   return {
     type: types.KWM_CALL_DESTROY,
+    record,
+  };
+}
+
+function pcConnect(event) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_PC_CONNECT,
+    record,
+  };
+}
+
+function pcClosed(event) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_PC_CLOSED,
+    record,
+  };
+}
+
+function pcStateChanged(event) {
+  const { record } = event;
+
+  return {
+    type: types.KWM_PC_STATE_CHANGED,
     record,
   };
 }
@@ -245,7 +299,11 @@ function streamReceived(event) {
 }
 
 export function doCall(id) {
-  return dispatch => {
+  return async dispatch => {
+    await dispatch({
+      type: types.KWM_DO_CALL,
+      id,
+    });
     return kwm.webrtc.doCall(id).then(channel => {
       console.info('KWM channel create', channel); // eslint-disable-line no-console
       dispatch(channelChanged(channel));
@@ -255,8 +313,11 @@ export function doCall(id) {
 }
 
 export function doHangup() {
-  return dispatch => {
-    // Hangs up all and everyone.
+  return async dispatch => {
+    // Hangs up all and everyone
+    await dispatch({
+      type: types.KWM_DO_HANGUP,
+    });
     return kwm.webrtc.doHangup().then(channel => {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
       dispatch(channelChanged(null));
@@ -265,7 +326,11 @@ export function doHangup() {
 }
 
 export function doAccept(id) {
-  return dispatch => {
+  return async dispatch => {
+    await dispatch({
+      type: types.KWM_DO_ACCEPT,
+      id,
+    });
     return kwm.webrtc.doAnswer(id).then(channel => {
       console.info('KWM channel create', channel); // eslint-disable-line no-console
       dispatch(channelChanged(channel));
@@ -275,7 +340,12 @@ export function doAccept(id) {
 }
 
 export function doReject(id, reason='reject') {
-  return () => {
+  return async dispatch => {
+    await dispatch({
+      type: types.KWM_DO_REJECT,
+      id,
+      reason,
+    });
     return kwm.webrtc.doHangup(id, reason);
   };
 }

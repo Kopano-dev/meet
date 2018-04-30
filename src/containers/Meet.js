@@ -8,6 +8,11 @@ import BaseContainer from 'kpop/es/BaseContainer';
 import { fetchConfig } from 'kpop/es/config/actions';
 import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
 
+import { HowlingProvider } from '../components/howling';
+import soundSprite1Ogg from '../sounds/sprite1.ogg';
+import soundSprite1Mp3 from '../sounds/sprite1.mp3';
+import soundSprite1Json from '../sounds/sprite1.json';
+
 import Meetscreen  from '../components/Meetscreen';
 import { connectToKWM } from '../actions/kwm';
 
@@ -47,14 +52,19 @@ class App extends PureComponent {
     const { config, user, ...other } = this.props;
     const ready = config && user ? true : false;
 
+    const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
+    const soundSprite = soundSprite1Json;
+
     return (
       <BaseContainer ready={ready} {...other}>
-        <Router basename="/meet">
-          <Switch>
-            {routes.map((route, i) => <Route key={i} {...route} />)}
-            <Redirect to="/r" />
-          </Switch>
-        </Router>
+        <HowlingProvider src={soundSrc} sprite={soundSprite}>
+          <Router basename="/meet">
+            <Switch>
+              {routes.map((route, i) => <Route key={i} {...route} />)}
+              <Redirect to="/r" />
+            </Switch>
+          </Router>
+        </HowlingProvider>
       </BaseContainer>
     );
   }

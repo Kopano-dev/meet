@@ -32,6 +32,7 @@ import { setLocalStream, unsetLocalStream, applyLocalStreamTracks, doCall, doHan
 import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
+import { Howling } from './howling';
 
 const styles = theme => ({
   root: {
@@ -297,6 +298,7 @@ class CallView extends React.PureComponent {
       contacts,
       channel,
       ringing,
+      calling,
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
@@ -409,19 +411,19 @@ class CallView extends React.PureComponent {
       );
     }
 
-    if (ringing) {
-      for (const id in ringing) {
-        const record = ringing[id];
-        dialogs.push(
-          <IncomingCallDialog
-            open={!record.ignore}
-            key={id}
-            record={record}
-          >
-          </IncomingCallDialog>
-        );
-      }
+    for (const id in ringing) {
+      const record = ringing[id];
+      dialogs.push(
+        <IncomingCallDialog
+          open={!record.ignore}
+          key={id}
+          record={record}
+        >
+        </IncomingCallDialog>
+      );
     }
+
+    console.log('xxx calling', calling);
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
@@ -439,6 +441,8 @@ class CallView extends React.PureComponent {
           {menu}
         </div>
         {dialogs}
+        <Howling label="ring2" playing={Object.keys(ringing).length > 0} loop/>
+        <Howling label="dial1" playing={Object.keys(calling).length > 0} interval={4}/>
       </div>
     );
   }
@@ -452,6 +456,7 @@ CallView.propTypes = {
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
+  calling: PropTypes.object.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
@@ -471,7 +476,7 @@ CallView.propTypes = {
 const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
   const { user } = state.common;
-  const { connected, channel, ringing } = state.kwm;
+  const { connected, channel, ringing, calling } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
@@ -492,6 +497,7 @@ const mapStateToProps = state => {
     connected,
     channel,
     ringing,
+    calling,
 
     localAudioVideoStreams,
     remoteStreams,
