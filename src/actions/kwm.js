@@ -3,11 +3,19 @@ import { setError } from 'kpop/es/common/actions';
 import * as KWM from 'kwmjs';
 
 import * as types from './types';
+import * as sdputils from '../sdputils';
 
 console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no-console
 
 // Reference to the active KWM.
 let kwm = null;
+
+// Config.
+const sdpParams = {
+  videoRecvCodec: 'VP9',
+
+  opusDtx: true,
+};
 
 export function connectToKWM() {
   return async (dispatch, getState) => {
@@ -45,6 +53,32 @@ function createKWMManager() {
       offerConstraints: {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
+      },
+      localSDPTransform: (sdp) => {
+        // Local SDP transform support.
+        const params = Object.assign({}, sdpParams, {
+          // TODO(longsleep): Add configuration settings here.
+        });
+        sdp = sdputils.maybePreferAudioReceiveCodec(sdp, params);
+        sdp = sdputils.maybePreferVideoReceiveCodec(sdp, params);
+        sdp = sdputils.maybeSetAudioReceiveBitRate(sdp, params);
+        sdp = sdputils.maybeSetVideoReceiveBitRate(sdp, params);
+        sdp = sdputils.maybeRemoveVideoFec(sdp, params);
+        return sdp;
+      },
+      remoteSDPTransform: (sdp) => {
+        // Remote SDP transform support.
+        const params = Object.assign({}, sdpParams, {
+          // TODO(longsleep): Add configuration settings here.
+        });
+        sdp = sdputils.maybeSetOpusOptions(sdp, params);
+        sdp = sdputils.maybePreferAudioSendCodec(sdp, params);
+        sdp = sdputils.maybePreferVideoSendCodec(sdp, params);
+        sdp = sdputils.maybeSetAudioSendBitRate(sdp, params);
+        sdp = sdputils.maybeSetVideoSendBitRate(sdp, params);
+        sdp = sdputils.maybeSetVideoSendInitialBitRate(sdp, params);
+        sdp = sdputils.maybeRemoveVideoFec(sdp, params);
+        return sdp;
       },
     };
 
