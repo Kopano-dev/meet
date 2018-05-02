@@ -28,7 +28,14 @@ import renderIf from 'render-if';
 import { setError } from 'kpop/es/common/actions';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { setLocalStream, unsetLocalStream, applyLocalStreamTracks, doCall, doHangup } from '../actions/kwm';
+import {
+  setLocalStream,
+  unsetLocalStream,
+  updateOfferAnswerConstraints,
+  applyLocalStreamTracks,
+  doCall,
+  doHangup,
+} from '../actions/kwm';
 import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -140,6 +147,7 @@ class CallView extends React.PureComponent {
       // Ignore errors here, let global handler do it.
     });
 
+    this.updateOfferAnswerConstraints();
     this.requestUserMedia(mode, muteCam, muteMic);
   }
 
@@ -152,6 +160,7 @@ class CallView extends React.PureComponent {
     } = this.props;
 
     if (mode !== prevState.mode) {
+      this.updateOfferAnswerConstraints();
       this.requestUserMedia(mode, muteCam, muteMic);
     }
 
@@ -237,6 +246,21 @@ class CallView extends React.PureComponent {
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
       muteAudioStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info));
+    }
+  }
+
+  updateOfferAnswerConstraints = () => {
+    const { mode } = this.state;
+    const { updateOfferAnswerConstraints } = this.props;
+
+    if (mode === 'videocall') {
+      updateOfferAnswerConstraints({
+        offerToReceiveVideo: true,
+      });
+    } else {
+      updateOfferAnswerConstraints({
+        offerToReceiveVideo: false,
+      });
     }
   }
 
@@ -462,6 +486,7 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
+  updateOfferAnswerConstraints: PropTypes.func.isRequired,
   applyLocalStreamTracks: PropTypes.func.isRequired,
   setLocalStream: PropTypes.func.isRequired,
   unsetLocalStream: PropTypes.func.isRequired,
@@ -522,6 +547,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     muteAudioStream: async (stream, mute=true, id='') => {
       return dispatch(muteAudioStream(stream, mute, id));
+    },
+    updateOfferAnswerConstraints: async(options) => {
+      return dispatch(updateOfferAnswerConstraints(options));
     },
     applyLocalStreamTracks: async (info) => {
       return dispatch(applyLocalStreamTracks(info));

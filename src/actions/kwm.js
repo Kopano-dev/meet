@@ -10,6 +10,18 @@ console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no
 // Reference to the active KWM.
 let kwm = null;
 
+// Options.
+const webrtcOptions = {
+  answerConstraints: {
+    offerToReceiveAudio: true,
+    offerToReceiveVideo: true,
+  },
+  offerConstraints: {
+    offerToReceiveAudio: true,
+    offerToReceiveVideo: true,
+  },
+};
+
 // Config.
 const sdpParams = {
   videoRecvCodec: 'VP9',
@@ -46,14 +58,7 @@ function createKWMManager() {
     const k = new KWM(config.kwm.url, options);
     k.webrtc.config = {};
     k.webrtc.options = {
-      answerConstraints: {
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      },
-      offerConstraints: {
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      },
+      ...webrtcOptions,
       localSDPTransform: (sdp) => {
         // Local SDP transform support.
         const params = Object.assign({}, sdpParams, {
@@ -390,6 +395,18 @@ export function unsetLocalStream() {
     console.info('KWM unsetting local stream'); // eslint-disable-line no-console
     if (kwm) {
       kwm.webrtc.setLocalStream(); // clears.
+    }
+  };
+}
+
+export function updateOfferAnswerConstraints(options) {
+  return async () => {
+    console.info('KWM update offer/answer constaints', options); // eslint-disable-line no-console
+    Object.assign(webrtcOptions.answerConstraints, options);
+    Object.assign(webrtcOptions.offerConstraints, options);
+
+    if (kwm) {
+      Object.assign(kwm.webrtc.options, webrtcOptions);
     }
   };
 }
