@@ -86,7 +86,7 @@ class HowlingProvider extends PureComponent {
   }
 
   onSoundEvent(event) {
-    console.log('xxx howler sound event', event.name, event.id);
+    //console.log('howler sound event', event.name, event.id);
   }
 
   getChildContext() {

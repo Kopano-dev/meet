@@ -18,7 +18,7 @@ class Howling extends React.PureComponent {
 
     const id = this.sound ? this.sound : label;
 
-    //console.log('xxx howl', id, playing, stop, this.sound);
+    //console.log('howl', id, playing, stop, this.sound);
     if (!stop && playing) {
       this.sound = howling.play(id);
       howling.loop(loop, this.sound);

@@ -151,10 +151,10 @@ function createKWMManager() {
       }
 
       event.stream.onremovetrack = (event) => {
-        console.log('xxx onremovetrack', event);
+        console.debug('KWM remote stream onremovetrack', event); // eslint-disable-line no-console
       };
       event.stream.onaddtrack = (event) => {
-        console.log('xxx onaddtrack', event);
+        console.debug('KWM remote stream onaddtrack', event);  // eslint-disable-line no-console
       };
 
       dispatch(streamReceived(event));

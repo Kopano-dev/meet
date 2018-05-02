@@ -423,8 +423,6 @@ class CallView extends React.PureComponent {
       );
     }
 
-    console.log('xxx calling', calling);
-
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={classes.root}>

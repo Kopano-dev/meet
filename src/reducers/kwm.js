@@ -85,7 +85,6 @@ function kwmReducer(state = defaultState, action) {
     }
 
     case KWM_CALL_OUTGOING: {
-      console.log('xxx call outgoing', action.record);
       const calling = Object.assign({}, state.calling);
       delete calling[action.record.user];
       return Object.assign({}, state, {
@@ -94,7 +93,6 @@ function kwmReducer(state = defaultState, action) {
     }
 
     case KWM_CALL_DESTROY: {
-      console.log('xxx destroy', action.record);
       const ringing = Object.assign({}, state.ringing);
       const calling = Object.assign({}, state.calling);
       delete ringing[action.record.user];
