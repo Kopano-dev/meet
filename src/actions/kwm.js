@@ -150,13 +150,6 @@ function createKWMManager() {
         return;
       }
 
-      event.stream.onremovetrack = (event) => {
-        console.debug('KWM remote stream onremovetrack', event); // eslint-disable-line no-console
-      };
-      event.stream.onaddtrack = (event) => {
-        console.debug('KWM remote stream onaddtrack', event);  // eslint-disable-line no-console
-      };
-
       dispatch(streamReceived(event));
     };
 
@@ -402,13 +395,17 @@ export function unsetLocalStream() {
 }
 
 export function applyLocalStreamTracks(info) {
-  return async () => {
+  return async dispatch => {
     if (!info || !info.stream) {
       return info;
     }
 
     console.info('KWM updating local stream tracks', info); // eslint-disable-line no-console
     if (kwm) {
+      if (info.newStream) {
+        return dispatch(setLocalStream(info.newStream));
+      }
+
       for (const track of info.removedTracks) {
         kwm.webrtc.removeLocalStreamTrack(track, info.stream);
       }

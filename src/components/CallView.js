@@ -223,7 +223,7 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteVideoStream(stream, mute).then(info => applyLocalStreamTracks(info));
+      muteVideoStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info));
     }
   }
 
@@ -236,7 +236,7 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteAudioStream(stream, mute).then(info => applyLocalStreamTracks(info));
+      muteAudioStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info));
     }
   }
 
@@ -517,11 +517,11 @@ const mapDispatchToProps = (dispatch) => {
     doHangup: async () => {
       return dispatch(doHangup());
     },
-    muteVideoStream: async (stream, mute=true) => {
-      return dispatch(muteVideoStream(stream, mute));
+    muteVideoStream: async (stream, mute=true, id='') => {
+      return dispatch(muteVideoStream(stream, mute, id));
     },
-    muteAudioStream: async (stream, mute=true) => {
-      return dispatch(muteAudioStream(stream, mute));
+    muteAudioStream: async (stream, mute=true, id='') => {
+      return dispatch(muteAudioStream(stream, mute, id));
     },
     applyLocalStreamTracks: async (info) => {
       return dispatch(applyLocalStreamTracks(info));

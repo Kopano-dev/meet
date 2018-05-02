@@ -208,7 +208,7 @@ function stopUserMediaStream(stream) {
   }
 }
 
-export function muteStreamByType(stream, mute=true, type='video') {
+export function muteStreamByType(stream, mute=true, type='video', id='') {
   return async dispatch => {
     const helpers = {
       audio: false,
@@ -231,6 +231,7 @@ export function muteStreamByType(stream, mute=true, type='video') {
       stream,
       removedTracks: [],
       newTracks: [],
+      newStream: null,
     };
     const tracks = helpers.getTracks(stream);
     if (mute && tracks.length === 0) {
@@ -250,13 +251,20 @@ export function muteStreamByType(stream, mute=true, type='video') {
     } else {
       return Promise.resolve().then(() => {
         if (globalSettings.muteWithAddRemoveTracks) {
-          return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio)).then(newInfo => {
+          return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio)).then(async newInfo => {
             if (newInfo && newInfo.stream) {
               const newTracks = helpers.getTracks(newInfo.stream);
-              for (const track of newTracks) {
-                stream.addTrack(track);
-                newInfo.stream.removeTrack(track);
-                info.newTracks.push(track);
+              if (stream.active) {
+                // Make sure that stream we are adding to is still active.
+                for (const track of newTracks) {
+                  stream.addTrack(track);
+                  newInfo.stream.removeTrack(track);
+                  info.newTracks.push(track);
+                }
+              } else {
+                // Old stream is not active, use new stream.
+                info.newStream = newInfo.stream;
+                await dispatch(userMediaAudioVideoStream(id, newInfo.stream));
               }
               return newTracks;
             }
@@ -275,14 +283,14 @@ export function muteStreamByType(stream, mute=true, type='video') {
   };
 }
 
-export function muteVideoStream(stream, mute=true) {
+export function muteVideoStream(stream, mute=true, id='') {
   return async dispatch => {
-    return dispatch(muteStreamByType(stream, mute, 'video'));
+    return dispatch(muteStreamByType(stream, mute, 'video', id));
   };
 }
 
-export function muteAudioStream(stream, mute=true) {
+export function muteAudioStream(stream, mute=true, id='') {
   return async dispatch => {
-    return dispatch(muteStreamByType(stream, mute, 'audio'));
+    return dispatch(muteStreamByType(stream, mute, 'audio', id));
   };
 }
