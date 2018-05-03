@@ -1,15 +1,19 @@
-import 'webrtc-adapter';
+import * as adapter from 'webrtc-adapter';
 
 import * as types from './types';
 
 export const globalSettings = (() => {
   const s = {
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
-    // tracks in established RTC connections. It works in Chrome :) - rest is
-    // so far untested.
-    muteWithAddRemoveTracks: true,
+    // tracks in established RTC connections.
+    // - Works:
+    //   - Chrome 67
+    // - Issues:
+    //   - Firefox 60 (added streams do not play on remote side)
+    muteWithAddRemoveTracks: adapter.browserDetails.browser === 'chrome',
   };
 
+  console.info('gUM global settings', s, adapter.browserDetails); // eslint-disable-line no-console
   return s;
 })();
 
