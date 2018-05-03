@@ -36,7 +36,12 @@ import {
   doCall,
   doHangup,
 } from '../actions/kwm';
-import { requestUserMedia, muteVideoStream, muteAudioStream } from '../actions/usermedia';
+import {
+  requestUserMedia,
+  muteVideoStream,
+  muteAudioStream,
+  globalSettings as gUMSettings,
+} from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import { Howling } from './howling';
@@ -286,7 +291,12 @@ class CallView extends React.PureComponent {
         throw new Error(`unknown mode: ${mode}`);
     }
 
-    return requestUserMedia(this.localStreamID, video, audio, muteVideo, muteAudio).catch(err => {
+    if (gUMSettings.muteWithAddRemoveTracks) {
+      video = video && !muteVideo;
+      audio = audio && !muteAudio;
+    }
+
+    return requestUserMedia(this.localStreamID, video, audio).catch(err => {
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
@@ -296,10 +306,10 @@ class CallView extends React.PureComponent {
     }).then(info => {
       if (info && info.stream) {
         const promises = [];
-        if (muteVideo) {
+        if (muteVideo || !video) {
           promises.push(muteVideoStream(info.stream));
         }
-        if (muteAudio) {
+        if (muteAudio || !audio) {
           promises.push(muteAudioStream(info.stream));
         }
         return Promise.all(promises).then(() => {
@@ -313,6 +323,7 @@ class CallView extends React.PureComponent {
       } else {
         unsetLocalStream();
       }
+      return stream;
     });
   };
 

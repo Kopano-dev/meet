@@ -17,10 +17,13 @@ const styles = () => ({
 });
 
 class AudioVideo extends React.PureComponent {
+  element = null;
+
   constructor(props) {
     super(props);
 
-    this.resetElement = this.resetElement.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.handleMetadata = this.handleMetadata.bind(this);
   }
 
   componentDidMount() {
@@ -33,8 +36,7 @@ class AudioVideo extends React.PureComponent {
     if (stream !== oldProps.stream) {
       if (oldProps.stream) {
         // Remove event handlers from old stream.
-        oldProps.stream.removeEventListener('removetrack', this.resetElement, true);
-        oldProps.stream.removeEventListener('addtrack', this.resetElement, true);
+        this.removeStreamEvents(oldProps.stream);
       }
       this.updateStream();
     }
@@ -43,9 +45,7 @@ class AudioVideo extends React.PureComponent {
   componentWillUnmount() {
     const { stream } = this.props;
     if (stream) {
-      // Remove event handlers.
-      stream.removeEventListener('removetrack', this.resetElement, true);
-      stream.removeEventListener('addtrack', this.resetElement, true);
+      this.removeStreamEvents(stream);
     }
   }
 
@@ -53,15 +53,24 @@ class AudioVideo extends React.PureComponent {
     const { stream } = this.props;
     if (stream) {
       // Add interesting event handlers.
-      stream.addEventListener('removetrack', this.resetElement, true);
-      stream.addEventListener('addtrack', this.resetElement, true);
+      this.addStreamEvents(stream);
       this.element.srcObject = stream;
     } else {
       this.element.src = '';
     }
   }
 
-  resetElement() {
+  addStreamEvents(stream) {
+    stream.addEventListener('removetrack', this.handleReset, true);
+    stream.addEventListener('addtrack', this.handleReset, true);
+  }
+
+  removeStreamEvents(stream) {
+    stream.removeEventListener('removetrack', this.handleReset, true);
+    stream.removeEventListener('addtrack', this.handleReset, true);
+  }
+
+  handleReset() {
     if (this.element) {
       const { stream } = this.props;
       this.element.src = '';
@@ -71,18 +80,25 @@ class AudioVideo extends React.PureComponent {
     }
   }
 
+  handleMetadata(event) {
+    if (event.target instanceof HTMLVideoElement) {
+      console.info('video meta data', this.element, event.target.videoWidth, // eslint-disable-line no-console
+        event.target.videoHeight);
+    } else {
+      console.info('audio meta data', this.element);  // eslint-disable-line no-console
+    }
+  }
+
   handleElement = (element) => {
+    if (element === this.element) {
+      return;
+    }
+    if (this.element) {
+      this.element.removeEventListener('loadedmetadata', this.handleMetadata, true);
+    }
     this.element = element;
     if (element) {
-      if (!this.props.audio) {
-        element.addEventListener('loadedmetadata', event => {
-          console.info('video meta data', this.element, event.target.videoWidth, event.target.videoHeight); // eslint-disable-line no-console
-        });
-      } else {
-        element.addEventListener('loadedmetadata', () => {
-          console.info('audio meta data', this.element);  // eslint-disable-line no-console
-        });
-      }
+      this.element.addEventListener('loadedmetadata', this.handleMetadata, true);
     }
   }
 

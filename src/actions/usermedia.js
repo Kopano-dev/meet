@@ -111,7 +111,7 @@ export function requestUserMedia(id='', video=true, audio=true) {
         constraints.audio = false;
       }
 
-      console.log('gUM constraints', constraints); // eslint-disable-line no-console
+      console.debug('gUM constraints', constraints); // eslint-disable-line no-console
       return constraints;
     }).then(constraints => {
       // Request user media for the provided constraints.
@@ -123,10 +123,15 @@ export function requestUserMedia(id='', video=true, audio=true) {
           stream: null,
         };
       }
+      if (!constraints.audio && !constraints.video) {
+        // Neither audio nor video -> return what we have.
+        console.debug('requestUserMedia, neither audio nor video', idx, status); // eslint-disable-line no-console
+        return status.stream && status.stream.active ? status.stream : null;
+      }
       return navigator.mediaDevices.getUserMedia(constraints);
     }).then(stream => {
       // Process stream.
-      console.log('gUM stream', idx, stream); // eslint-disable-line no-console
+      console.debug('gUM stream', idx, stream); // eslint-disable-line no-console
       if (idx !== status.idx) {
         console.warn('requestUserMedia is outdated after gUM', // eslint-disable-line no-console
           idx, status);
@@ -140,7 +145,7 @@ export function requestUserMedia(id='', video=true, audio=true) {
       const info = {
         stream,
       };
-      if (status.stream) {
+      if (status.stream && status.stream.active && status.stream !== stream) {
         // Keep stream, just replace tracks.
         // NOTE(longsleep): Is this a good idea? Check support for this.
         info.stream = status.stream;
@@ -209,6 +214,8 @@ function stopUserMediaStream(stream) {
 }
 
 export function muteStreamByType(stream, mute=true, type='video', id='') {
+  let status = requestUserMediaStatus[id];
+
   return async dispatch => {
     const helpers = {
       audio: false,
@@ -252,7 +259,7 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
       return Promise.resolve().then(() => {
         if (globalSettings.muteWithAddRemoveTracks) {
           return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio)).then(async newInfo => {
-            if (newInfo && newInfo.stream) {
+            if (newInfo && newInfo.stream && newInfo.stream !== stream) {
               const newTracks = helpers.getTracks(newInfo.stream);
               if (stream.active) {
                 // Make sure that stream we are adding to is still active.
@@ -264,7 +271,11 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
               } else {
                 // Old stream is not active, use new stream.
                 info.newStream = newInfo.stream;
-                await dispatch(userMediaAudioVideoStream(id, newInfo.stream));
+                if (status && status.stream) {
+                  // Replace stream.
+                  status.stream = info.newStream;
+                }
+                await dispatch(userMediaAudioVideoStream(id, info.newStream));
               }
               return newTracks;
             }
