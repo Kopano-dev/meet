@@ -106,6 +106,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   tabs: {
     flexGrow: 1,

@@ -9,22 +9,114 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import { InputAdornment } from 'material-ui/Input';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 
-const styles = {
+import * as lunr from 'lunr';
+
+const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   search: {
+  },
+  searchRoot: {
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+    boxSizing: 'border-box',
+  },
+  searchInput: {
   },
   contacts: {
     overflow: 'auto',
     flex: 1,
   },
-};
+});
 
 class ContactSearch extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.index = null;
+    this.state = {
+      query: '',
+      results: [],
+    };
+
+    this.updateIndex();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { query } = this.state;
+    const { contacts } = this.props;
+
+    if (contacts !== prevProps.contacts) {
+      // Rebuild index.
+      this.updateIndex();
+      if (query) {
+        this.doSearch(query);
+      }
+    }
+  }
+
+  updateIndex = () => {
+    const { contacts } = this.props;
+
+    const index = lunr(builder => {
+      builder.ref('idx');
+      builder.field('displayName');
+      builder.field('givenName');
+      builder.field('surname');
+      builder.field('userPrincipalName');
+      builder.field('mail');
+
+      contacts.forEach((contact, idx) => {
+        builder.add({
+          idx,
+          ...contact,
+        });
+      });
+    });
+
+    this.index = index;
+  }
+
+  search = (query) => {
+    const { contacts } = this.props;
+    const index = this.index;
+
+    // NOTE(longsleep): Right now hardcodes suffix matching.
+    const term = `${query.trim()}*`;
+
+    return index.search(term).map(
+      match => contacts[match.ref]
+    );
+  }
+
+  handleSearch = ({target: { value }}) => {
+    this.setState({
+      query: value,
+    });
+
+    this.doSearch(value);
+  }
+
+  doSearch = (value) => {
+    const index = this.index;
+    if (index) {
+      this.setState({
+        results: this.search(value),
+      });
+    }
+  }
+
   render() {
+    const { query, results } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -38,6 +130,17 @@ class ContactSearch extends React.PureComponent {
       classNameProp,
     );
 
+    const items = query ? results : contacts;
+    const noMatches = items.length === 0 ? (
+      <ListItem>
+        <ListItemText>
+          <Typography variant="caption" align="center">
+            no matches
+          </Typography>
+        </ListItemText>
+      </ListItem>
+    ) : null;
+
     return (
       <div className={className}>
         <List className={classes.search} disablePadding>
@@ -45,9 +148,15 @@ class ContactSearch extends React.PureComponent {
             <TextField
               fullWidth
               autoFocus
-              disabled
+              value={query}
+              onChange={this.handleSearch}
               placeholder="Search by name"
               InputProps={{
+                disableUnderline: true,
+                classes: {
+                  root: classes.searchRoot,
+                  input: classes.searchInput,
+                },
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchIcon />
@@ -59,12 +168,13 @@ class ContactSearch extends React.PureComponent {
         </List>
         <div className={classes.contacts}>
           <List disablePadding onClick={onContactClick}>
-            {contacts.map((contact) =>
+            {items.map((contact) =>
               <ListItem button data-contact-id={contact.id} key={contact.id}>
                 <Avatar>{contact.displayName.substr(0, 2)}</Avatar>
                 <ListItemText primary={contact.displayName} secondary={contact.userPrincipalName} />
               </ListItem>
             )}
+            {noMatches}
           </List>
         </div>
       </div>
