@@ -10,7 +10,21 @@ console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no
 // Reference to the active KWM.
 let kwm = null;
 
-// Options.
+// KWM config.
+const kwmConfig = {
+  url: '',
+  webrtc: {
+    config: {
+      iceServers: [
+        {url: 'stun:stun.l.google.com:19302'},
+        {url: 'stun:stun.sipgate.net:3478'},
+      ],
+    },
+  },
+  sdpParams: {},
+};
+
+// WebRTC options.
 const webrtcOptions = {
   answerConstraints: {
     offerToReceiveAudio: true,
@@ -22,7 +36,7 @@ const webrtcOptions = {
   },
 };
 
-// Config.
+// SDP Config.
 const sdpParams = {
   videoRecvCodec: 'VP9',
 
@@ -54,9 +68,16 @@ function createKWMManager() {
       throw new Error('config is missing KWM configuration data');
     }
 
-    KWM.KWMInit.init({}); // Set default options.
-    const k = new KWM(config.kwm.url, options);
-    k.webrtc.config = {};
+    // Update defaults from configuration.
+    Object.assign(kwmConfig, config.kwm);
+    Object.assign(webrtcOptions, kwmConfig.webrtc.options);
+    Object.assign(sdpParams, kwmConfig.sdpParams);
+
+    KWM.KWMInit.init({}); // Init with default options.
+    const k = new KWM(kwmConfig.url, options);
+    k.webrtc.config = {
+      ...kwmConfig.webrtc.config,
+    };
     k.webrtc.options = {
       ...webrtcOptions,
       localSDPTransform: (sdp) => {
@@ -86,6 +107,7 @@ function createKWMManager() {
         return sdp;
       },
     };
+    console.info('KWM init', kwmConfig, webrtcOptions, sdpParams); // eslint-disable-line no-console
 
     k.onstatechanged = event => {
       if (event.target !== kwm) {
