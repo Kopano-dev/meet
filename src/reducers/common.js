@@ -43,7 +43,6 @@ function commonReducer(state = defaultState, action) {
       });
 
     case KPOP_SET_ERROR:
-      action.error.fatal = true;
       return Object.assign({}, state, {
         error: action.error,
       });

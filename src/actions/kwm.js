@@ -163,14 +163,16 @@ function createKWMManager() {
 }
 
 function error(event) {
-  console.warn('KWM error event', event); // eslint-disable-line no-console
-
   return async (dispatch) => {
+    console.warn('KWM error event', event.code, event); // eslint-disable-line no-console
+
     let fatal = true;
     switch (event.code) {
       case 'no_session_for_user':
-        fatal = false;
-        break;
+        // NOTE(longsleep): This error is pretty useless as it does not return
+        // enough information to know which call actually is meant here.
+        console.warn('KMW error ignored', event.code, event);
+        return;
       default:
     }
 
@@ -180,6 +182,7 @@ function error(event) {
       fatal: fatal,
     };
 
+    dispatch(doHangup());
     await dispatch(setError(error));
   };
 }
@@ -344,13 +347,15 @@ export function doCall(id) {
   };
 }
 
-export function doHangup() {
+export function doHangup(id='', reason) {
   return async dispatch => {
     // Hangs up all and everyone
     await dispatch({
       type: types.KWM_DO_HANGUP,
+      id,
+      reason,
     });
-    return kwm.webrtc.doHangup().then(channel => {
+    return kwm.webrtc.doHangup(id, reason).then(channel => {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
       dispatch(channelChanged(null));
     });
