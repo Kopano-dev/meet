@@ -10,15 +10,10 @@ import Tabs, { Tab } from 'material-ui/Tabs';
 import VideocallIcon from 'material-ui-icons/Videocam';
 import CallIcon from 'material-ui-icons/Call';
 import RoomIcon from 'material-ui-icons/Group';
-import SearchIcon from 'material-ui-icons/Search';
 import MicIcon from 'material-ui-icons/Mic';
 import MicOffIcon from 'material-ui-icons/MicOff';
 import CamIcon from 'material-ui-icons/Videocam';
 import CamOffIcon from 'material-ui-icons/VideocamOff';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import { InputAdornment } from 'material-ui/Input';
-import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import HangupIcon from 'material-ui-icons/CallEnd';
 import red from 'material-ui/colors/red';
@@ -44,6 +39,7 @@ import {
 } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
+import ContactSearch from './ContactSearch';
 import { Howling } from './howling';
 
 const styles = theme => ({
@@ -108,7 +104,8 @@ const styles = theme => ({
   menu: {
     boxSizing: 'border-box',
     flex: 1,
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
   },
   tabs: {
     flexGrow: 1,
@@ -117,22 +114,14 @@ const styles = theme => ({
     maxWidth: 70,
     minWidth: 70,
   },
-  search: {
+  contacts: {
     margin: '0 auto',
     paddingTop: 20,
     maxWidth: 600,
     width: '100%',
-  },
-  contacts: {
-    margin: '0 auto',
-    maxWidth: 600,
-    width: '100%',
-    top: 140,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    position: 'absolute',
-    overflow: 'auto',
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
   },
 });
 
@@ -203,7 +192,7 @@ class CallView extends React.PureComponent {
     });
   }
 
-  handleContactsClick = (event) => {
+  handleContactClick = (event) => {
     const { doCall } = this.props;
 
     if (event.target !== event.currentTarget) {
@@ -330,7 +319,6 @@ class CallView extends React.PureComponent {
   render() {
     const {
       classes,
-      contacts,
       channel,
       ringing,
       calling,
@@ -413,34 +401,11 @@ class CallView extends React.PureComponent {
               </Tabs>
             </Toolbar>
           </AppBar>
-          <List className={classes.search} disablePadding>
-            <ListItem>
-              <TextField
-                fullWidth
-                autoFocus
-                disabled
-                placeholder="Search by name"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </ListItem>
-          </List>
           {renderIf(mode === 'videocall' || mode === 'call')(() => (
-            <div className={classes.contacts}>
-              <List disablePadding onClick={this.handleContactsClick}>
-                {contacts.map((contact) =>
-                  <ListItem button data-contact-id={contact.id} key={contact.id}>
-                    <Avatar>{contact.displayName.substr(0, 2)}</Avatar>
-                    <ListItemText primary={contact.displayName} secondary={contact.userPrincipalName} />
-                  </ListItem>
-                )}
-              </List>
-            </div>
+            <ContactSearch
+              className={classes.contacts}
+              onContactClick={this.handleContactClick}
+            />
           ))}
         </div>
       );
@@ -484,8 +449,6 @@ class CallView extends React.PureComponent {
 CallView.propTypes = {
   classes: PropTypes.object.isRequired,
 
-  contacts: PropTypes.array.isRequired,
-
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
@@ -508,26 +471,12 @@ CallView.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { sorted: sortedContacts } = state.contacts;
-  const { user } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
 
-  // Base64 URL encoding required, simple conversion here. See
-  // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
-  const subURLSafe = user.profile.sub.replace(/\+/g, '-').replace(/\//, '_');
-
-  // Filter self from contacts.
-  const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
-    const res = contact.id !== subURLSafe;
-    return res;
-  });
-
   return {
-    contacts: sortedContactsWithoutSelf,
-
     connected,
     channel,
     ringing,
