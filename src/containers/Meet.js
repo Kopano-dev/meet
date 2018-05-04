@@ -15,6 +15,7 @@ import soundSprite1Json from '../sounds/sprite1.json';
 
 import Meetscreen  from '../components/Meetscreen';
 import { connectToKWM } from '../actions/kwm';
+import { initializeOffline } from '../actions/offline';
 
 const styles = () => ({
   root: {
@@ -31,10 +32,34 @@ const routes = [
 ];
 
 class App extends PureComponent {
+  state = {
+    initialized: false,
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchConfig('meet')).then(config => {
+    dispatch(initializeOffline());
+  }
+
+  componentDidUpdate(prevProps) {
+    const { initialized } = this.state;
+    const { offline } = this.props;
+
+    if (!initialized && offline !== prevProps.offline && !offline) {
+      this.initialize().then(() => {
+        console.info('app initialized'); // eslint-disable-line no-console
+        this.setState({
+          initialized: true,
+        });
+      });
+    }
+  }
+
+  initialize = () => {
+    const { dispatch } = this.props;
+
+    return dispatch(fetchConfig('meet')).then(config => {
       // Check if user was provided in configuration.
       if (config.user) {
         return dispatch(receiveUser(config.user));
@@ -49,8 +74,9 @@ class App extends PureComponent {
   }
 
   render() {
+    const { initialized } = this.state;
     const { config, user, ...other } = this.props;
-    const ready = config && user ? true : false;
+    const ready = config && user && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
     const soundSprite = soundSprite1Json;
@@ -73,6 +99,7 @@ class App extends PureComponent {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
 
+  offline: PropTypes.bool.isRequired,
   updateAvailable: PropTypes.bool.isRequired,
   config: PropTypes.object,
   user: PropTypes.object,
@@ -82,9 +109,10 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { updateAvailable, config, user, error } = state.common;
+  const { offline, updateAvailable, config, user, error } = state.common;
 
   return {
+    offline,
     updateAvailable,
     config,
     user,

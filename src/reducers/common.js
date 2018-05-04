@@ -12,12 +12,18 @@ import {
   KPOP_SET_ERROR,
 } from 'kpop/es/common/constants';
 
+import {
+  OFFLINE_ONLINE,
+  OFFLINE_OFFLINE,
+} from '../actions/types';
 
 const defaultState = {
   updateAvailable: false,
   config: null,
   user: null,
   error: null,
+
+  offline: true,
 };
 
 function commonReducer(state = defaultState, action) {
@@ -46,6 +52,13 @@ function commonReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         error: action.error,
       });
+
+    case OFFLINE_ONLINE:
+    case OFFLINE_OFFLINE:
+      return Object.assign({}, state, {
+        offline: action.offline,
+      });
+
     default:
       return state;
   }
