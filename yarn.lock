@@ -4586,9 +4586,9 @@ klaw@^1.0.0:
   version "0.0.5"
   resolved "https://download.kopano.io/community/kapp:/kpop-0.2.0.tgz#579455367c5f3c4814a9647f71abf94a182c2b00"
 
-"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.5.0.tgz":
-  version "0.5.0"
-  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.5.0.tgz#7fc9f707bfc7617739a5c3a8e764a38424756d29"
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.6.0.tgz":
+  version "0.6.0"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.6.0.tgz#87004dca151fa5819f6396921216ebc8ade61416"
   dependencies:
     simple-peer "^9.0.0"
     url-search-params "^0.10.0"
