@@ -5,6 +5,7 @@
 /.yarninstall
 
 # testing
+/test
 /coverage
 
 # production

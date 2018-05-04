@@ -33,6 +33,16 @@ lint-checkstyle: vendor ; $(info running eslint checkstyle ...)	@
 	@mkdir -p ../test
 	$(YARN) eslint -f checkstyle -o ./test/tests.eslint.xml . || true
 
+# Tests
+
+.PHONY: test
+test: vendor ; $(info running jest tests ...) @
+	REACT_APP_KOPANO_BUILD="${VERSION}" CI=true $(YARN) test -- --verbose
+
+.PHONY: test-coverage
+test-coverage: vendor ; $(info running jest tests ...) @
+	REACT_APP_KOPANO_BUILD="${VERSION}" CI=true JEST_JUNIT_OUTPUT=./test/jest-test-results.xml $(YARN) test -- --coverage --coverageDirectory=coverage --testResultsProcessor="jest-junit"
+
 # Yarn
 
 .PHONY: vendor
