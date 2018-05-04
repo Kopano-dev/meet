@@ -16,6 +16,7 @@ import CamIcon from 'material-ui-icons/Videocam';
 import CamOffIcon from 'material-ui-icons/VideocamOff';
 import Button from 'material-ui/Button';
 import HangupIcon from 'material-ui-icons/CallEnd';
+import StandbyIcon from 'material-ui-icons/Spa';
 import red from 'material-ui/colors/red';
 
 import renderIf from 'render-if';
@@ -30,6 +31,8 @@ import {
   applyLocalStreamTracks,
   doCall,
   doHangup,
+  doAccept,
+  doReject,
 } from '../actions/kwm';
 import {
   requestUserMedia,
@@ -41,6 +44,9 @@ import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import ContactSearch from './ContactSearch';
 import { Howling } from './howling';
+
+// NOTE(longsleep): Poor mans check if on mobile.
+const isMobile = /Mobi/.test(navigator.userAgent);
 
 const styles = theme => ({
   root: {
@@ -60,7 +66,7 @@ const styles = theme => ({
     left: 0,
     right: 0,
     bottom: theme.spacing.unit * 4,
-    zIndex: 5,
+    zIndex: theme.zIndex.appBar + 1,
     display: 'flex',
     justifyContent: 'center',
   },
@@ -68,13 +74,23 @@ const styles = theme => ({
     position: 'absolute',
     left: theme.spacing.unit * 4,
     top: theme.spacing.unit * 4,
-    zIndex: 5,
+    zIndex: theme.zIndex.appBar + 1,
     display: 'flex',
     flexDirection: 'column',
     '& > *': {
       marginBottom: theme.spacing.unit * 2,
     },
     opacity: 0.7,
+    [theme.breakpoints.down('xs')]: {
+      left: 0,
+      top: 0,
+      transform: 'scale(.5, .5)',
+    },
+  },
+  controlsPermanentStandby: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   hangupButton: {
     backgroundColor: red[500],
@@ -97,6 +113,10 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  callOnStandby: {
+    height: 0,
+    minHeight: 0,
   },
   callWithCall: {
     height: '100vh',
@@ -130,7 +150,8 @@ class CallView extends React.PureComponent {
   localStreamID = 'callview-main';
 
   state = {
-    mode: 'videocall',
+    withStandby: !isMobile,
+    mode: isMobile ? 'videocall' : 'standby',
     muteCam: false,
     muteMic: false,
   };
@@ -160,10 +181,10 @@ class CallView extends React.PureComponent {
     }
 
     if (muteCam !== prevState.muteCam) {
-      this.muteVideoStream(muteCam);
+      this.muteVideoStream(muteCam ? muteCam : mode === 'standby');
     }
     if (muteMic !== prevState.muteMic) {
-      this.muteAudioStream(muteMic);
+      this.muteAudioStream(muteMic ? muteMic : mode === 'standby');
     }
 
     if (connected !== prevProps.connected) {
@@ -193,23 +214,11 @@ class CallView extends React.PureComponent {
     });
   }
 
-  handleContactClick = (event) => {
+  handleContactClick = (id) => {
     const { doCall } = this.props;
 
-    if (event.target !== event.currentTarget) {
-      // Climb the tree.
-      let elem = event.target;
-      let row = null;
-      for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
-        row = elem;
-      }
-
-      // Contact id is Base64 URL encoding. Simple conversion here. See
-      // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
-      const id = row.getAttribute('data-contact-id').replace(/-/g, '+').replace(/_/, '/');
-
-      doCall(id);
-    }
+    this.wakeFromStandby();
+    doCall(id);
   };
 
   handleHangupClick = () => {
@@ -217,6 +226,35 @@ class CallView extends React.PureComponent {
 
     doHangup();
   };
+
+  handleAcceptClick = (id) => {
+    const  { doAccept } = this.props;
+
+    this.wakeFromStandby();
+    doAccept(id);
+  }
+
+  handleRejectClick = (id) => {
+    const { doReject } = this.props;
+
+    doReject(id);
+  }
+
+  wakeFromStandby = () => {
+    const { mode, muteCam } = this.state;
+
+    if (mode === 'standby') {
+      if (muteCam) {
+        this.setState({
+          mode: 'call',
+        });
+      } else {
+        this.setState({
+          mode: 'videocall',
+        });
+      }
+    }
+  }
 
   muteVideoStream = (mute=true) => {
     const {
@@ -277,6 +315,10 @@ class CallView extends React.PureComponent {
       case 'call':
         audio = true;
         break;
+      case 'standby':
+        audio = false;
+        video = false;
+        break;
       default:
         throw new Error(`unknown mode: ${mode}`);
     }
@@ -326,12 +368,13 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode, muteCam, muteMic } = this.state;
+    const { withStandby, mode, muteCam, muteMic } = this.state;
 
     const callClassName = classNames(
       classes.call,
       {
         [classes.callWithCall]: !!channel,
+        [classes.callOnStandby]: !channel && mode === 'standby',
       },
     );
 
@@ -340,9 +383,10 @@ class CallView extends React.PureComponent {
     let dialogs = [];
 
     let muteCamButton = null;
+    let muteMicButton = null;
     let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
     let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
-    if (mode === 'videocall') {
+    if (mode === 'videocall' || mode === 'standby') {
       muteCamButton = (<Button
         variant="fab"
         color="inherit"
@@ -353,19 +397,28 @@ class CallView extends React.PureComponent {
         {muteCamButtonIcon}
       </Button>);
     }
+    if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
+      muteMicButton = (<Button
+        variant="fab"
+        color="inherit"
+        aria-label="hangup"
+        className={classes.muteMicButton}
+        onClick={this.handleMuteMicClick}
+      >
+        {muteMicButtonIcon}
+      </Button>);
+    }
 
+    const controlsPermanentClassName = classNames(
+      classes.controlsPermanent,
+      {
+        [classes.controlsPermanentStandby]: mode === 'standby',
+      }
+    );
     controls.push(
-      <div key='permanent' className={classes.controlsPermanent}>
+      <div key='permanent' className={controlsPermanentClassName}>
         {muteCamButton}
-        <Button
-          variant="fab"
-          color="inherit"
-          aria-label="hangup"
-          className={classes.muteMicButton}
-          onClick={this.handleMuteMicClick}
-        >
-          {muteMicButtonIcon}
-        </Button>
+        {muteMicButton}
       </div>
     );
 
@@ -396,13 +449,16 @@ class CallView extends React.PureComponent {
                 textColor="primary"
                 centered
               >
+                {renderIf(withStandby)(() => (
+                  <Tab value="standby" className={classes.tab} icon={<StandbyIcon />} />
+                ))}
                 <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
                 <Tab value="call" className={classes.tab} icon={<CallIcon />} />
                 <Tab value="room" className={classes.tab} icon={<RoomIcon />} disabled />
               </Tabs>
             </Toolbar>
           </AppBar>
-          {renderIf(mode === 'videocall' || mode === 'call')(() => (
+          {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
             <ContactSearch
               className={classes.contacts}
               onContactClick={this.handleContactClick}
@@ -419,6 +475,8 @@ class CallView extends React.PureComponent {
           open={!record.ignore}
           key={id}
           record={record}
+          onAcceptClick={() => { this.handleAcceptClick(record.id); }}
+          onRejectClick={() => { this.handleRejectClick(record.id); }}
         >
         </IncomingCallDialog>
       );
@@ -433,7 +491,7 @@ class CallView extends React.PureComponent {
         <div className={classes.container}>
           <CallGrid
             className={callClassName}
-            mode={mode}
+            audio={mode === 'call'}
             localStream={localStream}
             remoteStreams={remoteStreams}
           />
@@ -459,6 +517,8 @@ CallView.propTypes = {
   requestUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
+  doAccept: PropTypes.func.isRequired,
+  doReject: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
@@ -502,6 +562,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     doHangup: async () => {
       return dispatch(doHangup());
+    },
+    doAccept: async (id) => {
+      return dispatch(doAccept(id));
+    },
+    doReject: async (id) => {
+      return dispatch(doReject(id));
     },
     muteVideoStream: async (stream, mute=true, id='') => {
       return dispatch(muteVideoStream(stream, mute, id));

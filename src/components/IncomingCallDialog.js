@@ -10,29 +10,17 @@ import Dialog, {
   DialogContentText,
 } from 'material-ui/Dialog';
 
-import { doAccept, doReject } from '../actions/kwm';
-
 const styles = () => ({
 });
 
 class IncomingCallDialog extends React.PureComponent {
-  handleAccept = () => {
-    const { dispatch, record } = this.props;
-
-    dispatch(doAccept(record.id));
-  }
-
-  handleReject = () => {
-    const { dispatch, record } = this.props;
-
-    dispatch(doReject(record.id));
-  }
-
   render() {
     const {
       record,
       dispatch, // eslint-disable-line
       contacts,
+      onAcceptClick,
+      onRejectClick,
       ...other
     } = this.props;
 
@@ -65,10 +53,10 @@ class IncomingCallDialog extends React.PureComponent {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleAccept} color="primary" autoFocus>
+          <Button onClick={onAcceptClick} color="primary" autoFocus>
             Accept
           </Button>
-          <Button onClick={this.handleReject} color="secondary">
+          <Button onClick={onRejectClick} color="secondary">
             Reject
           </Button>
         </DialogActions>
@@ -84,6 +72,9 @@ IncomingCallDialog.propTypes = {
   record: PropTypes.object.isRequired,
 
   contacts: PropTypes.object.isRequired,
+
+  onAcceptClick: PropTypes.func.isRequired,
+  onRejectClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {

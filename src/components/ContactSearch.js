@@ -115,14 +115,31 @@ class ContactSearch extends React.PureComponent {
     }
   }
 
+  handleContactClick = (event) => {
+    const { onContactClick } = this.props;
+
+    if (event.target !== event.currentTarget) {
+      // Climb the tree.
+      let elem = event.target;
+      let row = null;
+      for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
+        row = elem;
+      }
+
+      // Contact id is Base64 URL encoding. Simple conversion here. See
+      // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
+      const id = row.getAttribute('data-contact-id').replace(/-/g, '+').replace(/_/, '/');
+
+      onContactClick(id);
+    }
+  }
+
   render() {
     const { query, results } = this.state;
     const {
       classes,
       className: classNameProp,
       contacts,
-
-      onContactClick,
     } = this.props;
 
     const className = classNames(
@@ -167,7 +184,7 @@ class ContactSearch extends React.PureComponent {
           </ListItem>
         </List>
         <div className={classes.contacts}>
-          <List disablePadding onClick={onContactClick}>
+          <List disablePadding onClick={this.handleContactClick}>
             {items.map((contact) =>
               <ListItem button data-contact-id={contact.id} key={contact.id}>
                 <Avatar>{contact.displayName.substr(0, 2)}</Avatar>

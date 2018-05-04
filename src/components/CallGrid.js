@@ -53,7 +53,7 @@ class CallGrid extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
-      mode,
+      audio,
       localStream,
       remoteStreams,
     } = this.props;
@@ -80,7 +80,7 @@ class CallGrid extends React.PureComponent {
 
     return (
       <div className={className}>
-        {renderIf(mode === 'videocall')(() => (
+        {renderIf(!audio)(() => (
           <div className={classes.videocall}>
             {streams.map((stream) =>
               <AudioVideo
@@ -94,7 +94,7 @@ class CallGrid extends React.PureComponent {
             )}
           </div>
         ))}
-        {renderIf(mode === 'call')(() => (
+        {renderIf(audio)(() => (
           <Grid className={classes.call} container alignItems="center" direction="row" justify="center">
             {streams.map((stream) =>
               <AudioVideo
@@ -122,20 +122,9 @@ CallGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
-  mode: PropTypes.string.isRequired,
+  audio: PropTypes.bool,
   localStream: PropTypes.object,
   remoteStreams: PropTypes.array.isRequired,
 };
-
-/*const mapStateToProps = state => {
-  const { audioVideoStream } = state.usermedia;
-
-  const remoteStreams = Object.values(state.streams);
-
-  return {
-    localStream: audioVideoStream,
-    remoteStreams: remoteStreams,
-  };
-};*/
 
 export default withStyles(styles, {withTheme: true})(CallGrid);

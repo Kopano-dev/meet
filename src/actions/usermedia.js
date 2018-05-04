@@ -145,6 +145,14 @@ export function requestUserMedia(id='', video=true, audio=true) {
         };
       }
 
+      if (stream === null) {
+        // Make sure to always return a stream so that users of this method do
+        // not have to add handling for stream or no stream. This empty stream
+        // will not be active and has no tracks.
+        stream = new MediaStream();
+        console.debug('requestUserMedia creating empty stream', stream); // eslint-disable-line no-console
+      }
+
       // Result set.
       const info = {
         stream,
