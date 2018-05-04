@@ -193,7 +193,7 @@ function error(event) {
       case 'no_session_for_user':
         // NOTE(longsleep): This error is pretty useless as it does not return
         // enough information to know which call actually is meant here.
-        console.warn('KMW error ignored', event.code, event);
+        console.warn('KMW error ignored', event.code, event); // eslint-disable-line no-console
         return;
       default:
     }

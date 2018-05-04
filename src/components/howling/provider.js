@@ -85,7 +85,7 @@ class HowlingProvider extends PureComponent {
     }
   }
 
-  onSoundEvent(event) {
+  onSoundEvent(event) { // eslint-disable-line no-unused-vars
     //console.log('howler sound event', event.name, event.id);
   }
 
