@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import BaseContainer from 'kpop/es/BaseContainer';
 import { fetchConfig } from 'kpop/es/config/actions';
 import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
+import { setError } from 'kpop/es/common/actions';
 
 import { HowlingProvider } from '../components/howling';
 import soundSprite1Ogg from '../sounds/sprite1.ogg';
@@ -44,7 +45,7 @@ class App extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { initialized } = this.state;
-    const { offline } = this.props;
+    const { offline, dispatch } = this.props;
 
     if (!initialized && offline !== prevProps.offline && !offline) {
       this.initialize().then(() => {
@@ -52,7 +53,14 @@ class App extends PureComponent {
         this.setState({
           initialized: true,
         });
-      });
+      }).catch(err => {
+        console.error('app initialization failed - this is fatal', err); // eslint-disable-line no-console
+        dispatch(setError({
+          detail: `${err}`,
+          message: 'Failed to establish connection',
+          fatal: true,
+        }));
+      }) ;
     }
   }
 
@@ -68,8 +76,6 @@ class App extends PureComponent {
       }
     }).then(() => {
       return dispatch(connectToKWM());
-    }).catch(err => {
-      console.error('failed to fetch config, user or kwm', err); // eslint-disable-line no-console
     });
   }
 
