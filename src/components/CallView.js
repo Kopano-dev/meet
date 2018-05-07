@@ -47,6 +47,8 @@ import { Howling } from './howling';
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
+const xsHeightDownBreakpoint = '@media (max-height:450px)';
+const minimalHeightDownBreakpoint = '@media (max-height:275px)';
 
 const styles = theme => ({
   root: {
@@ -82,9 +84,13 @@ const styles = theme => ({
     },
     opacity: 0.7,
     [theme.breakpoints.down('xs')]: {
-      left: 0,
+      left: theme.spacing.unit,
       top: 0,
       transform: 'scale(.8, .8)',
+    },
+    [xsHeightDownBreakpoint]: {
+      transform: 'scale(.8, .8)',
+      top: 0,
     },
   },
   controlsPermanentStandby: {
@@ -113,6 +119,14 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    [xsHeightDownBreakpoint]: {
+      minHeight: 10,
+      height: '10vh',
+    },
+    [minimalHeightDownBreakpoint]: {
+      minHeight: 0,
+      height: 0,
+    },
   },
   callOnStandby: {
     height: 0,
@@ -128,6 +142,11 @@ const styles = theme => ({
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
+  modeBar: {
+    [minimalHeightDownBreakpoint]: {
+      display: 'none',
+    },
+  },
   tabs: {
     flexGrow: 1,
   },
@@ -138,11 +157,14 @@ const styles = theme => ({
   contacts: {
     margin: '0 auto',
     paddingTop: 20,
-    maxWidth: 600,
+    maxWidth: 400,
     width: '100%',
     flex: 1,
     flexGrow: 1,
     flexShrink: 1,
+    [minimalHeightDownBreakpoint]: {
+      paddingTop: 0,
+    },
   },
 });
 
@@ -449,7 +471,7 @@ class CallView extends React.PureComponent {
     } else {
       menu = (
         <div className={classes.menu}>
-          <AppBar position="static" color="inherit" elevation={0}>
+          <AppBar position="static" color="inherit" elevation={0} className={classes.modeBar}>
             <Toolbar>
               <Tabs
                 value={mode}
