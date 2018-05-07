@@ -16,8 +16,8 @@ const kwmConfig = {
   webrtc: {
     config: {
       iceServers: [
-        {url: 'stun:stun.l.google.com:19302'},
-        {url: 'stun:stun.sipgate.net:3478'},
+        {urls: 'stun:stun.l.google.com:19302'},
+        {urls: 'stun:stun.sipgate.net:3478'},
       ],
     },
   },
@@ -29,10 +29,24 @@ const webrtcOptions = {
   answerConstraints: {
     offerToReceiveAudio: true,
     offerToReceiveVideo: true,
+
+    googCpuOveruseDetection: true,
+    googCpuOveruseEncodeUsage: true,
+    googCpuUnderuseThreshold: 55,
+    googCpuOveruseThreshold: 85,
+    googHighStartBitrate: true,
+    googPayloadPadding: true,
   },
   offerConstraints: {
     offerToReceiveAudio: true,
     offerToReceiveVideo: true,
+
+    googCpuOveruseDetection: true,
+    googCpuOveruseEncodeUsage: true,
+    googCpuUnderuseThreshold: 55,
+    googCpuOveruseThreshold: 85,
+    googHighStartBitrate: true,
+    googPayloadPadding: true,
   },
 };
 
