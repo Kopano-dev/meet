@@ -20,14 +20,24 @@ export const globalSettings = (() => {
 const requestUserMediaStatus = {};
 
 const getSupportedConstraints = () => {
+  const supportedConstraints = {};
   try {
-    const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
-    console.debug('supportedConstraints', supportedConstraints); // eslint-disable-line no-console
-    return supportedConstraints;
+    Object.assign(supportedConstraints, navigator.mediaDevices.getSupportedConstraints());
   } catch(err) {
     console.debug('supportedConstraints failed with error', err); // eslint-disable-line no-console
-    return {};
   }
+
+  // NOTE(longsleep): iOS Safari does not like all video resolutions. For now
+  // we just disable thse corresponding constraints.
+  if (adapter.browserDetails.browser === 'safari') {
+    Object.assign(supportedConstraints, {
+      height: false,
+      width: false,
+    });
+  }
+
+  console.debug('using supportedConstraints', supportedConstraints); // eslint-disable-line no-console
+  return supportedConstraints;
 };
 export const supportedConstraints = getSupportedConstraints();
 
