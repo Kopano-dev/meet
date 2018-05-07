@@ -84,7 +84,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       left: 0,
       top: 0,
-      transform: 'scale(.5, .5)',
+      transform: 'scale(.8, .8)',
     },
   },
   controlsPermanentStandby: {
