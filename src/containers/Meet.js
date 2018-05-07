@@ -17,6 +17,7 @@ import soundSprite1Json from '../sounds/sprite1.json';
 import Meetscreen  from '../components/Meetscreen';
 import { connectToKWM } from '../actions/kwm';
 import { initializeOffline } from '../actions/offline';
+import { initializeVisibility } from '../actions/visibility';
 
 const styles = () => ({
   root: {
@@ -40,6 +41,7 @@ class App extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
 
+    dispatch(initializeVisibility());
     dispatch(initializeOffline());
   }
 

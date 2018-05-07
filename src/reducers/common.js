@@ -15,6 +15,7 @@ import {
 import {
   OFFLINE_ONLINE,
   OFFLINE_OFFLINE,
+  VISIBILITY_CHANGE,
 } from '../actions/types';
 
 const defaultState = {
@@ -24,6 +25,7 @@ const defaultState = {
   error: null,
 
   offline: true,
+  hidden: true,
 };
 
 function commonReducer(state = defaultState, action) {
@@ -57,6 +59,11 @@ function commonReducer(state = defaultState, action) {
     case OFFLINE_OFFLINE:
       return Object.assign({}, state, {
         offline: action.offline,
+      });
+
+    case VISIBILITY_CHANGE:
+      return Object.assign({}, state, {
+        hidden: action.hidden,
       });
 
     default:

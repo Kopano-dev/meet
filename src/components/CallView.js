@@ -170,6 +170,8 @@ class CallView extends React.PureComponent {
   componentDidUpdate(prevProps, prevState) {
     const { mode, muteCam, muteMic } = this.state;
     const {
+      hidden,
+      channel,
       connected,
       localAudioVideoStreams,
       setLocalStream,
@@ -193,6 +195,14 @@ class CallView extends React.PureComponent {
         console.debug('KWM connected changed while having a stream'); // eslint-disable-line no-console
         setLocalStream(stream);
       }
+    }
+
+    if (mode !== 'standby' && hidden && !channel && (hidden !== prevProps.hidden || channel !== prevProps.channel)) {
+      // Switch to standby.
+      console.info('Switching to standby after hide'); // eslint-disable-line no-console
+      this.setState({
+        mode: 'standby',
+      });
     }
   }
 
@@ -449,7 +459,7 @@ class CallView extends React.PureComponent {
                 textColor="primary"
                 centered
               >
-                {renderIf(withStandby)(() => (
+                {renderIf(withStandby || mode === 'standby')(() => (
                   <Tab value="standby" className={classes.tab} icon={<StandbyIcon />} />
                 ))}
                 <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
@@ -508,6 +518,8 @@ class CallView extends React.PureComponent {
 CallView.propTypes = {
   classes: PropTypes.object.isRequired,
 
+  hidden: PropTypes.bool.isRequired,
+
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
@@ -532,12 +544,15 @@ CallView.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const { hidden } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
 
   return {
+    hidden,
+
     connected,
     channel,
     ringing,
