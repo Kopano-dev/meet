@@ -61,6 +61,11 @@ const enumerateDevices = async () => {
 };
 
 export function requestUserMedia(id='', video=true, audio=true) {
+  // NOTE(longsleep): This keeps a status record and promise for gUM to allow
+  // multiple to run at the same time. The last one always wins. If a new
+  // request is started while another one is already pending, they will all
+  // return to the same promise whihc is resolved on the first success or
+  // error callback.
   let status = requestUserMediaStatus[id];
   if (!status) {
     status = requestUserMediaStatus[id] = {
@@ -68,7 +73,15 @@ export function requestUserMedia(id='', video=true, audio=true) {
       idx: 0,
     };
   }
-
+  let result = status.result;
+  if (!result) {
+    result = status.result = new Promise((resolve, reject) => {
+      status.resolve = resolve;
+      status.reject = reject;
+    });
+  }
+  // NOTE(longsleep): Keep an index of gUM requests to make sure multiple can
+  // run in a sane fasshion at the same time.
   const idx = ++status.idx;
   console.info('requestUserMedia request', idx, status, {video, audio}); // eslint-disable-line no-console
 
@@ -78,11 +91,9 @@ export function requestUserMedia(id='', video=true, audio=true) {
       console.info('requestUserMedia devices', idx, status, // eslint-disable-line no-console
         {video: videoSource && true, audio: audioSource && true});
       if (idx !== status.idx) {
-        console.warn('requestUserMedia is outdated after enumerateDevices', // eslint-disable-line no-console
+        console.debug('requestUserMedia is outdated after enumerateDevices', // eslint-disable-line no-console
           idx, status);
-        return {
-          stream: null,
-        };
+        return null;
       }
 
       // Generate constraints syntax according to the standard.
@@ -131,11 +142,9 @@ export function requestUserMedia(id='', video=true, audio=true) {
       // Request user media for the provided constraints.
       if (constraints === null) {
         // No constraints, do not request gUM, directly pretend to have no stream.
-        console.warn('requestUserMedia no constraints', // eslint-disable-line no-console
+        console.debug('requestUserMedia no constraints', // eslint-disable-line no-console
           idx, status);
-        return {
-          stream: null,
-        };
+        return null;
       }
       if (!constraints.audio && !constraints.video) {
         // Neither audio nor video -> return what we have.
@@ -147,12 +156,13 @@ export function requestUserMedia(id='', video=true, audio=true) {
       // Process stream.
       console.debug('gUM stream', idx, stream); // eslint-disable-line no-console
       if (idx !== status.idx) {
-        console.warn('requestUserMedia is outdated after gUM', // eslint-disable-line no-console
+        console.debug('requestUserMedia is outdated after gUM', // eslint-disable-line no-console
           idx, status);
-        stopUserMediaStream(stream);
-        return {
-          stream: null,
-        };
+        if (stream !== null) {
+          stopUserMediaStream(stream);
+        }
+        // Return result promise. This is resolved on success of a gUM call.
+        return result;
       }
 
       if (stream === null) {
@@ -193,9 +203,13 @@ export function requestUserMedia(id='', video=true, audio=true) {
         }
       }
       status.stream = info.stream;
+      status.promise = null;
+      status.resolve(info);
       dispatch(userMediaAudioVideoStream(id, info.stream));
       return info;
     }).catch(err => {
+      status.promise = null;
+      status.reject(err);
       dispatch(userMediaAudioVideoStream(id, null));
       throw err;
     });

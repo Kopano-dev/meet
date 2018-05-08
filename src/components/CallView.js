@@ -180,13 +180,12 @@ class CallView extends React.PureComponent {
 
   componentDidMount() {
     const { fetchContacts } = this.props;
-    const { mode, muteCam, muteMic } = this.state;
     fetchContacts().catch(() => {
       // Ignore errors here, let global handler do it.
     });
 
     this.updateOfferAnswerConstraints();
-    this.requestUserMedia(mode, muteCam, muteMic);
+    this.requestUserMedia();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -201,7 +200,7 @@ class CallView extends React.PureComponent {
 
     if (mode !== prevState.mode) {
       this.updateOfferAnswerConstraints();
-      this.requestUserMedia(mode, muteCam, muteMic);
+      this.requestUserMedia();
     }
 
     if (muteCam !== prevState.muteCam) {
@@ -247,24 +246,38 @@ class CallView extends React.PureComponent {
   }
 
   handleContactClick = (id) => {
-    const { doCall } = this.props;
+    const { doCall, localAudioVideoStreams } = this.props;
 
-    this.wakeFromStandby();
-    doCall(id);
+    const localStream = localAudioVideoStreams[this.localStreamID];
+    this.wakeFromStandby().then(() => {
+      if (localStream && localStream.active) {
+        return;
+      }
+      return this.requestUserMedia();
+    }).then(() => {
+      doCall(id);
+    });
   };
+
+  handleAcceptClick = (id) => {
+    const  { doAccept, localAudioVideoStreams } = this.props;
+
+    const localStream = localAudioVideoStreams[this.localStreamID];
+    this.wakeFromStandby().then(() => {
+      if (localStream && localStream.active) {
+        return;
+      }
+      return this.requestUserMedia();
+    }).then(() => {
+      doAccept(id);
+    });
+  }
 
   handleHangupClick = () => {
     const { doHangup } = this.props;
 
     doHangup();
   };
-
-  handleAcceptClick = (id) => {
-    const  { doAccept } = this.props;
-
-    this.wakeFromStandby();
-    doAccept(id);
-  }
 
   handleRejectClick = (id) => {
     const { doReject } = this.props;
@@ -275,17 +288,17 @@ class CallView extends React.PureComponent {
   wakeFromStandby = () => {
     const { mode, muteCam } = this.state;
 
-    if (mode === 'standby') {
-      if (muteCam) {
+    return new Promise((resolve) => {
+      if (mode === 'standby') {
+        // Wake to call mode when video is muted, videocall otherwise.
+        const newMode = muteCam ? 'call' : 'videocall';
         this.setState({
-          mode: 'call',
-        });
+          mode: newMode,
+        }, resolve);
       } else {
-        this.setState({
-          mode: 'videocall',
-        });
+        setTimeout(resolve, 0);
       }
-    }
+    });
   }
 
   muteVideoStream = (mute=true) => {
@@ -329,7 +342,13 @@ class CallView extends React.PureComponent {
     }
   }
 
-  requestUserMedia = (mode, muteVideo=true, muteAudio=true) => {
+  requestUserMedia = () => {
+    const {
+      mode,
+      muteCam,
+      muteMic,
+    } = this.state;
+
     const {
       requestUserMedia,
       setLocalStream,
@@ -356,8 +375,8 @@ class CallView extends React.PureComponent {
     }
 
     if (gUMSettings.muteWithAddRemoveTracks) {
-      video = video && !muteVideo;
-      audio = audio && !muteAudio;
+      video = video && !muteCam;
+      audio = audio && !muteMic;
     }
 
     return requestUserMedia(this.localStreamID, video, audio).catch(err => {
@@ -370,10 +389,10 @@ class CallView extends React.PureComponent {
     }).then(info => {
       if (info && info.stream) {
         const promises = [];
-        if (muteVideo || !video) {
+        if (muteCam || !video) {
           promises.push(muteVideoStream(info.stream));
         }
-        if (muteAudio || !audio) {
+        if (muteMic || !audio) {
           promises.push(muteAudioStream(info.stream));
         }
         return Promise.all(promises).then(() => {
