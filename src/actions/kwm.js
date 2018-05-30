@@ -137,6 +137,9 @@ function createKWMManager() {
 
       dispatch(error(event));
     };
+    k.onturnserverchanged = event => {
+      console.info('KWM using TURN servers', event.iceServer.urls); // eslint-disable-line no-console
+    };
     k.webrtc.onpeer = event => {
       if (event.target.kwm !== kwm) {
         return;
