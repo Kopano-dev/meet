@@ -6,10 +6,11 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import SearchIcon from 'material-ui-icons/Search';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
 import { InputAdornment } from 'material-ui/Input';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
+
+import Persona from 'kpop/es/Persona';
 
 import * as lunr from 'lunr';
 
@@ -187,7 +188,7 @@ class ContactSearch extends React.PureComponent {
           <List disablePadding onClick={this.handleContactClick}>
             {items.map((contact) =>
               <ListItem button data-contact-id={contact.id} key={contact.id}>
-                <Avatar>{contact.displayName.substr(0, 2)}</Avatar>
+                <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.userPrincipalName} />
               </ListItem>
             )}
@@ -224,6 +225,14 @@ const mapStateToProps = state => {
 
   return {
     contacts: sortedContactsWithoutSelf,
+  };
+};
+
+const mapContactToUserShape = contact => {
+  return {
+    // TODO(longsleep): Add iss to guid so it is globally unique.
+    guid: contact.mail ? contact.mail : contact.id,
+    ...contact,
   };
 };
 
