@@ -9,7 +9,6 @@ import Toolbar from 'material-ui/Toolbar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import VideocallIcon from 'material-ui-icons/Videocam';
 import CallIcon from 'material-ui-icons/Call';
-import RoomIcon from 'material-ui-icons/Group';
 import MicIcon from 'material-ui-icons/Mic';
 import MicOffIcon from 'material-ui-icons/MicOff';
 import CamIcon from 'material-ui-icons/Videocam';
@@ -180,8 +179,9 @@ class CallView extends React.PureComponent {
 
   componentDidMount() {
     const { fetchContacts } = this.props;
-    fetchContacts().catch(() => {
+    fetchContacts().catch(err => {
       // Ignore errors here, let global handler do it.
+      console.error('failed to fetch contacts', err); // eslint-disable-line no-console
     });
 
     this.updateOfferAnswerConstraints();
@@ -505,7 +505,6 @@ class CallView extends React.PureComponent {
                 ))}
                 <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
                 <Tab value="call" className={classes.tab} icon={<CallIcon />} />
-                <Tab value="room" className={classes.tab} icon={<RoomIcon />} disabled />
               </Tabs>
             </Toolbar>
           </AppBar>
