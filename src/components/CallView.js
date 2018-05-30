@@ -15,7 +15,6 @@ import CamIcon from 'material-ui-icons/Videocam';
 import CamOffIcon from 'material-ui-icons/VideocamOff';
 import Button from 'material-ui/Button';
 import HangupIcon from 'material-ui-icons/CallEnd';
-import StandbyIcon from 'material-ui-icons/Spa';
 import red from 'material-ui/colors/red';
 
 import renderIf from 'render-if';
@@ -48,6 +47,7 @@ import { Howling } from './howling';
 const isMobile = /Mobi/.test(navigator.userAgent);
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';
+console.info('Is mobile', isMobile); // eslint-disable-line no-console
 
 const styles = theme => ({
   root: {
@@ -127,7 +127,7 @@ const styles = theme => ({
       height: 0,
     },
   },
-  callOnStandby: {
+  callWithoutCall: {
     height: 0,
     minHeight: 0,
   },
@@ -147,7 +147,7 @@ const styles = theme => ({
     },
   },
   tabs: {
-    flexGrow: 1,
+    margin: '0 auto',
   },
   tab: {
     maxWidth: 70,
@@ -171,8 +171,7 @@ class CallView extends React.PureComponent {
   localStreamID = 'callview-main';
 
   state = {
-    withStandby: !isMobile,
-    mode: isMobile ? 'videocall' : 'standby',
+    mode: 'videocall',
     muteCam: false,
     muteMic: false,
   };
@@ -419,13 +418,12 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { withStandby, mode, muteCam, muteMic } = this.state;
+    const { mode, muteCam, muteMic } = this.state;
 
     const callClassName = classNames(
       classes.call,
       {
         [classes.callWithCall]: !!channel,
-        [classes.callOnStandby]: !channel && mode === 'standby',
       },
     );
 
@@ -500,9 +498,6 @@ class CallView extends React.PureComponent {
                 textColor="primary"
                 centered
               >
-                {renderIf(withStandby || mode === 'standby')(() => (
-                  <Tab value="standby" className={classes.tab} icon={<StandbyIcon />} />
-                ))}
                 <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
                 <Tab value="call" className={classes.tab} icon={<CallIcon />} />
               </Tabs>
@@ -541,7 +536,7 @@ class CallView extends React.PureComponent {
         <div className={classes.container}>
           <CallGrid
             className={callClassName}
-            audio={mode === 'call'}
+            mode={mode}
             localStream={localStream}
             remoteStreams={remoteStreams}
           />

@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 import CallIcon from 'material-ui-icons/Call';
 import Slide from 'material-ui/transitions/Slide';
+import Typography from 'material-ui/Typography';
 
 import renderIf from 'render-if';
 
@@ -28,6 +29,12 @@ const styles = theme => ({
     justifyContent: 'center',
     background: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
+  },
+  standby: {
+    flex: '1',
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: 'white',
   },
   callIcon: {
     fontSize: 46,
@@ -53,7 +60,7 @@ class CallGrid extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
-      audio,
+      mode,
       localStream,
       remoteStreams,
     } = this.props;
@@ -80,7 +87,7 @@ class CallGrid extends React.PureComponent {
 
     return (
       <div className={className}>
-        {renderIf(!audio)(() => (
+        {renderIf(mode === 'videocall')(() => (
           <div className={classes.videocall}>
             {streams.map((stream) =>
               <AudioVideo
@@ -94,7 +101,7 @@ class CallGrid extends React.PureComponent {
             )}
           </div>
         ))}
-        {renderIf(audio)(() => (
+        {renderIf(mode === 'call')(() => (
           <Grid className={classes.call} container alignItems="center" direction="row" justify="center">
             {streams.map((stream) =>
               <AudioVideo
@@ -107,6 +114,13 @@ class CallGrid extends React.PureComponent {
             )}
             <Grid item>
               <CallIcon className={classes.callIcon}/>
+            </Grid>
+          </Grid>
+        ))}
+        {renderIf(mode === 'standby')(() => (
+          <Grid className={classes.standby} container alignItems="center" direction="row" justify="center">
+            <Grid item>
+              <Typography color="inherit" variant="headline">Suspended</Typography>
             </Grid>
           </Grid>
         ))}
@@ -123,6 +137,8 @@ CallGrid.propTypes = {
   className: PropTypes.string,
 
   audio: PropTypes.bool,
+  mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
+
   localStream: PropTypes.object,
   remoteStreams: PropTypes.array.isRequired,
 };
