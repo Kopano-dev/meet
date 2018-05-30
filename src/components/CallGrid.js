@@ -43,6 +43,8 @@ const styles = theme => ({
     flex: 1,
     objectFit: 'cover',
     objectPosition: 'center',
+    maxWidth: '100%',
+    maxHeight: '100%',
   },
   floatingLocal: {
     position: 'absolute',

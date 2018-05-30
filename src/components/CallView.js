@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import VideocallIcon from 'material-ui-icons/Videocam';
 import CallIcon from 'material-ui-icons/Call';
@@ -145,6 +143,7 @@ const styles = theme => ({
     [minimalHeightDownBreakpoint]: {
       display: 'none',
     },
+    paddingTop: theme.spacing.unit,
   },
   tabs: {
     margin: '0 auto',
@@ -155,7 +154,6 @@ const styles = theme => ({
   },
   contacts: {
     margin: '0 auto',
-    paddingTop: 20,
     maxWidth: 400,
     width: '100%',
     flex: 1,
@@ -488,8 +486,8 @@ class CallView extends React.PureComponent {
     } else {
       menu = (
         <div className={classes.menu}>
-          <AppBar position="static" color="inherit" elevation={0} className={classes.modeBar}>
-            <Toolbar>
+          <div className={classes.modeBar}>
+            <div>
               <Tabs
                 value={mode}
                 onChange={this.handleModeChange}
@@ -501,8 +499,8 @@ class CallView extends React.PureComponent {
                 <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
                 <Tab value="call" className={classes.tab} icon={<CallIcon />} />
               </Tabs>
-            </Toolbar>
-          </AppBar>
+            </div>
+          </div>
           {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
             <ContactSearch
               className={classes.contacts}
