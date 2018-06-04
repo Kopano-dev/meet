@@ -141,13 +141,13 @@ const styles = theme => ({
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   modeBar: {
+    margin: '0 auto',
     [minimalHeightDownBreakpoint]: {
       display: 'none',
     },
     paddingTop: theme.spacing.unit,
   },
   tabs: {
-    margin: '0 auto',
   },
   tab: {
     maxWidth: 70,
@@ -169,11 +169,15 @@ const styles = theme => ({
 class CallView extends React.PureComponent {
   localStreamID = 'callview-main';
 
-  state = {
-    mode: 'videocall',
-    muteCam: false,
-    muteMic: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mode: props.hidden ? 'standby' : 'videocall',
+      muteCam: false,
+      muteMic: false,
+    };
+  }
 
   componentDidMount() {
     const { fetchContacts } = this.props;
@@ -226,10 +230,10 @@ class CallView extends React.PureComponent {
           });
         }
       } else {
-        if (hidden) {
+        if (prevProps.hidden && !hidden) {
           console.info('Switching to previous mode after no longer hide'); // eslint-disable-line no-console
           this.setState({
-            mode: 'call',
+            mode: 'videocall',
           });
         }
       }
