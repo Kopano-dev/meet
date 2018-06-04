@@ -27,12 +27,14 @@ const getSupportedConstraints = () => {
     console.debug('supportedConstraints failed with error', err); // eslint-disable-line no-console
   }
 
-  // NOTE(longsleep): iOS Safari does not like all video resolutions. For now
-  // we just disable thse corresponding constraints.
+  // NOTE(longsleep): iOS Safari does not like all video resolutions and frame
+  // rates. For now we just disable thse corresponding constraints to ensure
+  // the correct camera is selected and all.
   if (adapter.browserDetails.browser === 'safari') {
     Object.assign(supportedConstraints, {
       height: false,
       width: false,
+      frameRate: false,
     });
   }
 
@@ -106,7 +108,12 @@ export function requestUserMedia(id='', video=true, audio=true) {
         advanced: [],
       };
       if (video) {
+        if (supportedConstraints.facingMode) {
+          // Try to select camera facing to the user.
+          videoConstraints.advanced.push({facingMode: 'user'});
+        }
         if (supportedConstraints.width && supportedConstraints.height) {
+          // Try to select some decent resolution.
           videoConstraints.width = {
             ideal: 640,
           };
@@ -115,13 +122,12 @@ export function requestUserMedia(id='', video=true, audio=true) {
           };
         }
         if (supportedConstraints.frameRate) {
-          videoConstraints.frameRate = {
-            min: 10,
-            ideal: 15,
-          };
-        }
-        if (supportedConstraints.facingMode) {
-          videoConstraints.advanced.push({facingMode: 'user'});
+          // Try to select some decent frame rate.
+          videoConstraints.advanced.push({
+            frameRate: {
+              ideal: 15,
+            },
+          });
         }
       }
 
