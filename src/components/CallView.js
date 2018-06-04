@@ -40,6 +40,7 @@ import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import ContactSearch from './ContactSearch';
 import { Howling } from './howling';
+import { debounce } from '../utils';
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
@@ -215,12 +216,23 @@ class CallView extends React.PureComponent {
       }
     }
 
-    if (mode !== 'standby' && hidden && !channel && (hidden !== prevProps.hidden || channel !== prevProps.channel)) {
-      // Switch to standby.
-      console.info('Switching to standby after hide'); // eslint-disable-line no-console
-      this.setState({
-        mode: 'standby',
-      });
+    if (hidden !== prevProps.hidden || channel !== prevProps.channel) {
+      if (mode !== 'standby') {
+        if (hidden && !channel) {
+          // Switch to standby.
+          console.info('Switching to standby after hide'); // eslint-disable-line no-console
+          this.setState({
+            mode: 'standby',
+          });
+        }
+      } else {
+        if (hidden) {
+          console.info('Switching to previous mode after no longer hide'); // eslint-disable-line no-console
+          this.setState({
+            mode: 'call',
+          });
+        }
+      }
     }
   }
 
@@ -602,40 +614,40 @@ const mapDispatchToProps = (dispatch) => {
       const contacts = await dispatch(fetchContacts());
       await dispatch(addContacts(contacts.value));
     },
-    requestUserMedia: async (id='', video=true, audio=true) => {
+    requestUserMedia: debounce((id='', video=true, audio=true) => {
       return dispatch(requestUserMedia(id, video, audio));
-    },
-    doCall: async (id) => {
+    }, 500),
+    doCall: (id) => {
       return dispatch(doCall(id));
     },
-    doHangup: async () => {
+    doHangup: () => {
       return dispatch(doHangup());
     },
-    doAccept: async (id) => {
+    doAccept: (id) => {
       return dispatch(doAccept(id));
     },
-    doReject: async (id) => {
+    doReject: (id) => {
       return dispatch(doReject(id));
     },
-    muteVideoStream: async (stream, mute=true, id='') => {
+    muteVideoStream: (stream, mute=true, id='') => {
       return dispatch(muteVideoStream(stream, mute, id));
     },
-    muteAudioStream: async (stream, mute=true, id='') => {
+    muteAudioStream: (stream, mute=true, id='') => {
       return dispatch(muteAudioStream(stream, mute, id));
     },
-    updateOfferAnswerConstraints: async(options) => {
+    updateOfferAnswerConstraints: (options) => {
       return dispatch(updateOfferAnswerConstraints(options));
     },
-    applyLocalStreamTracks: async (info) => {
+    applyLocalStreamTracks: (info) => {
       return dispatch(applyLocalStreamTracks(info));
     },
-    setLocalStream: async (stream) => {
+    setLocalStream: (stream) => {
       return dispatch(setLocalStream(stream));
     },
-    unsetLocalStream: async () => {
+    unsetLocalStream: () => {
       return dispatch(unsetLocalStream());
     },
-    setError: async (error) => {
+    setError: (error) => {
       return dispatch(setError(error));
     },
   };
