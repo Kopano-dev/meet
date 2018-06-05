@@ -13,6 +13,10 @@ import {
 } from 'kpop/es/common/constants';
 
 import {
+  profileAsUserShape,
+} from 'kpop/es/oidc';
+
+import {
   OFFLINE_ONLINE,
   OFFLINE_OFFLINE,
   VISIBILITY_CHANGE,
@@ -48,6 +52,7 @@ function commonReducer(state = defaultState, action) {
     case KPOP_RECEIVE_USER:
       return Object.assign({}, state, {
         user: action.user,
+        profile: action.user ? profileAsUserShape(action.user.profile, action.userManager) : {},
       });
 
     case KPOP_SET_ERROR:

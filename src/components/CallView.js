@@ -14,12 +14,18 @@ import CamOffIcon from 'material-ui-icons/VideocamOff';
 import Button from 'material-ui/Button';
 import HangupIcon from 'material-ui-icons/CallEnd';
 import red from 'material-ui/colors/red';
+import SearchIcon from 'material-ui-icons/Search';
+import IconButton from 'material-ui/IconButton';
+import AddIcon from 'material-ui-icons/Add';
 
 import renderIf from 'render-if';
 
 import { setError } from 'kpop/es/common/actions';
+import TopBar from 'kpop/es/TopBar';
+import { userShape } from 'kpop/es/shapes';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
+import { addOrUpdateRecentsFromContact } from '../actions/recents';
 import {
   setLocalStream,
   unsetLocalStream,
@@ -38,9 +44,12 @@ import {
 } from '../actions/usermedia';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
+import FullscreenDialog from './FullscreenDialog';
+import Recents from './Recents';
 import ContactSearch from './ContactSearch';
 import { Howling } from './howling';
-import { debounce } from '../utils';
+import { debounce, forceBase64StdEncoded } from '../utils';
+
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
@@ -175,10 +184,13 @@ const styles = theme => ({
   tabs: {
   },
   tab: {
-    maxWidth: 70,
-    minWidth: 70,
+    maxWidth: 90,
+    minWidth: 90,
   },
-  contacts: {
+  appBar: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+  },
+  recents: {
     margin: '0 auto',
     maxWidth: 400,
     width: '100%',
@@ -188,6 +200,11 @@ const styles = theme => ({
     [minimalHeightDownBreakpoint]: {
       paddingTop: 0,
     },
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 4,
+    right: theme.spacing.unit * 3,
   },
 });
 
@@ -202,6 +219,7 @@ class CallView extends React.PureComponent {
       wasTouched: false,
       muteCam: false,
       muteMic: false,
+      openDialogs: {},
     };
 
     this.touchedTimer = null;
@@ -301,7 +319,7 @@ class CallView extends React.PureComponent {
   }
 
   handleContactClick = (id) => {
-    const { doCall, localAudioVideoStreams } = this.props;
+    const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.wakeFromStandby().then(() => {
@@ -310,14 +328,31 @@ class CallView extends React.PureComponent {
       }
       return this.requestUserMedia();
     }).then(() => {
-      doCall(id);
+      addOrUpdateRecentsFromContact(id);
+
+      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
+      // updated to use URL-safe ids which is required since contact IDs come
+      // from the REST API which is Base64 encoded while konnect requires the
+      // IDs in Standard encoding.
+      doCall(forceBase64StdEncoded(id));
     });
+  };
+
+  handleRecentEntryClick = (id) => {
+    // XXX(longsleep): For now handle recent entries click as contact clicks.
+    // This will stop working once we have other things than contacts in there.
+    this.handleContactClick(id);
+  };
+
+  handleFabClick = () => {
+    this.openDialog({ newCall: true});
   };
 
   handleAcceptClick = (id) => {
     const  { doAccept, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
+    this.closeAllOpenDialogs();
     this.wakeFromStandby().then(() => {
       if (localStream && localStream.active) {
         return;
@@ -353,6 +388,20 @@ class CallView extends React.PureComponent {
       } else {
         setTimeout(resolve, 0);
       }
+    });
+  }
+
+  openDialog = (updates = {}) => {
+    const { openDialogs } = this.state;
+
+    this.setState({
+      openDialogs: {...openDialogs, ...updates},
+    });
+  }
+
+  closeAllOpenDialogs = () => {
+    this.setState({
+      openDialogs: {},
     });
   }
 
@@ -468,13 +517,14 @@ class CallView extends React.PureComponent {
   render() {
     const {
       classes,
+      profile,
       channel,
       ringing,
       calling,
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode, muteCam, muteMic, wasTouched } = this.state;
+    const { mode, muteCam, muteMic, wasTouched, openDialogs } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -575,11 +625,28 @@ class CallView extends React.PureComponent {
             </div>
           </div>
           {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
-            <ContactSearch
-              className={classes.contacts}
-              onContactClick={this.handleContactClick}
-            />
+            <div>
+              <TopBar
+                className={classes.appBar}
+                title="Meetups"
+                forceAnchor
+                position="static"
+                user={profile}
+                elevation={4}
+              >
+                <IconButton>
+                  <SearchIcon/>
+                </IconButton>
+              </TopBar>
+              <Recents
+                className={classes.recents}
+                onEntryClick={this.handleRecentEntryClick}
+              />
+            </div>
           ))}
+          <Button variant="fab" className={classes.fab} aria-label="add" color="primary" onClick={this.handleFabClick}>
+            <AddIcon />
+          </Button>
         </div>
       );
     }
@@ -589,7 +656,7 @@ class CallView extends React.PureComponent {
       dialogs.push(
         <IncomingCallDialog
           open={!record.ignore}
-          key={id}
+          key={`incoming-call-${id}`}
           record={record}
           onAcceptClick={() => { this.handleAcceptClick(record.id); }}
           onRejectClick={() => { this.handleRejectClick(record.id); }}
@@ -597,6 +664,21 @@ class CallView extends React.PureComponent {
         </IncomingCallDialog>
       );
     }
+
+    dialogs.push(
+      <FullscreenDialog
+        key="new-call"
+        topTitle="New call"
+        topElevation={0}
+        open={openDialogs.newCall || false}
+        onClose={() => { this.openDialog({newCall: false}); }}
+      >
+        <ContactSearch onContactClick={(id) => {
+          this.openDialog({newCall: false});
+          this.handleContactClick(id);
+        }}></ContactSearch>
+      </FullscreenDialog>
+    );
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
@@ -626,6 +708,7 @@ CallView.propTypes = {
   classes: PropTypes.object.isRequired,
 
   hidden: PropTypes.bool.isRequired,
+  profile: userShape.isRequired,
 
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
@@ -645,13 +728,14 @@ CallView.propTypes = {
   setLocalStream: PropTypes.func.isRequired,
   unsetLocalStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
+  addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteStreams: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => {
-  const { hidden } = state.common;
+  const { hidden, user, profile } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
@@ -659,6 +743,7 @@ const mapStateToProps = state => {
 
   return {
     hidden,
+    profile: user ? profile : null,
 
     connected,
     channel,
@@ -711,6 +796,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setError: (error) => {
       return dispatch(setError(error));
+    },
+    addOrUpdateRecentsFromContact: (id) => {
+      return dispatch(addOrUpdateRecentsFromContact(id));
     },
   };
 };

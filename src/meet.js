@@ -7,6 +7,9 @@ import { MuiThemeProvider } from 'material-ui/styles';
 
 import 'webrtc-adapter';
 
+import moment from './moment';
+import Moment from 'react-moment';
+
 import { defaultTheme as theme } from 'kpop/es/theme';
 import IntlContainer from 'kpop/es/IntlContainer';
 import Loading from 'kpop/es/Loading';
@@ -22,6 +25,13 @@ registerServiceWorker(store, {
 
 const onLocaleChanged = async locale => {
   console.info('locale', locale); // eslint-disable-line no-console
+
+  moment.locale(locale);
+  // Setup moment.
+  Moment.globalMoment = moment;
+  Moment.globalLocale = moment.locale();
+  console.info('moment locale', Moment.globalLocale); // eslint-disable-line no-console
+  Moment.startPooledTimer();
 };
 
 // NOTE(longsleep): Load async with loader, this enables code splitting via Webpack.

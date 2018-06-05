@@ -9,10 +9,16 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import { InputAdornment } from 'material-ui/Input';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
+import Paper from 'material-ui/Paper';
+import Toolbar from 'material-ui/Toolbar';
+import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
 
 import Persona from 'kpop/es/Persona';
 
 import * as lunr from 'lunr';
+
+import { forceBase64URLEncoded } from '../utils';
 
 const styles = theme => ({
   root: {
@@ -21,15 +27,18 @@ const styles = theme => ({
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   search: {
+    minHeight: 48,
+    paddingBottom: theme.spacing.unit,
+  },
+  searchField: {
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+    padding: theme.spacing.unit,
+  },
+  extraToolbar: {
+    minHeight: 48,
+    padding: theme.spacing.unit,
   },
   searchRoot: {
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-    boxSizing: 'border-box',
   },
   searchInput: {
   },
@@ -127,11 +136,10 @@ class ContactSearch extends React.PureComponent {
         row = elem;
       }
 
-      // Contact id is Base64 URL encoding. Simple conversion here. See
-      // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
-      const id = row.getAttribute('data-contact-id').replace(/-/g, '+').replace(/_/, '/');
-
-      onContactClick(id);
+      const id = row.getAttribute('data-contact-id');
+      if (id) {
+        onContactClick(id);
+      }
     }
   }
 
@@ -153,7 +161,7 @@ class ContactSearch extends React.PureComponent {
       <ListItem>
         <ListItemText>
           <Typography variant="caption" align="center">
-            no matches
+            Nothing found.
           </Typography>
         </ListItemText>
       </ListItem>
@@ -161,14 +169,15 @@ class ContactSearch extends React.PureComponent {
 
     return (
       <div className={className}>
-        <List className={classes.search} disablePadding>
-          <ListItem>
+        <Paper square elevation={4}>
+          <Toolbar className={classes.search}>
             <TextField
               fullWidth
               autoFocus
               value={query}
               onChange={this.handleSearch}
               placeholder="Search by name"
+              className={classes.searchField}
               InputProps={{
                 disableUnderline: true,
                 classes: {
@@ -182,8 +191,12 @@ class ContactSearch extends React.PureComponent {
                 ),
               }}
             />
-          </ListItem>
-        </List>
+          </Toolbar>
+        </Paper>
+        <Toolbar className={classes.extraToolbar}>
+          <Button color="primary" disabled>New Group</Button> <Button disabled color="primary">Public Groups</Button>
+        </Toolbar>
+        <Divider/>
         <div className={classes.contacts}>
           <List disablePadding onClick={this.handleContactClick}>
             {items.map((contact) =>
@@ -213,9 +226,11 @@ const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
   const { user } = state.common;
 
-  // Base64 URL encoding required, simple conversion here. See
-  // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
-  const subURLSafe = user.profile.sub.replace(/\+/g, '-').replace(/\//, '_');
+  // XXX(longsleep): Remove Base64 conversion once konnectd is
+  // updated to use URL-safe ids. User.profile.sub comes from OIDC which is
+  // using Base64 Standard encoding while contacts come from the API which
+  // use URL encoding.
+  const subURLSafe = forceBase64URLEncoded(user.profile.sub);
 
   // Filter self from contacts.
   const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
