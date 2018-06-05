@@ -44,14 +44,26 @@ import { debounce } from '../utils';
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
+console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
 const styles = theme => ({
   root: {
     height: '100vh',
     position: 'relative',
+  },
+  rootWithHover: {
+    '&:hover $controlsPermanentHidden, &:hover $controlsMiddleHidden': {
+      opacity: 0.7,
+    },
+  },
+  rootWasTouched: {
+    '& $controlsPermanentHidden, & $controlsMiddleHidden': {
+      opacity: 0.7,
+    },
   },
   container: {
     height: '100vh',
@@ -69,6 +81,13 @@ const styles = theme => ({
     zIndex: theme.zIndex.appBar + 1,
     display: 'flex',
     justifyContent: 'center',
+    opacity: 1,
+    transition: theme.transitions.create('opacity', {
+      easing: theme.transitions.easing.easeOut,
+    }),
+  },
+  controlsMiddleHidden: {
+    opacity: 0,
   },
   controlsPermanent: {
     position: 'absolute',
@@ -90,11 +109,17 @@ const styles = theme => ({
       transform: 'scale(.8, .8)',
       top: 0,
     },
+    transition: theme.transitions.create('opacity', {
+      easing: theme.transitions.easing.easeOut,
+    }),
   },
   controlsPermanentStandby: {
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
+  },
+  controlsPermanentHidden: {
+    opacity: 0,
   },
   hangupButton: {
     backgroundColor: red[500],
@@ -174,9 +199,12 @@ class CallView extends React.PureComponent {
 
     this.state = {
       mode: props.hidden ? 'standby' : 'videocall',
+      wasTouched: false,
       muteCam: false,
       muteMic: false,
     };
+
+    this.touchedTimer = null;
   }
 
   componentDidMount() {
@@ -239,6 +267,20 @@ class CallView extends React.PureComponent {
       }
     }
   }
+
+  handleCallGridClick = () => {
+    // Set a touched state if touch device and reset it after a short timeout.
+    clearTimeout(this.touchedTimer);
+    this.setState({
+      wasTouched: true,
+    }, () => {
+      this.touchedTimer = setTimeout(() => {
+        this.setState({
+          wasTouched: false,
+        });
+      }, 3000);
+    });
+  };
 
   handleModeChange = (event, mode) => {
     this.setState({
@@ -432,7 +474,7 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode, muteCam, muteMic } = this.state;
+    const { mode, muteCam, muteMic, wasTouched } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -472,12 +514,27 @@ class CallView extends React.PureComponent {
       </Button>);
     }
 
+    const rootClassName = classNames(
+      classes.root,
+      {
+        [classes.rootWithHover]: !isTouchDevice,
+        [classes.rootWasTouched]: wasTouched,
+      },
+    );
     const controlsPermanentClassName = classNames(
       classes.controlsPermanent,
       {
         [classes.controlsPermanentStandby]: mode === 'standby',
+        [classes.controlsPermanentHidden]: !!channel,
       }
     );
+    const controlsMiddleClassName = classNames(
+      classes.controlsMiddle,
+      {
+        [classes.controlsMiddleHidden]: !!channel,
+      }
+    );
+
     controls.push(
       <div key='permanent' className={controlsPermanentClassName}>
         {muteCamButton}
@@ -487,7 +544,7 @@ class CallView extends React.PureComponent {
 
     if (channel) {
       controls.push(
-        <div key='middle' className={classes.controlsMiddle}>
+        <div key='middle' className={controlsMiddleClassName}>
           <Button
             variant="fab"
             color="inherit"
@@ -543,12 +600,13 @@ class CallView extends React.PureComponent {
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
-      <div className={classes.root}>
+      <div className={rootClassName}>
         <div className={classes.controls}>
           {controls}
         </div>
         <div className={classes.container}>
           <CallGrid
+            onClick={this.handleCallGridClick}
             className={callClassName}
             mode={mode}
             localStream={localStream}

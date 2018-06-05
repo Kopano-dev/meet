@@ -65,6 +65,9 @@ class CallGrid extends React.PureComponent {
       mode,
       localStream,
       remoteStreams,
+
+      theme, // eslint-disable-line
+      ...other
     } = this.props;
 
     const className = classNames(
@@ -88,7 +91,7 @@ class CallGrid extends React.PureComponent {
     }
 
     return (
-      <div className={className}>
+      <div className={className} {...other}>
         {renderIf(mode === 'videocall')(() => (
           <div className={classes.videocall}>
             {streams.map((stream) =>
