@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
+import Tooltip from 'material-ui/Tooltip';
 
 import Moment from 'react-moment';
 
@@ -17,6 +18,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+    userSelect: 'none',
   },
   entries: {
     overflow: 'auto',
@@ -24,6 +26,8 @@ const styles = theme => ({
   },
   time: {
     paddingRight: theme.spacing.unit * 2,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
   },
 });
 
@@ -82,7 +86,7 @@ class Recents extends React.PureComponent {
               <ListItem button data-entry-id={entry.id} key={entry.id}>
                 <Persona user={mapEntryToUserShape(entry)}/>
                 <ListItemText primary={entry.displayName} secondary={entry.userPrincipalName} />
-                <ListItemSecondaryAction className={classes.time}><Typography variant="caption"><Moment fromNow >{entry.date}</Moment></Typography></ListItemSecondaryAction>
+                <ListItemSecondaryAction><Tooltip enterDelay={500} placement="left" title={<Moment>{entry.date}</Moment>}><Typography variant="caption"  className={classes.time}><Moment fromNow >{entry.date}</Moment></Typography></Tooltip></ListItemSecondaryAction>
               </ListItem>
             )}
             {noRecents}
