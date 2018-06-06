@@ -35,11 +35,15 @@ class Recents extends React.PureComponent {
       // Climb the tree.
       let elem = event.target;
       let row = null;
+      let id = null;
       for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
         row = elem;
+        id = row.getAttribute('data-entry-id');
+        if (id) {
+          break;
+        }
       }
 
-      const id = row.getAttribute('data-entry-id');
       if (id) {
         onEntryClick(id);
       }
