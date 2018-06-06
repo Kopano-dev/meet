@@ -191,7 +191,7 @@ const styles = theme => ({
     borderTop: `1px solid ${theme.palette.divider}`,
   },
   recents: {
-    margin: '0 auto',
+    margin: '10px auto 0 auto',
     maxWidth: 400,
     width: '100%',
     flex: 1,
