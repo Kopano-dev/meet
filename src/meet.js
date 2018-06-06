@@ -15,8 +15,10 @@ import IntlContainer from 'kpop/es/IntlContainer';
 import Loading from 'kpop/es/Loading';
 import registerServiceWorker from 'kpop/es/serviceWorker';
 
-import store from './store';
+import configureStore from './configureStore';
 import translations from './locales';
+
+const { store } = configureStore();
 
 registerServiceWorker(store, {
   env: process.env.NODE_ENV, /*eslint-disable-line no-undef*/
