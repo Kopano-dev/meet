@@ -187,6 +187,12 @@ const styles = theme => ({
     maxWidth: 90,
     minWidth: 90,
   },
+  menuContainer: {
+    flex: 1,
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   appBar: {
     borderTop: `1px solid ${theme.palette.divider}`,
   },
@@ -625,7 +631,7 @@ class CallView extends React.PureComponent {
             </div>
           </div>
           {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
-            <div>
+            <div className={classes.menuContainer}>
               <TopBar
                 className={classes.appBar}
                 title="Meetups"
@@ -634,7 +640,7 @@ class CallView extends React.PureComponent {
                 user={profile}
                 elevation={4}
               >
-                <IconButton>
+                <IconButton disabled>
                   <SearchIcon/>
                 </IconButton>
               </TopBar>

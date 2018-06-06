@@ -36,29 +36,26 @@ class FullscreenDialog extends React.PureComponent {
     const { children, classes, topTitle, topElevation, open } = this.props;
 
     return (
-      <div>
-        <Button onClick={this.handleClickOpen}>Open full-screen dialog</Button>
-        <Dialog
-          fullScreen
-          open={open}
-          onClose={this.handleClose}
-        >
-          <AppBar className={classes.appBar} color="inherit" elevation={topElevation}>
-            <Toolbar>
-              <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>
-                {topTitle}
-              </Typography>
-              <Button color="primary" onClick={this.handleClose}>
-                Cancel
-              </Button>
-            </Toolbar>
-          </AppBar>
-          {children}
-        </Dialog>
-      </div>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={this.handleClose}
+      >
+        <AppBar className={classes.appBar} color="inherit" elevation={topElevation}>
+          <Toolbar>
+            <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label="Close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              {topTitle}
+            </Typography>
+            <Button color="primary" onClick={this.handleClose}>
+              Cancel
+            </Button>
+          </Toolbar>
+        </AppBar>
+        {children}
+      </Dialog>
     );
   }
 }

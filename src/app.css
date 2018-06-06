@@ -1,5 +1,13 @@
 /* additionall css on top of kpop */
 
+body {
+  /* NOTE(longsleep): Required for popper Tooltips which somehow cause scrolling
+   * for low height bodies
+   */
+  overflow: hidden;
+}
+
+
 #bg {
   background-color: white;
   background-image: url(../src/images/kopano-icon.svg);
