@@ -161,7 +161,7 @@ class ContactSearch extends React.PureComponent {
       <ListItem>
         <ListItemText>
           <Typography variant="caption" align="center">
-            Nothing found.
+            Search result is empty.
           </Typography>
         </ListItemText>
       </ListItem>

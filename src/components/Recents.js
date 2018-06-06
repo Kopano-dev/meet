@@ -72,7 +72,7 @@ class Recents extends React.PureComponent {
       <ListItem>
         <ListItemText>
           <Typography variant="caption" align="center">
-            The history is empty.
+            You have no recent meetups.
           </Typography>
         </ListItemText>
       </ListItem>
