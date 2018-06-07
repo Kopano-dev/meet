@@ -17,6 +17,10 @@ import red from 'material-ui/colors/red';
 import SearchIcon from 'material-ui-icons/Search';
 import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';
+import Drawer from 'material-ui/Drawer';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import SettingsIcon from 'material-ui-icons/Settings';
+import AppsIcon from 'material-ui-icons/Apps';
 
 import renderIf from 'render-if';
 
@@ -47,6 +51,7 @@ import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
 import Recents from './Recents';
 import ContactSearch from './ContactSearch';
+import BackdropOverlay from './BackdropOverlay';
 import { Howling } from './howling';
 import { debounce, forceBase64StdEncoded } from '../utils';
 
@@ -192,6 +197,7 @@ const styles = theme => ({
     minHeight: 0,
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
   },
   appBar: {
     borderTop: `1px solid ${theme.palette.divider}`,
@@ -212,6 +218,13 @@ const styles = theme => ({
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 3,
   },
+  drawerPaper: {
+    width: 300,
+    position: 'absolute',
+    top: 58,
+    zIndex: theme.zIndex.appBar - 1,
+    paddingTop: 10,
+  },
 });
 
 class CallView extends React.PureComponent {
@@ -226,6 +239,7 @@ class CallView extends React.PureComponent {
       muteCam: false,
       muteMic: false,
       openDialogs: {},
+      openMenu: false,
     };
 
     this.touchedTimer = null;
@@ -381,6 +395,14 @@ class CallView extends React.PureComponent {
     doReject(id);
   }
 
+  handleMenuAnchorClick = () => {
+    const { openMenu } = this.state;
+
+    this.setState({
+      openMenu: !openMenu,
+    });
+  }
+
   wakeFromStandby = () => {
     const { mode, muteCam } = this.state;
 
@@ -530,7 +552,7 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode, muteCam, muteMic, wasTouched, openDialogs } = this.state;
+    const { mode, muteCam, muteMic, wasTouched, openDialogs, openMenu } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -635,7 +657,7 @@ class CallView extends React.PureComponent {
               <TopBar
                 className={classes.appBar}
                 title="Meetups"
-                forceAnchor
+                onAnchorClick={this.handleMenuAnchorClick}
                 position="static"
                 user={profile}
                 elevation={4}
@@ -648,6 +670,28 @@ class CallView extends React.PureComponent {
                 className={classes.recents}
                 onEntryClick={this.handleRecentEntryClick}
               />
+              <Drawer
+                variant="persistent"
+                open={openMenu}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}>
+                <List>
+                  <ListItem button disabled>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Settings" />
+                  </ListItem>
+                  <ListItem button disabled>
+                    <ListItemIcon>
+                      <AppsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Kopano Apps" />
+                  </ListItem>
+                </List>
+              </Drawer>
+              <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
             </div>
           ))}
           <Button variant="fab" className={classes.fab} aria-label="add" color="primary" onClick={this.handleFabClick}>
