@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
@@ -52,6 +53,7 @@ import FullscreenDialog from './FullscreenDialog';
 import Recents from './Recents';
 import ContactSearch from './ContactSearch';
 import BackdropOverlay from './BackdropOverlay';
+import GroupControl from './GroupControl';
 import { Howling } from './howling';
 import { debounce, forceBase64StdEncoded } from '../utils';
 
@@ -202,7 +204,7 @@ const styles = theme => ({
   appBar: {
     borderTop: `1px solid ${theme.palette.divider}`,
   },
-  recents: {
+  mainView: {
     margin: '10px auto 0 auto',
     maxWidth: 400,
     width: '100%',
@@ -666,10 +668,31 @@ class CallView extends React.PureComponent {
                   <SearchIcon/>
                 </IconButton>
               </TopBar>
-              <Recents
-                className={classes.recents}
-                onEntryClick={this.handleRecentEntryClick}
-              />
+              <Switch>
+                <Route exact path="/r/call" render={() => (
+                  <React.Fragment>
+                    <Recents
+                      className={classes.mainView}
+                      onEntryClick={this.handleRecentEntryClick}
+                    />
+                    <Button
+                      variant="fab"
+                      className={classes.fab}
+                      aria-label="add"
+                      color="primary"
+                      onClick={this.handleFabClick}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </React.Fragment>
+                )}/>
+                <Route exact path="/r/conference/:id" render={({ match, ...other }) => {
+                  return <GroupControl className={classes.mainView} group={{
+                    id: match.params.id,
+                  }} {...other}/>;
+                }}/>
+                <Redirect to="/r/call"/>
+              </Switch>
               <Drawer
                 variant="persistent"
                 open={openMenu}
@@ -694,9 +717,6 @@ class CallView extends React.PureComponent {
               <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
             </div>
           ))}
-          <Button variant="fab" className={classes.fab} aria-label="add" color="primary" onClick={this.handleFabClick}>
-            <AddIcon />
-          </Button>
         </div>
       );
     }

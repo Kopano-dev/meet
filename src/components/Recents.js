@@ -86,7 +86,17 @@ class Recents extends React.PureComponent {
               <ListItem button data-entry-id={entry.id} key={entry.id}>
                 <Persona user={mapEntryToUserShape(entry)}/>
                 <ListItemText primary={entry.displayName} secondary={entry.userPrincipalName} />
-                <ListItemSecondaryAction><Tooltip enterDelay={500} placement="left" title={<Moment>{entry.date}</Moment>}><Typography variant="caption"  className={classes.time}><Moment fromNow >{entry.date}</Moment></Typography></Tooltip></ListItemSecondaryAction>
+                <ListItemSecondaryAction>
+                  <Tooltip
+                    enterDelay={500}
+                    placement="left"
+                    title={<Moment>{entry.date}</Moment>}
+                  >
+                    <Typography variant="caption" className={classes.time}>
+                      <Moment fromNow >{entry.date}</Moment>
+                    </Typography>
+                  </Tooltip>
+                </ListItemSecondaryAction>
               </ListItem>
             )}
             {noRecents}
