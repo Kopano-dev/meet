@@ -45,7 +45,7 @@ class Meetscreen extends React.PureComponent {
             className={classes.content}
           >
             <Switch>
-              <Route path="/r/(call|public|conference)/:suffix?" component={CallView}/>
+              <Route path="/r/(call|conference|group)" component={CallView}/>
               <Redirect to="/r/call"/>
             </Switch>
           </main>

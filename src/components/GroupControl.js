@@ -11,6 +11,9 @@ import PublicConferenceIcon from 'material-ui-icons/Group';
 import Chip from 'material-ui/Chip';
 import LinkIcon from 'material-ui-icons/Link';
 
+import { writeTextToClipboard } from '../clipboard';
+import { qualifyURL } from '../utils';
+
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -31,8 +34,20 @@ const styles = (theme) => ({
 });
 
 class GroupControl extends React.PureComponent {
+  state = {
+    url: null,
+  }
+
+  static getDerivedStateFromProps(props) {
+    const { group } = props;
+
+    return {
+      url: qualifyURL(`/r/${group.scope}/${group.id}`),
+    };
+  }
+
   handleEntryClick = () => {
-    console.log('xxx entry click');
+    //console.log('entry click');
   };
 
   handleCloseClick = () => {
@@ -42,7 +57,13 @@ class GroupControl extends React.PureComponent {
   };
 
   handleCopyLinkClick = () => {
-    console.log('xxx copy link click');
+    const { url } = this.state;
+
+    writeTextToClipboard(url).then(() => {
+      console.debug('Copied link to clipboard', url); // eslint-disable-line no-console
+    }).catch(err => {
+      console.warn('Failed to copy link to clipboard', err); // eslint-disable-line no-console
+    });
   };
 
   render() {
@@ -89,7 +110,7 @@ class GroupControl extends React.PureComponent {
                 <Chip
                   className={classes.chip}
                   avatar={<Avatar><LinkIcon/></Avatar>}
-                  label="Copy link of this group"
+                  label={`Copy link of this ${group.scope}`}
                   onClick={this.handleCopyLinkClick}
                 />
               </ListItemText>
@@ -109,9 +130,4 @@ GroupControl.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-  };
-};
-
-export default connect(mapStateToProps)(withStyles(styles)(GroupControl));
+export default connect()(withStyles(styles)(GroupControl));

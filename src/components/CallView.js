@@ -686,11 +686,15 @@ class CallView extends React.PureComponent {
                     </Button>
                   </React.Fragment>
                 )}/>
-                <Route exact path="/r/conference/:id" render={({ match, ...other }) => {
-                  return <GroupControl className={classes.mainView} group={{
-                    id: match.params.id,
-                  }} {...other}/>;
-                }}/>
+                <Route exact
+                  path="/r/:scope(conference|group)/:id(.*)?"
+                  render={({ match, ...other }) => {
+                    return <GroupControl className={classes.mainView} group={{
+                      scope: match.params.scope,
+                      id: match.params.id,
+                    }} {...other}/>;
+                  }}
+                />
                 <Redirect to="/r/call"/>
               </Switch>
               <Drawer

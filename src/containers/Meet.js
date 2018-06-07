@@ -27,7 +27,7 @@ const styles = () => ({
 
 const routes = [
   {
-    path: '/r/:view(call|public|conference)?',
+    path: '/r/:view(call|conference|group)?',
     exact: false,
     component: Meetscreen,
   },
