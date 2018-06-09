@@ -7,6 +7,7 @@ export const KWM_DO_CALL = 'KWM_DO_CALL';
 export const KWM_DO_ACCEPT = 'KWM_DO_ACCEPT';
 export const KWM_DO_HANGUP = 'KWM_DO_HANGUP';
 export const KWM_DO_REJECT = 'KWM_DO_REJECT';
+export const KWM_DO_GROUP = 'KWM_DO_GROUP';
 
 export const KWM_CALL_NEW = 'KWM_CALL_NEW';
 export const KWM_CALL_DESTROY = 'KWM_CALL_DESTROY';

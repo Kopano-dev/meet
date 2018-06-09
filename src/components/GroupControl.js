@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
+import Card, { CardHeader, CardActions } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Avatar from 'material-ui/Avatar';
 import PublicConferenceIcon from 'material-ui-icons/Group';
@@ -22,14 +22,10 @@ const styles = (theme) => ({
     userSelect: 'none',
   },
   base: {
-    overflow: 'auto',
     flex: 1,
   },
-  item: {
-    backgroundColor: theme.palette.background.default,
-  },
-  actions: {
-    paddingRight: theme.spacing.unit,
+  card: {
+    marginBottom: theme.spacing.unit * 2,
   },
 });
 
@@ -47,7 +43,9 @@ class GroupControl extends React.PureComponent {
   }
 
   handleEntryClick = () => {
-    //console.log('entry click');
+    const { group, onEntryClick } = this.props;
+
+    onEntryClick(group.id);
   };
 
   handleCloseClick = () => {
@@ -82,40 +80,35 @@ class GroupControl extends React.PureComponent {
     return (
       <div className={className}>
         <div className={classes.base}>
-          <List disablePadding>
-            <ListItem button onClick={this.handleEntryClick} className={classes.item}>
-              <Avatar>
-                <PublicConferenceIcon />
-              </Avatar>
-              <ListItemText primary={group.id} secondary="Public group"/>
-            </ListItem>
-            <ListItem>
-              <ListItemText>&nbsp;</ListItemText>
-              <ListItemSecondaryAction className={classes.actions}>
-                <Button
-                  onClick={this.handleCloseClick}
-                >
-                  Close
-                </Button> <Button
-                  variant="raised"
-                  color="primary"
-                  onClick={this.handleEntryClick}
-                >
-                  Join
-                </Button>
-              </ListItemSecondaryAction>
-            </ListItem>
-            <ListItem>
-              <ListItemText>
-                <Chip
-                  className={classes.chip}
-                  avatar={<Avatar><LinkIcon/></Avatar>}
-                  label={`Copy link of this ${group.scope}`}
-                  onClick={this.handleCopyLinkClick}
-                />
-              </ListItemText>
-            </ListItem>
-          </List>
+          <Card className={classes.card}>
+            <CardHeader
+              avatar={
+                <Avatar aria-label="Public group" className={classes.avatar}>
+                  <PublicConferenceIcon />
+                </Avatar>
+              }
+              title={group.id}
+              subheader="Public group"
+            />
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={this.handleEntryClick}
+              >Join</Button>
+              <Button
+                size="small"
+                color="primary"
+                onClick={this.handleCloseClick}
+              >Close</Button>
+            </CardActions>
+          </Card>
+          <Chip
+            className={classes.chip}
+            avatar={<Avatar><LinkIcon/></Avatar>}
+            label={`Copy link of this ${group.scope}`}
+            onClick={this.handleCopyLinkClick}
+          />
         </div>
       </div>
     );
@@ -128,6 +121,8 @@ GroupControl.propTypes = {
 
   group: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  onEntryClick: PropTypes.func,
 };
 
 export default connect()(withStyles(styles)(GroupControl));

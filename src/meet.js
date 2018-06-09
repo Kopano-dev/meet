@@ -17,6 +17,7 @@ import registerServiceWorker from 'kpop/es/serviceWorker';
 
 import configureStore from './configureStore';
 import translations from './locales';
+import { registerGlobalDebugger } from './debug';
 
 const { store } = configureStore();
 
@@ -24,6 +25,10 @@ registerServiceWorker(store, {
   env: process.env.NODE_ENV, /*eslint-disable-line no-undef*/
   publicUrl: process.env.PUBLIC_URL, /*eslint-disable-line no-undef*/
 });
+
+if (process.env.NODE_ENV !== 'production') {  /*eslint-disable-line no-undef*/
+  registerGlobalDebugger(store);
+}
 
 const onLocaleChanged = async locale => {
   console.info('locale', locale); // eslint-disable-line no-console

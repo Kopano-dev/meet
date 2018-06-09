@@ -72,7 +72,7 @@ class Recents extends React.PureComponent {
       <ListItem>
         <ListItemText>
           <Typography variant="caption" align="center">
-            You have no recent meetups.
+            You have no recent meetings.
           </Typography>
         </ListItemText>
       </ListItem>
@@ -85,7 +85,7 @@ class Recents extends React.PureComponent {
             {items.map((entry) =>
               <ListItem button data-entry-id={entry.id} key={entry.id}>
                 <Persona user={mapEntryToUserShape(entry)}/>
-                <ListItemText primary={entry.displayName} secondary={entry.userPrincipalName} />
+                <ListItemText primary={entry.displayName} secondary={entry.jobTitle} />
                 <ListItemSecondaryAction>
                   <Tooltip
                     enterDelay={500}

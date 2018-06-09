@@ -184,7 +184,7 @@ function createKWMManager() {
           break;
       }
 
-      if (event.target.peers.size === 0 && event.target.channel !== '') {
+      if (event.target.peers.size === 0 && event.target.channel !== '' && !event.target.group) {
         console.log('KWM hangup as no peers are left'); // eslint-disable-line no-console
         dispatch(doHangup());
       }
@@ -397,6 +397,20 @@ export function doHangup(id='', reason) {
     return kwm.webrtc.doHangup(id, reason).then(channel => {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
       dispatch(channelChanged(null));
+    });
+  };
+}
+
+export function doGroup(id) {
+  return async dispatch => {
+    await dispatch({
+      type: types.KWM_DO_GROUP,
+      id,
+    });
+    return kwm.webrtc.doGroup(id).then(channel => {
+      console.info('KWM group channel create', channel); // eslint-disable-line no-console
+      dispatch(channelChanged(channel));
+      return channel;
     });
   };
 }

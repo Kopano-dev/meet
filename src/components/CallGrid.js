@@ -19,10 +19,17 @@ const styles = theme => ({
     display: 'flex',
   },
   videocall: {
-    display: 'flex',
-    flex: '1',
+    display: 'grid',
     background: '#666',
     overflow: 'hidden',
+    flex: 1,
+    gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(50%, 1fr) ) ;',
+    },
+    [theme.breakpoints.up('xl')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(30%, 1fr) ) ;',
+    },
   },
   call: {
     flex: '1',
@@ -39,12 +46,21 @@ const styles = theme => ({
   callIcon: {
     fontSize: 46,
   },
-  video: {
-    flex: 1,
-    objectFit: 'cover',
-    objectPosition: 'center',
+  container: {
     maxWidth: '100%',
     maxHeight: '100%',
+    overflow: 'hidden',
+    backgroundImage: 'linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black)',
+    backgroundSize: '60px 60px',
+    backgroundPosition: '0 0, 30px 30px',
+    boxSizing: 'border-box',
+    boxShadow: 'inset 0 0 10px white',
+  },
+  video: {
+    objectFit: 'cover',
+    objectPosition: 'center',
+    width: '100%',
+    height: '100%',
   },
   floatingLocal: {
     position: 'absolute',
@@ -95,14 +111,18 @@ class CallGrid extends React.PureComponent {
         {renderIf(mode === 'videocall')(() => (
           <div className={classes.videocall}>
             {streams.map((stream) =>
-              <AudioVideo
-                className={classes.video}
+              <div
                 key={stream.id}
-                muted={stream.muted}
-                mirrored={stream.mirrored}
-                stream={stream.stream}
+                className={classes.container}
               >
-              </AudioVideo>
+                <AudioVideo
+                  className={classes.video}
+                  muted={stream.muted}
+                  mirrored={stream.mirrored}
+                  stream={stream.stream}
+                >
+                </AudioVideo>
+              </div>
             )}
           </div>
         ))}

@@ -202,7 +202,7 @@ class ContactSearch extends React.PureComponent {
             {items.map((contact) =>
               <ListItem button data-contact-id={contact.id} key={contact.id}>
                 <Persona user={mapContactToUserShape(contact)}/>
-                <ListItemText primary={contact.displayName} secondary={contact.userPrincipalName} />
+                <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
               </ListItem>
             )}
             {noMatches}

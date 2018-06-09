@@ -40,6 +40,7 @@ import {
   doHangup,
   doAccept,
   doReject,
+  doGroup,
 } from '../actions/kwm';
 import {
   requestUserMedia,
@@ -206,11 +207,14 @@ const styles = theme => ({
   },
   mainView: {
     margin: '10px auto 0 auto',
-    maxWidth: 400,
-    width: '100%',
+    maxWidth: 450,
+    width: '95%',
+    minWidth: 300,
     flex: 1,
     flexGrow: 1,
     flexShrink: 1,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
     [minimalHeightDownBreakpoint]: {
       paddingTop: 0,
     },
@@ -219,6 +223,9 @@ const styles = theme => ({
     position: 'absolute',
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 3,
+  },
+  searchButton: {
+    display: 'none',
   },
   drawerPaper: {
     width: 300,
@@ -365,6 +372,20 @@ class CallView extends React.PureComponent {
     // This will stop working once we have other things than contacts in there.
     this.handleContactClick(id);
   };
+
+  handleGroupEntryClick = (id) => {
+    const { doGroup, localAudioVideoStreams } = this.props;
+
+    const localStream = localAudioVideoStreams[this.localStreamID];
+    this.wakeFromStandby().then(() => {
+      if (localStream && localStream.active) {
+        return;
+      }
+      return this.requestUserMedia();
+    }).then(() => {
+      doGroup(id);
+    });
+  }
 
   handleFabClick = () => {
     this.openDialog({ newCall: true});
@@ -658,13 +679,12 @@ class CallView extends React.PureComponent {
             <div className={classes.menuContainer}>
               <TopBar
                 className={classes.appBar}
-                title="Meetups"
+                title="Meetings"
                 onAnchorClick={this.handleMenuAnchorClick}
                 position="static"
                 user={profile}
-                elevation={4}
               >
-                <IconButton disabled>
+                <IconButton disabled className={classes.searchButton}>
                   <SearchIcon/>
                 </IconButton>
               </TopBar>
@@ -689,10 +709,14 @@ class CallView extends React.PureComponent {
                 <Route exact
                   path="/r/:scope(conference|group)/:id(.*)?"
                   render={({ match, ...other }) => {
-                    return <GroupControl className={classes.mainView} group={{
-                      scope: match.params.scope,
-                      id: match.params.id,
-                    }} {...other}/>;
+                    return <GroupControl
+                      className={classes.mainView}
+                      onEntryClick={this.handleGroupEntryClick}
+                      group={{
+                        scope: match.params.scope,
+                        id: match.params.id,
+                      }}
+                      {...other}/>;
                   }}
                 />
                 <Redirect to="/r/call"/>
@@ -795,6 +819,7 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
   doReject: PropTypes.func.isRequired,
+  doGroup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
@@ -849,6 +874,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     doReject: (id) => {
       return dispatch(doReject(id));
+    },
+    doGroup: (id) => {
+      return dispatch(doGroup(id));
     },
     muteVideoStream: (stream, mute=true, id='') => {
       return dispatch(muteVideoStream(stream, mute, id));
