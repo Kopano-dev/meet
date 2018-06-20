@@ -4,6 +4,7 @@ import kwmReducer from './kwm';
 import usermediaReducer from './usermedia';
 import streamsReducer from './streams';
 import recentsReducer from './recents';
+import oidcReducer from './oidc';
 
 const reducers = {
   common: commonReducer,
@@ -12,6 +13,7 @@ const reducers = {
   usermedia: usermediaReducer,
   streams: streamsReducer,
   recents: recentsReducer,
+  oidc: oidcReducer,
 };
 
 export default reducers;

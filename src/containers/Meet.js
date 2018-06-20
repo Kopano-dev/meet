@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import BaseContainer from 'kpop/es/BaseContainer';
 import { fetchConfig } from 'kpop/es/config/actions';
 import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
-import { setError } from 'kpop/es/common/actions';
+import { setError, userRequiredError } from 'kpop/es/common/actions';
 
 import { HowlingProvider } from '../components/howling';
 import soundSprite1Ogg from '../sounds/sprite1.ogg';
@@ -72,12 +72,18 @@ class App extends PureComponent {
     return dispatch(fetchConfig('meet')).then(config => {
       // Check if user was provided in configuration.
       if (config.user) {
-        return dispatch(receiveUser(config.user));
+        return dispatch(receiveUser(config.user)).then(() => {
+          return config.user;
+        });
       } else {
         return dispatch(fetchUser());
       }
-    }).then(() => {
-      return dispatch(connectToKWM());
+    }).then((user) => {
+      if (!user) {
+        return dispatch(userRequiredError());
+      } else {
+        return dispatch(connectToKWM());
+      }
     });
   }
 
