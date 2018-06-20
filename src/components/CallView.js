@@ -245,6 +245,7 @@ class CallView extends React.PureComponent {
     this.state = {
       mode: props.hidden ? 'standby' : 'videocall',
       wasTouched: false,
+      withChannel: false,
       muteCam: false,
       muteMic: false,
       openDialogs: {},
@@ -266,7 +267,7 @@ class CallView extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { mode, muteCam, muteMic } = this.state;
+    const { mode, muteCam, muteMic, withChannel } = this.state;
     const {
       hidden,
       channel,
@@ -312,6 +313,22 @@ class CallView extends React.PureComponent {
           });
         }
       }
+    }
+
+    if (channel && !prevProps.channel && !withChannel) {
+      // Have a channel now.
+      setTimeout(() => {
+        if (this.props.channel) {
+          this.setState({
+            withChannel: true,
+          });
+        }
+      }, 5000);
+    } else if (!channel && withChannel) {
+      // No channel.
+      this.setState({
+        withChannel: false,
+      });
     }
   }
 
@@ -582,7 +599,7 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
     } = this.props;
-    const { mode, muteCam, muteMic, wasTouched, openDialogs, openMenu } = this.state;
+    const { mode, muteCam, muteMic, wasTouched, withChannel, openDialogs, openMenu } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -639,7 +656,7 @@ class CallView extends React.PureComponent {
     const controlsMiddleClassName = classNames(
       classes.controlsMiddle,
       {
-        [classes.controlsMiddleHidden]: !!channel,
+        [classes.controlsMiddleHidden]: !!channel && withChannel,
       }
     );
 
