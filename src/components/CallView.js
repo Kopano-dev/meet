@@ -30,7 +30,7 @@ import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
-import { addOrUpdateRecentsFromContact } from '../actions/recents';
+import { addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
 import {
   setLocalStream,
   unsetLocalStream,
@@ -367,14 +367,19 @@ class CallView extends React.PureComponent {
     });
   };
 
-  handleRecentEntryClick = (id) => {
-    // XXX(longsleep): For now handle recent entries click as contact clicks.
-    // This will stop working once we have other things than contacts in there.
-    this.handleContactClick(id);
+  handleRecentEntryClick = (entry, kind) => {
+    switch (kind) {
+      case 'group':
+        return this.handleGroupEntryClick(entry.id, entry.scope);
+
+      default:
+        // Default is contacts.
+        return this.handleContactClick(entry.id);
+    }
   };
 
-  handleGroupEntryClick = (id) => {
-    const { doGroup, localAudioVideoStreams } = this.props;
+  handleGroupEntryClick = (id, scope) => {
+    const { doGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.wakeFromStandby().then(() => {
@@ -383,7 +388,9 @@ class CallView extends React.PureComponent {
       }
       return this.requestUserMedia();
     }).then(() => {
-      doGroup(id);
+      addOrUpdateRecentsFromGroup(id, scope);
+
+      doGroup(`${scope}/${id}`);
     });
   }
 
@@ -828,6 +835,7 @@ CallView.propTypes = {
   unsetLocalStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
+  addOrUpdateRecentsFromGroup: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteStreams: PropTypes.array.isRequired,
@@ -901,6 +909,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addOrUpdateRecentsFromContact: (id) => {
       return dispatch(addOrUpdateRecentsFromContact(id));
+    },
+    addOrUpdateRecentsFromGroup: (id, scope) => {
+      return dispatch(addOrUpdateRecentsFromGroup(id, scope));
     },
   };
 };

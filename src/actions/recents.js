@@ -19,3 +19,14 @@ export function addOrUpdateRecentsFromContact(id) {
     return dispatch(addOrUpdateRecentEntry(id, 'contact', contact));
   };
 }
+
+export function addOrUpdateRecentsFromGroup(id, scope) {
+  return (dispatch) => {
+    return dispatch(addOrUpdateRecentEntry(id, 'group', {
+      id,
+      scope,
+      displayName: id,
+      jobTitle: scope,
+    }));
+  };
+}

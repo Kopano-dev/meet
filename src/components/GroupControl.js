@@ -15,6 +15,7 @@ import Persona from 'kpop/es/Persona';
 
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyURL } from '../utils';
+import { mapGroupEntryToUserShape } from './Recents';
 
 const styles = (theme) => ({
   root: {
@@ -47,7 +48,7 @@ class GroupControl extends React.PureComponent {
   handleEntryClick = () => {
     const { group, onEntryClick } = this.props;
 
-    onEntryClick(group.id);
+    onEntryClick(group.id, group.scope);
   };
 
   handleCloseClick = () => {
@@ -86,14 +87,14 @@ class GroupControl extends React.PureComponent {
             <CardHeader
               avatar={
                 <Persona
-                  user={{displayName: group.id}}
+                  user={mapGroupEntryToUserShape(group)}
                   forceIcon
                   icon={<PublicConferenceIcon/>}
-                  aria-label="Public group"
+                  aria-label={group.scope}
                   className={classes.avatar} />
               }
               title={group.id}
-              subheader="Public group"
+              subheader={group.scope}
             />
             <CardActions>
               <Button

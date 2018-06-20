@@ -21,6 +21,7 @@ function recentsReducer(state = defaultState, action) {
         [recentsID]: {
           ...action.entry,
           ...{ date: action.date || new Date() },
+          kind: action.kind,
         },
       });
 

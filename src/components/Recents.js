@@ -7,11 +7,11 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Tooltip from 'material-ui/Tooltip';
+import PublicConferenceIcon from 'material-ui-icons/Group';
 
 import Moment from 'react-moment';
 
 import Persona from 'kpop/es/Persona';
-
 
 const styles = theme => ({
   root: {
@@ -33,23 +33,25 @@ const styles = theme => ({
 
 class Recents extends React.PureComponent {
   handleEntryClick = (event) => {
-    const { onEntryClick } = this.props;
+    const { onEntryClick, table } = this.props;
 
     if (event.target !== event.currentTarget) {
       // Climb the tree.
       let elem = event.target;
       let row = null;
-      let id = null;
+      let rid = null;
+      let entry = null;
       for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
         row = elem;
-        id = row.getAttribute('data-entry-id');
-        if (id) {
+        rid = row.getAttribute('data-entry-rid');
+        if (rid) {
+          entry = table[rid];
           break;
         }
       }
 
-      if (id) {
-        onEntryClick(id);
+      if (entry) {
+        onEntryClick(entry, entry.kind);
       }
     }
   }
@@ -83,8 +85,8 @@ class Recents extends React.PureComponent {
         <div className={classes.entries}>
           <List disablePadding onClick={this.handleEntryClick}>
             {items.map((entry) =>
-              <ListItem button data-entry-id={entry.id} key={entry.id}>
-                <Persona user={mapEntryToUserShape(entry)}/>
+              <ListItem button data-entry-rid={entry.rid} key={entry.rid}>
+                <RecentsEntryPersona entry={entry}/>
                 <ListItemText primary={entry.displayName} secondary={entry.jobTitle} />
                 <ListItemSecondaryAction>
                   <Tooltip
@@ -112,6 +114,7 @@ Recents.propTypes = {
   className: PropTypes.string,
 
   recents: PropTypes.array.isRequired,
+  table: PropTypes.object.isRequired,
 
   onEntryClick: PropTypes.func,
 };
@@ -119,17 +122,44 @@ Recents.propTypes = {
 const mapStateToProps = state => {
   const { sorted, table } = state.recents;
 
-  const recents = sorted.map(id => table[id]);
+  const recents = sorted.map(rid => {
+    return {
+      rid,
+      ...table[rid],
+    };
+  });
 
   return {
     recents,
+    table,
   };
 };
 
-const mapEntryToUserShape = entry => {
+const RecentsEntryPersona = ({ entry }) => {
+  switch (entry.kind) {
+    case 'group':
+      return <Persona user={mapGroupEntryToUserShape(entry)} forceIcon icon={<PublicConferenceIcon/>}/>;
+
+    default:
+      return <Persona user={mapContactEntryToUserShape(entry)}/>;
+  }
+};
+
+RecentsEntryPersona.propTypes = {
+  entry: PropTypes.object.isRequired,
+};
+
+export const mapContactEntryToUserShape = entry => {
   return {
     guid: entry.mail ? entry.mail : entry.id,
     ...entry,
+  };
+};
+
+export const mapGroupEntryToUserShape = entry => {
+  return {
+    guid: `${entry.scope}/${entry.id}`,
+    displayName: entry.id,
   };
 };
 
