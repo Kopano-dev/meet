@@ -11,6 +11,8 @@ import PublicConferenceIcon from 'material-ui-icons/Group';
 import Chip from 'material-ui/Chip';
 import LinkIcon from 'material-ui-icons/Link';
 
+import Persona from 'kpop/es/Persona';
+
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyURL } from '../utils';
 
@@ -83,9 +85,12 @@ class GroupControl extends React.PureComponent {
           <Card className={classes.card}>
             <CardHeader
               avatar={
-                <Avatar aria-label="Public group" className={classes.avatar}>
-                  <PublicConferenceIcon />
-                </Avatar>
+                <Persona
+                  user={{displayName: group.id}}
+                  forceIcon
+                  icon={<PublicConferenceIcon/>}
+                  aria-label="Public group"
+                  className={classes.avatar} />
               }
               title={group.id}
               subheader="Public group"
