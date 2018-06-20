@@ -4594,9 +4594,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-0.3.0.tgz":
-  version "0.0.5"
-  resolved "https://download.kopano.io/community/kapp:/kpop-0.3.0.tgz#e9945848573a0672ff92d5dd8b885ee68bbb9214"
+"kpop@https://download.kopano.io/community/kapp:/kpop-0.4.0.tgz":
+  version "0.4.0"
+  resolved "https://download.kopano.io/community/kapp:/kpop-0.4.0.tgz#785164fae86d0502057b6b447fbebcbda3e06d15"
   dependencies:
     crc32 "^0.2.2"
     hsv-rgb "^1.0.0"
