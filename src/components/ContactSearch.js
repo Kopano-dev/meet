@@ -77,7 +77,10 @@ class ContactSearch extends React.PureComponent {
   updateIndex = () => {
     const { contacts } = this.props;
 
-    const index = lunr(builder => {
+    const index = (() => {
+      // NOTE(longsleep): Build index without trimmer, stemmer and stopwords.
+      const builder = new lunr.Builder();
+
       builder.ref('idx');
       builder.field('displayName');
       builder.field('givenName');
@@ -91,7 +94,9 @@ class ContactSearch extends React.PureComponent {
           ...contact,
         });
       });
-    });
+
+      return builder.build();
+    })();
 
     this.index = index;
   }
