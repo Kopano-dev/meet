@@ -6,7 +6,7 @@
   "dependencies": {
     "howler": "^2.0.9",
     "kpop": "https://download.kopano.io/community/kapp:/kpop-0.4.0.tgz",
-    "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.7.0.tgz",
+    "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.8.0.tgz",
     "localforage": "^1.7.1",
     "lunr": "^2.2.0",
     "material-ui": "^1.0.0-beta.34",
