@@ -4,7 +4,7 @@ import './app.css';
 import './kpop-shame.css';
 
 import * as kpop from 'kpop/es/version';
-import initialize from 'kpop/es/oidc';
+import initialize from 'kpop/es/oidc/initialize';
 
 import * as version from './version';
 
