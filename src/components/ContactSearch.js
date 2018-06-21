@@ -148,6 +148,12 @@ class ContactSearch extends React.PureComponent {
     }
   }
 
+  handleActionClick = (action) => {
+    const { onActionClick } = this.props;
+
+    onActionClick(action);
+  }
+
   render() {
     const { query, results } = this.state;
     const {
@@ -199,7 +205,7 @@ class ContactSearch extends React.PureComponent {
           </Toolbar>
         </Paper>
         <Toolbar className={classes.extraToolbar}>
-          <Button color="primary" disabled>New Group</Button> <Button disabled color="primary">Public Groups</Button>
+          <Button color="primary" disabled onClick={this.handleActionClick.bind(this, 'new-group')}>New Group</Button> <Button color="primary" onClick={this.handleActionClick.bind(this, 'new-public-group')}>Join Public Group</Button>
         </Toolbar>
         <Divider/>
         <div className={classes.contacts}>
@@ -224,7 +230,8 @@ ContactSearch.propTypes = {
 
   contacts: PropTypes.array.isRequired,
 
-  onContactClick: PropTypes.func,
+  onContactClick: PropTypes.func.isRequired,
+  onActionClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {

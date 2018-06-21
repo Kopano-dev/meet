@@ -55,6 +55,7 @@ import Recents from './Recents';
 import ContactSearch from './ContactSearch';
 import BackdropOverlay from './BackdropOverlay';
 import GroupControl from './GroupControl';
+import NewPublicGroup from './NewPublicGroup';
 import { Howling } from './howling';
 import { debounce, forceBase64StdEncoded } from '../utils';
 
@@ -450,6 +451,24 @@ class CallView extends React.PureComponent {
     });
   }
 
+  handleActionClick = (action, props) => {
+    switch (action) {
+      case 'new-public-group':
+        this.openDialog({
+          newPublicGroup: true,
+        });
+        break;
+
+      case 'join-public-group':
+        this.handleGroupEntryClick(props.id, props.scope);
+        break;
+
+      default:
+        console.warn('unknown action', action, props); // eslint-disable-line no-console
+        break;
+    }
+  }
+
   wakeFromStandby = () => {
     const { mode, muteCam } = this.state;
 
@@ -795,10 +814,32 @@ class CallView extends React.PureComponent {
         open={openDialogs.newCall || false}
         onClose={() => { this.openDialog({newCall: false}); }}
       >
-        <ContactSearch onContactClick={(id) => {
-          this.openDialog({newCall: false});
-          this.handleContactClick(id);
-        }}></ContactSearch>
+        <ContactSearch
+          onContactClick={(id) => {
+            this.openDialog({newCall: false});
+            this.handleContactClick(id);
+          }}
+          onActionClick={(action) => {
+            this.handleActionClick(action);
+          }}
+        ></ContactSearch>
+      </FullscreenDialog>
+    );
+
+    dialogs.push(
+      <FullscreenDialog
+        key="new-public-group"
+        topTitle="Public group"
+        topElevation={0}
+        open={openDialogs.newPublicGroup || false}
+        onClose={() => { this.openDialog({newPublicGroup: false}); }}
+      >
+        <NewPublicGroup
+          onActionClick={(action, props) => {
+            this.handleActionClick(action, props);
+            this.closeAllOpenDialogs();
+          }}
+        ></NewPublicGroup>
       </FullscreenDialog>
     );
 
