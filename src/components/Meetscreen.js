@@ -47,7 +47,9 @@ class Meetscreen extends React.PureComponent {
   render() {
     const { classes, oidcState } = this.props;
 
-    const start = oidcState.pathname !== '/' ? oidcState.pathname : '/r/call';
+    // TODO(longsleep): Find a better way to figure out if we got a
+    // sub route via oidc.
+    const start = oidcState.pathname.length > 3 ? oidcState.pathname : '/r/call';
 
     return (
       <div className={classes.root}>
