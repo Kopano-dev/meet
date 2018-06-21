@@ -158,7 +158,6 @@ export const mapContactEntryToUserShape = entry => {
 
 export const mapGroupEntryToUserShape = entry => {
   return {
-    guid: `${entry.scope}/${entry.id}`,
     displayName: entry.id,
   };
 };
