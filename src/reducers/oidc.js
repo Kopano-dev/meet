@@ -11,7 +11,6 @@ const defaultState = {
 function oidcReducer(state = defaultState, action) {
   switch (action.type) {
     case KPOP_RECEIVE_OIDC_STATE:
-      console.log('xxx set oidc state', state.state, action.state);
       return Object.assign({}, state, {
         state: {...action.state},
       });
