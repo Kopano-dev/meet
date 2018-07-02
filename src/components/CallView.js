@@ -388,7 +388,7 @@ class CallView extends React.PureComponent {
   handleRecentEntryClick = (entry, kind) => {
     switch (kind) {
       case 'group':
-        return this.handleGroupEntryClick(entry.id, entry.scope);
+        return this.doViewGroup(entry.id, entry.scope);
 
       default:
         // Default is contacts.
@@ -451,7 +451,7 @@ class CallView extends React.PureComponent {
     });
   }
 
-  handleActionClick = (action, props) => {
+  handleDialogActionClick = (action, props) => {
     switch (action) {
       case 'new-public-group':
         this.openDialog({
@@ -459,14 +459,21 @@ class CallView extends React.PureComponent {
         });
         break;
 
-      case 'join-public-group':
-        this.handleGroupEntryClick(props.id, props.scope);
+      case 'view-public-group':
+        this.doViewGroup(props.id, props.scope);
         break;
 
       default:
-        console.warn('unknown action', action, props); // eslint-disable-line no-console
+        console.warn('unknown dialog action', action, props); // eslint-disable-line no-console
         break;
     }
+  }
+
+  doViewGroup = (id, scope) => {
+    const { history, addOrUpdateRecentsFromGroup } = this.props;
+
+    history.push(`/r/${scope}/${id}`);
+    addOrUpdateRecentsFromGroup(id, scope);
   }
 
   wakeFromStandby = () => {
@@ -820,7 +827,7 @@ class CallView extends React.PureComponent {
             this.handleContactClick(id);
           }}
           onActionClick={(action) => {
-            this.handleActionClick(action);
+            this.handleDialogActionClick(action);
           }}
         ></ContactSearch>
       </FullscreenDialog>
@@ -836,7 +843,7 @@ class CallView extends React.PureComponent {
       >
         <NewPublicGroup
           onActionClick={(action, props) => {
-            this.handleActionClick(action, props);
+            this.handleDialogActionClick(action, props);
             this.closeAllOpenDialogs();
           }}
         ></NewPublicGroup>
@@ -869,6 +876,8 @@ class CallView extends React.PureComponent {
 
 CallView.propTypes = {
   classes: PropTypes.object.isRequired,
+
+  history: PropTypes.object.isRequired,
 
   hidden: PropTypes.bool.isRequired,
   profile: userShape.isRequired,

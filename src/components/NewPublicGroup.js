@@ -42,7 +42,7 @@ class NewPublicGroup extends React.PureComponent {
     const { query } = this.state;
     const { onActionClick } = this.props;
 
-    onActionClick('join-public-group', {id: query, scope: 'group'});
+    onActionClick('view-public-group', {id: query, scope: 'group'});
   }
 
   render() {
