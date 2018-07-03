@@ -57,7 +57,7 @@ import BackdropOverlay from './BackdropOverlay';
 import GroupControl from './GroupControl';
 import NewPublicGroup from './NewPublicGroup';
 import { Howling } from './howling';
-import { debounce, forceBase64StdEncoded } from '../utils';
+import { debounce, forceBase64StdEncoded, forceBase64URLEncoded } from '../utils';
 
 
 // NOTE(longsleep): Poor mans check if on mobile.
@@ -417,7 +417,7 @@ class CallView extends React.PureComponent {
   };
 
   handleAcceptClick = (id) => {
-    const  { doAccept, localAudioVideoStreams } = this.props;
+    const  { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.closeAllOpenDialogs();
@@ -427,6 +427,12 @@ class CallView extends React.PureComponent {
       }
       return this.requestUserMedia();
     }).then(() => {
+      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
+      // updated to use URL-safe ids which is required since contact IDs come
+      // from the REST API which is Base64 encoded while konnect requires the
+      // IDs in Standard encoding.
+      addOrUpdateRecentsFromContact(forceBase64URLEncoded(id));
+
       doAccept(id);
     });
   }
