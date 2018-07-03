@@ -14,7 +14,13 @@ export function addOrUpdateRecentsFromContact(id) {
   return (dispatch, getState) => {
     const { table } = getState().contacts;
 
-    const contact = table[id];
+    let contact = table[id];
+    if (!contact) {
+      // No contact for id - well we cannot do much but at least use id.
+      contact = {
+        id,
+      };
+    }
 
     return dispatch(addOrUpdateRecentEntry(id, 'contact', contact));
   };

@@ -13,6 +13,8 @@ import Moment from 'react-moment';
 
 import Persona from 'kpop/es/Persona';
 
+import ContactLabel from './ContactLabel';
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -87,7 +89,7 @@ class Recents extends React.PureComponent {
             {items.map((entry) =>
               <ListItem button data-entry-rid={entry.rid} key={entry.rid}>
                 <RecentsEntryPersona entry={entry}/>
-                <ListItemText primary={entry.displayName} secondary={entry.jobTitle} />
+                <ListItemText primary={<ContactLabel contact={entry} id={entry.rid}/>} secondary={entry.jobTitle} />
                 <ListItemSecondaryAction>
                   <Tooltip
                     enterDelay={500}

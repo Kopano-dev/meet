@@ -386,6 +386,11 @@ class CallView extends React.PureComponent {
   };
 
   handleRecentEntryClick = (entry, kind) => {
+    if (!entry.id) {
+      console.warn('invalid recent entry clicked', entry); // eslint-disable-line no-console
+      return;
+    }
+
     switch (kind) {
       case 'group':
         return this.doViewGroup(entry.id, entry.scope);

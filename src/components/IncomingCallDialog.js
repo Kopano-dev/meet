@@ -10,6 +10,9 @@ import Dialog, {
   DialogContentText,
 } from 'material-ui/Dialog';
 
+import ContactLabel from './ContactLabel';
+import { forceBase64URLEncoded } from '../utils';
+
 const styles = () => ({
 });
 
@@ -24,21 +27,8 @@ class IncomingCallDialog extends React.PureComponent {
       ...other
     } = this.props;
 
-    // Base64 URL encoding required, simple conversion here. See
-    // https://tools.ietf.org/html/rfc4648#section-5 for the specification.
-    const id = record.id.replace(/\+/g, '-').replace(/\//, '_');
-
-    let contactLabel = '';
-    const contact = contacts[id];
-    if (contact) {
-      contactLabel = contact.displayName;
-      if (contactLabel === '') {
-        contactLabel = contact.userPrincipalName;
-      }
-    }
-    if (contactLabel === '') {
-      contactLabel = <em title={record.id}>unknown</em>;
-    }
+    // Base64 URL encoding required, simple conversion here.
+    const contact = contacts[forceBase64URLEncoded(record.id)];
 
     return (
       <Dialog
@@ -49,7 +39,7 @@ class IncomingCallDialog extends React.PureComponent {
             Incoming call from
           </DialogContentText>
           <DialogContentText>
-            {contactLabel}
+            <ContactLabel contact={contact} id={record.id}/>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
