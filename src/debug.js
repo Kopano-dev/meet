@@ -1,3 +1,5 @@
+import * as Debug from 'debug';
+
 import * as types from './actions/types';
 
 class MeetDebug {
@@ -23,6 +25,14 @@ class MeetDebug {
       stream,
     });
   };
+
+  toggleWebRTCDebug = (flag = true) => {
+    if (flag) {
+      Debug.enable('simple-peer');
+    } else {
+      Debug.disable('simple-peer');
+    }
+  }
 }
 
 export function registerGlobalDebugger(store) {
