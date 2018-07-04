@@ -7,10 +7,7 @@ import * as kpop from 'kpop/es/version';
 import initialize from 'kpop/es/oidc/initialize';
 
 import * as version from './version';
-
-// Make a stable app base URL which does not change because for other URLs
-// routed to us.
-const appBaseURL = window.location.href.split('/meet/')[0] + '/meet/';
+import { appBaseURL } from './base';
 
 // Early async OIDC initializ and code splitting.
 initialize(appBaseURL).then(() => {

@@ -14,6 +14,7 @@ import soundSprite1Ogg from '../sounds/sprite1.ogg';
 import soundSprite1Mp3 from '../sounds/sprite1.mp3';
 import soundSprite1Json from '../sounds/sprite1.json';
 
+import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import { connectToKWM } from '../actions/kwm';
 import { initializeOffline } from '../actions/offline';
@@ -98,7 +99,7 @@ class App extends PureComponent {
     return (
       <BaseContainer ready={ready} {...other}>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
-          <Router basename="/meet">
+          <Router basename={basePath}>
             <Switch>
               {routes.map((route, i) => <Route key={i} {...route} />)}
               <Redirect to="/r" />

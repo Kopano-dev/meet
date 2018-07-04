@@ -1,10 +1,12 @@
+import { basePath } from '../base';
+
 import {
   KPOP_RECEIVE_OIDC_STATE,
 } from 'kpop/es/oidc/constants';
 
 const defaultState = {
   state: {
-    pathname: '/' + window.location.pathname.split('/meet/', 2)[1],
+    pathname: '/' + window.location.pathname.split(`${basePath}/`, 2)[1],
   },
 };
 

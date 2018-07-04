@@ -14,7 +14,7 @@ import LinkIcon from 'material-ui-icons/Link';
 import Persona from 'kpop/es/Persona';
 
 import { writeTextToClipboard } from '../clipboard';
-import { qualifyURL } from '../utils';
+import { qualifyAppURL } from '../base';
 import { mapGroupEntryToUserShape } from './Recents';
 
 const styles = (theme) => ({
@@ -41,7 +41,7 @@ class GroupControl extends React.PureComponent {
     const { group } = props;
 
     return {
-      url: qualifyURL(`/r/${group.scope}/${group.id}`),
+      url: qualifyAppURL(`/r/${group.scope}/${group.id}`),
     };
   }
 
