@@ -10,8 +10,14 @@ import Typography from 'material-ui/Typography';
 
 import renderIf from 'render-if';
 
+import posed from 'react-pose';
+
 import AudioVideo from './AudioVideo';
 import FloatingAudioVideo from './FloatingAudioVideo';
+
+const DragableFloatingAudioVideo = posed(FloatingAudioVideo)({
+  draggable: true,
+});
 
 const styles = theme => ({
   root: {
@@ -157,7 +163,7 @@ class CallGrid extends React.PureComponent {
           </Grid>
         ))}
         <Slide direction="up" in={remoteStreams.length > 0 && !!localStream} mountOnEnter unmountOnExit>
-          <FloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted/>
+          <DragableFloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted/>
         </Slide>
       </div>
     );

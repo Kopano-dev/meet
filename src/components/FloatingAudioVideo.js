@@ -36,6 +36,7 @@ class FloatingAudioVideo extends React.PureComponent {
       classes,
       className: classNameProp,
       children,
+      hostRef,
       ...other
     } = this.props;
 
@@ -45,7 +46,7 @@ class FloatingAudioVideo extends React.PureComponent {
     );
 
     return (
-      <div className={className}>
+      <div className={className} ref={hostRef}>
         <AudioVideo className={classes.audioVideo} classes={{
           video: classes.audioVideoVideo,
         }} {...other}>
@@ -61,6 +62,8 @@ FloatingAudioVideo.propTypes = {
   className: PropTypes.string,
 
   children: PropTypes.element,
+
+  hostRef: PropTypes.func,
 };
 
 export default withStyles(styles)(FloatingAudioVideo);
