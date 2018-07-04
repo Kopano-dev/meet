@@ -24,13 +24,40 @@ const getBugs = () => {
 export const bugs = getBugs();
 
 const styles = () => ({
+  root: {
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    objectFit: 'cover',
+    objectPosition: 'center',
+    '&::-webkit-media-controls': {
+      display: 'none',
+    },
+    backgroundImage: 'linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black)',
+    backgroundSize: '60px 60px',
+    backgroundPosition: '0 0, 30px 30px',
+    overflow: 'hidden',
+  },
   mirrored: {
     transform: 'scale(-1, 1)',
   },
-
-  video: {
-    '&::-webkit-media-controls': {
-      display: 'none',
+  blurred: {
+    '& > video': {
+      filter: 'blur(10px)',
+      background: 'white',
+    },
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0,
+      background: 'rgba(255,255,255,0.7)',
     },
   },
   extra: {
@@ -152,24 +179,26 @@ class AudioVideo extends React.PureComponent {
       children,
       audio,
       mirrored,
+      blurred,
       muted,
       conference,
       ...other
     } = this.props;
     delete other.stream;
 
-    const className = classNames(
+    const elementClassName = classNames(
       {
         [classes.mirrored]: mirrored,
         [classes.video]: !audio,
       },
-      classNameProp,
     );
 
+    let element;
+
     if (audio) {
-      return (
+      element = (
         <audio
-          className={className}
+          className={elementClassName}
           ref={this.handleElement.bind()}
           muted={muted}
           {...other}
@@ -188,10 +217,10 @@ class AudioVideo extends React.PureComponent {
         muted={muted}
       /> : null;
 
-      return (
+      element = (
         <React.Fragment>
           <video
-            className={className}
+            className={elementClassName}
             ref={this.handleElement.bind()}
             muted={extra ? true : muted}
             {...other}
@@ -202,15 +231,27 @@ class AudioVideo extends React.PureComponent {
         </React.Fragment>
       );
     }
+
+    return (
+      <div className={classNames(classes.root, {
+        [classes.blurred]: blurred,
+      },
+      classNameProp)}
+      >
+        {element}
+      </div>
+    );
   }
 }
 
 AudioVideo.defaultProps = {
   audio: false,
   mirrored: false,
+  blurred: false,
   children: null,
   stream: null,
 
+  muted: false,
   autoPlay: true,
   playsInline: true,
 };
@@ -221,6 +262,7 @@ AudioVideo.propTypes = {
 
   audio: PropTypes.bool,
   mirrored: PropTypes.bool,
+  blurred: PropTypes.bool,
   children: PropTypes.element,
   stream: PropTypes.object,
 
