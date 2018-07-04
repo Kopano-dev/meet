@@ -113,6 +113,8 @@ class CallGrid extends React.PureComponent {
       renderMode = 'call';
     }
 
+    const conference = remoteStreams.length > 1;
+
     return (
       <div className={className} {...other}>
         {renderIf(renderMode === 'videocall')(() => (
@@ -127,6 +129,7 @@ class CallGrid extends React.PureComponent {
                   muted={stream.muted}
                   mirrored={stream.mirrored}
                   stream={stream.stream}
+                  conference={conference}
                 >
                 </AudioVideo>
               </div>
@@ -141,6 +144,7 @@ class CallGrid extends React.PureComponent {
                 audio
                 muted={stream.muted}
                 stream={stream.stream}
+                conference={conference}
               >
               </AudioVideo>
             )}
@@ -165,7 +169,6 @@ class CallGrid extends React.PureComponent {
 }
 
 CallGrid.defaultProps = {
-  audio: false,
   localStream: null,
 
   maxVideoStreams: 20,
@@ -175,7 +178,6 @@ CallGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
-  audio: PropTypes.bool,
   mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
 
   localStream: PropTypes.object,

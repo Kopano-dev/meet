@@ -4,6 +4,25 @@ import classNames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
 
+const isMobileSafari = (userAgent = window.navigator.userAgent) => {
+  return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
+};
+
+const getBugs = () => {
+  const bugs = {};
+
+  if (isMobileSafari()) {
+    // NOTE(longsleep): Mobile Safari plays only a single video element on a page
+    // which is not muted. See https://bugs.webkit.org/show_bug.cgi?id=162366 and
+    // https://bugs.webkit.org/show_bug.cgi?id=186605 for reference.
+    Object.assign(bugs, {cannotPlayMoreThanOneUnmutedVideo: true});
+  }
+
+  console.debug('using audio/video bugs list', bugs); // eslint-disable-line no-console
+  return bugs;
+};
+export const bugs = getBugs();
+
 const styles = () => ({
   mirrored: {
     transform: 'scale(-1, 1)',
@@ -14,10 +33,14 @@ const styles = () => ({
       display: 'none',
     },
   },
+  extra: {
+    display: 'none',
+  },
 });
 
 class AudioVideo extends React.PureComponent {
   element = null;
+  extra = null;
 
   constructor(props) {
     super(props);
@@ -55,8 +78,14 @@ class AudioVideo extends React.PureComponent {
       // Add interesting event handlers.
       this.addStreamEvents(stream);
       this.element.srcObject = stream;
+      if (this.extra) {
+        this.extra.srcObject = stream;
+      }
     } else {
       this.element.src = '';
+      if (this.extra) {
+        this.extra.src = '';
+      }
     }
   }
 
@@ -74,8 +103,14 @@ class AudioVideo extends React.PureComponent {
     if (this.element) {
       const { stream } = this.props;
       this.element.src = '';
+      if (this.extra) {
+        this.extra.src = '';
+      }
       if (stream) {
         this.element.srcObject = stream;
+        if (this.extra) {
+          this.extra.srcObject = stream;
+        }
       }
     }
   }
@@ -102,6 +137,14 @@ class AudioVideo extends React.PureComponent {
     }
   }
 
+  handleExtra = (extra) => {
+    if (extra === this.extra) {
+      return;
+    }
+
+    this.extra = extra;
+  }
+
   render() {
     const {
       classes,
@@ -109,6 +152,8 @@ class AudioVideo extends React.PureComponent {
       children,
       audio,
       mirrored,
+      muted,
+      conference,
       ...other
     } = this.props;
     delete other.stream;
@@ -126,20 +171,35 @@ class AudioVideo extends React.PureComponent {
         <audio
           className={className}
           ref={this.handleElement.bind()}
+          muted={muted}
           {...other}
         >
           {children}
         </audio>
       );
     } else {
+      const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo && conference;
+
+      const extra = withExtra ? <audio
+        className={classes.extra}
+        ref={this.handleExtra.bind()}
+        autoPlay
+        playsInline
+        muted={muted}
+      /> : null;
+
       return (
-        <video
-          className={className}
-          ref={this.handleElement.bind()}
-          {...other}
-        >
-          {children}
-        </video>
+        <React.Fragment>
+          <video
+            className={className}
+            ref={this.handleElement.bind()}
+            muted={extra ? true : muted}
+            {...other}
+          >
+            {children}
+          </video>
+          {extra}
+        </React.Fragment>
       );
     }
   }
@@ -164,8 +224,11 @@ AudioVideo.propTypes = {
   children: PropTypes.element,
   stream: PropTypes.object,
 
+  muted: PropTypes.bool,
   autoPlay: PropTypes.bool,
   playsInline: PropTypes.bool,
+
+  conference: PropTypes.bool,
 };
 
 export default withStyles(styles)(AudioVideo);
