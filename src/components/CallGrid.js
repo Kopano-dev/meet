@@ -81,6 +81,7 @@ class CallGrid extends React.PureComponent {
       mode,
       localStream,
       remoteStreams,
+      maxVideoStreams,
 
       theme, // eslint-disable-line
       ...other
@@ -106,9 +107,15 @@ class CallGrid extends React.PureComponent {
       });
     }
 
+    let renderMode = mode;
+    if (remoteStreams.length > maxVideoStreams) {
+      // Force audio mode when too many streams.
+      renderMode = 'call';
+    }
+
     return (
       <div className={className} {...other}>
-        {renderIf(mode === 'videocall')(() => (
+        {renderIf(renderMode === 'videocall')(() => (
           <div className={classes.videocall}>
             {streams.map((stream) =>
               <div
@@ -126,7 +133,7 @@ class CallGrid extends React.PureComponent {
             )}
           </div>
         ))}
-        {renderIf(mode === 'call')(() => (
+        {renderIf(renderMode === 'call')(() => (
           <Grid className={classes.call} container alignItems="center" direction="row" justify="center">
             {streams.map((stream) =>
               <AudioVideo
@@ -142,7 +149,7 @@ class CallGrid extends React.PureComponent {
             </Grid>
           </Grid>
         ))}
-        {renderIf(mode === 'standby')(() => (
+        {renderIf(renderMode === 'standby')(() => (
           <Grid className={classes.standby} container alignItems="center" direction="row" justify="center">
             <Grid item>
               <Typography color="inherit" variant="headline">Suspended</Typography>
@@ -157,6 +164,13 @@ class CallGrid extends React.PureComponent {
   }
 }
 
+CallGrid.defaultProps = {
+  audio: false,
+  localStream: null,
+
+  maxVideoStreams: 20,
+};
+
 CallGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
@@ -166,6 +180,8 @@ CallGrid.propTypes = {
 
   localStream: PropTypes.object,
   remoteStreams: PropTypes.array.isRequired,
+
+  maxVideoStreams: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles, {withTheme: true})(CallGrid);
