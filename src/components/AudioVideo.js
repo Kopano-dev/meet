@@ -207,7 +207,7 @@ class AudioVideo extends React.PureComponent {
         </audio>
       );
     } else {
-      const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo && conference;
+      const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo && !muted && conference;
 
       const extra = withExtra ? <audio
         className={classes.extra}
