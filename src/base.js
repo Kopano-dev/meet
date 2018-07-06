@@ -1,4 +1,4 @@
-import { qualifyURL } from './utils';
+import { qualifyURL } from 'kpop/es/utils';
 
 // NOTE(longsleep): Meet is supposed to be run inside /meet. Currently it is not
 // possible to have it run inside another path. The basePath has no trailing slash.
