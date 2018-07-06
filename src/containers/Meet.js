@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import BaseContainer from 'kpop/es/BaseContainer';

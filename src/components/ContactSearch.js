@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { withStyles } from 'material-ui/styles';
-import SearchIcon from 'material-ui-icons/Search';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import { InputAdornment } from 'material-ui/Input';
-import TextField from 'material-ui/TextField';
-import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
-import Toolbar from 'material-ui/Toolbar';
-import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
+import { withStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 import Persona from 'kpop/es/Persona';
 

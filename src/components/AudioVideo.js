@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import CallIcon from 'material-ui-icons/Call';
-import Slide from 'material-ui/transitions/Slide';
-import Typography from 'material-ui/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import CallIcon from '@material-ui/icons/Call';
+import Slide from '@material-ui/core/Slide';
+import Typography from '@material-ui/core/Typography';
 
 import renderIf from 'render-if';
 

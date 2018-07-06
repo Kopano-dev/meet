@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
-import Typography from 'material-ui/Typography';
-import Tooltip from 'material-ui/Tooltip';
-import PublicConferenceIcon from 'material-ui-icons/Group';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import PublicConferenceIcon from '@material-ui/icons/Group';
 
 import Moment from 'react-moment';
 

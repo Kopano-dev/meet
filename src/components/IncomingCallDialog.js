@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Dialog, {
   DialogActions,
   DialogContent,
   DialogContentText,
-} from 'material-ui/Dialog';
+} from '@material-ui/core/Dialog';
 
 import ContactLabel from './ContactLabel';
 import { forceBase64URLEncoded } from '../utils';

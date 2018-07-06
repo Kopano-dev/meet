@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { withStyles } from 'material-ui/styles';
-import Card, { CardHeader, CardActions } from 'material-ui/Card';
-import Button from 'material-ui/Button';
-import Avatar from 'material-ui/Avatar';
-import PublicConferenceIcon from 'material-ui-icons/Group';
-import Chip from 'material-ui/Chip';
-import LinkIcon from 'material-ui-icons/Link';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import PublicConferenceIcon from '@material-ui/icons/Group';
+import Chip from '@material-ui/core/Chip';
+import LinkIcon from '@material-ui/icons/Link';
 
 import Persona from 'kpop/es/Persona';
 
