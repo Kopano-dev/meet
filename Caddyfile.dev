@@ -1,0 +1,39 @@
+# This assumes this project runs the webpack-dev-server on 127.0.0.1:3004 and
+# that Kopano API via kapid is running on 127.0.0.1:8039.
+
+0.0.0.0:8096 {
+    errors stderr
+    log stdout
+
+    tls self_signed
+
+    gzip
+
+    # Noop service-worker via webpack-dev-server
+    proxy /meet/service-worker.js 127.0.0.1:3004 {
+        without /meet
+    }
+    # Kopano Calendar web app development via webpack-dev-server
+    proxy /meet/ 127.0.0.1:3004 {
+        header_downstream Cache-Control "no-cache, max-age=0, public"
+        header_downstream Referrer-Policy origin
+        header_downstream Content-Security-Policy "object-src 'none'; script-src 'self' 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self';"
+    }
+    header /meet/service-worker.js {
+        Cache-Control "no-cache, no-store, must-revalidate"
+        Pragma "no-cache"
+        Expires "0"
+    }
+    proxy /sockjs-node/ 127.0.0.1:3004 {
+        websocket
+    }
+    proxy /static 127.0.0.1:3004
+
+    # fake api
+    rewrite /api/meet/v0/config /config.json
+
+    # Kopano API kapid
+    proxy /api/gc/v0 127.0.0.1:8039 {
+        transparent
+    }
+}
