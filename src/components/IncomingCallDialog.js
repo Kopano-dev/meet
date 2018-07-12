@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-} from '@material-ui/core/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import ContactLabel from './ContactLabel';
 import { forceBase64URLEncoded } from '../utils';
