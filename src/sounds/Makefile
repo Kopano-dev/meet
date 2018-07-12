@@ -25,3 +25,6 @@ sprite1.mp3: sprite1.sox.wav
 
 sprite1.ogg: sprite1.sox.wav
 	$(AVCONV) -y -i $< -aq 2 -acodec libvorbis $@
+
+clean:
+	@rm -rf sprite1.ogg sprite1.mp3 sprite1.wav sprite1.sox.wav sprite1.json
