@@ -4,6 +4,7 @@ import * as KWM from 'kwmjs';
 
 import * as types from './types';
 import * as sdputils from '../sdputils';
+import { forceBase64URLEncoded } from '../utils';
 
 console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no-console
 
@@ -194,6 +195,9 @@ function createKWMManager() {
         return;
       }
 
+      const { table } = getState().contacts;
+      const user = table[forceBase64URLEncoded(event.record.user)];
+      event.user = {displayName: user.displayName};
       dispatch(streamReceived(event));
     };
 
@@ -363,12 +367,13 @@ function abortAndHangupCall(event) {
 }
 
 function streamReceived(event) {
-  const { record, stream } = event;
+  const { record, stream, user } = event;
 
   return {
     type: types.KWM_STREAM_RECEIVED,
     record,
     stream,
+    user,
   };
 }
 

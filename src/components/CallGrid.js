@@ -132,6 +132,7 @@ class CallGrid extends React.PureComponent {
                   mirrored={stream.mirrored}
                   stream={stream.stream}
                   conference={conference}
+                  user={stream.user}
                 >
                 </AudioVideo>
               </div>
@@ -147,6 +148,7 @@ class CallGrid extends React.PureComponent {
                 muted={stream.muted}
                 stream={stream.stream}
                 conference={conference}
+                user={stream.user}
               >
               </AudioVideo>
             )}

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
@@ -62,6 +63,21 @@ const styles = () => ({
   },
   extra: {
     display: 'none',
+  },
+  overlayText: {
+    position: 'absolute',
+    width: '100%',
+    textAlign: 'center',
+    top: 24,
+    color: 'white',
+    zIndex: 10,
+    'text-shadow': '0px 2px 5px rgba(0, 0, 0, 0.2)',
+    font: {
+      size: 24,
+      family: 'Roboto',
+      lineHeight: 32,
+      style: 'Regular',
+    },
   },
 });
 
@@ -182,6 +198,7 @@ class AudioVideo extends React.PureComponent {
       blurred,
       muted,
       conference,
+      user,
       ...other
     } = this.props;
     delete other.stream;
@@ -219,6 +236,11 @@ class AudioVideo extends React.PureComponent {
 
       element = (
         <React.Fragment>
+          { user && 
+            <Typography variant="display1" className={classes.overlayText}>
+              { user.displayName }
+            </Typography>
+          }
           <video
             className={elementClassName}
             ref={this.handleElement.bind()}
@@ -271,6 +293,8 @@ AudioVideo.propTypes = {
   playsInline: PropTypes.bool,
 
   conference: PropTypes.bool,
+
+  user: PropTypes.object,
 };
 
 export default withStyles(styles)(AudioVideo);

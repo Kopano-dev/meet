@@ -35,6 +35,7 @@ function streamsReducer(state = defaultState, action) {
       const entry = Object.assign({}, state[action.record.user], {
         id: action.record.user,
         stream: action.stream,
+        user: action.user,
       });
       return Object.assign({}, state, {
         [action.record.user]: entry,
