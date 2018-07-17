@@ -66,18 +66,17 @@ const styles = () => ({
   },
   overlayText: {
     position: 'absolute',
-    width: '100%',
     textAlign: 'center',
+    maxWidth: '90%',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    left: 0,
+    right: 0,
+    margin: '0 auto',
     top: 24,
     color: 'white',
     zIndex: 10,
-    'text-shadow': '0px 2px 5px rgba(0, 0, 0, 0.2)',
-    font: {
-      size: 24,
-      family: 'Roboto',
-      lineHeight: 32,
-      style: 'Regular',
-    },
+    textShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
   },
 });
 
@@ -236,7 +235,7 @@ class AudioVideo extends React.PureComponent {
 
       element = (
         <React.Fragment>
-          { user && 
+          { user &&
             <Typography variant="display1" className={classes.overlayText}>
               { user.displayName }
             </Typography>
