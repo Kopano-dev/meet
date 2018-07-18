@@ -1,5 +1,5 @@
 {
-  "apiPrefix": "/api/gc/v0",
+  "apiPrefix": "/api/gc/v1",
   "oidc": {
     "iss": "",
     "clientID": "kopano-meet-web"

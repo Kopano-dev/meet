@@ -33,7 +33,7 @@
     rewrite /api/meet/v0/config /config.json
 
     # Kopano API kapid
-    proxy /api/gc/v0 127.0.0.1:8039 {
+    proxy /api/gc/ 127.0.0.1:8039 {
         transparent
     }
 }
