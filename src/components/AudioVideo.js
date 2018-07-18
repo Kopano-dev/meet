@@ -74,7 +74,7 @@ const styles = () => ({
     top: 24,
     color: 'white',
     zIndex: 10,
-    textShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+    textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
     userSelect: 'none',
   },
 });
