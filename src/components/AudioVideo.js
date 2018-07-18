@@ -38,9 +38,7 @@ const styles = () => ({
     '&::-webkit-media-controls': {
       display: 'none',
     },
-    backgroundImage: 'linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black)',
-    backgroundSize: '60px 60px',
-    backgroundPosition: '0 0, 30px 30px',
+    backgroundImage: 'linear-gradient(#C1C1C1, #272C2E 100%)',
     overflow: 'hidden',
   },
   mirrored: {
