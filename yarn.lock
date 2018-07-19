@@ -5331,9 +5331,9 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
-oidc-client@1.5.2-beta.2:
-  version "1.5.2-beta.2"
-  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.5.2-beta.2.tgz#29addb0566bbb04bc693f4056fafa373b7ed1d4c"
+oidc-client@1.5.2, oidc-client@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.5.2.tgz#d2ade71ea592aff77d4fb895d61d4a2f9cdcdc6b"
   dependencies:
     jsrsasign "^8.0.12"
   optionalDependencies:
