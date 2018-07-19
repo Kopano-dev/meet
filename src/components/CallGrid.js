@@ -40,7 +40,7 @@ const styles = theme => ({
   call: {
     flex: '1',
     justifyContent: 'center',
-    background: 'linear-gradient(#3EB4F3, #272C2E 100%)',
+    background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
   },
   standby: {

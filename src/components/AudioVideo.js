@@ -24,7 +24,7 @@ const getBugs = () => {
 };
 export const bugs = getBugs();
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     position: 'relative',
     overflow: 'hidden',
@@ -38,7 +38,7 @@ const styles = () => ({
     '&::-webkit-media-controls': {
       display: 'none',
     },
-    backgroundImage: 'linear-gradient(#C1C1C1, #272C2E 100%)',
+    backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     overflow: 'hidden',
   },
   mirrored: {

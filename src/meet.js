@@ -18,6 +18,7 @@ import registerServiceWorker from 'kpop/es/serviceWorker';
 import configureStore from './configureStore';
 import translations from './locales';
 import { registerGlobalDebugger } from './debug';
+import meetTheme from './theme';
 
 const { store } = configureStore();
 
@@ -51,9 +52,11 @@ const LoadableApp = Loadable({
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <IntlContainer onLocaleChanged={onLocaleChanged} messages={translations}>
-        <LoadableApp />
-      </IntlContainer>
+      <MuiThemeProvider theme={meetTheme}>
+        <IntlContainer onLocaleChanged={onLocaleChanged} messages={translations}>
+          <LoadableApp />
+        </IntlContainer>
+      </MuiThemeProvider>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
