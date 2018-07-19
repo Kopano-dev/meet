@@ -77,6 +77,7 @@ const styles = () => ({
     color: 'white',
     zIndex: 10,
     textShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+    userSelect: 'none',
   },
 });
 
