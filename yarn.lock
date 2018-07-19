@@ -6767,8 +6767,8 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     inherits "^2.0.1"
 
 rtcpeerconnection-shim@^1.2.10:
-  version "1.2.11"
-  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.11.tgz#df2b2456020365daf26bf8c135523bca2deb252b"
+  version "1.2.13"
+  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.13.tgz#326e316b06e8b96b40f7558c8f582b86dd2c1b46"
   dependencies:
     sdp "^2.6.0"
 
@@ -6831,8 +6831,8 @@ scroll@^2.0.3:
     rafl "~1.2.1"
 
 sdp@^2.6.0, sdp@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.7.0.tgz#02b64ea0c29d73179afa19794e466b123b1b29f3"
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.7.4.tgz#cac76b0e2f16f55243d25bc0432f6bbb5488bfc1"
 
 select-hose@^2.0.0:
   version "2.0.0"
@@ -7966,8 +7966,8 @@ webpack@3.8.1:
     yargs "^8.0.2"
 
 webrtc-adapter@^6.1.5:
-  version "6.1.5"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.1.5.tgz#df72e4af5cb6675656c896db0d1187695359220b"
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.3.0.tgz#21083775b30320b8f73f37d92396896bdfc18ad8"
   dependencies:
     rtcpeerconnection-shim "^1.2.10"
     sdp "^2.7.0"
