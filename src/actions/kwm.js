@@ -1,12 +1,12 @@
 import { setError } from 'kpop/es/common/actions';
 
-import * as KWM from 'kwmjs';
+import * as kwmjs from 'kwmjs';
 
 import * as types from './types';
 import * as sdputils from '../sdputils';
 import { forceBase64URLEncoded } from '../utils';
 
-console.info(`Kopano KWM js version: ${KWM.version}`); // eslint-disable-line no-console
+console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
 // Reference to the active KWM.
 let kwm = null;
@@ -88,8 +88,8 @@ function createKWMManager() {
     Object.assign(webrtcOptions, kwmConfig.webrtc.options);
     Object.assign(sdpParams, kwmConfig.sdpParams);
 
-    KWM.KWMInit.init({}); // Init with default options.
-    const k = new KWM(kwmConfig.url, options);
+    kwmjs.KWMInit.init({}); // Init with default options.
+    const k = new kwmjs.KWM(kwmConfig.url, options);
     k.webrtc.config = {
       ...kwmConfig.webrtc.config,
     };
