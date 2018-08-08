@@ -28,9 +28,6 @@ const kwmConfig = {
 // WebRTC options.
 const webrtcOptions = {
   answerConstraints: {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true,
-
     googCpuOveruseDetection: true,
     googCpuOveruseEncodeUsage: true,
     googCpuUnderuseThreshold: 55,
@@ -39,8 +36,8 @@ const webrtcOptions = {
     googPayloadPadding: true,
   },
   offerConstraints: {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true,
+    offerToReceiveAudio: 1,
+    offerToReceiveVideo: 1,
 
     googCpuOveruseDetection: true,
     googCpuOveruseEncodeUsage: true,
