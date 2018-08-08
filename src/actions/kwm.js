@@ -306,20 +306,22 @@ function destroyCall(event) {
 }
 
 function pcConnect(event) {
-  const { record } = event;
+  const { record, details: pc } = event;
 
   return {
     type: types.KWM_PC_CONNECT,
     record,
+    pc,
   };
 }
 
 function pcClosed(event) {
-  const { record } = event;
+  const { record, details: pc } = event;
 
   return {
     type: types.KWM_PC_CLOSED,
     record,
+    pc,
   };
 }
 
@@ -492,5 +494,58 @@ export function applyLocalStreamTracks(info) {
       }
     }
     return info;
+  };
+}
+
+export function getStatsForAllConnections() {
+  return async (dispatch, getState) => {
+    const { connections } = getState().kwm;
+
+    // Implement getStats according to https://www.w3.org/TR/webrtc-stats/#example-of-a-stats-application
+    const promises = [];
+    for (const id in connections) {
+      const senders = connections[id]._pc.getSenders();
+      const receivers = connections[id]._pc.getReceivers();
+      senders.forEach(sender => {
+        promises.push(sender.getStats());
+      });
+      receivers.forEach(receiver => {
+        promises.push(receiver.getStats());
+      });
+    }
+
+    if (promises.length === 0) {
+      return null;
+    }
+
+    const result = {
+      transportsBytesSend: 0,
+      transportsBytesReceived: 0,
+    };
+    const reports = await Promise.all(promises);
+    reports.forEach(report => {
+      for (let record of report.values()) {
+        //console.debug('xxx', record.type, record.bytesSent, record.bytesReceived, record);
+        switch (record.type) {
+          case 'outbound-rtp':
+            result.transportsBytesSend += record.bytesSent;
+            break;
+          case 'inbound-rtp':
+            result.transportsBytesReceived += record.bytesReceived;
+            break;
+          case 'candidate-pair':
+            break;
+          default:
+            continue;
+        }
+
+        if (!result.timestamp && record.timestamp) {
+          // NOTE(longsleep): We use only a single timestamp, probably a little off ..
+          result.timestamp = record.timestamp;
+        }
+      }
+    });
+
+    return result;
   };
 }

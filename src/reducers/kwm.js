@@ -10,6 +10,8 @@ import {
   KWM_CALL_INCOMING,
   KWM_CALL_OUTGOING,
   KWM_CALL_DESTROY,
+  KWM_PC_CONNECT,
+  KWM_PC_CLOSED,
 } from '../actions/types';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
@@ -26,6 +28,8 @@ const defaultState = {
   channel: null,
   calling: {},
   ringing: {},
+
+  connections: {},
 
   options,
 };
@@ -100,6 +104,23 @@ function kwmReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         ringing,
         calling,
+      });
+    }
+
+    case KWM_PC_CONNECT: {
+      const connections = Object.assign({}, state.connections, {
+        [action.pc._id]: action.pc,
+      });
+      return Object.assign({}, state, {
+        connections,
+      });
+    }
+
+    case KWM_PC_CLOSED: {
+      const connections = Object.assign({}, state.connections);
+      delete connections[action.pc._id];
+      return Object.assign({}, state, {
+        connections,
       });
     }
 

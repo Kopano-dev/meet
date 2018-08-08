@@ -60,6 +60,7 @@ import ContactSearch from './ContactSearch';
 import BackdropOverlay from './BackdropOverlay';
 import GroupControl from './GroupControl';
 import NewPublicGroup from './NewPublicGroup';
+import RTCStats from './RTCStats';
 import { Howling } from './howling';
 import { debounce, forceBase64StdEncoded, forceBase64URLEncoded } from '../utils';
 
@@ -153,6 +154,15 @@ const styles = theme => ({
         backgroundColor: red[700],
       },
     },
+  },
+  rtcStats: {
+    position: 'absolute',
+    left: theme.spacing.unit * 3,
+    bottom: 0,
+    fontSize: 10,
+    fontFamily: theme.typography.fontFamily,
+    color: 'white',
+    textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
   },
   call: {
     height: '40vh',
@@ -720,6 +730,7 @@ class CallView extends React.PureComponent {
           >
             <HangupIcon />
           </Button>
+          <RTCStats className={classes.rtcStats}/>
         </div>
       );
     } else {
