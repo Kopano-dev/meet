@@ -197,6 +197,7 @@ function createKWMManager() {
 
       const { table } = getState().contacts;
       const user = table[forceBase64URLEncoded(event.record.user)];
+      // TODO(longsleep): Add handling for the case where user is undefined / was not found.
       event.user = {displayName: user.displayName};
       dispatch(streamReceived(event));
     };
