@@ -171,6 +171,7 @@ function createKWMManager() {
           break;
 
         // Reduce logging.
+        case 'pc.new':
         case 'pc.iceStateChange':
         case 'pc.error':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
@@ -447,7 +448,7 @@ export function doReject(id, reason='reject') {
       id,
       reason,
     });
-    return kwm.webrtc.doHangup(id, reason);
+    return kwm.webrtc.doReject(id, reason);
   };
 }
 

@@ -4682,9 +4682,9 @@ klaw@^1.0.0:
     crc32 "^0.2.2"
     hsv-rgb "^1.0.0"
 
-"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.11.0.tgz":
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.12.0.tgz":
   version "0.11.0"
-  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.11.0.tgz#7a218d6d5a089a47e46236e85e3f6952b0e4b09a"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.12.0.tgz#5ecc387b0c99178791795b6ed326cbbfbb110258"
   dependencies:
     simple-peer "^9.0.0"
     url-search-params "^0.10.0"
