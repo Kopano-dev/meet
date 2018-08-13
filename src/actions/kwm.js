@@ -510,14 +510,21 @@ export function getStatsForAllConnections() {
     // Implement getStats according to https://www.w3.org/TR/webrtc-stats/#example-of-a-stats-application
     const promises = [];
     for (const id in connections) {
-      const senders = connections[id]._pc.getSenders();
-      const receivers = connections[id]._pc.getReceivers();
-      senders.forEach(sender => {
-        promises.push(sender.getStats());
-      });
-      receivers.forEach(receiver => {
-        promises.push(receiver.getStats());
-      });
+      const c = connections[id];
+      if (c._pc) {
+        try {
+          const senders = c._pc.getSenders();
+          const receivers = c._pc.getReceivers();
+          senders.forEach(sender => {
+            promises.push(sender.getStats());
+          });
+          receivers.forEach(receiver => {
+            promises.push(receiver.getStats());
+          });
+        } catch (err) {
+          console.warn('getStats failed', err); // eslint-disable-line no-console
+        }
+      }
     }
 
     if (promises.length === 0) {
@@ -531,7 +538,7 @@ export function getStatsForAllConnections() {
     const reports = await Promise.all(promises);
     reports.forEach(report => {
       for (let record of report.values()) {
-        //console.debug('xxx', record.type, record.bytesSent, record.bytesReceived, record);
+        //console.debug('getStats record', record.type, record.bytesSent, record.bytesReceived, record);
         switch (record.type) {
           case 'outbound-rtp':
             result.transportsBytesSend += record.bytesSent;
