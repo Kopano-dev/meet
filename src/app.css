@@ -13,7 +13,7 @@ body {
   background-image: url(../src/images/kopano-meet-icon.svg);
   background-repeat:no-repeat;
   background-position: center center;
-  background-size: auto 50%;
+  background-size: auto 30%;
 }
 
 #root, main {
