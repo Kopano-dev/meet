@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import BaseContainer from 'kpop/es/BaseContainer';
@@ -16,15 +15,9 @@ import soundSprite1Json from '../sounds/sprite1.json';
 
 import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
-import { connectToKWM } from '../actions/kwm';
+import { connectToKWM, disconnectFromKWM } from '../actions/kwm';
 import { initializeOffline } from '../actions/offline';
 import { initializeVisibility } from '../actions/visibility';
-
-const styles = () => ({
-  root: {
-    height: '100vh',
-  },
-});
 
 const routes = [
   {
@@ -112,8 +105,6 @@ class App extends PureComponent {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
-
   offline: PropTypes.bool.isRequired,
   updateAvailable: PropTypes.bool.isRequired,
   config: PropTypes.object,
@@ -135,4 +126,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(App));
+export default connect(mapStateToProps)(App);

@@ -75,7 +75,8 @@ console.info('Is touch device', isTouchDevice); // eslint-disable-line no-consol
 
 const styles = theme => ({
   root: {
-    height: '100vh',
+    flex: 1,
+    display: 'flex',
     position: 'relative',
   },
   rootWithHover: {
@@ -89,7 +90,7 @@ const styles = theme => ({
     },
   },
   container: {
-    height: '100vh',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },

@@ -18,14 +18,13 @@ const styles = theme => {
 
   return {
     root: {
-      height: '100vh',
-      overflow: 'hidden',
-    },
-    appFrame: {
       position: 'relative',
       display: 'flex',
-      width: '100%',
-      height: '100%',
+      flex: 1,
+    },
+    content: {
+      flex: 1,
+      display: 'flex',
     },
   };
 };
@@ -53,16 +52,14 @@ class Meetscreen extends React.PureComponent {
 
     return (
       <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <main
-            className={classes.content}
-          >
-            <Switch>
-              <Route path="/r/(call|conference|group)" component={CallView}/>
-              <Redirect to={start}/>
-            </Switch>
-          </main>
-        </div>
+        <main
+          className={classes.content}
+        >
+          <Switch>
+            <Route path="/r/(call|conference|group)" component={CallView}/>
+            <Redirect to={start}/>
+          </Switch>
+        </main>
       </div>
     );
   }
