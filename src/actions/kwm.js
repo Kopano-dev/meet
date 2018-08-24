@@ -71,6 +71,14 @@ export function connectToKWM() {
   };
 }
 
+export function disconnectFromKWM() {
+  return async () => {
+    if (kwm) {
+      await kwm.destroy();
+    }
+  };
+}
+
 function createKWMManager() {
   return async (dispatch, getState) => {
     const { config } = getState().common;

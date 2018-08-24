@@ -41,7 +41,7 @@ class App extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { initialized } = this.state;
-    const { offline, dispatch } = this.props;
+    const { offline, dispatch, user } = this.props;
 
     if (!initialized && offline !== prevProps.offline && !offline) {
       this.initialize().then(() => {
@@ -57,6 +57,11 @@ class App extends PureComponent {
           fatal: true,
         }));
       }) ;
+    }
+
+    if (!user && prevProps.user) {
+      // Lost the user.
+      this.uninitialize();
     }
   }
 
@@ -79,6 +84,15 @@ class App extends PureComponent {
         return dispatch(connectToKWM());
       }
     });
+  }
+
+  uninitialize = () => {
+    const { dispatch, user} = this.props;
+
+    dispatch(disconnectFromKWM());
+    if (!user) {
+      return dispatch(userRequiredError());
+    }
   }
 
   render() {
