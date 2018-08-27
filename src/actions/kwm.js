@@ -1,4 +1,4 @@
-import { setError } from 'kpop/es/common/actions';
+import { setError, userRequiredError } from 'kpop/es/common/actions';
 
 import * as kwmjs from 'kwmjs';
 
@@ -228,6 +228,14 @@ function error(event) {
         // NOTE(longsleep): This error is pretty useless as it does not return
         // enough information to know which call actually is meant here.
         console.warn('KMW error ignored', event.code, event); // eslint-disable-line no-console
+        return;
+      case 'http_error_403':
+        // NOTE(longsleep): For whatever reason we were not allowed to
+        // connect KWM. Do something useful instead of just bailing
+        // with the error since this can happen when the access token
+        // is expired (like after a device resume).
+        dispatch(doHangup());
+        await dispatch(userRequiredError());
         return;
       default:
     }
