@@ -1,8 +1,4 @@
 import {
-  KPOP_RECEIVE_USER,
-} from 'kpop/es/oidc/constants';
-
-import {
   KWM_STATE_CHANGED,
   KWM_CHANNEL_CHANGED,
   KWM_DO_CALL,
@@ -36,17 +32,6 @@ const defaultState = {
 
 function kwmReducer(state = defaultState, action) {
   switch (action.type) {
-    case KPOP_RECEIVE_USER:
-      if (action.user) {
-        // HACK(longsleep): Modify options directly, not replacing the refrence.
-        options.authorizationType = action.user.token_type;
-        options.authorizationValue = action.user.access_token;
-      } else {
-        options.authorizationType = '';
-        options.authorizationValue = '';
-      }
-      return state;
-
     case KWM_STATE_CHANGED:
       return Object.assign({}, state, {
         connecting: action.connecting,

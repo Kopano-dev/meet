@@ -17,7 +17,7 @@ import soundSprite1Json from '../sounds/sprite1.json';
 
 import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
-import { connectToKWM, disconnectFromKWM } from '../actions/kwm';
+import KWMProvider from '../components/KWMProvider';
 
 
 const routes = [
@@ -81,8 +81,6 @@ class App extends PureComponent {
     }).then((user) => {
       if (!user) {
         return dispatch(userRequiredError());
-      } else {
-        return dispatch(connectToKWM());
       }
     });
   }
@@ -90,7 +88,6 @@ class App extends PureComponent {
   uninitialize = () => {
     const { dispatch, user} = this.props;
 
-    dispatch(disconnectFromKWM());
     if (!user) {
       return dispatch(userRequiredError());
     }
@@ -106,6 +103,7 @@ class App extends PureComponent {
 
     return (
       <BaseContainer ready={ready} {...other}>
+        <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <Router basename={basePath}>
             <Switch>

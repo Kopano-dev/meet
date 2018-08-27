@@ -8,8 +8,12 @@ import { forceBase64URLEncoded } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
-// Reference to the active KWM.
+// Reference to the active KWM and options.
 let kwm = null;
+const kwmOptions = {
+  id: null,
+  options: {},
+};
 
 // KWM config.
 const kwmConfig = {
@@ -55,19 +59,40 @@ const sdpParams = {
   opusDtx: true,
 };
 
-export function connectToKWM() {
-  return async (dispatch, getState) => {
-    const { user } = getState().common;
-    const { options } = getState().kwm;
+export function setupKWM(id, {authorizationType, authorizationValue, autoConnect} = {}) {
+  return async (dispatch) => {
+    if (id !== kwmOptions.id) {
+      // Always disconnect when the user changed.
+      await dispatch(disconnectFromKWM());
+    }
 
-    if (user === null || !options.authorizationType) {
+    // Update KWM options by reference.
+    kwmOptions.id = id;
+    Object.assign(kwmOptions.options, {
+      authorizationType,
+      authorizationValue,
+    });
+
+    // Auto connect support when requested.
+    if (autoConnect && kwm === null) {
+      return dispatch(connectToKWM(id));
+    }
+  };
+}
+
+export function connectToKWM(id) {
+  return async (dispatch) => {
+    if (!id || kwmOptions.id !== id) {
+      throw new Error('invalid user set for KWM connect');
+    }
+    if (!kwmOptions.options.authorizationType) {
       throw new Error('no user or options set for KWM connect');
     }
     if (kwm === null) {
       kwm = await dispatch(createKWMManager());
     }
 
-    return kwm.connect(user.profile.sub);
+    return kwm.connect(id);
   };
 }
 
@@ -76,13 +101,15 @@ export function disconnectFromKWM() {
     if (kwm) {
       await kwm.destroy();
     }
+    kwmOptions.id = null;
+    delete kwmOptions.options.authorizationType;
+    delete kwmOptions.options.authorizationValue;
   };
 }
 
 function createKWMManager() {
   return async (dispatch, getState) => {
     const { config } = getState().common;
-    const { options } = getState().kwm;
 
     if (!config.kwm) {
       throw new Error('config is missing KWM configuration data');
@@ -94,7 +121,7 @@ function createKWMManager() {
     Object.assign(sdpParams, kwmConfig.sdpParams);
 
     kwmjs.KWMInit.init({}); // Init with default options.
-    const k = new kwmjs.KWM(kwmConfig.url, options);
+    const k = new kwmjs.KWM(kwmConfig.url, kwmOptions.options);
     k.webrtc.config = {
       ...kwmConfig.webrtc.config,
     };
@@ -182,6 +209,7 @@ function createKWMManager() {
         case 'pc.new':
         case 'pc.iceStateChange':
         case 'pc.error':
+        case 'hangup':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
           break;
 
@@ -288,22 +316,6 @@ function outgoingCall(event, doneHandler = null) {
     doneHandler,
   };
 }
-
-
-/*
-function incomingCallWithTimeout(event) {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      const t = setTimeout(reject, 5000);
-      dispatch(incomingCall(event, (...args) => {
-        clearTimeout(t);
-        resolve(...args);
-      }));
-    }).catch(() => {
-      console.log('timeout');
-    });
-  };
-}*/
 
 function newCall(event) {
   const { record } = event;
@@ -471,7 +483,9 @@ export function doReject(id, reason='reject') {
 export function setLocalStream(stream) {
   return async () => {
     console.info('KWM setting local stream', stream); // eslint-disable-line no-console
-    kwm.webrtc.setLocalStream(stream);
+    if (kwm) {
+      kwm.webrtc.setLocalStream(stream);
+    }
     return stream;
   };
 }
