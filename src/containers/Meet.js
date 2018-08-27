@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import BaseContainer from 'kpop/es/BaseContainer';
-import { fetchConfig } from 'kpop/es/config/actions';
-import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
+import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
 import { initialize as initializeOffline } from 'kpop/es/offline/actions';
 import { initialize as initializeVisibility } from 'kpop/es/visibility/actions';
@@ -52,11 +51,13 @@ class App extends PureComponent {
         });
       }).catch(err => {
         console.error('app initialization failed - this is fatal', err); // eslint-disable-line no-console
-        dispatch(setError({
-          detail: `${err}`,
-          message: 'Failed to establish connection',
-          fatal: true,
-        }));
+        if (!err.handled) {
+          dispatch(setError({
+            detail: `${err}`,
+            message: 'App start failed with error',
+            fatal: true,
+          }));
+        }
       }) ;
     }
 
@@ -69,20 +70,20 @@ class App extends PureComponent {
   initialize = () => {
     const { dispatch } = this.props;
 
-    return dispatch(fetchConfig('meet')).then(config => {
-      // Check if user was provided in configuration.
-      if (config.user) {
-        return dispatch(receiveUser(config.user)).then(() => {
-          return config.user;
-        });
-      } else {
-        return dispatch(fetchUser());
-      }
-    }).then((user) => {
-      if (!user) {
-        return dispatch(userRequiredError());
-      }
-    });
+    return dispatch(fetchConfigAndInitializeUser({
+      id: 'meet',
+      defaults: config => {
+        config.oidc = Object.assign({
+          scope: 'openid profile email kopano/gc kopano/kwm',
+        }, config.oidc);
+        config.kwm = Object.assign({
+          url: '', // If empty, current host is used.
+        }, config.kwm);
+        return config;
+      },
+      // TODO(longsleep): Also require kopano/kwm scope once implemented.
+      requiredScopes: ['openid', 'profile', 'email', 'kopano/gc'],
+    }));
   }
 
   uninitialize = () => {
