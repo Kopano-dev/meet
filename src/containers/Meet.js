@@ -7,6 +7,8 @@ import BaseContainer from 'kpop/es/BaseContainer';
 import { fetchConfig } from 'kpop/es/config/actions';
 import { fetchUser, receiveUser } from 'kpop/es/oidc/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
+import { initialize as initializeOffline } from 'kpop/es/offline/actions';
+import { initialize as initializeVisibility } from 'kpop/es/visibility/actions';
 
 import { HowlingProvider } from '../components/howling';
 import soundSprite1Ogg from '../sounds/sprite1.ogg';
@@ -16,8 +18,7 @@ import soundSprite1Json from '../sounds/sprite1.json';
 import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import { connectToKWM, disconnectFromKWM } from '../actions/kwm';
-import { initializeOffline } from '../actions/offline';
-import { initializeVisibility } from '../actions/visibility';
+
 
 const routes = [
   {

@@ -11,16 +11,16 @@ import {
 import {
   KPOP_SET_ERROR,
 } from 'kpop/es/common/constants';
-
+import {
+  KPOP_OFFLINE_ONLINE,
+  KPOP_OFFLINE_OFFLINE,
+} from 'kpop/es/offline/constants';
+import {
+  KPOP_VISIBILITY_CHANGE,
+} from 'kpop/es/visibility/constants';
 import {
   profileAsUserShape,
 } from 'kpop/es/oidc';
-
-import {
-  OFFLINE_ONLINE,
-  OFFLINE_OFFLINE,
-  VISIBILITY_CHANGE,
-} from '../actions/types';
 
 const defaultState = {
   updateAvailable: false,
@@ -60,13 +60,13 @@ function commonReducer(state = defaultState, action) {
         error: action.error,
       });
 
-    case OFFLINE_ONLINE:
-    case OFFLINE_OFFLINE:
+    case KPOP_OFFLINE_ONLINE:
+    case KPOP_OFFLINE_OFFLINE:
       return Object.assign({}, state, {
         offline: action.offline,
       });
 
-    case VISIBILITY_CHANGE:
+    case KPOP_VISIBILITY_CHANGE:
       return Object.assign({}, state, {
         hidden: action.hidden,
       });
