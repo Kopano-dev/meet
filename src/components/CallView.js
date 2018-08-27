@@ -24,8 +24,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AppsIcon from '@material-ui/icons/Apps';
+import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 
 import renderIf from 'render-if';
 
@@ -650,6 +652,7 @@ class CallView extends React.PureComponent {
       calling,
       localAudioVideoStreams,
       remoteStreams,
+      connected,
     } = this.props;
     const { mode, muteCam, muteMic, wasTouched, withChannel, openDialogs, openMenu } = this.state;
 
@@ -661,6 +664,7 @@ class CallView extends React.PureComponent {
     );
 
     let controls = [];
+    let icons = [];
     let menu = null;
     let dialogs = [];
 
@@ -719,6 +723,14 @@ class CallView extends React.PureComponent {
       </div>
     );
 
+    if (!connected) {
+      icons.unshift(
+        <Tooltip title="No connection - check your internet connection." key="offline-icon" >
+          <OfflineIcon color="error"/>
+        </Tooltip>
+      );
+    }
+
     if (channel) {
       controls.push(
         <div key='middle' className={controlsMiddleClassName}>
@@ -735,6 +747,7 @@ class CallView extends React.PureComponent {
         </div>
       );
     } else {
+
       menu = (
         <div className={classes.menu}>
           <div className={classes.modeBar}>
@@ -761,6 +774,7 @@ class CallView extends React.PureComponent {
                 position="static"
                 user={profile}
               >
+                {icons}
                 <IconButton disabled className={classes.searchButton}>
                   <SearchIcon/>
                 </IconButton>
