@@ -207,7 +207,7 @@ class ContactSearch extends React.PureComponent {
           </Toolbar>
         </Paper>
         <Toolbar className={classes.extraToolbar}>
-          <Button color="primary" disabled onClick={this.handleActionClick.bind(this, 'new-group')}>New Group</Button> <Button color="primary" onClick={this.handleActionClick.bind(this, 'new-public-group')}>Join Public Group</Button>
+          <Button color="primary" onClick={this.handleActionClick.bind(this, 'new-public-group')}>New Public Group</Button>
         </Toolbar>
         <Divider/>
         <div className={classes.contacts}>
