@@ -4714,9 +4714,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-0.8.1.tgz":
-  version "0.8.1"
-  resolved "https://download.kopano.io/community/kapp:/kpop-0.8.1.tgz#0c8fb48097c5d87de57a15f6ace2691734bb9970"
+"kpop@https://download.kopano.io/community/kapp:/kpop-0.9.1.tgz":
+  version "0.9.1"
+  resolved "https://download.kopano.io/community/kapp:/kpop-0.9.1.tgz#72a50dac7590c201ddcee318441948bef846a53b"
   dependencies:
     crc32 "^0.2.2"
     hsv-rgb "^1.0.0"
@@ -6369,10 +6369,6 @@ react-scripts@1.1.1:
     whatwg-fetch "2.0.3"
   optionalDependencies:
     fsevents "^1.1.3"
-
-react-thunk@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-thunk/-/react-thunk-1.0.0.tgz#79813d47f31147e81aee841ed5e76a9e3eabc8b1"
 
 react-transition-group@^2.2.1:
   version "2.3.1"
