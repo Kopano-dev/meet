@@ -26,6 +26,7 @@ const defaultState = {
   updateAvailable: false,
   config: null,
   user: null,
+  profile: {},
   error: null,
 
   offline: true,
