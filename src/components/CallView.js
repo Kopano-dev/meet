@@ -20,13 +20,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AppsIcon from '@material-ui/icons/Apps';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 
 import renderIf from 'render-if';
@@ -34,6 +34,8 @@ import renderIf from 'render-if';
 import { setError } from 'kpop/es/common/actions';
 import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
+import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
+import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
 import { addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
@@ -247,8 +249,10 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: 300,
+    height: 'auto',
     position: 'absolute',
     top: 58,
+    bottom: 0,
     zIndex: theme.zIndex.appBar - 1,
     paddingTop: 10,
   },
@@ -723,6 +727,12 @@ class CallView extends React.PureComponent {
       </div>
     );
 
+    icons.push(
+      <Hidden smDown key='kopano-apps'>
+        <AppsSwitcherButton/>
+      </Hidden>
+    );
+
     if (!connected) {
       icons.unshift(
         <Tooltip title="No connection - check your internet connection." key="offline-icon" >
@@ -825,12 +835,9 @@ class CallView extends React.PureComponent {
                     </ListItemIcon>
                     <ListItemText primary="Settings" />
                   </ListItem>
-                  <ListItem button disabled>
-                    <ListItemIcon>
-                      <AppsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Kopano Apps" />
-                  </ListItem>
+                  <Hidden mdUp>
+                    <AppsSwitcherListItem/>
+                  </Hidden>
                 </List>
               </Drawer>
               <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
