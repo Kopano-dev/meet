@@ -5,4 +5,5 @@ sounds:
 	@$(MAKE) -C sounds
 
 .PHONY: clean
+clean:
 	@$(MAKE) -C sounds clean
