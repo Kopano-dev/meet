@@ -1,10 +1,10 @@
 import { setError, userRequiredError } from 'kpop/es/common/actions';
+import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 import * as kwmjs from 'kwmjs';
 
 import * as types from './types';
 import * as sdputils from '../sdputils';
-import { forceBase64URLEncoded } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 

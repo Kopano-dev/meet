@@ -9,8 +9,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+import { forceBase64URLEncoded } from 'kpop/es/utils';
+
 import ContactLabel from './ContactLabel';
-import { forceBase64URLEncoded } from '../utils';
 
 const styles = () => ({
 });

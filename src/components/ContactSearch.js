@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
 import Persona from 'kpop/es/Persona';
+import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 import * as lunr from 'lunr';
 

@@ -36,6 +36,7 @@ import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
+import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
 
 import { fetchContacts, addContacts } from '../actions/contacts';
 import { addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
@@ -66,7 +67,7 @@ import GroupControl from './GroupControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 import { Howling } from './howling';
-import { debounce, forceBase64StdEncoded, forceBase64URLEncoded } from '../utils';
+import { debounce } from '../utils';
 
 
 // NOTE(longsleep): Poor mans check if on mobile.
