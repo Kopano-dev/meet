@@ -21,7 +21,7 @@ import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 import * as lunr from 'lunr';
 
-import { forceBase64URLEncoded } from '../utils';
+import { getOwnGrapiUserEntryID } from '../selectors';
 
 const styles = theme => ({
   root: {
@@ -239,17 +239,14 @@ ContactSearch.propTypes = {
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts } = state.contacts;
-  const { user } = state.common;
 
-  // XXX(longsleep): Remove Base64 conversion once konnectd is
-  // updated to use URL-safe ids. User.profile.sub comes from OIDC which is
-  // using Base64 Standard encoding while contacts come from the API which
-  // use URL encoding.
-  const subURLSafe = forceBase64URLEncoded(user.profile.sub);
+  // getOwnGrapiUserEntryID comes from OIDC which is using Base64 Standard
+  // encoding while contacts come from the API which use URL encoding.
+  const id = forceBase64URLEncoded(getOwnGrapiUserEntryID(state.grapi));
 
   // Filter self from contacts.
   const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
-    const res = contact.id !== subURLSafe;
+    const res = contact.id !== id;
     return res;
   });
 

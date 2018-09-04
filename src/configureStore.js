@@ -4,6 +4,8 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import localForage from "localforage";
 
+import grapiReducer from 'kpop/es/grapi/reducer';
+
 import reducers from './reducers';
 
 export default () => {
@@ -24,6 +26,8 @@ export default () => {
     combineReducers({
       ...reducers,
       recents: persistReducer(recentsPersistConfig, reducers.recents),
+
+      grapi: grapiReducer,
     }),
     composeEnhancers(applyMiddleware(
       thunkMiddleware,
