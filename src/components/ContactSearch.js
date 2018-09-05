@@ -242,7 +242,7 @@ const mapStateToProps = state => {
 
   // getOwnGrapiUserEntryID comes from OIDC which is using Base64 Standard
   // encoding while contacts come from the API which use URL encoding.
-  const id = forceBase64URLEncoded(getOwnGrapiUserEntryID(state.grapi));
+  const  id = forceBase64URLEncoded(getOwnGrapiUserEntryID(state));
 
   // Filter self from contacts.
   const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
