@@ -414,7 +414,7 @@ class CallView extends React.PureComponent {
       // updated to use URL-safe ids which is required since contact IDs come
       // from the REST API which is Base64 encoded while konnect requires the
       // IDs in Standard encoding.
-      doCall(forceBase64StdEncoded(id));
+      return doCall(forceBase64StdEncoded(id));
     });
   };
 
@@ -904,8 +904,9 @@ class CallView extends React.PureComponent {
       >
         <ContactSearch
           onContactClick={(id) => {
-            this.openDialog({newCall: false});
-            this.handleContactClick(id);
+            if (this.handleContactClick(id)) {
+              this.openDialog({newCall: false});
+            }
           }}
           onActionClick={(action) => {
             this.handleDialogActionClick(action);

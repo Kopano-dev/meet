@@ -17,6 +17,7 @@ import soundSprite1Json from '../sounds/sprite1.json';
 import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
+import Snacks from '../components/Snacks';
 
 
 const routes = [
@@ -96,14 +97,16 @@ class App extends PureComponent {
 
   render() {
     const { initialized } = this.state;
-    const { config, user, ...other } = this.props;
+    const { config, user, error, ...other } = this.props;
     const ready = config && user && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
     const soundSprite = soundSprite1Json;
 
+    const snack = error ? {variant: 'error', ...error} : null;
+
     return (
-      <BaseContainer ready={ready} {...other}>
+      <BaseContainer ready={ready} error={error} {...other}>
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <Router basename={basePath}>
@@ -113,6 +116,7 @@ class App extends PureComponent {
             </Switch>
           </Router>
         </HowlingProvider>
+        <Snacks snack={snack} />
       </BaseContainer>
     );
   }

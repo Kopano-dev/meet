@@ -1,4 +1,4 @@
-import { setError, userRequiredError } from 'kpop/es/common/actions';
+import { setError } from 'kpop/es/common/actions';
 import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 import * as kwmjs from 'kwmjs';
@@ -77,6 +77,17 @@ export function setupKWM(id, {authorizationType, authorizationValue, autoConnect
     if (autoConnect && kwm === null) {
       return dispatch(connectToKWM(id));
     }
+
+    return kwm;
+  };
+}
+
+export function destroyKWM() {
+  return async (dispatch) => {
+    if (kwm) {
+      await dispatch(disconnectFromKWM());
+      kwm = null;
+    }
   };
 }
 
@@ -92,7 +103,8 @@ export function connectToKWM(id) {
       kwm = await dispatch(createKWMManager());
     }
 
-    return kwm.connect(id);
+    await kwm.connect(id);
+    return kwm;
   };
 }
 
@@ -263,7 +275,7 @@ function error(event) {
         // with the error since this can happen when the access token
         // is expired (like after a device resume).
         dispatch(doHangup());
-        await dispatch(userRequiredError());
+        //await dispatch(userRequiredError());
         return;
       default:
     }
@@ -412,8 +424,26 @@ function streamReceived(event) {
   };
 }
 
+function setNonFatalError(text, err) {
+  if (err) {
+    // TODO(longsleep): Pure man error conversion follows. This needs real
+    // messages for the known errors and translation.
+    text += ' - ' + (''+err).replace('_', ' ');
+  }
+
+  return async dispatch => {
+    await dispatch(setError({
+      message: text,
+      fatal: false,
+    }));
+  };
+}
+
 export function doCall(id) {
   return async dispatch => {
+    if (!kwm || !kwm.webrtc) {
+      throw new Error('no kwm');
+    }
     await dispatch({
       type: types.KWM_DO_CALL,
       id,
@@ -422,6 +452,14 @@ export function doCall(id) {
       console.info('KWM channel create', channel); // eslint-disable-line no-console
       dispatch(channelChanged(channel));
       return channel;
+    }).catch(err => {
+      dispatch({
+        type: types.KWM_CLEAR_CALLING,
+        id,
+      });
+      dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
+      console.error('KWM doCall failed', err);  // eslint-disable-line no-console
+      dispatch(setNonFatalError('Unable to call', err));
     });
   };
 }
@@ -434,15 +472,26 @@ export function doHangup(id='', reason) {
       id,
       reason,
     });
+    if (!kwm || !kwm.webrtc) {
+      return;
+    }
     return kwm.webrtc.doHangup(id, reason).then(channel => {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
       dispatch(channelChanged(null));
+    }).catch(err => {
+      dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
+      console.error('KWM doHangup failed', err);  // eslint-disable-line no-console
+      // FIXME(longsleep): Only hang up locally is probably not ideal - maybe
+      // an error message should be shown?
     });
   };
 }
 
 export function doGroup(id) {
   return async dispatch => {
+    if (!kwm || !kwm.webrtc) {
+      throw new Error('no kwm');
+    }
     await dispatch({
       type: types.KWM_DO_GROUP,
       id,
@@ -451,12 +500,18 @@ export function doGroup(id) {
       console.info('KWM group channel create', channel); // eslint-disable-line no-console
       dispatch(channelChanged(channel));
       return channel;
+    }).catch(err => {
+      console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
+      dispatch(setNonFatalError('Unable to join', err));
     });
   };
 }
 
 export function doAccept(id) {
   return async dispatch => {
+    if (!kwm || !kwm.webrtc) {
+      throw new Error('no kwm');
+    }
     await dispatch({
       type: types.KWM_DO_ACCEPT,
       id,
@@ -465,25 +520,36 @@ export function doAccept(id) {
       console.info('KWM channel create', channel); // eslint-disable-line no-console
       dispatch(channelChanged(channel));
       return channel;
+    }).catch(err => {
+      console.error('KWM doAccept failed', err);  // eslint-disable-line no-console
+      dispatch(setNonFatalError('Unable to accept call', err));
     });
   };
 }
 
 export function doReject(id, reason='reject') {
   return async dispatch => {
+    if (!kwm || !kwm.webrtc) {
+      throw new Error('no kwm');
+    }
     await dispatch({
       type: types.KWM_DO_REJECT,
       id,
       reason,
     });
-    return kwm.webrtc.doReject(id, reason);
+    return kwm.webrtc.doReject(id, reason).catch(err => {
+      console.error('KWM doReject failed', err);  // eslint-disable-line no-console
+      dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
+      // FIXME(longsleep): Only hang up locally is probably not ideal - maybe
+      // an error message should be shown?
+    });
   };
 }
 
 export function setLocalStream(stream) {
   return async () => {
     console.info('KWM setting local stream', stream); // eslint-disable-line no-console
-    if (kwm) {
+    if (kwm && kwm.webrtc) {
       kwm.webrtc.setLocalStream(stream);
     }
     return stream;
@@ -493,7 +559,7 @@ export function setLocalStream(stream) {
 export function unsetLocalStream() {
   return async () => {
     console.info('KWM unsetting local stream'); // eslint-disable-line no-console
-    if (kwm) {
+    if (kwm && kwm.webrtc) {
       kwm.webrtc.setLocalStream(); // clears.
     }
   };
@@ -505,7 +571,7 @@ export function updateOfferAnswerConstraints(options) {
     Object.assign(webrtcOptions.answerConstraints, options);
     Object.assign(webrtcOptions.offerConstraints, options);
 
-    if (kwm) {
+    if (kwm && kwm.webrtc) {
       Object.assign(kwm.webrtc.options, webrtcOptions);
     }
   };
@@ -518,7 +584,7 @@ export function applyLocalStreamTracks(info) {
     }
 
     console.info('KWM updating local stream tracks', info); // eslint-disable-line no-console
-    if (kwm) {
+    if (kwm && kwm.webrtc) {
       if (info.newStream) {
         return dispatch(setLocalStream(info.newStream));
       }

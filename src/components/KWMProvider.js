@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setupKWM } from '../actions/kwm';
+import debounce from 'kpop/es/utils/debounce';
+
+import { setupKWM, destroyKWM } from '../actions/kwm';
 import { getOwnGrapiUserEntryID } from '../selectors';
 
 class KWMProvider extends React.PureComponent {
+  reconnector: null;
+  destroyed: false;
+  kwm: null;
+
   state = {
     id: null,
     authorizationType: null,
@@ -43,10 +49,7 @@ class KWMProvider extends React.PureComponent {
   }
 
   componentDidMount() {
-    let { id,  authorizationType, authorizationValue } = this.state;
-
-    // Trigger kwm connection.
-    this.kwm(id, {authorizationType, authorizationValue});
+    this.connect();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -60,21 +63,69 @@ class KWMProvider extends React.PureComponent {
     }
 
     // Trigger kwm connection.
-    this.kwm(id, {authorizationType, authorizationValue});
+    this.connect();
+  }
+
+  componentWillUnmount() {
+    this.destroy();
   }
 
   render() {
     return null;
   }
 
-  kwm = async (id, options) => {
+  connect = async () => {
     const { dispatch } = this.props;
-    // Set credentials and and ask to automatically connect.
-    await dispatch(setupKWM(id, {autoConnect: true, ...options}));
+    let { id,  authorizationType, authorizationValue } = this.state;
+
+    if (this.reconnector) {
+      this.reconnector.cancel();
+      this.reconnector = null;
+    }
+
+    // Trigger kwm connection.
+    const kwm = await dispatch(setupKWM(id, {authorizationType, authorizationValue, autoConnect: true})).then(kwm => {
+      if (this.destroyed) {
+        // Disconnect.
+        kwm.destroy();
+        return null;
+      }
+      if (this.reconnector) {
+        this.reconnector.cancel();
+        this.reconnector = null;
+      }
+
+      return kwm;
+    }).catch(err => {
+      if (this.destroyed) {
+        return null;
+      }
+      if (this.reconnector) {
+        this.reconnector.cancel();
+        this.reconnector = null;
+      }
+      this.reconnector = debounce(this.connect, 5000)();
+      return null;
+    });
+
+    this.kwm = kwm;
+  }
+
+  destroy = () => {
+    const { dispatch } = this.props;
+
+    this.destroyed = true;
+    if (this.reconnector) {
+      this.reconnector.cancel();
+    }
+
+    return dispatch(destroyKWM());
   }
 }
 
 KWMProvider.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+
   user: PropTypes.object,
   grapiID: PropTypes.string,
 };

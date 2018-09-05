@@ -8,6 +8,7 @@ import {
   KWM_CALL_DESTROY,
   KWM_PC_CONNECT,
   KWM_PC_CLOSED,
+  KWM_CLEAR_CALLING,
 } from '../actions/types';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
@@ -106,6 +107,14 @@ function kwmReducer(state = defaultState, action) {
       delete connections[action.pc._id];
       return Object.assign({}, state, {
         connections,
+      });
+    }
+
+    case KWM_CLEAR_CALLING: {
+      const calling = Object.assign({}, state.calling);
+      delete calling[action.id];
+      return Object.assign({}, state, {
+        calling,
       });
     }
 
