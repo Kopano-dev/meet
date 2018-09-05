@@ -53,6 +53,7 @@ import {
 } from '../actions/kwm';
 import {
   requestUserMedia,
+  stopUserMedia,
   muteVideoStream,
   muteAudioStream,
   globalSettings as gUMSettings,
@@ -260,6 +261,7 @@ const styles = theme => ({
 });
 
 class CallView extends React.PureComponent {
+  rum = null;
   localStreamID = 'callview-main';
 
   constructor(props) {
@@ -353,6 +355,15 @@ class CallView extends React.PureComponent {
         withChannel: false,
       });
     }
+  }
+
+  componentWillUnmount() {
+    const { doHangup } = this.props;
+
+    this.closeAllOpenDialogs();
+    doHangup();
+
+    this.stopUserMedia();
   }
 
   handleCallGridClick = () => {
@@ -596,6 +607,11 @@ class CallView extends React.PureComponent {
       setError,
     } = this.props;
 
+    if (this.rum) {
+      this.rum.cancel();
+      this.rum = null;
+    }
+
     let video = false;
     let audio = false;
     switch (mode) {
@@ -617,7 +633,12 @@ class CallView extends React.PureComponent {
       audio = audio && !muteMic;
     }
 
-    return requestUserMedia(this.localStreamID, video, audio).catch(err => {
+    // Request user media with reference to allow cancel.
+    const rum = debounce(requestUserMedia, 500)(this.localStreamID, video, audio);
+    this.rum = rum;
+
+    // Response actions.
+    return rum.catch(err => {
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
@@ -647,6 +668,17 @@ class CallView extends React.PureComponent {
       return stream;
     });
   };
+
+  stopUserMedia = () => {
+    const { stopUserMedia } = this.props;
+
+    if (this.rum) {
+      this.rum.cancel();
+      this.rum = null;
+    }
+
+    stopUserMedia(this.localStreamID);
+  }
 
   render() {
     const {
@@ -938,6 +970,7 @@ CallView.propTypes = {
 
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
+  stopUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
@@ -984,9 +1017,12 @@ const mapDispatchToProps = (dispatch) => {
       const contacts = await dispatch(fetchContacts());
       await dispatch(addContacts(contacts.value));
     },
-    requestUserMedia: debounce((id='', video=true, audio=true) => {
+    requestUserMedia: (id='', video=true, audio=true) => {
       return dispatch(requestUserMedia(id, video, audio));
-    }, 500),
+    },
+    stopUserMedia: (id='') => {
+      return dispatch(stopUserMedia(id));
+    },
     doCall: (id) => {
       return dispatch(doCall(id));
     },
