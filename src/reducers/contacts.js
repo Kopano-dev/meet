@@ -1,10 +1,14 @@
 import {
-  ADD_CONTACTS,
+  CONTACTS_FETCH,
+  CONTACTS_ADD,
+  CONTACTS_ERROR,
 } from '../actions/types';
 
 const defaultState = {
   sorted: [],
   table: {},
+  loading: true,
+  error: null,
 };
 
 const sortable = (a) => {
@@ -20,7 +24,13 @@ const sorter = (a, b) => {
 
 function contactsReducer(state = defaultState, action) {
   switch (action.type) {
-    case ADD_CONTACTS: {
+    case CONTACTS_FETCH:
+      return Object.assign({}, state, {
+        loading: action.loading,
+        error: false,
+      });
+
+    case CONTACTS_ADD: {
       const sorted = [...action.contacts];
       sorted.sort(sorter);
       const table = sorted.reduce((map, contact) => {
@@ -33,6 +43,12 @@ function contactsReducer(state = defaultState, action) {
         table,
       });
     }
+
+    case CONTACTS_ERROR:
+      return Object.assign({}, state, {
+        error: action.error ? action.error : new Error('unknown contacts error'),
+        loading: false,
+      });
 
     default:
       return state;

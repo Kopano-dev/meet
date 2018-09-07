@@ -39,7 +39,7 @@ import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
 import debounce from 'kpop/es/utils/debounce';
 
-import { fetchContacts, addContacts } from '../actions/contacts';
+import { fetchAndAddContacts } from '../actions/contacts';
 import { addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
 import {
   setLocalStream,
@@ -1015,8 +1015,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchContacts: async () => {
-      const contacts = await dispatch(fetchContacts());
-      await dispatch(addContacts(contacts.value));
+      return dispatch(fetchAndAddContacts());
     },
     requestUserMedia: (id='', video=true, audio=true) => {
       return dispatch(requestUserMedia(id, video, audio));

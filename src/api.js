@@ -12,7 +12,10 @@ export function fetchUsers() {
       config.apiPrefix + '/users?$top=1000', {
         method: 'GET',
         headers: getHeadersFromConfig(config, user),
-      }
+      },
+      200,
+      true,
+      false,
     ));
   };
 }
