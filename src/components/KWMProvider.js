@@ -96,7 +96,7 @@ class KWMProvider extends React.PureComponent {
       }
 
       return kwm;
-    }).catch(err => {
+    }).catch(err => { // eslint-disable-line no-unused-vars
       if (this.destroyed) {
         return null;
       }
