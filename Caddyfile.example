@@ -27,6 +27,10 @@
 		Pragma "no-cache"
 		Expires "0"
 	}
+	# Caching for static assets.
+	header /build/static {
+		Cache-Control "max-age=86400"
+	}
 
 	# fake api
 	rewrite /api/config/v1/kopano/meet/config.json /config.json
