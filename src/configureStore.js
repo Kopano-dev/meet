@@ -5,6 +5,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import localForage from "localforage";
 
 import grapiReducer from 'kpop/es/grapi/reducer';
+import pwaReducer from 'kpop/es/pwa/reducer';
 
 import reducers from './reducers';
 
@@ -28,6 +29,7 @@ export default () => {
       recents: persistReducer(recentsPersistConfig, reducers.recents),
 
       grapi: grapiReducer,
+      pwa: pwaReducer,
     }),
     composeEnhancers(applyMiddleware(
       thunkMiddleware,

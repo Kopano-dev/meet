@@ -125,6 +125,7 @@ class App extends PureComponent {
 App.propTypes = {
   offline: PropTypes.bool.isRequired,
   updateAvailable: PropTypes.bool.isRequired,
+  a2HsAvailable: PropTypes.bool.isRequired,
   config: PropTypes.object,
   user: PropTypes.object,
   error: PropTypes.object,
@@ -134,10 +135,12 @@ App.propTypes = {
 
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error } = state.common;
+  const { available: a2HsAvailable } = state.pwa.a2hs;
 
   return {
     offline,
     updateAvailable,
+    a2HsAvailable,
     config,
     user,
     error,
