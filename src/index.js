@@ -1,4 +1,5 @@
-import 'kpop/es/styles/kpop';
+import 'kpop/static/css/base.css';
+import 'kpop/static/css/scrollbar.css';
 import 'typeface-roboto';
 import './app.css';
 import './kpop-shame.css';
