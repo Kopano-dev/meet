@@ -28,7 +28,7 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo 'Building..'
-				sh 'make'
+				sh 'CI=false make'
 			}
 		}
 		stage('Test') {
