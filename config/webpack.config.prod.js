@@ -476,6 +476,7 @@ module.exports = {
     // the HTML & assets that are part of the Webpack build.
     new WorkboxWebpackPlugin.GenerateSW({
       clientsClaim: true,
+      skipWaiting: true,
       exclude: [/\.map$/, /asset-manifest\.json$/],
       importWorkboxFrom: shouldUseWorkboxFromLocal ? 'local' : 'cdn',
       navigateFallback: publicUrl + '/index.html',
