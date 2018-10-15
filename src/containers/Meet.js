@@ -106,7 +106,7 @@ class App extends PureComponent {
     const snack = error ? {variant: 'error', ...error} : null;
 
     return (
-      <BaseContainer ready={ready} error={error} {...other}>
+      <BaseContainer ready={ready} error={error} config={config} {...other}>
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <Router basename={basePath}>
