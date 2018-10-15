@@ -812,7 +812,7 @@ class CallView extends React.PureComponent {
             <div className={classes.menuContainer}>
               <TopBar
                 className={classes.appBar}
-                title="Meetings"
+                title="Meet"
                 onAnchorClick={this.handleMenuAnchorClick}
                 position="static"
                 user={profile}
