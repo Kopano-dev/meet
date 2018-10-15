@@ -37,6 +37,7 @@ import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
+import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 
 import { fetchAndAddContacts } from '../actions/contacts';
@@ -813,6 +814,7 @@ class CallView extends React.PureComponent {
               <TopBar
                 className={classes.appBar}
                 title="Meet"
+                appLogo={<KopanoMeetIcon alt="Kopano"/>}
                 onAnchorClick={this.handleMenuAnchorClick}
                 position="static"
                 user={profile}
