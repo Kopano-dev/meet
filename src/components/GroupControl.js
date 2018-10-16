@@ -5,8 +5,11 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import PublicConferenceIcon from '@material-ui/icons/Group';
@@ -30,7 +33,15 @@ const styles = (theme) => ({
     flex: 1,
   },
   card: {
-    marginBottom: theme.spacing.unit * 2,
+  },
+  actions: {
+    flex: 1,
+  },
+  close: {
+    marginLeft: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: -8,
+    },
   },
 });
 
@@ -85,38 +96,40 @@ class GroupControl extends React.PureComponent {
     return (
       <div className={className}>
         <div className={classes.base}>
-          <Card className={classes.card}>
-            <CardHeader
-              avatar={
-                <Persona
-                  user={mapGroupEntryToUserShape(group)}
-                  forceIcon
-                  icon={<PublicConferenceIcon/>}
-                  aria-label={group.scope}
-                  className={classes.avatar} />
-              }
-              title={group.id}
-              subheader={group.scope}
-            />
-            <CardActions>
+          <List disablePadding>
+            <ListItem>
+              <Persona
+                user={mapGroupEntryToUserShape(group)}
+                forceIcon
+                icon={<PublicConferenceIcon/>}
+                aria-label={group.scope}
+                className={classes.avatar} />
+              <ListItemText primary={group.id} secondary={group.scope} />
+            </ListItem>
+          </List>
+          <Card elevation={0} className={classes.card}>
+            <CardContent>
+              <Chip
+                className={classes.chip}
+                avatar={<Avatar><LinkIcon/></Avatar>}
+                label={`Share ${group.scope}`}
+                onClick={this.handleCopyLinkClick}
+              />
+            </CardContent>
+            <CardActions className={classes.actions}>
               <Button
                 size="small"
                 color="primary"
                 onClick={this.handleEntryClick}
-              >Join</Button>
+              >Call</Button>
               <Button
                 size="small"
                 color="primary"
+                className={classes.close}
                 onClick={this.handleCloseClick}
               >Close</Button>
             </CardActions>
           </Card>
-          <Chip
-            className={classes.chip}
-            avatar={<Avatar><LinkIcon/></Avatar>}
-            label={`Copy link of this ${group.scope}`}
-            onClick={this.handleCopyLinkClick}
-          />
         </div>
       </div>
     );
