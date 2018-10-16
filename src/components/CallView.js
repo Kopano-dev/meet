@@ -18,7 +18,6 @@ import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
@@ -27,6 +26,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 
 import renderIf from 'render-if';
@@ -840,7 +840,7 @@ class CallView extends React.PureComponent {
                       color="primary"
                       onClick={this.handleFabClick}
                     >
-                      <AddIcon />
+                      <AddCallIcon />
                     </Button>
                   </React.Fragment>
                 )}/>
