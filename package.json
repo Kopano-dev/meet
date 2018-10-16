@@ -36,7 +36,7 @@
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
-    "kpop": "https://download.kopano.io/community/kapp:/kpop-0.11.3.tgz",
+    "kpop": "https://download.kopano.io/community/kapp:/kpop-0.12.0.tgz",
     "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.12.0.tgz",
     "localforage": "^1.7.1",
     "lunr": "^2.2.0",
