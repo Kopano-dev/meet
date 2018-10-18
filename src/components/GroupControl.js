@@ -93,6 +93,8 @@ class GroupControl extends React.PureComponent {
       classNameProp,
     );
 
+    const callButtonText = `Join`;
+
     return (
       <div className={className}>
         <div className={classes.base}>
@@ -118,12 +120,10 @@ class GroupControl extends React.PureComponent {
             </CardContent>
             <CardActions className={classes.actions}>
               <Button
-                size="small"
                 color="primary"
                 onClick={this.handleEntryClick}
-              >Call</Button>
+              >{callButtonText}</Button>
               <Button
-                size="small"
                 color="primary"
                 className={classes.close}
                 onClick={this.handleCloseClick}
