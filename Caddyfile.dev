@@ -9,11 +9,11 @@
 
     gzip
 
-    # Noop service-worker via webpack-dev-server
+    # Noop service-worker via webpack-dev-server.
     proxy /meet/service-worker.js 127.0.0.1:3004 {
         without /meet
     }
-    # Kopano Calendar web app development via webpack-dev-server
+    # Kopano Calendar web app development via webpack-dev-server.
     proxy /meet/ 127.0.0.1:3004 {
         header_downstream Cache-Control "no-cache, max-age=0, public"
         header_downstream Referrer-Policy origin
@@ -29,10 +29,10 @@
     }
     proxy /static 127.0.0.1:3004
 
-    # fake api
+    # Fake config API.
     rewrite /api/config/v1/kopano/meet/config.json /config.json
 
-    # Kopano API kapid
+    # Kopano API kapid.
     proxy /api/gc/ 127.0.0.1:8039 {
         transparent
     }

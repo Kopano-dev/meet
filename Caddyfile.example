@@ -11,10 +11,14 @@
 
 	gzip
 
-	# Kopano Meet web app in build folder
+	# Kopano Meet web app in build folder.
 	redir /meet /meet/r 301
 	rewrite /meet/r {
 		regexp (.*)
+		to /build/
+	}
+	# Avoid redirect for index.html for service worker compatibility.
+	rewrite /meet/index.html {
 		to /build/
 	}
 	rewrite /meet/ {
@@ -32,10 +36,10 @@
 		Cache-Control "max-age=86400"
 	}
 
-	# fake api
+	# Fake config API.
 	rewrite /api/config/v1/kopano/meet/config.json /config.json
 
-	# Kopano API kapid
+	# Kopano API kapid.
     proxy /api/gc/ 127.0.0.1:8039 {
         transparent
     }
