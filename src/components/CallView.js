@@ -7,8 +7,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import VideocallIcon from '@material-ui/icons/Videocam';
-import CallIcon from '@material-ui/icons/Call';
+import HistoryIcon from '@material-ui/icons/History';
+import PeopleIcon from '@material-ui/icons/People';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import CamIcon from '@material-ui/icons/Videocam';
@@ -28,6 +28,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
+import Divider from '@material-ui/core/Divider';
 
 import renderIf from 'render-if';
 
@@ -85,6 +86,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     position: 'relative',
+    flexDirection: 'column',
   },
   rootWithHover: {
     '&:hover $controlsPermanentHidden, &:hover $controlsMiddleHidden': {
@@ -100,6 +102,11 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+  },
+  topBar: {
+  },
+  topBarHidden: {
+    opacity: 0,
   },
   controls: {
     height: 0,
@@ -123,8 +130,8 @@ const styles = theme => ({
   controlsPermanent: {
     position: 'absolute',
     left: theme.spacing.unit * 4,
-    top: theme.spacing.unit * 4,
-    zIndex: theme.zIndex.appBar + 1,
+    top: theme.spacing.unit * 12,
+    zIndex: theme.zIndex.drawer - 1,
     display: 'flex',
     flexDirection: 'column',
     '& > *': {
@@ -133,12 +140,10 @@ const styles = theme => ({
     opacity: 0.7,
     [theme.breakpoints.down('xs')]: {
       left: theme.spacing.unit,
-      top: 0,
       transform: 'scale(.8, .8)',
     },
     [xsHeightDownBreakpoint]: {
       transform: 'scale(.8, .8)',
-      top: 0,
     },
     transition: theme.transitions.create('opacity', {
       easing: theme.transitions.easing.easeOut,
@@ -205,13 +210,6 @@ const styles = theme => ({
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
-  modeBar: {
-    margin: '0 auto',
-    [minimalHeightDownBreakpoint]: {
-      display: 'none',
-    },
-    paddingTop: theme.spacing.unit,
-  },
   tabs: {
   },
   tab: {
@@ -224,9 +222,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-  },
-  appBar: {
-    borderTop: `1px solid ${theme.palette.divider}`,
   },
   mainView: {
     margin: '10px auto 0 auto',
@@ -252,10 +247,12 @@ const styles = theme => ({
     width: 300,
     height: 'auto',
     position: 'absolute',
-    top: 58,
+    top: 64,
     bottom: 0,
-    zIndex: theme.zIndex.appBar - 1,
-    paddingTop: 10,
+    paddingTop: 1,
+    [theme.breakpoints.down('sm')]: {
+      top: 56,
+    },
   },
 });
 
@@ -328,6 +325,12 @@ class CallView extends React.PureComponent {
           this.setState({
             mode: 'standby',
           });
+        } else if (!channel && mode !== 'videocall') {
+          console.log('xxx mode not video call');
+          // Always restore to videocall mode when not in a call.
+          this.setState({
+            mode: 'videocall',
+          });
         }
       } else {
         if (prevProps.hidden && !hidden) {
@@ -379,12 +382,6 @@ class CallView extends React.PureComponent {
     });
   };
 
-  handleModeChange = (event, mode) => {
-    this.setState({
-      mode,
-    });
-  };
-
   handleMuteCamClick = () => {
     this.setState({
       muteCam: !this.state.muteCam,
@@ -397,11 +394,11 @@ class CallView extends React.PureComponent {
     });
   }
 
-  handleContactClick = (id) => {
+  handleContactClick = (id, mode) => {
     const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby().then(() => {
+    this.wakeFromStandby(mode).then(() => {
       if (localStream && localStream.active) {
         return;
       }
@@ -417,7 +414,7 @@ class CallView extends React.PureComponent {
     });
   };
 
-  handleRecentEntryClick = (entry, kind) => {
+  handleRecentEntryClick = (entry, kind, mode) => {
     if (!entry.id) {
       console.warn('invalid recent entry clicked', entry); // eslint-disable-line no-console
       return;
@@ -430,16 +427,16 @@ class CallView extends React.PureComponent {
 
       default:
         // Default is contacts.
-        this.handleContactClick(entry.id);
+        this.handleContactClick(entry.id, mode);
         break;
     }
   };
 
-  handleGroupEntryClick = (id, scope) => {
+  handleGroupEntryClick = (id, scope, mode) => {
     const { doGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby().then(() => {
+    this.wakeFromStandby(mode).then(() => {
       if (localStream && localStream.active) {
         return;
       }
@@ -455,12 +452,12 @@ class CallView extends React.PureComponent {
     this.openDialog({ newCall: true});
   };
 
-  handleAcceptClick = (id) => {
+  handleAcceptClick = (id, mode) => {
     const  { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.closeAllOpenDialogs();
-    this.wakeFromStandby().then(() => {
+    this.wakeFromStandby(mode).then(() => {
       if (localStream && localStream.active) {
         return;
       }
@@ -521,13 +518,12 @@ class CallView extends React.PureComponent {
     addOrUpdateRecentsFromGroup(id, scope);
   }
 
-  wakeFromStandby = () => {
+  wakeFromStandby = (newMode) => {
     const { mode, muteCam } = this.state;
 
     return new Promise((resolve) => {
-      if (mode === 'standby') {
-        // Wake to call mode when video is muted, videocall otherwise.
-        const newMode = muteCam ? 'call' : 'videocall';
+      newMode = newMode ? newMode : (muteCam ? 'call' : 'videocall');
+      if (mode !== newMode) {
         this.setState({
           mode: newMode,
         }, resolve);
@@ -747,6 +743,12 @@ class CallView extends React.PureComponent {
         [classes.controlsPermanentHidden]: !!channel,
       }
     );
+    const topBarClassName = classNames(
+      classes.topBar,
+      {
+        [classes.topBarHidden]: !!channel,
+      }
+    );
     const controlsMiddleClassName = classNames(
       classes.controlsMiddle,
       {
@@ -794,39 +796,21 @@ class CallView extends React.PureComponent {
 
       menu = (
         <div className={classes.menu}>
-          <div className={classes.modeBar}>
-            <div>
-              <Tabs
-                value={mode}
-                onChange={this.handleModeChange}
-                className={classes.tabs}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-              >
-                <Tab value="videocall" className={classes.tab} icon={<VideocallIcon />} />
-                <Tab value="call" className={classes.tab} icon={<CallIcon />} />
-              </Tabs>
-            </div>
-          </div>
           {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
             <div className={classes.menuContainer}>
-              <TopBar
-                className={classes.appBar}
-                title="Meet"
-                appLogo={<KopanoMeetIcon alt="Kopano"/>}
-                onAnchorClick={this.handleMenuAnchorClick}
-                position="static"
-                user={profile}
-              >
-                {icons}
-                <IconButton disabled className={classes.searchButton}>
-                  <SearchIcon/>
-                </IconButton>
-              </TopBar>
               <Switch>
                 <Route exact path="/r/call" render={() => (
                   <React.Fragment>
+                    <Tabs
+                      value="recents"
+                      className={classes.tabs}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      centered
+                    >
+                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} />
+                      <Tab value="people" className={classes.tab} disabled icon={<PeopleIcon />} />
+                    </Tabs>
                     <Recents
                       className={classes.mainView}
                       onEntryClick={this.handleRecentEntryClick}
@@ -857,25 +841,6 @@ class CallView extends React.PureComponent {
                 />
                 <Redirect to="/r/call"/>
               </Switch>
-              <Drawer
-                variant="persistent"
-                open={openMenu}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}>
-                <List>
-                  <ListItem button disabled>
-                    <ListItemIcon>
-                      <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" />
-                  </ListItem>
-                  <Hidden mdUp>
-                    <AppsSwitcherListItem/>
-                  </Hidden>
-                </List>
-              </Drawer>
-              <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
             </div>
           ))}
         </div>
@@ -889,7 +854,7 @@ class CallView extends React.PureComponent {
           open={!record.ignore}
           key={`incoming-call-${id}`}
           record={record}
-          onAcceptClick={() => { this.handleAcceptClick(record.id); }}
+          onAcceptClick={(mode) => { this.handleAcceptClick(record.id, mode); }}
           onRejectClick={() => { this.handleRejectClick(record.id); }}
         >
         </IncomingCallDialog>
@@ -905,8 +870,8 @@ class CallView extends React.PureComponent {
         onClose={() => { this.openDialog({newCall: false}); }}
       >
         <ContactSearch
-          onContactClick={(id) => {
-            this.handleContactClick(id);
+          onContactClick={(id, mode) => {
+            this.handleContactClick(id, mode);
             this.openDialog({newCall: false});
           }}
           onActionClick={(action) => {
@@ -936,6 +901,38 @@ class CallView extends React.PureComponent {
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={rootClassName}>
+        <TopBar
+          className={topBarClassName}
+          title="Meet"
+          appLogo={<KopanoMeetIcon alt="Kopano"/>}
+          onAnchorClick={this.handleMenuAnchorClick}
+          user={profile}
+        >
+          {icons}
+          <IconButton disabled className={classes.searchButton}>
+            <SearchIcon/>
+          </IconButton>
+        </TopBar>
+        <Drawer
+          variant="persistent"
+          open={openMenu}
+          classes={{
+            paper: classes.drawerPaper,
+          }}>
+          <Divider />
+          <List>
+            <ListItem button disabled>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+            <Hidden mdUp>
+              <AppsSwitcherListItem/>
+            </Hidden>
+          </List>
+        </Drawer>
+        <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
         <div className={classes.controls}>
           {controls}
         </div>

@@ -15,6 +15,8 @@ import Avatar from '@material-ui/core/Avatar';
 import PublicConferenceIcon from '@material-ui/icons/Group';
 import Chip from '@material-ui/core/Chip';
 import LinkIcon from '@material-ui/icons/Link';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import CallIcon from '@material-ui/icons/Call';
 
 import Persona from 'kpop/es/Persona';
 
@@ -37,6 +39,9 @@ const styles = (theme) => ({
   actions: {
     flex: 1,
   },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
   close: {
     marginLeft: 'auto',
     [theme.breakpoints.up('sm')]: {
@@ -58,10 +63,10 @@ class GroupControl extends React.PureComponent {
     };
   }
 
-  handleEntryClick = () => {
+  handleEntryClick = (mode) => () => {
     const { group, onEntryClick } = this.props;
 
-    onEntryClick(group.id, group.scope);
+    onEntryClick(group.id, group.scope, mode);
   };
 
   handleCloseClick = () => {
@@ -93,8 +98,6 @@ class GroupControl extends React.PureComponent {
       classNameProp,
     );
 
-    const callButtonText = `Join`;
-
     return (
       <div className={className}>
         <div className={classes.base}>
@@ -121,8 +124,18 @@ class GroupControl extends React.PureComponent {
             <CardActions className={classes.actions}>
               <Button
                 color="primary"
-                onClick={this.handleEntryClick}
-              >{callButtonText}</Button>
+                onClick={this.handleEntryClick('videocall')}
+              >
+                <VideocamIcon className={classes.leftIcon} />
+                Video
+              </Button>
+              <Button
+                color="primary"
+                onClick={this.handleEntryClick('call')}
+              >
+                <CallIcon className={classes.leftIcon} />
+                Call
+              </Button>
               <Button
                 color="primary"
                 className={classes.close}

@@ -75,7 +75,7 @@ class NewPublicGroup extends React.PureComponent {
             /> <Persona user={{displayName: query}} forceIcon icon={<PublicConferenceIcon/>}/>
           </ListItem>
           <ListItem>
-            <Button variant="raised" color="primary" disabled={!valid} onClick={this.handleActionClick}>Ok</Button>
+            <Button variant="raised" color="primary" disabled={!valid} onClick={this.handleActionClick}>Create</Button>
           </ListItem>
         </List>
       </div>

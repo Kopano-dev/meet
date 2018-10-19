@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import renderIf from 'render-if';
+
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,6 +13,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import PublicConferenceIcon from '@material-ui/icons/Group';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import CallIcon from '@material-ui/icons/Call';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
 import Moment from 'react-moment';
 
@@ -29,36 +35,28 @@ const styles = theme => ({
     overflow: 'auto',
     flex: 1,
   },
+  timecontainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
   time: {
     paddingRight: theme.spacing.unit * 2,
     paddingTop: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
   },
+  actions: {
+    top: 'auto',
+    bottom: theme.spacing.unit / 2,
+    transform: 'none',
+  },
 });
 
 class Recents extends React.PureComponent {
-  handleEntryClick = (event) => {
-    const { onEntryClick, table } = this.props;
+  handleEntryClick = (entry, mode) => () => {
+    const { onEntryClick } = this.props;
 
-    if (event.target !== event.currentTarget) {
-      // Climb the tree.
-      let elem = event.target;
-      let row = null;
-      let rid = null;
-      let entry = null;
-      for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
-        row = elem;
-        rid = row.getAttribute('data-entry-rid');
-        if (rid) {
-          entry = table[rid];
-          break;
-        }
-      }
-
-      if (entry) {
-        onEntryClick(entry, entry.kind);
-      }
-    }
+    onEntryClick(entry, entry.kind, mode);
   }
 
   render() {
@@ -88,12 +86,12 @@ class Recents extends React.PureComponent {
     return (
       <div className={className}>
         <div className={classes.entries}>
-          <List disablePadding onClick={this.handleEntryClick}>
+          <List disablePadding>
             {items.map((entry) =>
-              <ListItem button data-entry-rid={entry.rid} key={entry.rid}>
+              <ListItem button onClick={this.handleEntryClick(entry, 'videocall')} key={entry.rid}>
                 <RecentsEntryPersona entry={entry}/>
                 <ListItemText primary={<ContactLabel contact={entry} id={entry.rid}/>} secondary={entry.jobTitle} />
-                <ListItemSecondaryAction>
+                <div className={classes.timecontainer}>
                   <Tooltip
                     enterDelay={500}
                     placement="left"
@@ -103,6 +101,19 @@ class Recents extends React.PureComponent {
                       <Moment fromNow >{entry.date}</Moment>
                     </Typography>
                   </Tooltip>
+                </div>
+                <ListItemSecondaryAction className={classes.actions}>
+                  {renderIf(entry.kind !== 'group')(() => <React.Fragment>
+                    <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
+                      <VideocamIcon />
+                    </IconButton>
+                    <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
+                      <CallIcon />
+                    </IconButton>
+                  </React.Fragment>)}
+                  {renderIf(entry.kind === 'group')(() => <React.Fragment>
+                    <Button color="primary" onClick={this.handleEntryClick(entry)}>Join {entry.jobTitle}</Button>
+                  </React.Fragment>)}
                 </ListItemSecondaryAction>
               </ListItem>
             )}

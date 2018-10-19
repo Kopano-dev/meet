@@ -7,23 +7,61 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import CallIcon from '@material-ui/icons/Call';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import { forceBase64URLEncoded } from 'kpop/es/utils';
+import Persona from 'kpop/es/Persona';
 
 import ContactLabel from './ContactLabel';
+import { mapContactEntryToUserShape } from './Recents';
 
-const styles = () => ({
+const styles = theme => ({
+  header: {
+    padding: 0,
+  },
+  specialActions: {
+    justifyContent: 'center',
+    margin: `${theme.spacing.unit * 2}px 0`,
+    padding: theme.spacing.unit,
+    borderTop: `1px solid ${theme.palette.divider}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  flex: {
+    flex: 1,
+  },
+  reject: {
+    color: 'red',
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
 });
 
 class IncomingCallDialog extends React.PureComponent {
+  handleAcceptClick = (mode) => () => {
+    const { onAcceptClick } = this.props;
+
+    onAcceptClick(mode);
+  }
+
+  handleRejectClick = () => {
+    const { onRejectClick } = this.props;
+
+    onRejectClick();
+  }
+
   render() {
     const {
+      classes,
       record,
       dispatch, // eslint-disable-line
+      onRejectClick, // eslint-disable-line
+      onAcceptClick, // eslint-disable-line
       contacts,
-      onAcceptClick,
-      onRejectClick,
       ...other
     } = this.props;
 
@@ -35,25 +73,42 @@ class IncomingCallDialog extends React.PureComponent {
         {...other}
       >
         <DialogContent>
-          <DialogContentText>
-            Incoming call from
-          </DialogContentText>
-          <DialogContentText>
-            <ContactLabel contact={contact} id={record.id}/>
-          </DialogContentText>
+          <ListItem disableGutters className={classes.header}>
+            <Persona
+              user={mapContactEntryToUserShape(contact)}
+              className={classes.avatar} />
+            <ListItemText primary="Incoming call" secondary={<ContactLabel contact={contact} id={record.id}/>} secondaryTypographyProps={{
+              color: 'textPrimary',
+              variant: 'headline',
+            }} />
+          </ListItem>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onAcceptClick} color="primary" autoFocus>
-            Accept
-          </Button>
-          <Button onClick={onRejectClick} color="secondary">
+        <DialogActions className={classes.specialActions}>
+          <Button onClick={this.handleRejectClick} className={classes.reject}>
+            <ClearIcon className={classes.leftIcon}/>
             Reject
           </Button>
+        </DialogActions>
+        <DialogActions>
+          <Button className={classes.flex} onClick={this.handleAcceptClick('videocall')} color="primary" autoFocus>
+            <VideocamIcon className={classes.leftIcon}/>
+            Video
+          </Button>
+          <Button className={classes.flex} onClick={this.handleAcceptClick('call')} color="primary" autoFocus>
+            <CallIcon className={classes.leftIcon}/>
+            Phone
+          </Button>
+
         </DialogActions>
       </Dialog>
     );
   }
 }
+
+IncomingCallDialog.defaultProps = {
+  maxWidth: 'xs',
+  fullWidth: true,
+};
 
 IncomingCallDialog.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -65,6 +120,9 @@ IncomingCallDialog.propTypes = {
 
   onAcceptClick: PropTypes.func.isRequired,
   onRejectClick: PropTypes.func.isRequired,
+
+  maxWidth: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

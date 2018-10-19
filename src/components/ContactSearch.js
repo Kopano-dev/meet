@@ -5,15 +5,19 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import CallIcon from '@material-ui/icons/Call';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -142,22 +146,10 @@ class ContactSearch extends React.PureComponent {
     }
   }
 
-  handleContactClick = (event) => {
+  handleContactClick = (contact, mode) => () => {
     const { onContactClick } = this.props;
 
-    if (event.target !== event.currentTarget) {
-      // Climb the tree.
-      let elem = event.target;
-      let row = null;
-      for ( ; elem && elem !== event.currentTarget; elem = elem.parentNode) {
-        row = elem;
-      }
-
-      const id = row.getAttribute('data-contact-id');
-      if (id) {
-        onContactClick(id);
-      }
-    }
+    onContactClick(contact.id, mode);
   }
 
   handleActionClick = (action) => {
@@ -262,11 +254,19 @@ class ContactSearch extends React.PureComponent {
         </Toolbar>
         <Divider/>
         <div className={classes.contacts}>
-          <List disablePadding onClick={this.handleContactClick}>
+          <List disablePadding>
             {items.map((contact) =>
-              <ListItem button data-contact-id={contact.id} key={contact.id}>
+              <ListItem button key={contact.id} onClick={this.handleContactClick(contact, 'videocall')}>
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="Video call" onClick={this.handleContactClick(contact, 'videocall')}>
+                    <VideocamIcon />
+                  </IconButton>
+                  <IconButton aria-label="Audio call" onClick={this.handleContactClick(contact, 'call')}>
+                    <CallIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
             )}
             {message}
