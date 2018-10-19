@@ -231,13 +231,11 @@ const styles = theme => ({
   mainView: {
     margin: '10px auto 0 auto',
     maxWidth: 450,
-    width: '95%',
+    width: '100%',
     minWidth: 300,
     flex: 1,
     flexGrow: 1,
     flexShrink: 1,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
     [minimalHeightDownBreakpoint]: {
       paddingTop: 0,
     },
