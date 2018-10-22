@@ -17,6 +17,7 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import AddCallIcon from 'mdi-material-ui/PhonePlus';
 
 import Moment from 'react-moment';
 
@@ -50,6 +51,9 @@ const styles = theme => ({
     bottom: theme.spacing.unit / 2,
     transform: 'none',
   },
+  centered: {
+    textAlign: 'center',
+  },
 });
 
 class Recents extends React.PureComponent {
@@ -57,6 +61,12 @@ class Recents extends React.PureComponent {
     const { onEntryClick } = this.props;
 
     onEntryClick(entry, entry.kind, mode);
+  }
+
+  handleCallClick = () => {
+    const { onCallClick } = this.props;
+
+    onCallClick();
   }
 
   render() {
@@ -74,13 +84,23 @@ class Recents extends React.PureComponent {
     const items = recents;
 
     const noRecents = items.length === 0 ? (
-      <ListItem>
-        <ListItemText>
-          <Typography variant="caption" align="center">
-            You have no recent meetings.
-          </Typography>
-        </ListItemText>
-      </ListItem>
+      <React.Fragment>
+        <ListItem>
+          <ListItemText>
+            <Typography variant="caption" align="center">
+              Your call history is empty.
+            </Typography>
+          </ListItemText>
+        </ListItem>
+        <ListItem className={classes.centered}>
+          <ListItemText>
+            <IconButton color="primary" onClick={this.handleCallClick}>
+              <AddCallIcon/>
+            </IconButton>
+            <Typography>Call</Typography>
+          </ListItemText>
+        </ListItem>
+      </React.Fragment>
     ) : null;
 
     return (
@@ -132,7 +152,8 @@ Recents.propTypes = {
   recents: PropTypes.array.isRequired,
   table: PropTypes.object.isRequired,
 
-  onEntryClick: PropTypes.func,
+  onEntryClick: PropTypes.func.isRequired,
+  onCallClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {

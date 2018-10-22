@@ -813,6 +813,7 @@ class CallView extends React.PureComponent {
                     <Recents
                       className={classes.mainView}
                       onEntryClick={this.handleRecentEntryClick}
+                      onCallClick={this.handleFabClick}
                     />
                     <Button
                       variant="fab"
