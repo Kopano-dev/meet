@@ -19,6 +19,8 @@ function streamsReducer(state = defaultState, action) {
       const entry = {
         id: action.record.user,
         stream: defaultMediaStream,
+        user: action.user,
+        calling: true,
       };
       return Object.assign({}, state, {
         [action.record.user]: entry,
@@ -33,9 +35,8 @@ function streamsReducer(state = defaultState, action) {
 
     case KWM_STREAM_RECEIVED: {
       const entry = Object.assign({}, state[action.record.user], {
-        id: action.record.user,
         stream: action.stream,
-        user: action.user,
+        calling: false,
       });
       return Object.assign({}, state, {
         [action.record.user]: entry,

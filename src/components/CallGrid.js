@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import CallIcon from '@material-ui/icons/Call';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
 
@@ -26,7 +25,8 @@ const styles = theme => ({
   },
   videocall: {
     display: 'grid',
-    background: '#666',
+    background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
+    color: theme.palette.primary.contrastText,
     overflow: 'hidden',
     flex: 1,
     gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
@@ -48,9 +48,6 @@ const styles = theme => ({
     justifyContent: 'center',
     textAlign: 'center',
     color: 'white',
-  },
-  callIcon: {
-    fontSize: 46,
   },
   container: {
     position: 'relative',
@@ -133,6 +130,7 @@ class CallGrid extends React.PureComponent {
                   stream={stream.stream}
                   conference={conference}
                   user={stream.user}
+                  calling={stream.calling}
                 >
                 </AudioVideo>
               </div>
@@ -149,12 +147,10 @@ class CallGrid extends React.PureComponent {
                 stream={stream.stream}
                 conference={conference}
                 user={stream.user}
+                calling={stream.calling}
               >
               </AudioVideo>
             )}
-            <Grid item>
-              <CallIcon className={classes.callIcon}/>
-            </Grid>
           </Grid>
         ))}
         {renderIf(renderMode === 'standby')(() => (

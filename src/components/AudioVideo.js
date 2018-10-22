@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import CallIcon from '@material-ui/icons/Call';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
@@ -26,13 +28,17 @@ export const bugs = getBugs();
 
 const styles = (theme) => ({
   root: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     position: 'relative',
     overflow: 'hidden',
+    width: '100%',
+    height: '100%',
   },
   video: {
     width: '100%',
     height: '100%',
-    position: 'relative',
     objectFit: 'cover',
     objectPosition: 'center',
     '&::-webkit-media-controls': {
@@ -40,6 +46,13 @@ const styles = (theme) => ({
     },
     backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     overflow: 'hidden',
+    opacity: 0,
+    transition: theme.transitions.create('opacity', {
+      easing: theme.transitions.easing.easeOut,
+    }),
+  },
+  active: {
+    opacity: 1,
   },
   mirrored: {
     transform: 'scale(-1, 1)',
@@ -72,10 +85,19 @@ const styles = (theme) => ({
     right: 0,
     margin: '0 auto',
     top: 24,
-    color: 'white',
     zIndex: 10,
-    textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
     userSelect: 'none',
+    '& > *': {
+      color: 'white',
+      textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
+    },
+  },
+  icon: {
+    verticalAlign: 'middle',
+  },
+  callIcon: {
+    flex: 1,
+    fontSize: 46,
   },
 });
 
@@ -85,6 +107,10 @@ class AudioVideo extends React.PureComponent {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      active: false,
+    };
 
     this.handleReset = this.handleReset.bind(this);
     this.handleMetadata = this.handleMetadata.bind(this);
@@ -115,6 +141,9 @@ class AudioVideo extends React.PureComponent {
 
   updateStream() {
     const { stream } = this.props;
+    this.setState({
+      active: false,
+    });
     if (stream) {
       // Add interesting event handlers.
       this.addStreamEvents(stream);
@@ -163,6 +192,9 @@ class AudioVideo extends React.PureComponent {
     } else {
       console.info('audio meta data', this.element);  // eslint-disable-line no-console
     }
+    this.setState({
+      active: true,
+    });
   }
 
   handleElement = (element) => {
@@ -187,6 +219,7 @@ class AudioVideo extends React.PureComponent {
   }
 
   render() {
+    const { active } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -195,6 +228,7 @@ class AudioVideo extends React.PureComponent {
       mirrored,
       blurred,
       muted,
+      calling,
       conference,
       user,
       ...other
@@ -205,21 +239,39 @@ class AudioVideo extends React.PureComponent {
       {
         [classes.mirrored]: mirrored,
         [classes.video]: !audio,
+        [classes.active]: active,
       },
     );
 
     let element;
+    let overlay;
+
+    if (user) {
+      overlay = <div className={classes.overlayText}>
+        <Typography variant="display1" gutterBottom>
+          { user.displayName }
+        </Typography>
+        { calling &&
+          <Typography>
+            { audio ? <CallIcon className={classes.icon}/> : <VideocamIcon className={classes.icon}/> } Calling ...
+          </Typography>
+        }
+      </div>;
+    }
 
     if (audio) {
       element = (
-        <audio
-          className={elementClassName}
-          ref={this.handleElement.bind()}
-          muted={muted}
-          {...other}
-        >
-          {children}
-        </audio>
+        <React.Fragment>
+          <audio
+            className={elementClassName}
+            ref={this.handleElement.bind()}
+            muted={muted}
+            {...other}
+          >
+            {children}
+          </audio>
+          <CallIcon className={classes.callIcon} />
+        </React.Fragment>
       );
     } else {
       const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo && !muted && conference;
@@ -234,11 +286,6 @@ class AudioVideo extends React.PureComponent {
 
       element = (
         <React.Fragment>
-          { user &&
-            <Typography variant="display1" className={classes.overlayText}>
-              { user.displayName }
-            </Typography>
-          }
           <video
             className={elementClassName}
             ref={this.handleElement.bind()}
@@ -258,6 +305,7 @@ class AudioVideo extends React.PureComponent {
       },
       classNameProp)}
       >
+        {overlay}
         {element}
       </div>
     );
@@ -274,6 +322,7 @@ AudioVideo.defaultProps = {
   muted: false,
   autoPlay: true,
   playsInline: true,
+  calling: false,
 };
 
 AudioVideo.propTypes = {
@@ -289,6 +338,7 @@ AudioVideo.propTypes = {
   muted: PropTypes.bool,
   autoPlay: PropTypes.bool,
   playsInline: PropTypes.bool,
+  calling: PropTypes.bool,
 
   conference: PropTypes.bool,
 

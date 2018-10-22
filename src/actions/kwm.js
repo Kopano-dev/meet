@@ -241,16 +241,6 @@ function createKWMManager() {
         return;
       }
 
-      const { table } = getState().contacts;
-      let user = table[forceBase64URLEncoded(event.record.user)];
-      if (!user) {
-        console.warn('unknown user for stream', event.record.user); // eslint-disable-line no-console
-        user = {
-          // TODO(longsleep): Find some way to describe unknown users.
-          displayName: '',
-        };
-      }
-      event.user = {displayName: user.displayName};
       dispatch(streamReceived(event));
     };
 
@@ -331,10 +321,25 @@ function outgoingCall(event, doneHandler = null) {
 
 function newCall(event) {
   const { record } = event;
+  return async (dispatch, getState) => {
+    const { table } = getState().contacts;
 
-  return {
-    type: types.KWM_CALL_NEW,
-    record,
+    let entry = table[forceBase64URLEncoded(event.record.user)];
+    if (!entry) {
+      console.warn('unknown user for call', event.record.user); // eslint-disable-line no-console
+      entry = {
+        // TODO(longsleep): Find some way to describe unknown users.
+        displayName: '',
+      };
+    }
+    // Copy to retain reference.
+    const user = {displayName: entry.displayName};
+
+    return dispatch({
+      type: types.KWM_CALL_NEW,
+      record,
+      user,
+    });
   };
 }
 

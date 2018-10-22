@@ -326,7 +326,6 @@ class CallView extends React.PureComponent {
             mode: 'standby',
           });
         } else if (!channel && mode !== 'videocall') {
-          console.log('xxx mode not video call');
           // Always restore to videocall mode when not in a call.
           this.setState({
             mode: 'videocall',
