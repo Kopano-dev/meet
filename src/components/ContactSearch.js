@@ -175,6 +175,7 @@ class ContactSearch extends React.PureComponent {
       contacts,
       loading,
       error,
+      embedded,
     } = this.props;
 
     const className = classNames(
@@ -200,7 +201,8 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              Failed to load contacts. <Button size="small" color="secondary" onClick={this.handleReloadContactsClick}>Retry</Button>
+              Failed to load contacts. <Button size="small" color="secondary"
+                onClick={this.handleReloadContactsClick}>Retry</Button>
             </Typography>
           </ListItemText>
         </ListItem>
@@ -223,36 +225,43 @@ class ContactSearch extends React.PureComponent {
       </ListItemText>
     </ListItem> : null;
 
+    const header = embedded ? null : <React.Fragment>
+      <Paper square elevation={4}>
+        <Toolbar className={classes.search}>
+          <TextField
+            fullWidth
+            autoFocus
+            value={query}
+            onChange={this.handleSearch}
+            placeholder="Search by name"
+            className={classes.searchField}
+            InputProps={{
+              disableUnderline: true,
+              classes: {
+                root: classes.searchRoot,
+                input: classes.searchInput,
+              },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Toolbar>
+      </Paper>
+      <Toolbar className={classes.extraToolbar}>
+        <Button color="primary"
+          onClick={this.handleActionClick.bind(this, 'new-public-group')}>
+            New Public Group
+        </Button>
+      </Toolbar>
+      <Divider/>
+    </React.Fragment>;
+
     return (
       <div className={className}>
-        <Paper square elevation={4}>
-          <Toolbar className={classes.search}>
-            <TextField
-              fullWidth
-              autoFocus
-              value={query}
-              onChange={this.handleSearch}
-              placeholder="Search by name"
-              className={classes.searchField}
-              InputProps={{
-                disableUnderline: true,
-                classes: {
-                  root: classes.searchRoot,
-                  input: classes.searchInput,
-                },
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Toolbar>
-        </Paper>
-        <Toolbar className={classes.extraToolbar}>
-          <Button color="primary" onClick={this.handleActionClick.bind(this, 'new-public-group')}>New Public Group</Button>
-        </Toolbar>
-        <Divider/>
+        {header}
         <div className={classes.contacts}>
           <List disablePadding>
             {items.map((contact) =>
@@ -290,6 +299,8 @@ ContactSearch.propTypes = {
   onActionClick: PropTypes.func.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
+
+  embedded: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

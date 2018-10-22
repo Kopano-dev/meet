@@ -271,6 +271,7 @@ class CallView extends React.PureComponent {
       muteMic: false,
       openDialogs: {},
       openMenu: false,
+      openTab: 'recents',
     };
 
     this.touchedTimer = null;
@@ -510,6 +511,12 @@ class CallView extends React.PureComponent {
     }
   }
 
+  handleTabChange = (event, value) => {
+    this.setState({
+      openTab: value,
+    });
+  }
+
   doViewGroup = (id, scope) => {
     const { history, addOrUpdateRecentsFromGroup } = this.props;
 
@@ -687,7 +694,7 @@ class CallView extends React.PureComponent {
       remoteStreams,
       connected,
     } = this.props;
-    const { mode, muteCam, muteMic, wasTouched, withChannel, openDialogs, openMenu } = this.state;
+    const { mode, muteCam, muteMic, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -801,20 +808,34 @@ class CallView extends React.PureComponent {
                 <Route exact path="/r/call" render={() => (
                   <React.Fragment>
                     <Tabs
-                      value="recents"
+                      value={openTab}
                       className={classes.tabs}
                       indicatorColor="primary"
                       textColor="primary"
+                      onChange={this.handleTabChange}
                       centered
                     >
                       <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} />
-                      <Tab value="people" className={classes.tab} disabled icon={<PeopleIcon />} />
+                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} />
                     </Tabs>
-                    <Recents
-                      className={classes.mainView}
-                      onEntryClick={this.handleRecentEntryClick}
-                      onCallClick={this.handleFabClick}
-                    />
+                    { openTab === 'recents' ?
+                      <Recents
+                        className={classes.mainView}
+                        onEntryClick={this.handleRecentEntryClick}
+                        onCallClick={this.handleFabClick}
+                      /> :
+                      <ContactSearch
+                        className={classes.mainView}
+                        onContactClick={(id, mode) => {
+                          this.handleContactClick(id, mode);
+                          this.openDialog({newCall: false});
+                        }}
+                        onActionClick={(action) => {
+                          this.handleDialogActionClick(action);
+                        }}
+                        embedded
+                      ></ContactSearch>
+                    }
                     <Button
                       variant="fab"
                       className={classes.fab}
