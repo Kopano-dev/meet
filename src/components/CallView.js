@@ -87,6 +87,7 @@ const styles = theme => ({
     display: 'flex',
     position: 'relative',
     flexDirection: 'column',
+    minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   rootWithHover: {
     '&:hover $controlsPermanentHidden, &:hover $controlsMiddleHidden': {
@@ -102,6 +103,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   topBar: {
   },
