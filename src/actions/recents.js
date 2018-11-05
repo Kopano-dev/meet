@@ -1,5 +1,6 @@
 import {
   ADD_OR_UPDATE_RECENT,
+  REMOVE_RECENT,
 } from './types';
 
 const addOrUpdateRecentEntry = (id, kind, entry) => ({
@@ -8,6 +9,11 @@ const addOrUpdateRecentEntry = (id, kind, entry) => ({
   kind,
   entry,
   date: new Date(),
+});
+
+export const removeRecentEntry = (rid) => ({
+  type: REMOVE_RECENT,
+  rid,
 });
 
 export function addOrUpdateRecentsFromContact(id) {

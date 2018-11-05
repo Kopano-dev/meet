@@ -1,5 +1,6 @@
 import {
   ADD_OR_UPDATE_RECENT,
+  REMOVE_RECENT,
 } from '../actions/types';
 
 const maxRecentsCount = 20;
@@ -32,6 +33,19 @@ function recentsReducer(state = defaultState, action) {
         ...{ date: action.date || new Date() },
         kind: action.kind,
       };
+
+      return Object.assign({}, state, {
+        sorted,
+        table,
+      });
+    }
+
+    case REMOVE_RECENT: {
+      const recentsID = action.rid;
+
+      const sorted = state.sorted.filter(rid => rid !== recentsID);
+      const table = Object.assign({}, state.table);
+      delete table[recentsID];
 
       return Object.assign({}, state, {
         sorted,

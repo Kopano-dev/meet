@@ -18,9 +18,13 @@ import AddCallIcon from 'mdi-material-ui/PhonePlus';
 
 import Moment from 'react-moment';
 
+import Swipeout from 'rc-swipeout';
+import 'rc-swipeout/assets/index.css';
+
 import Persona from 'kpop/es/Persona';
 
 import ContactLabel from './ContactLabel';
+import { removeRecentEntry } from '../actions/recents';
 
 const styles = theme => ({
   root: {
@@ -51,6 +55,11 @@ const styles = theme => ({
   centered: {
     textAlign: 'center',
   },
+  deleteSwiper: {
+    backgroundColor: 'red',
+    color: 'white',
+    minWidth: 95,
+  },
 });
 
 class Recents extends React.PureComponent {
@@ -58,6 +67,12 @@ class Recents extends React.PureComponent {
     const { onEntryClick } = this.props;
 
     onEntryClick(entry, entry.kind, mode);
+  }
+
+  handleEntryDelete = (entry) => () => {
+    const { removeRecents } = this.props;
+
+    removeRecents(entry.rid);
   }
 
   handleCallClick = () => {
@@ -105,29 +120,40 @@ class Recents extends React.PureComponent {
         <div className={classes.entries}>
           <List disablePadding>
             {items.map((entry) =>
-              <ListItem button onClick={this.handleEntryClick(entry)} key={entry.rid}>
-                <RecentsEntryPersona entry={entry}/>
-                <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
-                <div className={classes.timecontainer}>
-                  <Tooltip
-                    enterDelay={500}
-                    placement="left"
-                    title={<Moment>{entry.date}</Moment>}
-                  >
-                    <Typography variant="caption" className={classes.time}>
-                      <Moment fromNow >{entry.date}</Moment>
-                    </Typography>
-                  </Tooltip>
-                </div>
-                <ListItemSecondaryAction className={classes.actions}>
-                  <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
-                    <VideocamIcon />
-                  </IconButton>
-                  <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
-                    <CallIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
+              <Swipeout
+                key={entry.rid}
+                right={[
+                  {
+                    text: <Typography color="inherit" variant="button">delete</Typography>,
+                    onPress: this.handleEntryDelete(entry),
+                    className: classes.deleteSwiper,
+                  },
+                ]}
+              >
+                <ListItem button onClick={this.handleEntryClick(entry)}>
+                  <RecentsEntryPersona entry={entry}/>
+                  <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
+                  <div className={classes.timecontainer}>
+                    <Tooltip
+                      enterDelay={500}
+                      placement="left"
+                      title={<Moment>{entry.date}</Moment>}
+                    >
+                      <Typography variant="caption" className={classes.time}>
+                        <Moment fromNow >{entry.date}</Moment>
+                      </Typography>
+                    </Tooltip>
+                  </div>
+                  <ListItemSecondaryAction className={classes.actions}>
+                    <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
+                      <VideocamIcon />
+                    </IconButton>
+                    <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
+                      <CallIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              </Swipeout>
             )}
             {noRecents}
           </List>
@@ -146,6 +172,7 @@ Recents.propTypes = {
 
   onEntryClick: PropTypes.func.isRequired,
   onCallClick: PropTypes.func.isRequired,
+  removeRecents: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -191,4 +218,12 @@ export const mapGroupEntryToUserShape = entry => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Recents));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeRecents: (rid) => {
+      return dispatch(removeRecentEntry(rid));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Recents));
