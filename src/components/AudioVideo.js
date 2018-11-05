@@ -186,6 +186,8 @@ class AudioVideo extends React.PureComponent {
   }
 
   handleMetadata(event) {
+    const ready = event.target.readyState !== 0;
+
     if (event.target instanceof HTMLVideoElement) {
       console.info('video meta data', this.element, event.target.videoWidth, // eslint-disable-line no-console
         event.target.videoHeight);
@@ -193,7 +195,7 @@ class AudioVideo extends React.PureComponent {
       console.info('audio meta data', this.element);  // eslint-disable-line no-console
     }
     this.setState({
-      active: true,
+      active: ready,
     });
   }
 
