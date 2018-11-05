@@ -11,6 +11,7 @@
 # production
 /build
 /dist
+/3rdparty-LICENSES.md
 
 # misc
 .DS_Store
