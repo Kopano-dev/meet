@@ -29,7 +29,7 @@ const fs = require('fs'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20181031-1'; // eslint-disable-line
+const version = '20181105-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
@@ -64,7 +64,7 @@ function findLicense(mp) {
     name: json.name,
     url: url,
     description: json.description,
-    license: json.license
+    license: json.license || json.licenses,
   };
 
   // Search for license file.
