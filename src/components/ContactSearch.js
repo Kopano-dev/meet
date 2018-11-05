@@ -147,9 +147,9 @@ class ContactSearch extends React.PureComponent {
   }
 
   handleContactClick = (contact, mode) => () => {
-    const { onContactClick } = this.props;
+    const { onEntryClick } = this.props;
 
-    onContactClick(contact.id, mode);
+    onEntryClick(contact, 'contact', mode);
   }
 
   handleActionClick = (action) => {
@@ -265,7 +265,7 @@ class ContactSearch extends React.PureComponent {
         <div className={classes.contacts}>
           <List disablePadding>
             {items.map((contact) =>
-              <ListItem button key={contact.id} onClick={this.handleContactClick(contact, 'videocall')}>
+              <ListItem button key={contact.id} onClick={this.handleContactClick(contact)}>
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction>
@@ -295,7 +295,7 @@ ContactSearch.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
 
-  onContactClick: PropTypes.func.isRequired,
+  onEntryClick: PropTypes.func.isRequired,
   onActionClick: PropTypes.func.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,

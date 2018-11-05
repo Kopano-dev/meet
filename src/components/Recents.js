@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import renderIf from 'render-if';
-
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,7 +14,6 @@ import PublicConferenceIcon from '@material-ui/icons/Group';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
 
 import Moment from 'react-moment';
@@ -108,9 +105,9 @@ class Recents extends React.PureComponent {
         <div className={classes.entries}>
           <List disablePadding>
             {items.map((entry) =>
-              <ListItem button onClick={this.handleEntryClick(entry, 'videocall')} key={entry.rid}>
+              <ListItem button onClick={this.handleEntryClick(entry)} key={entry.rid}>
                 <RecentsEntryPersona entry={entry}/>
-                <ListItemText primary={<ContactLabel contact={entry} id={entry.rid}/>} secondary={entry.jobTitle} />
+                <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
                 <div className={classes.timecontainer}>
                   <Tooltip
                     enterDelay={500}
@@ -123,17 +120,12 @@ class Recents extends React.PureComponent {
                   </Tooltip>
                 </div>
                 <ListItemSecondaryAction className={classes.actions}>
-                  {renderIf(entry.kind !== 'group')(() => <React.Fragment>
-                    <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
-                      <VideocamIcon />
-                    </IconButton>
-                    <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
-                      <CallIcon />
-                    </IconButton>
-                  </React.Fragment>)}
-                  {renderIf(entry.kind === 'group')(() => <React.Fragment>
-                    <Button color="primary" onClick={this.handleEntryClick(entry)}>Join {entry.jobTitle}</Button>
-                  </React.Fragment>)}
+                  <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
+                    <VideocamIcon />
+                  </IconButton>
+                  <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
+                    <CallIcon />
+                  </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
             )}

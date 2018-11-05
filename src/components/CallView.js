@@ -68,6 +68,7 @@ import Recents from './Recents';
 import ContactSearch from './ContactSearch';
 import BackdropOverlay from './BackdropOverlay';
 import GroupControl from './GroupControl';
+import ContactControl from './ContactControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 import { Howling } from './howling';
@@ -396,6 +397,38 @@ class CallView extends React.PureComponent {
     });
   }
 
+  handleEntryClick = (entry, kind, mode) => {
+    if (!entry.id) {
+      console.warn('invalid entry data', entry); // eslint-disable-line no-console
+      return;
+    }
+
+    // FIXME(longsleep): Refactor the code below - its crap crap crap.
+    if (mode) {
+      switch (kind) {
+        case 'group':
+          this.handleGroupEntryClick(entry.id, entry.scope, mode);
+          break;
+
+        default:
+          // Default is contacts.
+          this.handleContactClick(entry.id, mode);
+          break;
+      }
+    } else {
+      switch (kind) {
+        case 'group':
+          this.doViewGroup(entry.id, entry.scope);
+          break;
+
+        default:
+          // Default is contacts.
+          this.doViewContact(entry.id, entry);
+          break;
+      }
+    }
+  };
+
   handleContactClick = (id, mode) => {
     const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
@@ -414,24 +447,6 @@ class CallView extends React.PureComponent {
       // IDs in Standard encoding.
       doCall(forceBase64StdEncoded(id));
     });
-  };
-
-  handleRecentEntryClick = (entry, kind, mode) => {
-    if (!entry.id) {
-      console.warn('invalid recent entry clicked', entry); // eslint-disable-line no-console
-      return;
-    }
-
-    switch (kind) {
-      case 'group':
-        this.doViewGroup(entry.id, entry.scope);
-        break;
-
-      default:
-        // Default is contacts.
-        this.handleContactClick(entry.id, mode);
-        break;
-    }
   };
 
   handleGroupEntryClick = (id, scope, mode) => {
@@ -520,10 +535,17 @@ class CallView extends React.PureComponent {
   }
 
   doViewGroup = (id, scope) => {
-    const { history, addOrUpdateRecentsFromGroup } = this.props;
+    const { history } = this.props;
 
     history.push(`/r/${scope}/${id}`);
-    addOrUpdateRecentsFromGroup(id, scope);
+  }
+
+  doViewContact = (id, entry) => {
+    const { history } = this.props;
+
+    // NOTE(longsleep): Full entry is injected into navigation state. It is left
+    // to the consumer what to do with it.
+    history.push(`/r/call/${id}`, { entry });
   }
 
   wakeFromStandby = (newMode) => {
@@ -823,13 +845,13 @@ class CallView extends React.PureComponent {
                     { openTab === 'recents' ?
                       <Recents
                         className={classes.mainView}
-                        onEntryClick={this.handleRecentEntryClick}
+                        onEntryClick={this.handleEntryClick}
                         onCallClick={this.handleFabClick}
                       /> :
                       <ContactSearch
                         className={classes.mainView}
-                        onContactClick={(id, mode) => {
-                          this.handleContactClick(id, mode);
+                        onEntryClick={(...args) => {
+                          this.handleEntryClick(...args);
                           this.openDialog({newCall: false});
                         }}
                         onActionClick={(action) => {
@@ -850,16 +872,32 @@ class CallView extends React.PureComponent {
                   </React.Fragment>
                 )}/>
                 <Route exact
+                  path="/r/call/:id(.*)"
+                  render={({ match, location, ...other }) => {
+                    const { entry } = location.state;
+                    if (!entry || entry.id !== match.params.id) {
+                      return <Redirect to="/r/call"/>;
+                    }
+                    return <ContactControl
+                      className={classes.mainView}
+                      onEntryClick={this.handleEntryClick}
+                      entry={entry}
+                      {...other}
+                    />;
+                  }}
+                />
+                <Route exact
                   path="/r/:scope(conference|group)/:id(.*)?"
                   render={({ match, ...other }) => {
                     return <GroupControl
                       className={classes.mainView}
-                      onEntryClick={this.handleGroupEntryClick}
+                      onEntryClick={this.handleEntryClick}
                       group={{
                         scope: match.params.scope,
                         id: match.params.id,
                       }}
-                      {...other}/>;
+                      {...other}
+                    />;
                   }}
                 />
                 <Redirect to="/r/call"/>
@@ -893,8 +931,8 @@ class CallView extends React.PureComponent {
         onClose={() => { this.openDialog({newCall: false}); }}
       >
         <ContactSearch
-          onContactClick={(id, mode) => {
-            this.handleContactClick(id, mode);
+          onEntryClick={(...args) => {
+            this.handleEntryClick(...args);
             this.openDialog({newCall: false});
           }}
           onActionClick={(action) => {

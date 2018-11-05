@@ -5,24 +5,18 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import PublicConferenceIcon from '@material-ui/icons/Group';
-import Chip from '@material-ui/core/Chip';
-import LinkIcon from '@material-ui/icons/Link';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 
 import Persona from 'kpop/es/Persona';
 
-import { writeTextToClipboard } from '../clipboard';
-import { qualifyAppURL } from '../base';
-import { mapGroupEntryToUserShape } from './Recents';
+import { mapContactEntryToUserShape } from './Recents';
+import ContactLabel from './ContactLabel';
 
 const styles = (theme) => ({
   root: {
@@ -50,23 +44,11 @@ const styles = (theme) => ({
   },
 });
 
-class GroupControl extends React.PureComponent {
-  state = {
-    url: null,
-  }
-
-  static getDerivedStateFromProps(props) {
-    const { group } = props;
-
-    return {
-      url: qualifyAppURL(`/r/${group.scope}/${group.id}`),
-    };
-  }
-
+class ContactControl extends React.PureComponent {
   handleEntryClick = (mode) => () => {
-    const { group, onEntryClick } = this.props;
+    const { entry, onEntryClick } = this.props;
 
-    onEntryClick(group, group.scope, mode);
+    onEntryClick(entry, entry.kind, mode);
   };
 
   handleCloseClick = () => {
@@ -75,22 +57,12 @@ class GroupControl extends React.PureComponent {
     history.push('/r/call');
   };
 
-  handleCopyLinkClick = () => {
-    const { url } = this.state;
-
-    writeTextToClipboard(url).then(() => {
-      console.debug('Copied link to clipboard', url); // eslint-disable-line no-console
-    }).catch(err => {
-      console.warn('Failed to copy link to clipboard', err); // eslint-disable-line no-console
-    });
-  };
-
   render() {
     const {
       classes,
       className: classNameProp,
 
-      group,
+      entry,
     } = this.props;
 
     const className = classNames(
@@ -104,23 +76,12 @@ class GroupControl extends React.PureComponent {
           <List disablePadding>
             <ListItem>
               <Persona
-                user={mapGroupEntryToUserShape(group)}
-                forceIcon
-                icon={<PublicConferenceIcon/>}
-                aria-label={group.scope}
+                user={mapContactEntryToUserShape(entry)}
                 className={classes.avatar} />
-              <ListItemText primary={group.id} secondary={group.scope} />
+              <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
             </ListItem>
           </List>
           <Card elevation={0} className={classes.card}>
-            <CardContent>
-              <Chip
-                className={classes.chip}
-                avatar={<Avatar><LinkIcon/></Avatar>}
-                label={`Share ${group.scope}`}
-                onClick={this.handleCopyLinkClick}
-              />
-            </CardContent>
             <CardActions className={classes.actions}>
               <Button
                 color="primary"
@@ -149,14 +110,14 @@ class GroupControl extends React.PureComponent {
   }
 }
 
-GroupControl.propTypes = {
+ContactControl.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
-  group: PropTypes.object.isRequired,
+  entry: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 
   onEntryClick: PropTypes.func,
 };
 
-export default connect()(withStyles(styles)(GroupControl));
+export default connect()(withStyles(styles)(ContactControl));
