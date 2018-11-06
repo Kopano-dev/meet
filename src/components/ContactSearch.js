@@ -55,6 +55,9 @@ const styles = theme => ({
     overflow: 'auto',
     flex: 1,
   },
+  entry: {
+    minHeight: 68,
+  },
   message: {
     minHeight: 50,
     verticalAlign: 'middle',
@@ -265,7 +268,7 @@ class ContactSearch extends React.PureComponent {
         <div className={classes.contacts}>
           <List disablePadding>
             {items.map((contact) =>
-              <ListItem button key={contact.id} onClick={this.handleContactClick(contact)}>
+              <ListItem button key={contact.id} onClick={this.handleContactClick(contact)} className={classes.entry}>
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction>

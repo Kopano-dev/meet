@@ -37,6 +37,9 @@ const styles = theme => ({
     overflow: 'auto',
     flex: 1,
   },
+  entry: {
+    minHeight: 68,
+  },
   timecontainer: {
     position: 'absolute',
     right: 0,
@@ -130,7 +133,7 @@ class Recents extends React.PureComponent {
                   },
                 ]}
               >
-                <ListItem button onClick={this.handleEntryClick(entry)}>
+                <ListItem button onClick={this.handleEntryClick(entry)} className={classes.entry}>
                   <RecentsEntryPersona entry={entry}/>
                   <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
                   <div className={classes.timecontainer}>
