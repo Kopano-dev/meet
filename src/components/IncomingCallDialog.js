@@ -42,16 +42,16 @@ const styles = theme => ({
 });
 
 class IncomingCallDialog extends React.PureComponent {
-  handleAcceptClick = (mode) => () => {
+  handleAcceptClick = (mode, entry, kind) => () => {
     const { onAcceptClick } = this.props;
 
-    onAcceptClick(mode);
+    onAcceptClick(mode, entry, kind);
   }
 
-  handleRejectClick = () => {
+  handleRejectClick = (entry, kind) => () => {
     const { onRejectClick } = this.props;
 
-    onRejectClick();
+    onRejectClick(entry, kind);
   }
 
   render() {
@@ -67,6 +67,7 @@ class IncomingCallDialog extends React.PureComponent {
 
     // Base64 URL encoding required, simple conversion here.
     const contact = contacts[forceBase64URLEncoded(record.id)];
+    const kind = contact ? 'contact' : undefined;
 
     return (
       <Dialog
@@ -77,26 +78,36 @@ class IncomingCallDialog extends React.PureComponent {
             <Persona
               user={mapContactEntryToUserShape(contact)}
               className={classes.avatar} />
-            <ListItemText primary="Incoming call" secondary={<ContactLabel contact={contact} id={record.id}/>} secondaryTypographyProps={{
-              color: 'textPrimary',
-              variant: 'headline',
-            }} />
+            <ListItemText primary="Incoming call"
+              secondary={<ContactLabel contact={contact} id={record.id}/>}
+              secondaryTypographyProps={{
+                color: 'textPrimary',
+                variant: 'headline',
+              }}
+            />
           </ListItem>
         </DialogContent>
         <DialogActions className={classes.specialActions}>
-          <Button onClick={this.handleRejectClick} className={classes.reject}>
+          <Button onClick={this.handleRejectClick(contact, kind)} className={classes.reject}>
             <ClearIcon className={classes.leftIcon}/>
             Reject
           </Button>
         </DialogActions>
         <DialogActions>
-          <Button className={classes.flex} onClick={this.handleAcceptClick('videocall')} color="primary" autoFocus>
+          <Button className={classes.flex}
+            onClick={this.handleAcceptClick('videocall', contact, kind)}
+            color="primary" autoFocus
+          >
             <VideocamIcon className={classes.leftIcon}/>
-            Video
+            Accept video
           </Button>
-          <Button className={classes.flex} onClick={this.handleAcceptClick('call')} color="primary" autoFocus>
+          <Button className={classes.flex}
+            onClick={this.handleAcceptClick('call', contact, kind)}
+            color="primary"
+            autoFocus
+          >
             <CallIcon className={classes.leftIcon}/>
-            Phone
+            Accept call
           </Button>
 
         </DialogActions>

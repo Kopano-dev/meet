@@ -37,7 +37,7 @@ import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
-import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
+import { forceBase64StdEncoded } from 'kpop/es/utils';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 
@@ -425,7 +425,7 @@ class CallView extends React.PureComponent {
     this.openDialog({ newCall: true});
   };
 
-  handleAcceptClick = (id, mode) => {
+  handleAcceptClick = (id, mode, entry, kind) => {
     const  { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
@@ -436,11 +436,14 @@ class CallView extends React.PureComponent {
       }
       return this.requestUserMedia();
     }).then(() => {
-      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
-      // updated to use URL-safe ids which is required since contact IDs come
-      // from the REST API which is Base64 encoded while konnect requires the
-      // IDs in Standard encoding.
-      addOrUpdateRecentsFromContact(forceBase64URLEncoded(id));
+      if (entry) {
+        switch (kind) {
+          case 'contact':
+            this.doViewContact(entry);
+            addOrUpdateRecentsFromContact(entry.id);
+            break;
+        }
+      }
 
       doAccept(id);
     });
@@ -910,8 +913,8 @@ class CallView extends React.PureComponent {
           open={!record.ignore}
           key={`incoming-call-${id}`}
           record={record}
-          onAcceptClick={(mode) => { this.handleAcceptClick(record.id, mode); }}
-          onRejectClick={() => { this.handleRejectClick(record.id); }}
+          onAcceptClick={(mode, entry, kind) => { this.handleAcceptClick(record.id, mode, entry, kind); }}
+          onRejectClick={(entry, kind) => { this.handleRejectClick(record.id, entry, kind); }}
         >
         </IncomingCallDialog>
       );
