@@ -874,7 +874,7 @@ class CallView extends React.PureComponent {
                 <Route exact
                   path="/r/call/:id(.*)"
                   render={({ match, location, ...other }) => {
-                    const { entry } = location.state;
+                    const { entry } = location.state ? location.state : {};
                     if (!entry || entry.id !== match.params.id) {
                       return <Redirect to="/r/call"/>;
                     }
