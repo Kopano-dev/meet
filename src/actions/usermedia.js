@@ -158,7 +158,7 @@ export function requestUserMedia(id='', video=true, audio=true) {
         return status.stream && status.stream.active ? status.stream : null;
       }
       return navigator.mediaDevices.getUserMedia(constraints);
-    }).then(stream => {
+    }).then(async stream => {
       // Process stream.
       console.debug('gUM stream', idx, stream); // eslint-disable-line no-console
       if (idx !== status.idx) {
@@ -192,31 +192,31 @@ export function requestUserMedia(id='', video=true, audio=true) {
         const oldTracks = status.stream.getTracks();
         const newTracks = stream.getTracks();
         for (const track of oldTracks) {
+          // Remember.
+          info.removedTracks.push(track);
           // Stop old track.
           track.stop();
           // Remove old track from existing stream.
-          status.stream.removeTrack(track);
-          // Remember.
-          info.removedTracks.push(track);
+          removeTrackFromStream(status.stream, track);
         }
         for (const track of newTracks) {
-          // Add new track to existing stream.
-          status.stream.addTrack(track);
-          // Remove new track from new stream.
-          stream.removeTrack(track);
           // Remember.
           info.newTracks.push(track);
+          // Add new track to existing stream.
+          addTrackToStream(status.stream, track);
+          // Remove new track from new stream.
+          removeTrackFromStream(stream, track);
         }
       }
       status.stream = info.stream;
       status.promise = null;
       status.resolve(info);
-      dispatch(userMediaAudioVideoStream(id, info.stream));
+      await dispatch(userMediaAudioVideoStream(id, info.stream));
       return info;
-    }).catch(err => {
+    }).catch(async err => {
       status.promise = null;
       status.reject(err);
-      dispatch(userMediaAudioVideoStream(id, null));
+      await dispatch(userMediaAudioVideoStream(id, null));
       throw err;
     });
   };
@@ -239,7 +239,7 @@ export function stopUserMedia(id='') {
         stopUserMediaStream(status.stream);
         status.stream = null;
       }
-      dispatch(userMediaAudioVideoStream(id, null));
+      await dispatch(userMediaAudioVideoStream(id, null));
     }
   };
 }
@@ -253,6 +253,24 @@ function stopUserMediaStream(stream) {
       track.stop();
     }
   }
+}
+
+export function addTrackToStream(stream, track) {
+  stream.addTrack(track);
+  // Manually trigger event, since this does not trigger when addTrack is
+  // called directly. See https://w3c.github.io/mediacapture-main/#event-summary
+  // for details.
+  var trackEvent = new MediaStreamTrackEvent('addtrack', {track});
+  stream.dispatchEvent(trackEvent);
+}
+
+export function removeTrackFromStream(stream, track) {
+  stream.removeTrack(track);
+  // Manually trigger event, since this does not trigger when removeTrack is
+  // called directly. See https://w3c.github.io/mediacapture-main/#event-summary
+  // for details.
+  var trackEvent = new MediaStreamTrackEvent('removetrack', {track});
+  stream.dispatchEvent(trackEvent);
 }
 
 export function muteStreamByType(stream, mute=true, type='video', id='') {
@@ -291,9 +309,9 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
       for (const track of tracks) {
         track.enabled = false;
         if (globalSettings.muteWithAddRemoveTracks) {
-          track.stop();
-          stream.removeTrack(track);
           info.removedTracks.push(track);
+          track.stop();
+          removeTrackFromStream(stream, track);
         }
       }
       return info;
@@ -306,9 +324,9 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
               if (stream.active) {
                 // Make sure that stream we are adding to is still active.
                 for (const track of newTracks) {
-                  stream.addTrack(track);
-                  newInfo.stream.removeTrack(track);
                   info.newTracks.push(track);
+                  addTrackToStream(stream, track);
+                  removeTrackFromStream(newInfo.stream, track);
                 }
               } else {
                 // Old stream is not active, use new stream.

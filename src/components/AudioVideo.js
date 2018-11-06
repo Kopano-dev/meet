@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
+import CamOffIcon from '@material-ui/icons/VideocamOff';
+import MicOffIcon from '@material-ui/icons/MicOff';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
@@ -99,6 +101,11 @@ const styles = (theme) => ({
     flex: 1,
     fontSize: 46,
   },
+  alternativeIcon: {
+    position: 'absolute',
+    margin: 'auto',
+    fontSize: 46,
+  },
 });
 
 class AudioVideo extends React.PureComponent {
@@ -110,10 +117,9 @@ class AudioVideo extends React.PureComponent {
 
     this.state = {
       active: false,
+      audio: false,
+      video: false,
     };
-
-    this.handleReset = this.handleReset.bind(this);
-    this.handleMetadata = this.handleMetadata.bind(this);
   }
 
   componentDidMount() {
@@ -151,6 +157,7 @@ class AudioVideo extends React.PureComponent {
       if (this.extra) {
         this.extra.srcObject = stream;
       }
+      this.classifyStream(stream);
     } else {
       this.element.src = '';
       if (this.extra) {
@@ -169,7 +176,36 @@ class AudioVideo extends React.PureComponent {
     stream.removeEventListener('addtrack', this.handleReset, true);
   }
 
-  handleReset() {
+  classifyStream(stream) {
+    if (stream) {
+      let audio = false;
+      let video = false;
+      const tracks = stream.getTracks();
+      for (let i=0; i<tracks.length; i++) {
+        const track = tracks[i];
+        const enabled = track.enabled;
+        switch (track.kind) {
+          case 'audio':
+            if (!audio && enabled) {
+              audio = true;
+            }
+            break;
+          case 'video':
+            if (!video && enabled) {
+              video = true;
+            }
+            break;
+        }
+      }
+      console.debug('classified stream', this.element, {audio, video}); // eslint-disable-line no-console
+      this.setState({
+        audio,
+        video,
+      });
+    }
+  }
+
+  handleReset = () => {
     if (this.element) {
       const { stream } = this.props;
       this.element.src = '';
@@ -181,11 +217,12 @@ class AudioVideo extends React.PureComponent {
         if (this.extra) {
           this.extra.srcObject = stream;
         }
+        this.classifyStream(stream);
       }
     }
   }
 
-  handleMetadata(event) {
+  handleMetadata = (event) => {
     const ready = event.target.readyState !== 0;
 
     if (event.target instanceof HTMLVideoElement) {
@@ -221,7 +258,7 @@ class AudioVideo extends React.PureComponent {
   }
 
   render() {
-    const { active } = this.state;
+    const { active, video: hasVideo, audio: hasAudio } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -241,17 +278,23 @@ class AudioVideo extends React.PureComponent {
       {
         [classes.mirrored]: mirrored,
         [classes.video]: !audio,
-        [classes.active]: active,
+        [classes.active]: active && hasVideo,
       },
     );
 
     let element;
     let overlay;
+    let icon;
+
+    if (!hasVideo && !audio) {
+      // No video.
+      icon = <CamOffIcon className={classes.alternativeIcon}/>;
+    }
 
     if (user) {
       overlay = <div className={classes.overlayText}>
         <Typography variant="display1" gutterBottom>
-          { user.displayName }
+          { user.displayName } { !hasAudio ?  <MicOffIcon/> : null }
         </Typography>
         { calling &&
           <Typography>
@@ -309,6 +352,7 @@ class AudioVideo extends React.PureComponent {
       >
         {overlay}
         {element}
+        {icon}
       </div>
     );
   }

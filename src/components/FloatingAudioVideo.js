@@ -6,9 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import AudioVideo from './AudioVideo';
 
-const styles = {
+const styles = (theme) => ({
   root: {
-    background: 'black',
+    background: `${theme.videoBackground.top}`,
     width: '12vh',
     height: '12vh',
     borderRadius: '50%',
@@ -28,7 +28,7 @@ const styles = {
     borderRadius: '50%',
     overflow: 'hidden',
   },
-};
+});
 
 class FloatingAudioVideo extends React.PureComponent {
   render() {
