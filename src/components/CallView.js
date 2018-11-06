@@ -403,67 +403,23 @@ class CallView extends React.PureComponent {
       return;
     }
 
-    // FIXME(longsleep): Refactor the code below - its crap crap crap.
-    if (mode) {
-      switch (kind) {
-        case 'group':
-          this.handleGroupEntryClick(entry.id, entry.scope, mode);
-          break;
+    switch (kind) {
+      case 'group':
+        this.doViewGroup(entry);
+        if (mode) {
+          this.doCallGroup(entry, mode);
+        }
+        break;
 
-        default:
-          // Default is contacts.
-          this.handleContactClick(entry.id, mode);
-          break;
-      }
-    } else {
-      switch (kind) {
-        case 'group':
-          this.doViewGroup(entry.id, entry.scope);
-          break;
-
-        default:
-          // Default is contacts.
-          this.doViewContact(entry.id, entry);
-          break;
-      }
+      default:
+        // Default is contacts.
+        this.doViewContact(entry);
+        if (mode) {
+          this.doCallContact(entry, mode);
+        }
+        break;
     }
   };
-
-  handleContactClick = (id, mode) => {
-    const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
-
-    const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby(mode).then(() => {
-      if (localStream && localStream.active) {
-        return;
-      }
-      return this.requestUserMedia();
-    }).then(() => {
-      addOrUpdateRecentsFromContact(id);
-
-      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
-      // updated to use URL-safe ids which is required since contact IDs come
-      // from the REST API which is Base64 encoded while konnect requires the
-      // IDs in Standard encoding.
-      doCall(forceBase64StdEncoded(id));
-    });
-  };
-
-  handleGroupEntryClick = (id, scope, mode) => {
-    const { doGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
-
-    const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby(mode).then(() => {
-      if (localStream && localStream.active) {
-        return;
-      }
-      return this.requestUserMedia();
-    }).then(() => {
-      addOrUpdateRecentsFromGroup(id, scope);
-
-      doGroup(`${scope}/${id}`);
-    });
-  }
 
   handleFabClick = () => {
     this.openDialog({ newCall: true});
@@ -519,7 +475,7 @@ class CallView extends React.PureComponent {
         break;
 
       case 'view-public-group':
-        this.doViewGroup(props.id, props.scope);
+        this.doViewGroup(props);
         break;
 
       default:
@@ -534,18 +490,57 @@ class CallView extends React.PureComponent {
     });
   }
 
-  doViewGroup = (id, scope) => {
+  doViewGroup = (group) => {
     const { history } = this.props;
 
-    history.push(`/r/${scope}/${id}`);
+    history.push(`/r/${group.scope}/${group.id}`);
   }
 
-  doViewContact = (id, entry) => {
+  doViewContact = (contact) => {
     const { history } = this.props;
 
     // NOTE(longsleep): Full entry is injected into navigation state. It is left
     // to the consumer what to do with it.
-    history.push(`/r/call/${id}`, { entry });
+    history.push(`/r/call/${contact.id}`, { entry: contact });
+  }
+
+  doCallContact = (contact, mode) => {
+    const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
+
+    const localStream = localAudioVideoStreams[this.localStreamID];
+    this.wakeFromStandby(mode).then(() => {
+      if (localStream && localStream.active) {
+        return;
+      }
+      return this.requestUserMedia();
+    }).then(() => {
+      const { id } = contact;
+
+      addOrUpdateRecentsFromContact(id);
+
+      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
+      // updated to use URL-safe ids which is required since contact IDs come
+      // from the REST API which is Base64 encoded while konnect requires the
+      // IDs in Standard encoding.
+      doCall(forceBase64StdEncoded(id));
+    });
+  };
+
+  doCallGroup = (group, mode) => {
+    const { doGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
+
+    const localStream = localAudioVideoStreams[this.localStreamID];
+    this.wakeFromStandby(mode).then(() => {
+      if (localStream && localStream.active) {
+        return;
+      }
+      return this.requestUserMedia();
+    }).then(() => {
+      const { id, scope } = group;
+      addOrUpdateRecentsFromGroup(id, scope);
+
+      doGroup(`${scope}/${id}`);
+    });
   }
 
   wakeFromStandby = (newMode) => {
