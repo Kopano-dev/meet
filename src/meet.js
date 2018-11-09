@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import 'webrtc-adapter';
-
 import moment from './moment';
 import Moment from 'react-moment';
 
@@ -15,6 +13,7 @@ import IntlContainer from 'kpop/es/IntlContainer';
 import Loading from 'kpop/es/Loading';
 import registerServiceWorker from 'kpop/es/serviceWorker';
 
+import './adapter';
 import configureStore from './configureStore';
 import translations from './locales';
 import { registerGlobalDebugger } from './debug';
