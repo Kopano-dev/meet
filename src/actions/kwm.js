@@ -433,7 +433,12 @@ function setNonFatalError(text, err) {
   if (err) {
     // TODO(longsleep): Pure man error conversion follows. This needs real
     // messages for the known errors and translation.
-    text += ' - ' + (''+err).replace('_', ' ');
+    if (err.msg) {
+      err = err.msg;
+    } else if (err.code) {
+      err = (''+err.code).replace('_', ' ');
+    }
+    text += ' - ' + err;
   }
 
   return async dispatch => {
