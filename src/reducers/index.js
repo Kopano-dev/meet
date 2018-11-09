@@ -5,6 +5,7 @@ import usermediaReducer from './usermedia';
 import streamsReducer from './streams';
 import recentsReducer from './recents';
 import oidcReducer from './oidc';
+import snacksReducer from './snacks';
 
 const reducers = {
   common: commonReducer,
@@ -14,6 +15,7 @@ const reducers = {
   streams: streamsReducer,
   recents: recentsReducer,
   oidc: oidcReducer,
+  snacks: snacksReducer,
 };
 
 export default reducers;

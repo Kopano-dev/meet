@@ -250,14 +250,12 @@ function createKWMManager() {
 
 function error(event) {
   return async (dispatch) => {
-    console.warn('KWM error event', event.code, event); // eslint-disable-line no-console
-
     let fatal = true;
     switch (event.code) {
       case 'no_session_for_user':
         // NOTE(longsleep): This error is pretty useless as it does not return
         // enough information to know which call actually is meant here.
-        console.warn('KMW error ignored', event.code, event); // eslint-disable-line no-console
+        console.debug('KMW error ignored', event.code, event); // eslint-disable-line no-console
         return;
       case 'http_error_403':
         // NOTE(longsleep): For whatever reason we were not allowed to
@@ -265,10 +263,12 @@ function error(event) {
         // with the error since this can happen when the access token
         // is expired (like after a device resume).
         dispatch(doHangup());
-        //await dispatch(userRequiredError());
+        await setNonFatalError('No permission to access server', event);
         return;
       default:
     }
+
+    console.warn('KWM error event', event.code, event); // eslint-disable-line no-console
 
     // TODO(longsleep): Make only fatal if kwm is not reconnecting.
     const error = {

@@ -49,6 +49,12 @@ const styles1 = theme => ({
 });
 
 const styles2 = () => ({
+  snack: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
 });
 
 function TransitionDown(props) {
@@ -105,9 +111,10 @@ class Snacks extends React.PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    const { snack } = this.props;
+    const { snacks } = this.props;
 
-    if (prevProps.snack !== snack && snack) {
+    if (snacks && snacks.length > 0 && prevProps.snacks[0] !== snacks[0]) {
+      const snack = snacks[0];
       this.addToQueue(snack.message, snack.variant ? snack.variant : 'info');
     }
   }
@@ -127,12 +134,16 @@ class Snacks extends React.PureComponent {
     }
   };
 
-  processQueue = () => {
+  processQueue = (more=false) => {
     if (this.queue.length > 0) {
       this.setState({
         messageInfo: this.queue.shift(),
         open: true,
       });
+    } else {
+      if (more) {
+        this.props.shiftSnacks();
+      }
     }
   };
 
@@ -144,10 +155,11 @@ class Snacks extends React.PureComponent {
   };
 
   handleExited = () => {
-    this.processQueue();
+    this.processQueue(true);
   };
 
   render() {
+    const { classes } = this.props;
     const { message, variant, key } = this.state.messageInfo;
     return (
       <Snackbar
@@ -162,18 +174,22 @@ class Snacks extends React.PureComponent {
         onClose={this.handleClose}
         onExited={this.handleExited}
       >
-        <SnacksContentWrapper variant={variant} message={message} onClose={this.handleClose}/>
+        <SnacksContentWrapper
+          variant={variant}
+          message={message}
+          onClose={this.handleClose}
+          className={classes.snack}
+        />
       </Snackbar>
     );
   }
 }
 
-
 Snacks.propTypes = {
   classes: PropTypes.object.isRequired,
 
-  snack: PropTypes.object,
+  snacks: PropTypes.array.isRequired,
+  shiftSnacks: PropTypes.func.isRequired,
 };
-
 
 export default withStyles(styles2)(Snacks);

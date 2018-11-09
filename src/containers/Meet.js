@@ -18,6 +18,7 @@ import { basePath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
 import Snacks from '../components/Snacks';
+import { shiftSnacks } from '../actions/snacks';
 
 
 const routes = [
@@ -95,15 +96,19 @@ class App extends PureComponent {
     }
   }
 
+  handleShiftSnacks = () => {
+    const { dispatch } = this.props;
+
+    return dispatch(shiftSnacks());
+  }
+
   render() {
     const { initialized } = this.state;
-    const { config, user, error, ...other } = this.props;
+    const { config, user, error, snacks, ...other } = this.props;
     const ready = config && user && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
     const soundSprite = soundSprite1Json;
-
-    const snack = error ? {variant: 'error', ...error} : null;
 
     return (
       <BaseContainer ready={ready} error={error} config={config} {...other}>
@@ -116,7 +121,7 @@ class App extends PureComponent {
             </Switch>
           </Router>
         </HowlingProvider>
-        <Snacks snack={snack} />
+        <Snacks snacks={snacks} shiftSnacks={this.handleShiftSnacks}/>
       </BaseContainer>
     );
   }
@@ -129,6 +134,7 @@ App.propTypes = {
   config: PropTypes.object,
   user: PropTypes.object,
   error: PropTypes.object,
+  snacks: PropTypes.array.isRequired,
 
   dispatch: PropTypes.func.isRequired,
 };
@@ -136,6 +142,7 @@ App.propTypes = {
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error } = state.common;
   const { available: a2HsAvailable } = state.pwa.a2hs;
+  const { snacks } = state.snacks;
 
   return {
     offline,
@@ -144,6 +151,7 @@ const mapStateToProps = (state) => {
     config,
     user,
     error,
+    snacks,
   };
 };
 
