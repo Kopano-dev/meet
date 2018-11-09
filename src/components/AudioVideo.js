@@ -153,9 +153,11 @@ class AudioVideo extends React.PureComponent {
     if (stream) {
       // Add interesting event handlers.
       this.addStreamEvents(stream);
-      this.element.srcObject = stream;
-      if (this.extra) {
-        this.extra.srcObject = stream;
+      if (stream.active) {
+        this.element.srcObject = stream;
+        if (this.extra) {
+          this.extra.srcObject = stream;
+        }
       }
       this.classifyStream(stream);
     } else {
@@ -213,9 +215,11 @@ class AudioVideo extends React.PureComponent {
         this.extra.src = '';
       }
       if (stream) {
-        this.element.srcObject = stream;
-        if (this.extra) {
-          this.extra.srcObject = stream;
+        if (stream.active) {
+          this.element.srcObject = stream;
+          if (this.extra) {
+            this.extra.srcObject = stream;
+          }
         }
         this.classifyStream(stream);
       }
