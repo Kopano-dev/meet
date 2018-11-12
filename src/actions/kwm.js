@@ -231,9 +231,15 @@ function createKWMManager() {
           break;
       }
 
-      if (event.target.peers.size === 0 && event.target.channel !== '' && !event.target.group) {
-        console.log('KWM hangup as no peers are left'); // eslint-disable-line no-console
-        dispatch(doHangup());
+      // Cleanup if no peers are left.
+      if (event.target.peers.size === 0) {
+        if (event.target.channel !== '' && !event.target.group) {
+          console.log('KWM hangup as no peers are left'); // eslint-disable-line no-console
+          dispatch(doHangup());
+        } else if (event.target.channel === '') {
+          // Reset channel when not having a channel and no peers.
+          dispatch(resetChannel());
+        }
       }
     };
     k.webrtc.onstream = event => {
@@ -429,6 +435,15 @@ function streamReceived(event) {
   };
 }
 
+function resetChannel() {
+  return async (dispatch, getState) => {
+    const { channel } = getState().kwm;
+    if (channel) {
+      await dispatch(channelChanged(null));
+    }
+  };
+}
+
 function setNonFatalError(text, err) {
   if (err) {
     // TODO(longsleep): Pure man error conversion follows. This needs real
@@ -487,7 +502,7 @@ export function doHangup(id='', reason) {
     }
     return kwm.webrtc.doHangup(id, reason).then(channel => {
       console.info('KWM channel release', channel); // eslint-disable-line no-console
-      dispatch(channelChanged(null));
+      dispatch(resetChannel());
     }).catch(err => {
       dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
       console.error('KWM doHangup failed', err);  // eslint-disable-line no-console
