@@ -79,6 +79,7 @@ const isMobile = /Mobi/.test(navigator.userAgent);
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';
+const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
@@ -105,6 +106,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+    [deskopWidthBreakpoint]: {
+      flexDirection: 'row',
+    },
   },
   topBar: {
   },
@@ -198,6 +202,10 @@ const styles = theme => ({
       minHeight: 0,
       height: 0,
     },
+    [deskopWidthBreakpoint]: {
+      height: 'auto',
+      flex: 1,
+    },
   },
   callWithoutCall: {
     height: 0,
@@ -212,6 +220,11 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+    [deskopWidthBreakpoint]: {
+      flex: 0,
+      paddingTop: 66,
+      minWidth: 385,
+    },
   },
   tabs: {
   },
