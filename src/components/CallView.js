@@ -195,7 +195,7 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     [xsHeightDownBreakpoint]: {
-      minHeight: 10,
+      minHeight: 65,
       height: '10vh',
     },
     [minimalHeightDownBreakpoint]: {
