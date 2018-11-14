@@ -36,6 +36,7 @@ const styles = theme => ({
   entries: {
     overflow: 'auto',
     flex: 1,
+    paddingBottom: 100,
   },
   entry: {
     minHeight: 68,

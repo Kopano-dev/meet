@@ -54,6 +54,7 @@ const styles = theme => ({
   contacts: {
     overflow: 'auto',
     flex: 1,
+    paddingBottom: 100,
   },
   entry: {
     minHeight: 68,
