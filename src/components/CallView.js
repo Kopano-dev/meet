@@ -213,6 +213,9 @@ const styles = theme => ({
   },
   callWithCall: {
     height: '100vh',
+    [deskopWidthBreakpoint]: {
+      height: 'auto',
+    },
   },
   menu: {
     boxSizing: 'border-box',
