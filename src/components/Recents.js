@@ -34,27 +34,24 @@ const styles = theme => ({
     userSelect: 'none',
   },
   entries: {
-    overflow: 'auto',
+    overflowY: 'scroll',
     flex: 1,
     paddingBottom: 100,
   },
   entry: {
     minHeight: 68,
-  },
-  timecontainer: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  time: {
-    paddingRight: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    overflow: 'hidden',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      left: 72,
+      bottom: 0,
+      right: 0,
+      height: 1,
+      background: theme.palette.action.hover,
+    },
   },
   actions: {
-    top: 'auto',
-    bottom: theme.spacing.unit / 2,
-    transform: 'none',
   },
   centered: {
     textAlign: 'center',
@@ -136,18 +133,10 @@ class Recents extends React.PureComponent {
               >
                 <ListItem button onClick={this.handleEntryClick(entry)} className={classes.entry}>
                   <RecentsEntryPersona entry={entry}/>
-                  <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
-                  <div className={classes.timecontainer}>
-                    <Tooltip
-                      enterDelay={500}
-                      placement="left"
-                      title={<Moment>{entry.date}</Moment>}
-                    >
-                      <Typography variant="caption" className={classes.time}>
-                        <Moment fromNow >{entry.date}</Moment>
-                      </Typography>
-                    </Tooltip>
-                  </div>
+                  <ListItemText
+                    primary={<ContactLabel contact={entry} id={entry.id}/>}
+                    secondary={<RecentsEntrySubline entry={entry}/>}
+                  />
                   <ListItemSecondaryAction className={classes.actions}>
                     <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
                       <VideocamIcon />
@@ -206,6 +195,31 @@ const RecentsEntryPersona = ({ entry }) => {
 };
 
 RecentsEntryPersona.propTypes = {
+  entry: PropTypes.object.isRequired,
+};
+
+const RecentsEntrySubline = ({ entry }) => {
+  let prefix = null;
+  switch (entry.kind) {
+    case 'group': {
+      const label = entry.scope[0].toUpperCase() + entry.scope.substr(1);
+      prefix=<React.Fragment>{label} &mdash; </React.Fragment>;
+      break;
+    }
+  }
+
+  return <React.Fragment>
+    {prefix}<Tooltip
+      enterDelay={500}
+      placement="bottom"
+      title={<Moment>{entry.date}</Moment>}
+    >
+      <Moment fromNow >{entry.date}</Moment>
+    </Tooltip>
+  </React.Fragment>;
+};
+
+RecentsEntrySubline.propTypes = {
   entry: PropTypes.object.isRequired,
 };
 

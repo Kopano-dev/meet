@@ -52,12 +52,21 @@ const styles = theme => ({
   searchInput: {
   },
   contacts: {
-    overflow: 'auto',
+    overflowY: 'scroll',
     flex: 1,
     paddingBottom: 100,
   },
   entry: {
     minHeight: 68,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      left: 72,
+      bottom: 0,
+      right: 0,
+      height: 1,
+      background: theme.palette.action.hover,
+    },
   },
   message: {
     minHeight: 50,

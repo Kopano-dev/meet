@@ -38,7 +38,6 @@ export function addOrUpdateRecentsFromGroup(id, scope) {
       id,
       scope,
       displayName: id,
-      jobTitle: scope,
     }));
   };
 }
