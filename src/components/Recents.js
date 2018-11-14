@@ -8,6 +8,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import PublicConferenceIcon from '@material-ui/icons/Group';
@@ -15,6 +18,8 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import IconButton from '@material-ui/core/IconButton';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Moment from 'react-moment';
 
@@ -52,6 +57,9 @@ const styles = theme => ({
     },
   },
   actions: {
+    '& > *': {
+      marginLeft: -12,
+    },
   },
   centered: {
     textAlign: 'center',
@@ -64,16 +72,50 @@ const styles = theme => ({
 });
 
 class Recents extends React.PureComponent {
-  handleEntryClick = (entry, mode) => () => {
+  state = {};
+
+  handleEntryClick = (entry, mode) => (event) => {
     const { onEntryClick } = this.props;
 
-    onEntryClick(entry, entry.kind, mode);
+    switch (mode) {
+      case 'more':
+        this.setState({
+          entryMenuAnchorEl: event.target,
+          entry,
+        });
+        return;
+
+      case 'delete':
+        this.handleEntryDelete(entry)(event);
+        return;
+
+      default:
+        onEntryClick(entry, entry.kind, mode);
+        return;
+    }
   }
 
   handleEntryDelete = (entry) => () => {
     const { removeRecents } = this.props;
 
     removeRecents(entry.rid);
+  }
+
+  handleEntryMenuClose = () => {
+    this.setState({
+      entryMenuAnchorEl: null,
+      entry: null,
+    });
+  }
+
+  handleEntryMenuClick = (mode) => (event) => {
+    const { entry } = this.state;
+    if (!entry) {
+      return;
+    }
+
+    this.handleEntryMenuClose();
+    this.handleEntryClick(entry, mode)(event);
   }
 
   handleCallClick = () => {
@@ -83,6 +125,7 @@ class Recents extends React.PureComponent {
   }
 
   render() {
+    const { entryMenuAnchorEl } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -144,12 +187,27 @@ class Recents extends React.PureComponent {
                     <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
                       <CallIcon />
                     </IconButton>
+                    <IconButton aria-label="More" onClick={this.handleEntryClick(entry, 'more')}>
+                      <MoreVertIcon />
+                    </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
               </Swipeout>
             )}
             {noRecents}
           </List>
+          <Menu
+            anchorEl={entryMenuAnchorEl}
+            open={Boolean(entryMenuAnchorEl)}
+            onClose={this.handleEntryMenuClose}
+          >
+            <MenuItem onClick={this.handleEntryMenuClick('delete')}>
+              <ListItemIcon>
+                <DeleteIcon />
+              </ListItemIcon>
+              <ListItemText inset primary="Delete" />
+            </MenuItem>
+          </Menu>
         </div>
       </div>
     );

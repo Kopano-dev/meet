@@ -68,6 +68,11 @@ const styles = theme => ({
       background: theme.palette.action.hover,
     },
   },
+  actions: {
+    '& > *': {
+      marginLeft: -12,
+    },
+  },
   message: {
     minHeight: 50,
     verticalAlign: 'middle',
@@ -281,7 +286,7 @@ class ContactSearch extends React.PureComponent {
               <ListItem button key={contact.id} onClick={this.handleContactClick(contact)} className={classes.entry}>
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
-                <ListItemSecondaryAction>
+                <ListItemSecondaryAction className={classes.actions}>
                   <IconButton aria-label="Video call" onClick={this.handleContactClick(contact, 'videocall')}>
                     <VideocamIcon />
                   </IconButton>
