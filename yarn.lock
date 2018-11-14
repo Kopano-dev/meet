@@ -6036,9 +6036,9 @@ kleur@^2.0.1:
     crc32 "^0.2.2"
     hsv-rgb "^1.0.0"
 
-"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.12.1.tgz":
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-0.13.0.tgz":
   version "0.12.1"
-  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.12.1.tgz#024a3d98fbc0dd74693092ad9dec6e7da634dbee"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-0.13.0.tgz#36dd647898b08889fe6d8a06b41d32cb369aca9e"
   dependencies:
     simple-peer "^9.0.0"
     url-search-params "^0.10.0"
