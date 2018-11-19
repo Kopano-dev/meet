@@ -1,10 +1,10 @@
 import {
   ADD_OR_UPDATE_RECENT,
   REMOVE_RECENT,
+  SET_RECENTS,
 } from '../actions/types';
 
-const maxRecentsCount = 20;
-let globalIDCount = 0;
+export const maxRecentsCount = 30;
 
 const defaultState = {
   sorted: [],
@@ -14,14 +14,16 @@ const defaultState = {
 function recentsReducer(state = defaultState, action) {
   switch (action.type) {
     case ADD_OR_UPDATE_RECENT: {
-      const recentsID = action.id ? `${action.kind}_${action.id}` : 'local_'+(++globalIDCount);
+      const recentsID = action.rid;
 
-      const sorted = state.sorted.filter(rid => rid !== recentsID);
+      let sorted = state.sorted.filter(rid => rid !== recentsID);
       sorted.unshift(recentsID);
 
       const table = {};
+      let superfluous = [];
       if (sorted.length > maxRecentsCount) {
-        sorted.splice(maxRecentsCount);
+        superfluous = sorted.splice(maxRecentsCount);
+        sorted = sorted.splice(0, maxRecentsCount);
         for (const rid of sorted) {
           table[rid] = state.table[rid];
         }
@@ -33,6 +35,11 @@ function recentsReducer(state = defaultState, action) {
         ...{ date: action.date || new Date() },
         kind: action.kind,
       };
+
+      if (action.cleanup && superfluous.length > 0) {
+        // Allow caller action to trigger cleanup.
+        setTimeout(action.cleanup, 0, superfluous);
+      }
 
       return Object.assign({}, state, {
         sorted,
@@ -46,6 +53,16 @@ function recentsReducer(state = defaultState, action) {
       const sorted = state.sorted.filter(rid => rid !== recentsID);
       const table = Object.assign({}, state.table);
       delete table[recentsID];
+
+      return Object.assign({}, state, {
+        sorted,
+        table,
+      });
+    }
+
+    case SET_RECENTS: {
+      const sorted = action.sorted.slice(0, maxRecentsCount);
+      const table = Object.assign({}, action.table);
 
       return Object.assign({}, state, {
         sorted,
