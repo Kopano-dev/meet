@@ -14,7 +14,7 @@ const defaultState = {
 function snacksReducer(state = defaultState, action) {
   switch (action.type) {
     case KPOP_SET_ERROR: {
-      if (!action.error.fatal) {
+      if (action.error && !action.error.fatal) {
         const snacks = state.snacks.slice(0);
         snacks.push({...action.error, variant: 'error'});
         return Object.assign({}, state, {
