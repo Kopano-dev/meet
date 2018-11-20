@@ -37,12 +37,20 @@ function get(key, realm = 'user', { raw=false, recurse=false } = {}) {
   };
 }
 
-function createOrUpdate(key, value, realm = 'user') {
+function createOrUpdate(key, value, realm = 'user', { batch=false } = {}) {
   return (dispatch, getState) => {
     const { config, user } = getState().common;
 
+    let query = '';
+    if (batch) {
+      query += '&batch=1';
+    }
+    if (query) {
+      query = '?' + query.substr(1);
+    }
+
     return dispatch(networkFetch(
-      apiURL(config, `/kv/${realm}/${key}`), {
+      apiURL(config, `/kv/${realm}/${key}${query}`), {
         method: 'PUT',
         headers: getHeadersFromConfig(config, user, {
           'Content-Type': 'application/json',

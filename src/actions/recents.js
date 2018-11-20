@@ -29,14 +29,21 @@ export function fetchRecents() {
           const reversed = sorted.slice(0, maxRecentsCount);
           reversed.reverse();
           const importer = async () => {
+            const entries = [];
+            // Batch mode import to kvs.
             for (let i=0; i<reversed.length; i++) {
               const rid = reversed[i];
               const [ kind, ...idParts ] = rid.split('_');
               const id = idParts.join('_');
-              await dispatch(kvs.createOrUpdate(`${kvsCollection}/${kind}/${id}`, table[rid], 'user')).catch(err => {
-                console.warn('failed to sync recents entry', err);  // eslint-disable-line no-console
+              entries.push({
+                key: `${kind}/${id}`,
+                value: table[rid],
+                content_type: 'application/json', // eslint-disable-line camelcase
               });
             }
+            await dispatch(kvs.createOrUpdate(`${kvsCollection}`, entries, 'user', { batch: true })).catch(err => {
+              console.warn('failed to sync recents entry to server', err);  // eslint-disable-line no-console
+            });
           };
           setTimeout(importer, 0);
           await dispatch(recentsClaim(guid));
