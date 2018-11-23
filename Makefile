@@ -26,7 +26,7 @@ src:
 
 .PHONY: lint
 lint: vendor ; $(info running eslint ...)	@
-	$(YARN) eslint .
+	$(YARN) eslint . --cache && echo "eslint: no lint errors"
 
 .PHONY: lint-checkstyle
 lint-checkstyle: vendor ; $(info running eslint checkstyle ...)	@

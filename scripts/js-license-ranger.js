@@ -23,13 +23,14 @@
 'use strict';
 
 /* eslint-disable no-console */
+/* global require */
 
 const fs = require('fs'),
   glob = require('glob'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20181105-1'; // eslint-disable-line
+const version = '20181123-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
@@ -39,7 +40,7 @@ const licenseFilenames = [
   'COPYING',
   'license',
   'license.md',
-  'license.txt'
+  'license.txt',
 ];
 
 function findModuleViaPackageJSON(mp) {
