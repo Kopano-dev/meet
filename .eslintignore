@@ -4,5 +4,3 @@ dist/*
 es/*
 tests/*
 coverage/*
-scripts/*
-config/*
