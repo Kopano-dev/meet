@@ -6,6 +6,8 @@
   "dependencies": {
     "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^1.1.1",
+    "babel-loader": "^8.0.4",
+    "cra-append-sw": "^2.6.0",
     "debug": "^3.1.0",
     "howler": "^2.0.9",
     "kpop": "https://download.kopano.io/community/kapp:/kpop-0.13.2.tgz",
@@ -39,8 +41,8 @@
     "webrtc-adapter": "^6.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts start && cra-append-sw --mode dev ./src/sw/index.js",
+    "build": "react-scripts build && cra-append-sw ./src/sw/index.js && node ./scripts/local-workbox.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "licenses": "./js-license-ranger.js"
