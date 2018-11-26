@@ -34,7 +34,7 @@ const copyWorkboxLibraries = require('workbox-build').copyWorkboxLibraries;
 const serviceWorkerFile = './build/service-worker.js';
 const workboxDestination = './build/static/js';
 
-const version = '20181028-1'; // eslint-disable-line
+const version = '20181125-1'; // eslint-disable-line
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.NODE_ENV = 'production';
@@ -49,17 +49,24 @@ process.on('unhandledRejection', err => {
 // Copy workbox to destination.
 copyWorkboxLibraries(workboxDestination);
 
-// Modify service worker to load workbox locally.
-fs.readFile(serviceWorkerFile, (err, data) => {
+const lines = [];
+
+// Read and modify service worker to load workbox locally.
+fs.readFileSync(serviceWorkerFile, 'utf-8').split(/\r?\n/).forEach(line => {
+  if (line.includes('storage.googleapis.com')) {
+    line = line.replace(/https:\/\/storage.googleapis.com\/workbox-cdn\/releases\//, './static/js/workbox-v');
+    lines.push(line);
+    const v = new RegExp(/workbox-v(.*)\//).exec(line)[1];
+    lines.push(`workbox.setConfig({modulePathPrefix: "./static/js/workbox-v${v}"});`);
+  } else {
+    lines.push(line);
+  }
+});
+
+// Write modified service worker file.
+fs.writeFile(serviceWorkerFile, lines.join('\n'), 'utf-8', (err) => {
   if (err) {
     throw err;
   }
-
-  data = (''+data).replace(/https:\/\/storage.googleapis.com\/workbox-cdn\/releases\//, './static/js/workbox-v');
-
-  return fs.writeFile(serviceWorkerFile, data, 'utf-8', (err) => {
-    if (err) {
-      throw err;
-    }
-  });
 });
+
