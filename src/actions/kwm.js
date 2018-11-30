@@ -12,6 +12,8 @@ console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line 
 let kwm = null;
 const kwmOptions = {
   id: null,
+  user: null,
+  userMode: 'id_token',
   options: {},
 };
 
@@ -59,7 +61,7 @@ const sdpParams = {
   opusDtx: true,
 };
 
-export function setupKWM(id, {authorizationType, authorizationValue, autoConnect} = {}) {
+export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect} = {}) {
   return async (dispatch) => {
     if (id !== kwmOptions.id) {
       // Always disconnect when the user changed.
@@ -68,6 +70,7 @@ export function setupKWM(id, {authorizationType, authorizationValue, autoConnect
 
     // Update KWM options by reference.
     kwmOptions.id = id;
+    kwmOptions.user = idToken;
     Object.assign(kwmOptions.options, {
       authorizationType,
       authorizationValue,
@@ -75,7 +78,7 @@ export function setupKWM(id, {authorizationType, authorizationValue, autoConnect
 
     // Auto connect support when requested.
     if (autoConnect && kwm === null) {
-      return dispatch(connectToKWM(id));
+      return dispatch(connectToKWM(idToken));
     }
 
     return kwm;
@@ -91,9 +94,9 @@ export function destroyKWM() {
   };
 }
 
-export function connectToKWM(id) {
+export function connectToKWM(user) {
   return async (dispatch) => {
-    if (!id || kwmOptions.id !== id) {
+    if (!user || kwmOptions.user !== user) {
       throw new Error('invalid user set for KWM connect');
     }
     if (!kwmOptions.options.authorizationType) {
@@ -103,7 +106,7 @@ export function connectToKWM(id) {
       kwm = await dispatch(createKWMManager());
     }
 
-    await kwm.connect(id);
+    await kwm.connect(user, kwmOptions.userMode);
     return kwm;
   };
 }
@@ -114,6 +117,7 @@ export function disconnectFromKWM() {
       await kwm.destroy();
     }
     kwmOptions.id = null;
+    kwmOptions.user = null;
     delete kwmOptions.options.authorizationType;
     delete kwmOptions.options.authorizationValue;
   };

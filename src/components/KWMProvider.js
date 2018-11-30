@@ -5,31 +5,31 @@ import PropTypes from 'prop-types';
 import debounce from 'kpop/es/utils/debounce';
 
 import { setupKWM, destroyKWM } from '../actions/kwm';
-import { getOwnGrapiUserEntryID } from '../selectors';
 
 class KWMProvider extends React.PureComponent {
-  reconnector: null;
-  destroyed: false;
-  kwm: null;
+  reconnector = null;
+  destroyed = false;
+  kwm = null;
 
   state = {
     id: null,
+    idToken: null,
     authorizationType: null,
     authorizationValue: null,
   }
 
   static getDerivedStateFromProps(props, state) {
-    let { id, authorizationType, authorizationValue } = state;
-    let { user, grapiID } = props;
+    let { id, idToken, authorizationType, authorizationValue } = state;
+    let { user } = props;
 
     if (user && user.profile && user.access_token) {
-      // NOTE(longsleep): Get Kopano Groupware API user first, otherwise use
-      // the sub from OIDC>
-      id = grapiID ? grapiID : user.profile.sub;
+      id = user.profile.sub;
+      idToken = user.id_token;
       authorizationType = user.token_type;
       authorizationValue = user.access_token;
     } else {
       id = null;
+      idToken = null;
       authorizationType = null;
       authorizationValue = null;
     }
@@ -43,6 +43,7 @@ class KWMProvider extends React.PureComponent {
     }
     return {
       id,
+      idToken,
       authorizationType,
       authorizationValue,
     };
@@ -76,7 +77,7 @@ class KWMProvider extends React.PureComponent {
 
   connect = async () => {
     const { dispatch } = this.props;
-    let { id,  authorizationType, authorizationValue } = this.state;
+    let { id, idToken, authorizationType, authorizationValue } = this.state;
 
     if (this.reconnector) {
       this.reconnector.cancel();
@@ -84,7 +85,7 @@ class KWMProvider extends React.PureComponent {
     }
 
     // Trigger kwm connection.
-    const kwm = await dispatch(setupKWM(id, {authorizationType, authorizationValue, autoConnect: true})).then(kwm => {
+    const kwm = await dispatch(setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect: true})).then(kwm => {
       if (this.destroyed) {
         // Disconnect.
         kwm.destroy();
@@ -127,16 +128,13 @@ KWMProvider.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
   user: PropTypes.object,
-  grapiID: PropTypes.string,
 };
 
 const mapStateToProps = state => {
   const { user } = state.common;
-  const grapiID = getOwnGrapiUserEntryID(state);
 
   return {
     user,
-    grapiID,
   };
 };
 
