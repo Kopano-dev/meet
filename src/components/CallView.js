@@ -856,8 +856,8 @@ class CallView extends React.PureComponent {
                       onChange={this.handleTabChange}
                       centered
                     >
-                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} />
-                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} />
+                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} label="Recents" />
+                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} label="Contacts" />
                     </Tabs>
                     { openTab === 'recents' ?
                       <Recents
