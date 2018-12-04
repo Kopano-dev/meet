@@ -1,12 +1,14 @@
 import {
   CONTACTS_FETCH,
   CONTACTS_ADD,
+  CONTACTS_UPDATE,
   CONTACTS_ERROR,
 } from '../actions/types';
 
 const defaultState = {
   sorted: [],
   table: {},
+  remote: true,
   loading: true,
   error: null,
 };
@@ -40,6 +42,19 @@ function contactsReducer(state = defaultState, action) {
 
       return Object.assign({}, state, {
         sorted,
+        table,
+        remote: false, // Set remote to false if we have local contacts added.
+      });
+    }
+
+    case CONTACTS_UPDATE: {
+      const updates = action.contacts.reduce((map, contact) => {
+        map[contact.id] = contact;
+        return map;
+      }, {});
+      const table = action.initialize ? {...updates, ...state.table} : {...state.table, ...updates};
+
+      return Object.assign({}, state, {
         table,
       });
     }

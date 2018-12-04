@@ -41,7 +41,7 @@ import { forceBase64StdEncoded } from 'kpop/es/utils';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 
-import { fetchAndAddContacts } from '../actions/contacts';
+import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
 import {
   setLocalStream,
@@ -303,7 +303,7 @@ class CallView extends React.PureComponent {
       console.error('failed to fetch contacts', err); // eslint-disable-line no-console
     });
     fetchRecents().catch(err => {
-      console.error('faield to fetch recents', err); // eslint-disable-line no-console
+      console.error('failded to fetch recents', err); // eslint-disable-line no-console
     });
 
     this.updateOfferAnswerConstraints();
@@ -1094,7 +1094,9 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(fetchAndAddContacts());
     },
     fetchRecents: async () => {
-      return dispatch(fetchRecents());
+      const recents = await dispatch(fetchRecents());
+      await dispatch(initializeContactsWithRecents());
+      return recents;
     },
     requestUserMedia: (id='', video=true, audio=true) => {
       return dispatch(requestUserMedia(id, video, audio));

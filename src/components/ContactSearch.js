@@ -23,10 +23,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Persona from 'kpop/es/Persona';
 import { forceBase64URLEncoded } from 'kpop/es/utils';
+import debounce from 'kpop/es/utils/debounce';
 
 import * as lunr from 'lunr';
 
-import { fetchAndAddContacts } from '../actions/contacts';
+import { fetchAndAddContacts, searchContacts } from '../actions/contacts';
 import { getOwnGrapiUserEntryID } from '../selectors';
 
 const styles = theme => ({
@@ -90,50 +91,57 @@ class ContactSearch extends React.PureComponent {
     this.state = {
       query: '',
       results: [],
+      searching: null,
     };
 
-    this.updateIndex();
+    if (!props.remote) {
+      this.updateIndex();
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const { query } = this.state;
-    const { contacts } = this.props;
+    const { contacts, remote } = this.props;
 
-    if (contacts !== prevProps.contacts) {
+    if (!remote && contacts !== prevProps.contacts) {
       // Rebuild index.
-      this.updateIndex();
+      await this.updateIndex();
       if (query) {
         this.doSearch(query);
       }
     }
   }
 
-  updateIndex = () => {
+  updateIndex = async () => {
     const { contacts } = this.props;
 
-    const index = (() => {
-      // NOTE(longsleep): Build index without trimmer, stemmer and stopwords.
-      const builder = new lunr.Builder();
+    return new Promise((resolve, reject) => {
+      const index = (() => {
+        // NOTE(longsleep): Build index without trimmer, stemmer and stopwords.
+        const builder = new lunr.Builder();
 
-      builder.ref('idx');
-      builder.field('displayName');
-      builder.field('givenName');
-      builder.field('surname');
-      builder.field('userPrincipalName');
-      builder.field('mail');
+        builder.ref('idx');
+        builder.field('displayName');
+        builder.field('givenName');
+        builder.field('surname');
+        builder.field('userPrincipalName');
+        builder.field('mail');
 
-      contacts.forEach((contact, idx) => {
-        builder.add({
-          idx,
-          ...contact,
+
+        contacts.forEach((contact, idx) => {
+          builder.add({
+            idx,
+            ...contact,
+          });
         });
-      });
 
-      return builder.build();
-    })();
+        return builder.build();
+      })();
 
-    this.index = index;
-  }
+      this.index = index;
+      resolve();
+    });
+  };
 
   search = (query) => {
     const { contacts } = this.props;
@@ -155,12 +163,49 @@ class ContactSearch extends React.PureComponent {
     this.doSearch(value);
   }
 
-  doSearch = (value) => {
-    const index = this.index;
-    if (index) {
+  doSearch = async (value) => {
+    const { id, remote, fetchContactsBySearch } = this.props;
+    const { searching } = this.state;
+
+    if (remote) {
+      let force = false;
+      let top = 0;
+      if (searching) {
+        searching.cancel();
+      }
+      if (value === '*') {
+        value = '';
+        force = true;
+        top = 1000; // NOTE(longsleep): This is already rather slow and needs optimized view.
+      }
+      if (!force && value.length < 3) {
+        this.setState({
+          results: [],
+          searching: null,
+        });
+        return;
+      }
+
+      const ns = debounce(fetchContactsBySearch, 500)(value, top);
       this.setState({
-        results: this.search(value),
+        searching: ns,
       });
+      ns.then(results => {
+        this.setState({
+          results: filterIDFromContacts(results, id),
+          searching: null,
+        });
+      }).catch(() => {
+        // Ignore here and rely on action error handler.
+      });
+    } else {
+      // Local search.
+      const index = this.index;
+      if (index) {
+        this.setState({
+          results: this.search(value),
+        });
+      }
     }
   }
 
@@ -186,7 +231,7 @@ class ContactSearch extends React.PureComponent {
   }
 
   render() {
-    const { query, results } = this.state;
+    const { query, results, searching } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -194,6 +239,7 @@ class ContactSearch extends React.PureComponent {
       loading,
       error,
       embedded,
+      remote,
     } = this.props;
 
     const className = classNames(
@@ -209,7 +255,7 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              Loading contacts ...
+              {searching ? 'Searching for' : 'Loading'} contacts ...
             </Typography>
           </ListItemText>
         </ListItem>
@@ -230,7 +276,7 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              Search result is empty.
+              No contacts match the selected criteria.
             </Typography>
           </ListItemText>
         </ListItem>
@@ -243,8 +289,8 @@ class ContactSearch extends React.PureComponent {
       </ListItemText>
     </ListItem> : null;
 
-    const header = embedded ? null : <React.Fragment>
-      <Paper square elevation={4}>
+    const header = embedded && !remote ? null : <React.Fragment>
+      <Paper square elevation={embedded ? 0 : 4}>
         <Toolbar className={classes.search}>
           <TextField
             fullWidth
@@ -268,12 +314,12 @@ class ContactSearch extends React.PureComponent {
           />
         </Toolbar>
       </Paper>
-      <Toolbar className={classes.extraToolbar}>
+      { embedded ? null : <Toolbar className={classes.extraToolbar}>
         <Button color="primary"
           onClick={this.handleActionClick.bind(this, 'new-public-group')}>
             New Public Group
         </Button>
-      </Toolbar>
+      </Toolbar> }
       <Divider/>
     </React.Fragment>;
 
@@ -309,36 +355,44 @@ ContactSearch.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
+  id: PropTypes.string.isRequired,
   contacts: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
+  remote: PropTypes.bool.isRequired,
 
   onEntryClick: PropTypes.func.isRequired,
   onActionClick: PropTypes.func.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
+  fetchContactsBySearch: PropTypes.func.isRequired,
 
   embedded: PropTypes.bool,
 };
 
+const filterIDFromContacts = (contacts, id) => {
+  return contacts.filter(contact => {
+    return contact.id !== id;
+  });
+}
+
 const mapStateToProps = state => {
-  const { sorted: sortedContacts, loading, error } = state.contacts;
+  const { sorted: sortedContacts, loading, error, remote } = state.contacts;
 
   // getOwnGrapiUserEntryID comes from OIDC which is using Base64 Standard
   // encoding while contacts come from the API which use URL encoding.
   const grapiID = getOwnGrapiUserEntryID(state);
   const id = grapiID ? forceBase64URLEncoded(grapiID) : null;
 
-  // Filter self from contacts.
-  const sortedContactsWithoutSelf = sortedContacts.filter(contact => {
-    const res = contact.id !== id;
-    return res;
-  });
+  // Filter self from sorted contacts if not remote.
+  const sortedContactsWithoutSelf = remote ? [] : filterIDFromContacts(sortedContacts, id);
 
   return {
+    id,
     contacts: sortedContactsWithoutSelf,
     loading,
     error: error ? true : false,
+    remote,
   };
 };
 
@@ -346,6 +400,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchContacts: () => {
       return dispatch(fetchAndAddContacts());
+    },
+    fetchContactsBySearch: (term, top) => {
+      return dispatch(searchContacts(term, top));
     },
   };
 };
