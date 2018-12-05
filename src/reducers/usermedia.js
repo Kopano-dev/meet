@@ -2,7 +2,6 @@ import {
   USERMEDIA_AUDIOVIDEO_STREAM,
 } from '../actions/types';
 
-
 const defaultState = {
   audioVideoStreams: {},
 };

@@ -157,7 +157,13 @@ export function requestUserMedia(id='', video=true, audio=true) {
         console.debug('requestUserMedia, neither audio nor video', idx, status); // eslint-disable-line no-console
         return status.stream && status.stream.active ? status.stream : null;
       }
-      return navigator.mediaDevices.getUserMedia(constraints);
+      return navigator.mediaDevices.getUserMedia(constraints).then(async stream => {
+        await dispatch(userMediaSuccess(id, audio, video, constraints));
+        return stream;
+      }).catch(err => {
+        dispatch(userMediaError(err, id, audio, video, constraints));
+        throw new Error('getUserMedia failed: ' + err);
+      });
     }).then(async stream => {
       // Process stream.
       console.debug('gUM stream', idx, stream); // eslint-disable-line no-console
@@ -215,7 +221,7 @@ export function requestUserMedia(id='', video=true, audio=true) {
       return info;
     }).catch(async err => {
       status.promise = null;
-      status.reject(err);
+      status.resolve(null);
       await dispatch(userMediaAudioVideoStream(id, null));
       throw err;
     });
@@ -227,6 +233,27 @@ function userMediaAudioVideoStream(id='', stream) {
     type: types.USERMEDIA_AUDIOVIDEO_STREAM,
     id,
     stream,
+  };
+}
+
+function userMediaError(error, id, audio, video, constraints) {
+  return {
+    type: types.USERMEDIA_ERROR,
+    error,
+    id,
+    audio,
+    video,
+    constraints,
+  };
+}
+
+function userMediaSuccess(id, audio, video, constraints) {
+  return {
+    type: types.USERMEDIA_SUCCESS,
+    id,
+    audio,
+    video,
+    constraints,
   };
 }
 

@@ -288,6 +288,7 @@ class CallView extends React.PureComponent {
       withChannel: false,
       muteCam: false,
       muteMic: false,
+      rumFailed: false,
       openDialogs: {},
       openMenu: false,
       openTab: 'recents',
@@ -311,7 +312,7 @@ class CallView extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { mode, muteCam, muteMic, withChannel } = this.state;
+    const { mode, muteCam, muteMic, rumFailed, withChannel } = this.state;
     const {
       hidden,
       channel,
@@ -320,15 +321,26 @@ class CallView extends React.PureComponent {
       setLocalStream,
     } = this.props;
 
+    let rum = false;
+
     if (mode !== prevState.mode) {
       this.updateOfferAnswerConstraints();
       this.requestUserMedia();
+      rum = true;
     }
 
     if (muteCam !== prevState.muteCam) {
+      if (rumFailed && !rum) {
+        this.requestUserMedia();
+        rum = true;
+      }
       this.muteVideoStream(muteCam ? muteCam : mode === 'standby');
     }
     if (muteMic !== prevState.muteMic) {
+      if (rumFailed && !rum) {
+        this.requestUserMedia();
+        rum = true;
+      }
       this.muteAudioStream(muteMic ? muteMic : mode === 'standby');
     }
 
@@ -599,11 +611,22 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       muteVideoStream,
       applyLocalStreamTracks,
+      setError,
     } = this.props;
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteVideoStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info));
+      muteVideoStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info)).catch(err => {
+        console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
+        setError({
+          detail: `${err}`,
+          message: 'Failed to access camera',
+          fatal: false,
+        });
+        this.setState({
+          muteCam: true,
+        });
+      });
     }
   }
 
@@ -616,7 +639,17 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteAudioStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info));
+      muteAudioStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info)).catch(err => {
+        console.warn('failed to toggle mute for audio stream', err); // eslint-disable-line no-console
+        setError({
+          detail: `${err}`,
+          message: 'Failed to access microphone',
+          fatal: false,
+        });
+        this.setState({
+          muteMic: true,
+        });
+      });
     }
   }
 
@@ -686,10 +719,18 @@ class CallView extends React.PureComponent {
       setError({
         detail: `${err}`,
         message: 'Failed to access camera and/or microphone',
-        fatal: true,
+        fatal: false,
+      });
+      this.setState({
+        muteCam: true,
+        muteMic: true,
+        rumFailed: true,
       });
       return null;
     }).then(info => {
+      this.setState({
+        rumFailed: false,
+      });
       if (info && info.stream) {
         const promises = [];
         if (muteCam || !video) {
@@ -1070,7 +1111,7 @@ CallView.propTypes = {
 const mapStateToProps = state => {
   const { hidden, user, profile } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
+  const { audioVideoStreams: localAudioVideoStreams, error: userMediaError } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
 
