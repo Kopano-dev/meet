@@ -374,7 +374,7 @@ const filterIDFromContacts = (contacts, id) => {
   return contacts.filter(contact => {
     return contact.id !== id;
   });
-}
+};
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts, loading, error, remote } = state.contacts;

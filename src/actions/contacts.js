@@ -1,4 +1,4 @@
-import { fetchUsers, fetchUsersWithParams, contactsLocalFetchLimit } from '../api';
+import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api';
 import {
   CONTACTS_FETCH,
   CONTACTS_ADD,
@@ -16,6 +16,21 @@ export function fetchContacts() {
     }).catch(err => {
       dispatch(errorContacts(err));
       throw err;
+    });
+  };
+}
+
+export function fetchContactByID(id) {
+  return (dispatch) => {
+    return dispatch(fetchUser(id));
+  };
+}
+
+export function fetchAndUpdateContactByID(id, initialize=false) {
+  return (dispatch) => {
+    return dispatch(fetchContactByID(id)).then(contact => {
+      dispatch(updateContacts([contact], initialize));
+      return contact;
     });
   };
 }

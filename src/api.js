@@ -37,3 +37,21 @@ export function fetchUsersWithParams({top=contactsLocalFetchLimit, skip=0, selec
     ));
   };
 }
+
+export function fetchUser(id) {
+  return (dispatch, getState) => {
+    const { config, user } = getState().common;
+    let url = `/users/${id}`;
+
+    return dispatch(networkFetch(
+      config.apiPrefix + url, {
+        method: 'GET',
+        headers: getHeadersFromConfig(config, user),
+      },
+      200,
+      true,
+      false,
+    ));
+  };
+
+}

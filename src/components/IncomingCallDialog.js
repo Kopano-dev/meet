@@ -18,6 +18,7 @@ import Persona from 'kpop/es/Persona';
 
 import ContactLabel from './ContactLabel';
 import { mapContactEntryToUserShape } from './Recents';
+import { fetchAndUpdateContactByID } from '../actions/contacts';
 
 const styles = theme => ({
   header: {
@@ -71,6 +72,12 @@ class IncomingCallDialog extends React.PureComponent {
     const user = contact ? mapContactEntryToUserShape(contact) : {
       id: record.id,
     };
+    if (!contact) {
+      // Try to fetch user by id.
+      dispatch(fetchAndUpdateContactByID(forceBase64URLEncoded(record.id))).catch(err => {
+        console.warn('failed to fetch contact information for incoming call', err); // eslint-disable-line no-console
+      });
+    }
 
     return (
       <Dialog
