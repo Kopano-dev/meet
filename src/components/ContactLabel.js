@@ -17,7 +17,7 @@ const ContactLabel = ({contact, id}) => {
 };
 
 ContactLabel.propTypes = {
-  contact: PropTypes.object.isRequired,
+  contact: PropTypes.object,
   id: PropTypes.string.isRequired,
 };
 

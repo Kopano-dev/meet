@@ -68,6 +68,9 @@ class IncomingCallDialog extends React.PureComponent {
     // Base64 URL encoding required, simple conversion here.
     const contact = contacts[forceBase64URLEncoded(record.id)];
     const kind = contact ? 'contact' : undefined;
+    const user = contact ? mapContactEntryToUserShape(contact) : {
+      id: record.id,
+    };
 
     return (
       <Dialog
@@ -76,7 +79,7 @@ class IncomingCallDialog extends React.PureComponent {
         <DialogContent>
           <ListItem disableGutters className={classes.header}>
             <Persona
-              user={mapContactEntryToUserShape(contact)}
+              user={user}
               className={classes.avatar} />
             <ListItemText primary="Incoming call"
               secondary={<ContactLabel contact={contact} id={record.id}/>}
