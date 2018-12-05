@@ -19,7 +19,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Persona from 'kpop/es/Persona';
 import { forceBase64URLEncoded } from 'kpop/es/utils';
@@ -80,6 +80,8 @@ const styles = theme => ({
   },
   spinner: {
     textAlign: 'center',
+    maxWidth: '50%',
+    margin: '0 auto',
   },
 });
 
@@ -310,13 +312,13 @@ class ContactSearch extends React.PureComponent {
 
     const spinner = loading ? <ListItem>
       <ListItemText className={classes.spinner}>
-        <CircularProgress color="secondary"/>
+        <LinearProgress color="primary" variant="query" />
       </ListItemText>
     </ListItem> : null;
 
     const header = <React.Fragment>
       <Paper square elevation={embedded ? 0 : 4}>
-        <Toolbar className={classes.search} disableGutters={!!embedded}>
+        <Toolbar className={classes.search}>
           <TextField
             fullWidth
             autoFocus
