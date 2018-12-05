@@ -271,7 +271,7 @@ class ContactSearch extends React.PureComponent {
           </ListItemText>
         </ListItem>
       );
-    } else if (items.length === 0) {
+    } else if (query !== '' && items.length === 0) {
       message = (
         <ListItem className={classes.message}>
           <ListItemText>
