@@ -166,7 +166,7 @@ class ContactSearch extends React.PureComponent {
   }
 
   doSearch = async (value) => {
-    const { id, remote, fetchContactsBySearch } = this.props;
+    const { id, mail, remote, fetchContactsBySearch } = this.props;
     const { searching } = this.state;
 
     if (remote) {
@@ -194,7 +194,7 @@ class ContactSearch extends React.PureComponent {
       });
       ns.then(results => {
         this.setState({
-          results: filterIDFromContacts(results, id),
+          results: filterIDFromContacts(results, id, mail),
           searching: null,
         });
       }).catch(() => {
@@ -229,6 +229,10 @@ class ContactSearch extends React.PureComponent {
       }
 
       node = node.parentElement;
+    }
+    if (ref === null) {
+      // Nothing found. Do nothing.
+      return;
     }
 
     const search = ref.indexOf('s:') === 0
@@ -382,7 +386,8 @@ ContactSearch.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  mail: PropTypes.string,
   contacts: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
@@ -404,14 +409,19 @@ function ContactListItem(props) {
   return <li data-contact-ref={ref} {...other}>{children}</li>;
 }
 
-const filterIDFromContacts = (contacts, id) => {
+const filterIDFromContacts = (contacts, id, mail) => {
   return contacts.filter(contact => {
-    return contact.id !== id;
+    if (id) {
+      return contact.id !== id;
+    } else {
+      return contact.mail !== mail;
+    }
   });
 };
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts, loading, error, remote } = state.contacts;
+  const { mail } = state.common.profile;
 
   // getOwnGrapiUserEntryID comes from OIDC which is using Base64 Standard
   // encoding while contacts come from the API which use URL encoding.
@@ -419,10 +429,11 @@ const mapStateToProps = state => {
   const id = grapiID ? forceBase64URLEncoded(grapiID) : null;
 
   // Filter self from sorted contacts if not remote.
-  const sortedContactsWithoutSelf = remote ? [] : filterIDFromContacts(sortedContacts, id);
+  const sortedContactsWithoutSelf = remote ? [] : filterIDFromContacts(sortedContacts, id, mail);
 
   return {
     id,
+    mail,
     contacts: sortedContactsWithoutSelf,
     loading,
     error: error ? true : false,
