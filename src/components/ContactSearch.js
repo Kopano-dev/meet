@@ -209,8 +209,34 @@ class ContactSearch extends React.PureComponent {
     }
   }
 
-  handleContactClick = (contact, mode) => () => {
-    const { onEntryClick } = this.props;
+  handleContactClick = (event) => {
+    const { onEntryClick, contacts } = this.props;
+    const { results } = this.state;
+
+    let mode = undefined;
+    let ref = null;
+
+    let node = event.target;
+    while (node !== event.currentTarget) {
+      if (!mode && node.hasAttribute('data-contact-action')) {
+        mode = node.getAttribute('data-contact-action');
+      }
+      if (node.hasAttribute('data-contact-ref')) {
+        ref = node.getAttribute('data-contact-ref');
+        break;
+      }
+
+      node = node.parentElement;
+    }
+
+    const search = ref.indexOf('s:') === 0
+
+    const idx =  search ? Number(ref.substr(2)) : Number(ref);
+    const contact = search ? results[idx] : contacts[idx];
+    if (!contact) {
+      console.warn('mo data for clicked contact search reference', ref); // eslint-disable-line no-console
+      return;
+    }
 
     onEntryClick(contact, 'contact', mode);
   }
@@ -326,16 +352,16 @@ class ContactSearch extends React.PureComponent {
       <div className={className}>
         {header}
         <div className={classes.contacts}>
-          <List disablePadding>
-            {items.map((contact) =>
-              <ListItem button key={contact.id} onClick={this.handleContactClick(contact)} className={classes.entry}>
+          <List disablePadding onClick={this.handleContactClick}>
+            {items.map((contact, idx) =>
+              <ListItem ContainerComponent={ContactListItem} ContainerProps={{idx, search: !!query}} button key={contact.id} className={classes.entry}>
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction className={classes.actions}>
-                  <IconButton aria-label="Video call" onClick={this.handleContactClick(contact, 'videocall')}>
+                  <IconButton aria-label="Video call" data-contact-action="videocall">
                     <VideocamIcon />
                   </IconButton>
-                  <IconButton aria-label="Audio call" onClick={this.handleContactClick(contact, 'call')}>
+                  <IconButton aria-label="Audio call" data-contact-action="call">
                     <CallIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -368,6 +394,13 @@ ContactSearch.propTypes = {
 
   embedded: PropTypes.bool,
 };
+
+function ContactListItem(props) {
+  const { idx, search, children, ...other} = props;
+
+  const ref = search ? 's:' + idx : idx;
+  return <li data-contact-ref={ref} {...other}>{children}</li>;
+}
 
 const filterIDFromContacts = (contacts, id) => {
   return contacts.filter(contact => {
