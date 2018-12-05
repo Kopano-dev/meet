@@ -239,7 +239,6 @@ class ContactSearch extends React.PureComponent {
       loading,
       error,
       embedded,
-      remote,
     } = this.props;
 
     const className = classNames(
@@ -289,9 +288,9 @@ class ContactSearch extends React.PureComponent {
       </ListItemText>
     </ListItem> : null;
 
-    const header = embedded && !remote ? null : <React.Fragment>
+    const header = <React.Fragment>
       <Paper square elevation={embedded ? 0 : 4}>
-        <Toolbar className={classes.search}>
+        <Toolbar className={classes.search} disableGutters={!!embedded}>
           <TextField
             fullWidth
             autoFocus
@@ -320,7 +319,7 @@ class ContactSearch extends React.PureComponent {
             New Public Group
         </Button>
       </Toolbar> }
-      <Divider/>
+      {embedded ? null : <Divider/>}
     </React.Fragment>;
 
     return (
