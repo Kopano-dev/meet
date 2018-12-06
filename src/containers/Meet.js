@@ -75,10 +75,10 @@ class App extends PureComponent {
     return dispatch(fetchConfigAndInitializeUser({
       id: 'meet',
       defaults: config => {
-        config.oidc = Object.assign({
+        config.oidc = Object.assign({}, {
           scope: 'openid profile email kopano/kwm kopano/gc',
         }, config.oidc);
-        config.kwm = Object.assign({
+        config.kwm = Object.assign({}, {
           url: '', // If empty, current host is used.
         }, config.kwm);
         return config;
