@@ -5,6 +5,7 @@ import {
 import {
   SNACKS_SHIFT,
   SNACKS_ADD,
+  KWM_CALL_ABORT,
 } from '../actions/types';
 
 const defaultState = {
@@ -17,6 +18,20 @@ function snacksReducer(state = defaultState, action) {
       if (action.error && !action.error.fatal) {
         const snacks = state.snacks.slice(0);
         snacks.push({...action.error, variant: 'error'});
+        return Object.assign({}, state, {
+          snacks,
+        });
+      }
+      break;
+    }
+
+    case KWM_CALL_ABORT: {
+      if (action.details === 'reject_busy' || action.details === 'reject') {
+        const snacks = state.snacks.slice(0);
+        snacks.push({
+          message: 'Your call was rejected' + (action.details === 'reject_busy' ? ' (busy)' : ''),
+          variant: 'info',
+        });
         return Object.assign({}, state, {
           snacks,
         });
@@ -38,6 +53,7 @@ function snacksReducer(state = defaultState, action) {
         snacks,
       });
     }
+
   }
 
   return state;
