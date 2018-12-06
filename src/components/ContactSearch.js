@@ -117,7 +117,7 @@ class ContactSearch extends React.PureComponent {
   updateIndex = async () => {
     const { contacts } = this.props;
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const index = (() => {
         // NOTE(longsleep): Build index without trimmer, stemmer and stopwords.
         const builder = new lunr.Builder();
@@ -235,7 +235,7 @@ class ContactSearch extends React.PureComponent {
       return;
     }
 
-    const search = ref.indexOf('s:') === 0
+    const search = ref.indexOf('s:') === 0;
 
     const idx =  search ? Number(ref.substr(2)) : Number(ref);
     const contact = search ? results[idx] : contacts[idx];
@@ -360,7 +360,13 @@ class ContactSearch extends React.PureComponent {
         <div className={classes.contacts}>
           <List disablePadding onClick={this.handleContactClick}>
             {items.map((contact, idx) =>
-              <ListItem ContainerComponent={ContactListItem} ContainerProps={{idx, search: !!query}} button key={contact.id} className={classes.entry}>
+              <ListItem
+                ContainerComponent={ContactListItem}
+                ContainerProps={{idx, search: !!query}}
+                button
+                key={contact.id}
+                className={classes.entry}
+              >
                 <Persona user={mapContactToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction className={classes.actions}>

@@ -67,7 +67,7 @@ export function searchContacts(term, top) {
 
     return dispatch(fetchUsersWithParams({top, search: term})).then(contacts => {
       dispatch(contactsFetch(false));
-      const value = contacts.value.slice(0, top); // NOTE(longsleep): Enforce local limit, in case buggy server returns more
+      const value = contacts.value.slice(0, top); // NOTE(longsleep): Enforce local limit, in case server returns more.
       dispatch(updateContacts(value));
       return value;
     }).catch(err => {

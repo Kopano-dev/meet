@@ -1111,7 +1111,7 @@ CallView.propTypes = {
 const mapStateToProps = state => {
   const { hidden, user, profile } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { audioVideoStreams: localAudioVideoStreams, error: userMediaError } = state.usermedia;
+  const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
   const remoteStreams = Object.values(state.streams);
 

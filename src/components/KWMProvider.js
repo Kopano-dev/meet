@@ -85,7 +85,11 @@ class KWMProvider extends React.PureComponent {
     }
 
     // Trigger kwm connection.
-    const kwm = await dispatch(setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect: true})).then(kwm => {
+    const kwm = await dispatch(setupKWM(id, idToken, {
+      authorizationType,
+      authorizationValue,
+      autoConnect: true,
+    })).then(kwm => {
       if (this.destroyed) {
         // Disconnect.
         kwm.destroy();
