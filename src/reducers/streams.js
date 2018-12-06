@@ -1,7 +1,10 @@
+import { forceBase64StdEncoded } from 'kpop/es/utils';
+
 import {
   KWM_CALL_NEW,
   KWM_CALL_DESTROY,
   KWM_STREAM_RECEIVED,
+  CONTACTS_UPDATE,
 } from '../actions/types';
 
 const defaultMediaStream = new MediaStream();
@@ -25,6 +28,26 @@ function streamsReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         [action.record.user]: entry,
       });
+    }
+
+    case CONTACTS_UPDATE: {
+      let update = false;
+      const updates = action.contacts.reduce((map, contact) => {
+        const id = forceBase64StdEncoded(contact.id); // Contact ids are base64 encoded.
+        if (state[id]) {
+          const entry = Object.assign({}, state[id], {
+            user: {displayName: contact.displayName},
+          });
+          map[id] = entry;
+          update = true;
+        }
+        return map;
+      }, {});
+      if (update) {
+        return Object.assign({}, state, updates);
+      } else {
+        return state;
+      }
     }
 
     case KWM_CALL_DESTROY: {

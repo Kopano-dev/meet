@@ -5,6 +5,7 @@ import * as kwmjs from 'kwmjs';
 
 import * as types from './types';
 import * as sdputils from '../sdputils';
+import { fetchAndUpdateContactByID } from './contacts';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
@@ -334,13 +335,15 @@ function newCall(event) {
   return async (dispatch, getState) => {
     const { table } = getState().contacts;
 
-    let entry = table[forceBase64URLEncoded(event.record.user)];
+    const id = forceBase64URLEncoded(event.record.user);
+    let entry = table[id];
     if (!entry) {
       console.warn('unknown user for call', event.record.user); // eslint-disable-line no-console
       entry = {
         // TODO(longsleep): Find some way to describe unknown users.
         displayName: '',
       };
+      dispatch(fetchAndUpdateContactByID(id));
     }
     // Copy to retain reference.
     const user = {displayName: entry.displayName};
