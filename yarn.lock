@@ -7728,16 +7728,7 @@ obuf@^1.0.0, obuf@^1.1.1:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-oidc-client@1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.5.2.tgz#d2ade71ea592aff77d4fb895d61d4a2f9cdcdc6b"
-  integrity sha512-2w4TOraEf4PEbuo8mR8tSRhtgAHQaghBWgt2qpnwebsdW87BRMC7XKAytHcbZ1GYjFH9jJn30Cav64zbYdjiCQ==
-  dependencies:
-    jsrsasign "^8.0.12"
-  optionalDependencies:
-    babel-polyfill ">=6.9.1"
-
-oidc-client@^1.5.2:
+oidc-client@1.5.4, oidc-client@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.5.4.tgz#5efb7464848e39926778ad96b155935282b9fe0b"
   integrity sha512-ddom2rLs7xc6kAOOD7LMXQJTcoJxGLfIM/Up19/LiDYQQrSERGCtyuqjyDoR8T2XQtFhU5Y2HWs1O3WdvyYckA==
