@@ -76,16 +76,16 @@ class App extends PureComponent {
       id: 'meet',
       defaults: config => {
         config.oidc = Object.assign({}, {
-          scope: 'openid profile email kopano/kwm kopano/gc',
+          scope: 'openid profile email kopano/kwm kopano/gc kopano/kvs',
         }, config.oidc);
         config.kwm = Object.assign({}, {
           url: '', // If empty, current host is used.
         }, config.kwm);
         return config;
       },
-      // NOTE(longsleep): Only require kopano/kwm scope here, making grapi
-      // access optional. All components which depend on grapi access should
-      // check if the current user actually has access to grapi.
+      // NOTE(longsleep): Only require basic and kopano/kwm scope here, making
+      // other scopes optional. All components which depend on specific access
+      // should check if the current user actually has gotten it.
       requiredScopes: ['openid', 'profile', 'email', 'kopano/kwm'],
     }));
   }
