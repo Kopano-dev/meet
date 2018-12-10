@@ -66,7 +66,7 @@ class GroupControl extends React.PureComponent {
   handleEntryClick = (mode) => () => {
     const { group, onEntryClick } = this.props;
 
-    onEntryClick(group, group.scope, mode);
+    onEntryClick(group, 'group', mode);
   };
 
   handleCloseClick = () => {
