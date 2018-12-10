@@ -178,6 +178,16 @@ function createKWMManager() {
         return;
       }
 
+      if (event.connected) {
+        // Ensure that all existing pc connections do a renegotiation dance after
+        // kwm server connection to ensure server state is correct.
+        kwm.webrtc.peers.forEach(record => {
+          if (record.pc) {
+            record.pc._needsNegotiation();
+          }
+        });
+      }
+
       dispatch(stateChanged(event));
     };
     k.onerror = event => {
