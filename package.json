@@ -38,7 +38,7 @@
     "redux-thunk": "^2.2.0",
     "render-if": "^0.1.1",
     "typeface-roboto": "^0.0.54",
-    "webrtc-adapter": "^6.1.5"
+    "webrtc-adapter": "7.1.1"
   },
   "scripts": {
     "start": "react-scripts start && cra-append-sw --mode dev ./src/sw/index.js",

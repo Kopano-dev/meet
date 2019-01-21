@@ -1,4 +1,4 @@
-import * as adapter from 'webrtc-adapter';
+import adapter from 'webrtc-adapter';
 
 import * as types from './types';
 

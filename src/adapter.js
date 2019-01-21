@@ -1,4 +1,4 @@
-import * as adapter from 'webrtc-adapter';
+import adapter from 'webrtc-adapter';
 
 if (adapter.browserDetails.browser === 'edge') {
   // HACK(longsleep): Prevent SimplePeer from thinking Edge is chrome.
