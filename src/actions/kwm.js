@@ -27,6 +27,11 @@ const kwmConfig = {
         {urls: 'stun:stun.l.google.com:19302'},
         {urls: 'stun:stun.sipgate.net:3478'},
       ],
+      // For now use Plan-B. See https://webrtc.org/web-apis/chrome/unified-plan/. You should continue to use Plan B
+      // semantics only if you send or receive more than one audio track or more than one video track and need to
+      // interoperate with existing WebRTC implementations that do not yet support Unified Plan (e.g., Chrome). This
+      // setting can be changed once we deprecate support for Chrome < 72.
+      sdpSemantics: 'plan-b',
     },
   },
   sdpParams: {},

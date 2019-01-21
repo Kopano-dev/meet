@@ -7,9 +7,12 @@ export const globalSettings = (() => {
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
     // tracks in established RTC connections.
     // - Works:
-    //   - Chrome 67
+    //   - Chrome 67 (Plan B)
     // - Issues:
-    //   - Firefox 60 (added streams do not play on remote side)
+    //   - Firefox 60 (added streams do not play on remote side < Chrome 62)
+    //   - Firefox 65 (disable both local streams, streams do not start again)
+    //   - Chrome 72 beta (added streams do not play on remote side < Chrome 62)
+    //     when Chrome 72 is using the unified plan (Plan B works).
     muteWithAddRemoveTracks: adapter.browserDetails.browser === 'chrome',
   };
 
