@@ -77,6 +77,13 @@ class App extends PureComponent {
       defaults: config => {
         config.oidc = Object.assign({}, {
           scope: 'openid profile email kopano/kwm kopano/gc kopano/kvs',
+          eqp: {
+            claims: JSON.stringify({
+              id_token: { // eslint-disable-line camelcase
+                name: null, // This ensures that the name claim is in ID token.
+              },
+            }),
+          },
         }, config.oidc);
         config.kwm = Object.assign({}, {
           url: '', // If empty, current host is used.
