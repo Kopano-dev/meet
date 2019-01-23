@@ -30,7 +30,7 @@ const fs = require('fs'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20181123-1'; // eslint-disable-line
+const version = '20190123-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
@@ -41,6 +41,14 @@ const licenseFilenames = [
   'license',
   'license.md',
   'license.txt',
+];
+
+const noticeFilenames = [
+  'NOTICE',
+  'NOTICES',
+  'NOTICES.txt',
+  '3rdparty-LICENSES.md',
+  '3rdparty-LICENSES.txt',
 ];
 
 function findModuleViaPackageJSON(mp) {
@@ -73,12 +81,20 @@ function findLicense(mp) {
     const fn = mp + '/' + licenseFilenames[i];
     if (fs.existsSync(fn)) {
       result.licenseFile = fn;
-      return result;
+      break;
+    }
+  }
+  // Search for notice file.
+  for (let i=0; i < noticeFilenames.length; i++) {
+    const fn = mp + '/' + noticeFilenames[i];
+    if (fs.existsSync(fn)) {
+      result.noticeFile = fn;
+      break;
     }
   }
 
-  // Ensure package json has a license if no file was found.
-  if (!result.license) {
+  // Ensure we have a license.
+  if (!result.license && !result.licenseFile) {
     throw new Error('no license found: ' + mp);
   }
 
@@ -151,6 +167,12 @@ function printLicensesDocument(modules) {
       const license = fs.readFileSync(entry.licenseFile, 'utf-8');
       console.log('```');
       console.log(license);
+      console.log('```\n');
+    }
+    if (entry.noticeFile) {
+      const notice = fs.readFileSync(entry.noticeFile, 'utf-8');
+      console.log('```');
+      console.log(notice);
       console.log('```\n');
     }
   }
