@@ -290,6 +290,7 @@ export const mapContactEntryToUserShape = entry => {
 
 export const mapGroupEntryToUserShape = entry => {
   return {
+    guid: `${entry.id}-${entry.scope}-meet-group`,
     displayName: entry.id,
   };
 };
