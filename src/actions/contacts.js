@@ -1,4 +1,4 @@
-import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api';
+import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api/grapi';
 import {
   CONTACTS_FETCH,
   CONTACTS_ADD,

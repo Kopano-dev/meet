@@ -1,7 +1,6 @@
 import { getHeadersFromConfig } from 'kpop/es/config/utils';
 import { networkFetch } from 'kpop/es/common/actions';
 
-
 const defaultAPIPrefix = '/api/kvs/v1';
 
 function apiURL(config, path) {

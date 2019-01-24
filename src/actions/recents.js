@@ -1,4 +1,4 @@
-import kvs from '../kvs';
+import kvs from '../api/kvs';
 import {
   RECENTS_ADD_OR_UPDATE,
   RECENTS_REMOVE,

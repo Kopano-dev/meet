@@ -61,6 +61,8 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/usermedia';
+import { requireScope } from '../actions/utils';
+import { scopeGrapi, scopeKvs } from '../api/constants';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
@@ -72,7 +74,6 @@ import ContactControl from './ContactControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 import { Howling } from './howling';
-
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
@@ -304,7 +305,7 @@ class CallView extends React.PureComponent {
       console.error('failed to fetch contacts', err); // eslint-disable-line no-console
     });
     fetchRecents().catch(err => {
-      console.error('failded to fetch recents', err); // eslint-disable-line no-console
+      console.error('failed to fetch recents', err); // eslint-disable-line no-console
     });
 
     this.updateOfferAnswerConstraints();
@@ -1132,11 +1133,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchContacts: async () => {
-      return dispatch(fetchAndAddContacts());
+      return dispatch(requireScope(scopeGrapi, fetchAndAddContacts(), []));
     },
     fetchRecents: async () => {
-      const recents = await dispatch(fetchRecents());
-      await dispatch(initializeContactsWithRecents());
+      const marker = {};
+      const recents = await dispatch(requireScope(scopeKvs, fetchRecents(), marker));
+      if (recents !== marker) {
+        await dispatch(initializeContactsWithRecents());
+      }
       return recents;
     },
     requestUserMedia: (id='', video=true, audio=true) => {

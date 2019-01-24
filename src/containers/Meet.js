@@ -8,18 +8,20 @@ import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
 import { initialize as initializeOffline } from 'kpop/es/offline/actions';
 import { initialize as initializeVisibility } from 'kpop/es/visibility/actions';
+import { parseQuery } from 'kpop/es/utils';
 
 import { HowlingProvider } from '../components/howling';
 import soundSprite1Ogg from '../sounds/sprite1.ogg';
 import soundSprite1Mp3 from '../sounds/sprite1.mp3';
 import soundSprite1Json from '../sounds/sprite1.json';
 
-import { basePath } from '../base';
+import { basePath, getCurrentAppPath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
 import Snacks from '../components/Snacks';
 import { shiftSnacks } from '../actions/snacks';
-
+import { guestLogon } from '../api/kwm';
+import { scopeKwm, scopeGuestOK, scopeGrapi, scopeKvs } from '../api/constants';
 
 const routes = [
   {
@@ -74,26 +76,50 @@ class App extends PureComponent {
 
     return dispatch(fetchConfigAndInitializeUser({
       id: 'meet',
-      defaults: config => {
-        config.oidc = Object.assign({}, {
-          scope: 'openid profile email kopano/kwm kopano/gc kopano/kvs',
-          eqp: {
-            claims: JSON.stringify({
-              id_token: { // eslint-disable-line camelcase
-                name: null, // This ensures that the name claim is in ID token.
-              },
-            }),
-          },
-        }, config.oidc);
+      defaults: async config => {
+        const scope = config.oidc.scope ? config.oidc.scope.split(' ') : ['openid', 'profile', 'email'];
+        const eqp = Object.assign({}, {
+          claims: JSON.stringify({
+            id_token: { // eslint-disable-line camelcase
+              name: null, // This ensures that the name claim is in ID token.
+            },
+          }),
+        }, config.oidc.eqp);
+
         config.kwm = Object.assign({}, {
           url: '', // If empty, current host is used.
         }, config.kwm);
+
+        // Check for guest support.
+        const hpr = parseQuery(window.location.hash.substr(1));
+        if (hpr.guest === '1') {
+          // Verify, that '/public/' is in our path.
+          const path = getCurrentAppPath();
+          if (path.indexOf('/public/') >= 0) {
+            // Guest mode enabled via scope.
+            scope.push(scopeKwm, scopeGuestOK);
+            const response = await dispatch(guestLogon(config, path, hpr.token));
+            if (response.ok) {
+              // Add extra query parameters from response, to oidc.
+              Object.assign(eqp, response.eqp);
+            }
+          }
+        } else {
+          // Add all scopes which we support for non guest.
+          scope.push(scopeKwm, scopeGrapi, scopeKvs);
+        }
+
+        config.oidc = Object.assign({}, config.oidc, {
+          scope: scope.join(' '),
+          eqp: eqp,
+        });
+
         return config;
       },
       // NOTE(longsleep): Only require basic and kopano/kwm scope here, making
       // other scopes optional. All components which depend on specific access
       // should check if the current user actually has gotten it.
-      requiredScopes: ['openid', 'profile', 'email', 'kopano/kwm'],
+      requiredScopes: ['openid', 'profile', 'email', scopeKwm],
     }));
   }
 

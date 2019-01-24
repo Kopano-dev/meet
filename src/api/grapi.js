@@ -3,6 +3,14 @@ import { networkFetch } from 'kpop/es/common/actions';
 
 export const contactsLocalFetchLimit = 100;
 
+const defaultAPIPrefix = '/api/kvs/v1';
+
+function apiURL(config, path) {
+  let uri = config.apiPrefix ? config.apiPrefix : defaultAPIPrefix;
+
+  return uri + path;
+}
+
 export function fetchUsers() {
   return async dispatch => {
     // Check if contacts result set is reasonably small.
@@ -27,7 +35,7 @@ export function fetchUsersWithParams({top=contactsLocalFetchLimit, skip=0, selec
     const { config, user } = getState().common;
 
     return dispatch(networkFetch(
-      config.apiPrefix + url, {
+      apiURL(config, url), {
         method: 'GET',
         headers: getHeadersFromConfig(config, user),
       },
@@ -44,7 +52,7 @@ export function fetchUser(id) {
     let url = `/users/${id}`;
 
     return dispatch(networkFetch(
-      config.apiPrefix + url, {
+      apiURL(config, url), {
         method: 'GET',
         headers: getHeadersFromConfig(config, user),
       },
