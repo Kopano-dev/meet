@@ -21,6 +21,7 @@ import {
 import {
   profileAsUserShape,
 } from 'kpop/es/oidc';
+import { scopeGuestOK } from '../api/constants';
 
 const defaultState = {
   updateAvailable: false,
@@ -31,6 +32,8 @@ const defaultState = {
 
   offline: true,
   hidden: true,
+
+  guest: false,
 };
 
 function commonReducer(state = defaultState, action) {
@@ -54,6 +57,7 @@ function commonReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         user: action.user,
         profile: action.user ? profileAsUserShape(action.user.profile, action.userManager) : {},
+        guest: action.user && action.user.scope.indexOf(scopeGuestOK) >= 0,
       });
 
     case KPOP_SET_ERROR:

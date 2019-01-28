@@ -90,6 +90,7 @@ class GroupControl extends React.PureComponent {
       classes,
       className: classNameProp,
 
+      guest,
       group,
     } = this.props;
 
@@ -97,6 +98,8 @@ class GroupControl extends React.PureComponent {
       classes.root,
       classNameProp,
     );
+
+    const withClose = !guest;
 
     return (
       <div className={className}>
@@ -136,11 +139,11 @@ class GroupControl extends React.PureComponent {
                 <CallIcon className={classes.leftIcon} />
                 Call
               </Button>
-              <Button
+              {withClose && <Button
                 color="primary"
                 className={classes.close}
                 onClick={this.handleCloseClick}
-              >Close</Button>
+              >Close</Button>}
             </CardActions>
           </Card>
         </div>
@@ -155,8 +158,17 @@ GroupControl.propTypes = {
 
   group: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  guest: PropTypes.bool.isRequired,
 
   onEntryClick: PropTypes.func,
 };
 
-export default connect()(withStyles(styles)(GroupControl));
+const mapStateToProps = (state) => {
+  const { guest } = state.common;
+
+  return {
+    guest,
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(GroupControl));
