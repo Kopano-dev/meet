@@ -23,6 +23,7 @@ import Persona from 'kpop/es/Persona';
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyAppURL } from '../base';
 import { mapGroupEntryToUserShape } from './Recents';
+import { pushHistory } from '../actions/utils';
 
 const styles = (theme) => ({
   root: {
@@ -72,7 +73,7 @@ class GroupControl extends React.PureComponent {
   handleCloseClick = () => {
     const { history } = this.props;
 
-    history.push('/r/call');
+    pushHistory(history, '/r/call');
   };
 
   handleCopyLinkClick = () => {

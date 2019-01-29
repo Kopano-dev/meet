@@ -9,8 +9,6 @@ import { Route, Redirect, Switch } from 'react-router';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { receiveOIDCState } from 'kpop/es/oidc/actions';
-
 import CallView from './CallView';
 
 const styles = theme => {
@@ -30,25 +28,8 @@ const styles = theme => {
 };
 
 class Meetscreen extends React.PureComponent {
-  componentDidUpdate(prevProps) {
-    const { dispatch, location, oidcState } = this.props;
-
-    if (location !== prevProps.location) {
-      // Remember location in OIDC state.
-      if (oidcState.pathname !== location.pathname) {
-        dispatch(receiveOIDCState({
-          pathname: location.pathname,
-        }));
-      }
-    }
-  }
-
   render() {
-    const { classes, oidcState } = this.props;
-
-    // TODO(longsleep): Find a better way to figure out if we got a
-    // sub route via oidc.
-    const start = oidcState.pathname.length > 3 ? oidcState.pathname : '/r/call';
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -57,7 +38,7 @@ class Meetscreen extends React.PureComponent {
         >
           <Switch>
             <Route path="/r/(call|conference|group)" component={CallView}/>
-            <Redirect to={start}/>
+            <Redirect to="/r/call"/>
           </Switch>
         </main>
       </div>
@@ -66,25 +47,10 @@ class Meetscreen extends React.PureComponent {
 }
 
 Meetscreen.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-
   classes: PropTypes.object.isRequired,
-
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-
-  oidcState: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  const { state: oidcState } = state.oidc;
-
-  return {
-    oidcState,
-  };
-};
-
-export default connect(mapStateToProps)(
+export default connect()(
   withStyles(styles, {withTheme: true})(
     DragDropContext(HTML5Backend)(
       Meetscreen

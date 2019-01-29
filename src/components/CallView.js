@@ -61,7 +61,7 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/usermedia';
-import { requireScope } from '../actions/utils';
+import { requireScope, pushHistory } from '../actions/utils';
 import { scopeGrapi, scopeKvs } from '../api/constants';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -528,7 +528,7 @@ class CallView extends React.PureComponent {
   doViewGroup = (group) => {
     const { history } = this.props;
 
-    history.push(`/r/${group.scope}/${group.id}`);
+    pushHistory(history, `/r/${group.scope}/${group.id}`);
   }
 
   doViewContact = (contact) => {
@@ -536,7 +536,7 @@ class CallView extends React.PureComponent {
 
     // NOTE(longsleep): Full entry is injected into navigation state. It is left
     // to the consumer what to do with it.
-    history.push(`/r/call/${contact.id}`, { entry: contact });
+    pushHistory(history, `/r/call/${contact.id}`, { entry: contact });
   }
 
   doCallContact = (contact, mode) => {

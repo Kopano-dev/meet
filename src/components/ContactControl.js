@@ -17,6 +17,7 @@ import Persona from 'kpop/es/Persona';
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
+import { pushHistory } from '../actions/utils';
 
 const styles = (theme) => ({
   root: {
@@ -54,7 +55,7 @@ class ContactControl extends React.PureComponent {
   handleCloseClick = () => {
     const { history } = this.props;
 
-    history.push('/r/call');
+    pushHistory(history, '/r/call');
   };
 
   render() {

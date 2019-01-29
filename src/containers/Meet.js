@@ -74,10 +74,13 @@ class App extends PureComponent {
   initialize = () => {
     const { dispatch } = this.props;
 
-    return dispatch(fetchConfigAndInitializeUser({
+    const guestEnabled = getGuestSettingsFromURL() !== null;
+
+    const options = {
       id: 'meet',
       defaults: async config => {
-        const scope = config.oidc.scope ? config.oidc.scope.split(' ') : ['openid', 'profile', 'email'];
+        const scope = config.oidc.scope ?
+          config.oidc.scope : ['openid', 'profile', 'email', scopeKwm, scopeGrapi, scopeKvs].join(' ');
         const eqp = Object.assign({}, {
           claims: JSON.stringify({
             id_token: { // eslint-disable-line camelcase
@@ -85,33 +88,12 @@ class App extends PureComponent {
             },
           }),
         }, config.oidc.eqp);
-
         config.kwm = Object.assign({}, {
           url: '', // If empty, current host is used.
         }, config.kwm);
-
-        // Check for guest support.
-        const hpr = parseQuery(window.location.hash.substr(1));
-        if (hpr.guest === '1') {
-          // Verify, that '/public/' is in our path.
-          const path = getCurrentAppPath();
-          if (path.indexOf('/public/') >= 0) {
-            // Guest mode enabled via scope.
-            scope.push(scopeKwm, scopeGuestOK);
-            const response = await dispatch(guestLogon(config, path, hpr.token));
-            if (response.ok) {
-              // Add extra query parameters from response, to oidc.
-              Object.assign(eqp, response.eqp);
-            }
-          }
-        } else {
-          // Add all scopes which we support for non guest.
-          scope.push(scopeKwm, scopeGrapi, scopeKvs);
-        }
-
         config.oidc = Object.assign({}, config.oidc, {
-          scope: scope.join(' '),
-          eqp: eqp,
+          scope,
+          eqp,
         });
 
         return config;
@@ -120,7 +102,34 @@ class App extends PureComponent {
       // other scopes optional. All components which depend on specific access
       // should check if the current user actually has gotten it.
       requiredScopes: ['openid', 'profile', 'email', scopeKwm],
-    }));
+      args: {
+        onBeforeSignin: async (userManager, args) => {
+          // Check if this is a guest request.
+          const guest = getGuestSettingsFromURL();
+          if (!guest) {
+            return;
+          }
+
+          // Add specific scopes for guest access.
+          userManager.scope = ['openid', 'profile', 'email', scopeKwm, scopeGuestOK].join(' ');
+          if (args) {
+            // Never prompt when requesting guests.
+            args.prompt = 'none';
+          }
+
+          // NOTE(longsleep): Logon guest via kwm API and inject the result
+          // into OIDC to get access.
+          const logon = await dispatch(guestLogon(guest.path, guest.token));
+          if (logon.ok) {
+            userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
+          }
+        },
+        noRedirect: !!guestEnabled,
+        removeUser: !!guestEnabled,
+      },
+    };
+
+    return dispatch(fetchConfigAndInitializeUser(options));
   }
 
   uninitialize = () => {
@@ -173,6 +182,21 @@ App.propTypes = {
 
   dispatch: PropTypes.func.isRequired,
 };
+
+const getGuestSettingsFromURL = () => {
+  const hpr = parseQuery(window.location.hash.substr(1));
+  if (hpr.guest === '1') {
+    const path = getCurrentAppPath();
+    if (path.indexOf('/public/') >= 0) {
+      return {
+        guest: hpr.guest,
+        path: path,
+        token: hpr.token ? hpr.token : null,
+      };
+    }
+  }
+  return null;
+}
 
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error } = state.common;

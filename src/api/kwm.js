@@ -12,8 +12,10 @@ function apiURL(config, path) {
 // NOTE(longsleep): Guest logon is special that it gets passed config directly
 // instead of retrieving it from the store. This is required to ensure that
 // the function can be called while still retrieving config.
-export function guestLogon(config, path=null, token=null) {
-  return (dispatch) => {
+export function guestLogon(path=null, token=null) {
+  return (dispatch, getState) => {
+    const { config } = getState().common;
+
     const params = {
       client_id: config.oidc.clientID, // eslint-disable-line camelcase
       iss: config.oidc.iss,
