@@ -9,28 +9,19 @@ function apiURL(config, path) {
   return baseURL + uri + path;
 }
 
-// NOTE(longsleep): Guest logon is special that it gets passed config directly
-// instead of retrieving it from the store. This is required to ensure that
-// the function can be called while still retrieving config.
-export function guestLogon(path=null, token=null) {
+export function guestLogon(settings) {
   return (dispatch, getState) => {
     const { config } = getState().common;
 
-    const params = {
+    const params = Object.assign({
       client_id: config.oidc.clientID, // eslint-disable-line camelcase
       iss: config.oidc.iss,
-    };
-    if (path) {
-      params.path = path;
-    }
-    if (token) {
-      params.token = token;
-    }
+    }, settings);
 
     return dispatch(networkFetch(
       apiURL(config, '/guest/logon'), {
         method: 'POST',
-        body: new URLSearchParams(params),
+        body: new URLSearchParams(params).toString(),
       },
       200,
       true,

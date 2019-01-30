@@ -117,19 +117,17 @@ class App extends PureComponent {
           if (!guest) {
             return;
           }
-
+          // NOTE(longsleep): Logon guest via kwm API and inject the result
+          // into OIDC to get access.
+          const logon = await dispatch(guestLogon(guest));
+          if (logon.ok) {
+            userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
+          }
           // Add specific scopes for guest access.
           userManager.scope = [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGuestOK].join(' ');
           if (args) {
             // Never prompt when requesting guests.
             args.prompt = 'none';
-          }
-
-          // NOTE(longsleep): Logon guest via kwm API and inject the result
-          // into OIDC to get access.
-          const logon = await dispatch(guestLogon(guest.path, guest.token));
-          if (logon.ok) {
-            userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
           }
         },
         noRedirect: !!guestEnabled,
@@ -195,7 +193,7 @@ const getGuestSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
   if (hpr.guest === '1') {
     const path = getCurrentAppPath();
-    if (path.indexOf('/public/') >= 0) {
+    if (hpr.token || path.indexOf('/public/') >= 0) {
       return {
         guest: hpr.guest,
         path: path,
