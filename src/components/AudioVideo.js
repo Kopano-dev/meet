@@ -9,6 +9,8 @@ import CallIcon from '@material-ui/icons/Call';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
 import MicOffIcon from '@material-ui/icons/MicOff';
 
+import DisplayNameLabel from './DisplayNameLabel';
+
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
 };
@@ -273,6 +275,7 @@ class AudioVideo extends React.PureComponent {
       muted,
       calling,
       conference,
+      id,
       user,
       ...other
     } = this.props;
@@ -298,7 +301,7 @@ class AudioVideo extends React.PureComponent {
     if (user) {
       overlay = <div className={classes.overlayText}>
         <Typography variant="display1" gutterBottom>
-          { user.displayName } { !hasAudio ?  <MicOffIcon/> : null }
+          <DisplayNameLabel user={user} id={id}/> { !hasAudio ?  <MicOffIcon/> : null }
         </Typography>
         { calling &&
           <Typography>
@@ -392,6 +395,7 @@ AudioVideo.propTypes = {
 
   conference: PropTypes.bool,
 
+  id: PropTypes.string,
   user: PropTypes.object,
 };
 

@@ -125,6 +125,7 @@ class CallGrid extends React.PureComponent {
               >
                 <AudioVideo
                   className={classes.video}
+                  id={stream.id}
                   muted={stream.muted}
                   mirrored={stream.mirrored}
                   stream={stream.stream}
@@ -143,6 +144,7 @@ class CallGrid extends React.PureComponent {
               <AudioVideo
                 key={stream.id}
                 audio
+                id={stream.id}
                 muted={stream.muted}
                 stream={stream.stream}
                 conference={conference}
