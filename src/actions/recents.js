@@ -1,5 +1,6 @@
-import { requireScope } from '../actions/utils';
-import { scopeKvs } from '../api/constants';
+import { requireScope } from 'kpop/es/utils/permissions';
+import { scopeKvs } from 'kpop/es/oidc/scopes';
+
 import kvs from '../api/kvs';
 import {
   RECENTS_ADD_OR_UPDATE,

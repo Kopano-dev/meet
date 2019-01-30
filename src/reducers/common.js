@@ -21,7 +21,7 @@ import {
 import {
   profileAsUserShape,
 } from 'kpop/es/oidc';
-import { scopeGuestOK } from '../api/constants';
+import { scopeGuestOK } from 'kpop/es/oidc/scopes';
 
 const defaultState = {
   updateAvailable: false,

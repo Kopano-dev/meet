@@ -9,6 +9,15 @@ import { setError, userRequiredError } from 'kpop/es/common/actions';
 import { initialize as initializeOffline } from 'kpop/es/offline/actions';
 import { initialize as initializeVisibility } from 'kpop/es/visibility/actions';
 import { parseQuery } from 'kpop/es/utils';
+import {
+  scopeOpenID,
+  scopeEmail,
+  scopeProfile,
+  scopeKwm,
+  scopeGuestOK,
+  scopeGrapi,
+  scopeKvs,
+} from 'kpop/es/oidc/scopes';
 
 import { HowlingProvider } from '../components/howling';
 import soundSprite1Ogg from '../sounds/sprite1.ogg';
@@ -21,7 +30,6 @@ import KWMProvider from '../components/KWMProvider';
 import Snacks from '../components/Snacks';
 import { shiftSnacks } from '../actions/snacks';
 import { guestLogon } from '../api/kwm';
-import { scopeKwm, scopeGuestOK, scopeGrapi, scopeKvs } from '../api/constants';
 
 const routes = [
   {
@@ -80,7 +88,7 @@ class App extends PureComponent {
       id: 'meet',
       defaults: async config => {
         const scope = config.oidc.scope ?
-          config.oidc.scope : ['openid', 'profile', 'email', scopeKwm, scopeGrapi, scopeKvs].join(' ');
+          config.oidc.scope : [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGrapi, scopeKvs].join(' ');
         const eqp = Object.assign({}, {
           claims: JSON.stringify({
             id_token: { // eslint-disable-line camelcase
@@ -101,7 +109,7 @@ class App extends PureComponent {
       // NOTE(longsleep): Only require basic and kopano/kwm scope here, making
       // other scopes optional. All components which depend on specific access
       // should check if the current user actually has gotten it.
-      requiredScopes: ['openid', 'profile', 'email', scopeKwm],
+      requiredScopes: [scopeOpenID, scopeProfile, scopeEmail, scopeKwm],
       args: {
         onBeforeSignin: async (userManager, args) => {
           // Check if this is a guest request.
@@ -111,7 +119,7 @@ class App extends PureComponent {
           }
 
           // Add specific scopes for guest access.
-          userManager.scope = ['openid', 'profile', 'email', scopeKwm, scopeGuestOK].join(' ');
+          userManager.scope = [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGuestOK].join(' ');
           if (args) {
             // Never prompt when requesting guests.
             args.prompt = 'none';
@@ -196,7 +204,7 @@ const getGuestSettingsFromURL = () => {
     }
   }
   return null;
-}
+};
 
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error } = state.common;

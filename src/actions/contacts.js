@@ -1,5 +1,6 @@
-import { requireScope } from '../actions/utils';
-import { scopeGrapi } from '../api/constants';
+import { requireScope } from 'kpop/es/utils/permissions';
+import { scopeGrapi } from 'kpop/es/oidc/scopes';
+
 import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api/grapi';
 import {
   CONTACTS_FETCH,
