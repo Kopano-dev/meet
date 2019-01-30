@@ -1,3 +1,5 @@
+import { requireScope } from '../actions/utils';
+import { scopeGrapi } from '../api/constants';
 import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api/grapi';
 import {
   CONTACTS_FETCH,
@@ -7,7 +9,7 @@ import {
 } from './types';
 
 export function fetchContacts() {
-  return (dispatch) => {
+  return requireScope(scopeGrapi, dispatch => {
     dispatch(contactsFetch(true));
 
     return dispatch(fetchUsers()).then(contacts => {
@@ -17,19 +19,21 @@ export function fetchContacts() {
       dispatch(errorContacts(err));
       throw err;
     });
-  };
+  }, null);
 }
 
 export function fetchContactByID(id) {
-  return (dispatch) => {
+  return requireScope(scopeGrapi, dispatch => {
     return dispatch(fetchUser(id));
-  };
+  }, null);
 }
 
 export function fetchAndUpdateContactByID(id, initialize=false) {
   return (dispatch) => {
-    return dispatch(fetchContactByID(id)).then(contact => {
-      dispatch(updateContacts([contact], initialize));
+    return dispatch(fetchContactByID(id)).then(async contact => {
+      if (contact !== null) {
+        await dispatch(updateContacts([contact], initialize));
+      }
       return contact;
     });
   };
@@ -37,11 +41,12 @@ export function fetchAndUpdateContactByID(id, initialize=false) {
 
 export function fetchAndAddContacts() {
   return (dispatch) => {
-    return dispatch(fetchContacts()).then(contacts => {
+    return dispatch(fetchContacts()).then(async contacts => {
       if (contacts !== null) {
-        dispatch(addContacts(contacts.value));
+        await dispatch(addContacts(contacts.value));
         return contacts.value;
       }
+      return null;
     });
   };
 }

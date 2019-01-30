@@ -1,7 +1,7 @@
 const marker = {};
 
 export function requireScope(scope, f, defaultValue=marker) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { user } = getState().common;
 
     if (userHasScope(scope, user)) {

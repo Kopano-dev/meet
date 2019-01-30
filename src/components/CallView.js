@@ -61,8 +61,7 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/usermedia';
-import { requireScope, pushHistory } from '../actions/utils';
-import { scopeGrapi, scopeKvs } from '../api/constants';
+import { pushHistory } from '../actions/utils';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
@@ -1133,12 +1132,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchContacts: async () => {
-      return dispatch(requireScope(scopeGrapi, fetchAndAddContacts(), []));
+      return dispatch(fetchAndAddContacts());
     },
     fetchRecents: async () => {
-      const marker = {};
-      const recents = await dispatch(requireScope(scopeKvs, fetchRecents(), marker));
-      if (recents !== marker) {
+      const recents = await dispatch(fetchRecents());
+      if (recents !== null) {
         await dispatch(initializeContactsWithRecents());
       }
       return recents;

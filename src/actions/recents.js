@@ -1,3 +1,5 @@
+import { requireScope } from '../actions/utils';
+import { scopeKvs } from '../api/constants';
 import kvs from '../api/kvs';
 import {
   RECENTS_ADD_OR_UPDATE,
@@ -15,7 +17,7 @@ const globalIDPrefix = Math.random().toString(36).substring(7);
 let globalIDCount = 0;
 
 export function fetchRecents() {
-  return (dispatch, getState) => {
+  return requireScope(scopeKvs, (dispatch, getState) => {
     dispatch(recentsFetch(true));
 
     const { table, sorted, guid } = getState().recents;
@@ -88,7 +90,7 @@ export function fetchRecents() {
       dispatch(errorRecents(err));
       throw err;
     });
-  };
+  }, null);
 }
 
 const addOrUpdateRecentEntry = (id, kind, entry) => {
