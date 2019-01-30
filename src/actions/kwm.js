@@ -358,7 +358,9 @@ function newCall(event) {
         // TODO(longsleep): Find some way to describe unknown users.
         displayName: '',
       };
-      dispatch(fetchAndUpdateContactByID(id));
+      dispatch(fetchAndUpdateContactByID(id)).catch(err => {
+        console.warn('failed to fetch and update contact information for new call', err); // eslint-disable-line no-console
+      });
     }
     // Copy to retain reference.
     const user = {displayName: entry.displayName};
