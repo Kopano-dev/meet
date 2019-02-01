@@ -6,5 +6,8 @@
   },
   "kwm": {
     "url": ""
+  },
+  "guests": {
+	  "enabled": true
   }
 }

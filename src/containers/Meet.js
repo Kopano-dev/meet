@@ -112,6 +112,11 @@ class App extends PureComponent {
       requiredScopes: [scopeOpenID, scopeProfile, scopeEmail, scopeKwm],
       args: {
         onBeforeSignin: async (userManager, args) => {
+          const { config } = this.props;
+          if (!config.guests || !config.guests.enabled) {
+            // Only even try guest logon when enabled in config.
+            return;
+          }
           // Check if this is a guest request.
           const guest = getGuestSettingsFromURL();
           if (!guest) {
@@ -191,15 +196,13 @@ App.propTypes = {
 
 const getGuestSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
-  if (hpr.guest === '1') {
+  if (hpr.guest) {
     const path = getCurrentAppPath();
-    if (hpr.token || path.indexOf('/public/') >= 0) {
-      return {
-        guest: hpr.guest,
-        path: path,
-        token: hpr.token ? hpr.token : null,
-      };
-    }
+    return {
+      guest: hpr.guest,
+      path: path,
+      token: hpr.token ? hpr.token : '',
+    };
   }
   return null;
 };
