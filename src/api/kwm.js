@@ -13,11 +13,8 @@ export function guestLogon(settings) {
   return (dispatch, getState) => {
     const { config } = getState().common;
 
-    // FIXME(longsleep): Get response_type from kpop. It is currently hardcoded
-    // unimportable there.
     const params = Object.assign({
       client_id: config.oidc.clientID, // eslint-disable-line camelcase
-      response_type: 'id_token token', // eslint-disable-line camelcase
       iss: config.oidc.iss,
     }, settings);
 

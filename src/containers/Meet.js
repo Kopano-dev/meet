@@ -122,17 +122,21 @@ class App extends PureComponent {
           if (!guest) {
             return;
           }
-          // NOTE(longsleep): Logon guest via kwm API and inject the result
-          // into OIDC to get access.
-          const logon = await dispatch(guestLogon(guest));
+          // Create specific scope for guest access.
+          const scope = [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGuestOK].join(' ');
+          // Logon guest via kwm API to receive extra guest logon values for OIDC.
+          const logon = await dispatch(guestLogon({
+            ...guest,
+            scope,
+          }));
           if (logon.ok) {
+            // Set extra params for OIDC - this contains a signe OIDC request
+            // object which overrides OIDC settings.
             userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
-          }
-          // Add specific scopes for guest access.
-          userManager.scope = [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGuestOK].join(' ');
-          if (args) {
-            // Never prompt when requesting guests.
-            args.prompt = 'none';
+            if (args) {
+              // Never prompt when requesting guests.
+              args.prompt = 'none';
+            }
           }
         },
         noRedirect: !!guestEnabled,
