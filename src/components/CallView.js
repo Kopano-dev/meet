@@ -769,6 +769,7 @@ class CallView extends React.PureComponent {
     const {
       classes,
       profile,
+      guest,
       channel,
       ringing,
       calling,
@@ -851,11 +852,13 @@ class CallView extends React.PureComponent {
       </div>
     );
 
-    icons.push(
-      <Hidden smDown key='kopano-apps'>
-        <AppsSwitcherButton/>
-      </Hidden>
-    );
+    if (!guest) {
+      icons.push(
+        <Hidden smDown key='kopano-apps'>
+          <AppsSwitcherButton/>
+        </Hidden>
+      );
+    }
 
     if (!connected) {
       icons.unshift(
@@ -1080,6 +1083,7 @@ CallView.propTypes = {
 
   hidden: PropTypes.bool.isRequired,
   profile: userShape.isRequired,
+  guest: PropTypes.bool.isRequired,
 
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
@@ -1109,7 +1113,7 @@ CallView.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { hidden, user, profile } = state.common;
+  const { hidden, user, profile, guest } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
   const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
 
@@ -1118,6 +1122,7 @@ const mapStateToProps = state => {
   return {
     hidden,
     profile: user ? profile : null,
+    guest,
 
     connected,
     channel,
