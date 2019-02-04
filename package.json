@@ -12,7 +12,7 @@
     "debug": "^3.1.0",
     "howler": "^2.0.9",
     "kpop": "https://download.kopano.io/community/kapp:/kpop-0.15.0.tgz",
-    "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.14.0.tgz",
+    "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.15.0.tgz",
     "localforage": "^1.7.1",
     "lunr": "^2.2.0",
     "mdi-material-ui": "^5.3.0",
