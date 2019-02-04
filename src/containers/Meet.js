@@ -201,12 +201,17 @@ App.propTypes = {
 const getGuestSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
   if (hpr.guest) {
-    const path = getCurrentAppPath();
-    return {
+    const guest = {
       guest: hpr.guest,
-      path: path,
-      token: hpr.token ? hpr.token : '',
+      path: getCurrentAppPath(),
     };
+    if (hpr.token) {
+      guest.token = hpr.token;
+    }
+    if (hpr.name) {
+      guest.name = hpr.name;
+    }
+    return guest;
   }
   return null;
 };

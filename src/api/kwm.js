@@ -16,6 +16,7 @@ export function guestLogon(settings) {
     const params = Object.assign({
       client_id: config.oidc.clientID, // eslint-disable-line camelcase
       iss: config.oidc.iss,
+      token: '',
     }, settings);
 
     return dispatch(networkFetch(
