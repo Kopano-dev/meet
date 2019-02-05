@@ -6,6 +6,7 @@ import * as kwmjs from 'kwmjs';
 import * as types from './types';
 import * as sdputils from '../sdputils';
 import { fetchAndUpdateContactByID } from './contacts';
+import { addSnack } from './snacks';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
@@ -550,8 +551,23 @@ export function doGroup(id) {
       dispatch(channelChanged(channel));
       return channel;
     }).catch(err => {
-      console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
-      dispatch(setNonFatalError('Unable to join', err));
+      switch (err.code) {
+        case 'create_restricted':
+          dispatch(addSnack({
+            message: 'This call is currently not active.',
+            variant: 'warning',
+          }));
+          break;
+        case 'access_restricted':
+          dispatch(addSnack({
+            message: 'You do not have access to this call.',
+            variant: 'warning',
+          }));
+          break;
+        default:
+          console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
+          dispatch(setNonFatalError('Unable to join', err));
+      }
     });
   };
 }
