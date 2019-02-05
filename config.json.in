@@ -8,6 +8,6 @@
     "url": ""
   },
   "guests": {
-	  "enabled": true
+	  "enabled": false
   }
 }
