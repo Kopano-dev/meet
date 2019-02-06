@@ -128,6 +128,8 @@ class App extends PureComponent {
           const logon = await dispatch(guestLogon({
             ...guest,
             scope,
+            iss: userManager.settings.authority,
+            client_id: userManager.settings.client_id,  // eslint-disable-line camelcase
           }));
           if (logon.ok) {
             // Set extra params for OIDC - this contains a signe OIDC request

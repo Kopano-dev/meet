@@ -13,6 +13,9 @@ export function guestLogon(settings) {
   return (dispatch, getState) => {
     const { config } = getState().common;
 
+    // NOTE(longsleep): Generate params. The values here for client_id and iss
+    // might be empty in the config. Thus this mostly relies on the settings to
+    // pass them correctly.
     const params = Object.assign({
       client_id: config.oidc.clientID, // eslint-disable-line camelcase
       iss: config.oidc.iss,
