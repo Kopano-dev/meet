@@ -54,6 +54,7 @@ import {
   doReject,
   doGroup,
 } from '../actions/kwm';
+import { addSnack } from '../actions/snacks';
 import {
   requestUserMedia,
   stopUserMedia,
@@ -385,6 +386,17 @@ class CallView extends React.PureComponent {
           });
         }
       }, 5000);
+      if (muteMic) {
+        this.notifyBySnack('Your microphone is muted', {
+          button: <Button
+            size="small"
+            color="default"
+            onClick={this.handleMuteMicClick(false)}
+          >
+              unmute
+          </Button>,
+        });
+      }
     } else if (!channel && withChannel) {
       // No channel.
       this.setState({
@@ -416,15 +428,25 @@ class CallView extends React.PureComponent {
     });
   };
 
-  handleMuteCamClick = () => {
+  handleMuteCamClick = state => () => {
+    if (state === undefined) {
+      // Default is toggle.
+      state = !this.state.muteCam;
+    }
+
     this.setState({
-      muteCam: !this.state.muteCam,
+      muteCam: state,
     });
   }
 
-  handleMuteMicClick = () => {
+  handleMuteMicClick = state => () => {
+    if (state === undefined) {
+      // Default is toggle.
+      state = !this.state.muteMic;
+    }
+
     this.setState({
-      muteMic: !this.state.muteMic,
+      muteMic: state,
     });
   }
 
@@ -589,6 +611,16 @@ class CallView extends React.PureComponent {
       } else {
         setTimeout(resolve, 0);
       }
+    });
+  }
+
+  notifyBySnack = (message, options={}) => {
+    const { addSnack } = this.props;
+
+    addSnack({
+      message,
+      variant: 'info',
+      ...options,
     });
   }
 
@@ -801,7 +833,7 @@ class CallView extends React.PureComponent {
         color="inherit"
         aria-label="hangup"
         className={classes.muteCamButton}
-        onClick={this.handleMuteCamClick}
+        onClick={this.handleMuteCamClick()}
       >
         {muteCamButtonIcon}
       </Button>);
@@ -812,7 +844,7 @@ class CallView extends React.PureComponent {
         color="inherit"
         aria-label="hangup"
         className={classes.muteMicButton}
-        onClick={this.handleMuteMicClick}
+        onClick={this.handleMuteMicClick()}
       >
         {muteMicButtonIcon}
       </Button>);
@@ -1107,6 +1139,7 @@ CallView.propTypes = {
   setError: PropTypes.func.isRequired,
   addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
   addOrUpdateRecentsFromGroup: PropTypes.func.isRequired,
+  addSnack: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteStreams: PropTypes.array.isRequired,
@@ -1193,6 +1226,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addOrUpdateRecentsFromGroup: (id, scope) => {
       return dispatch(addOrUpdateRecentsFromGroup(id, scope));
+    },
+    addSnack: (snack) => {
+      return dispatch(addSnack(snack));
     },
   };
 };

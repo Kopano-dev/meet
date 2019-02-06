@@ -62,7 +62,8 @@ function TransitionDown(props) {
 }
 
 function SnacksContent(props) {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, className, onClose, snack, ...other } = props;
+  const { message, variant, button } = snack;
   const Icon = variantIcon[variant];
 
   return (
@@ -76,6 +77,7 @@ function SnacksContent(props) {
         </span>
       }
       action={[
+        <React.Fragment key="button">{button}</React.Fragment>,
         <IconButton
           key="close"
           aria-label="Close"
@@ -94,9 +96,9 @@ function SnacksContent(props) {
 SnacksContent.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
-  message: PropTypes.node,
+
+  snack: PropTypes.object.isRequired,
   onClose: PropTypes.func,
-  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
 const SnacksContentWrapper = withStyles(styles1)(SnacksContent);
@@ -107,22 +109,24 @@ class Snacks extends React.PureComponent {
 
   state = {
     open: false,
-    messageInfo: {},
+    snack: {},
   };
 
   componentDidUpdate(prevProps) {
     const { snacks } = this.props;
 
     if (snacks && snacks.length > 0 && prevProps.snacks[0] !== snacks[0]) {
-      const snack = snacks[0];
-      this.addToQueue(snack.message, snack.variant ? snack.variant : 'info');
+      const snack = {
+        variant: 'info',
+        ...snacks[0],
+      };
+      this.addToQueue(snack);
     }
   }
 
-  addToQueue = (message, variant) => {
+  addToQueue = (snack) => {
     this.queue.push({
-      message,
-      variant,
+      ...snack,
       key: this.count++,
     });
 
@@ -137,7 +141,7 @@ class Snacks extends React.PureComponent {
   processQueue = (more=false) => {
     if (this.queue.length > 0) {
       this.setState({
-        messageInfo: this.queue.shift(),
+        snack: this.queue.shift(),
         open: true,
       });
     } else {
@@ -160,10 +164,11 @@ class Snacks extends React.PureComponent {
 
   render() {
     const { classes } = this.props;
-    const { message, variant, key } = this.state.messageInfo;
+    const { snack } = this.state;
+
     return (
       <Snackbar
-        key={key}
+        key={snack.key}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'center',
@@ -175,8 +180,7 @@ class Snacks extends React.PureComponent {
         onExited={this.handleExited}
       >
         <SnacksContentWrapper
-          variant={variant}
-          message={message}
+          snack={snack}
           onClose={this.handleClose}
           className={classes.snack}
         />
