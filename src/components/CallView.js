@@ -621,10 +621,12 @@ class CallView extends React.PureComponent {
 
   wakeFromStandby = (newMode) => {
     const { mode, muteCam } = this.state;
+    const { unsetLocalStream } = this.props;
 
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       newMode = newMode ? newMode : (muteCam ? 'call' : 'videocall');
       if (mode !== newMode) {
+        await unsetLocalStream();
         this.setState({
           mode: newMode,
         }, resolve);
@@ -796,11 +798,11 @@ class CallView extends React.PureComponent {
         });
       }
       return null;
-    }).then(stream => {
+    }).then(async stream => {
       if (stream) {
-        setLocalStream(stream);
+        await setLocalStream(stream);
       } else {
-        unsetLocalStream();
+        await unsetLocalStream();
       }
       return stream;
     });
