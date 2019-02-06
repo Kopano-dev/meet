@@ -5,6 +5,7 @@ import {
   KWM_CALL_DESTROY,
   KWM_CALL_INCOMING,
   KWM_CALL_OUTGOING,
+  KWM_PC_CONNECT,
   KWM_STREAM_RECEIVED,
   CONTACTS_UPDATE,
 } from '../actions/types';
@@ -83,6 +84,15 @@ function streamsReducer(state = defaultState, action) {
     case KWM_STREAM_RECEIVED: {
       const entry = Object.assign({}, state[action.record.user], {
         stream: action.stream,
+        calling: false,
+      });
+      return Object.assign({}, state, {
+        [action.record.user]: entry,
+      });
+    }
+
+    case KWM_PC_CONNECT: {
+      const entry = Object.assign({}, state[action.record.user], {
         calling: false,
       });
       return Object.assign({}, state, {
