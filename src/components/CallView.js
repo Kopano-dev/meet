@@ -40,6 +40,7 @@ import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import { forceBase64StdEncoded } from 'kpop/es/utils';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
+import { parseQuery } from 'kpop/es/utils';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
@@ -83,6 +84,23 @@ const minimalHeightDownBreakpoint = '@media (max-height:275px)';
 const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
+
+const getMuteStateFromURL = () => {
+  const hpr = parseQuery(window.location.hash.substr(1));
+  const muteState = {
+    mic: false,
+    cam: false,
+  }
+  if (hpr.mute) {
+    if (hpr.mute & 1) {
+      muteState.mic = true;
+    }
+    if (hpr.mute & 2) {
+      muteState.cam = true;
+    }
+  }
+  return muteState;
+};
 
 const styles = theme => ({
   root: {
@@ -283,12 +301,14 @@ class CallView extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    // Initialize state.
+    const muteState = getMuteStateFromURL();
     this.state = {
       mode: props.hidden ? 'standby' : 'videocall',
       wasTouched: false,
       withChannel: false,
-      muteCam: false,
-      muteMic: false,
+      muteCam: !!muteState.cam,
+      muteMic: !!muteState.mic,
       rumFailed: false,
       openDialogs: {},
       openMenu: false,
