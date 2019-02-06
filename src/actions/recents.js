@@ -95,7 +95,7 @@ export function fetchRecents() {
 }
 
 const addOrUpdateRecentEntry = (id, kind, entry) => {
-  return async (dispatch) => {
+  return requireScope(scopeKvs, async (dispatch) => {
     if (!id) {
       kind = 'local';
       id = `${globalIDPrefix}-${++globalIDCount}`;
@@ -122,11 +122,11 @@ const addOrUpdateRecentEntry = (id, kind, entry) => {
         });
       }
     }));
-  };
+  }, null);
 };
 
 export const removeRecentEntry = (rid) => {
-  return async (dispatch) => {
+  return requireScope(scopeKvs, async (dispatch) => {
     const [ kind, ...idParts ] = rid.split('_');
     const id = idParts.join('_');
 
@@ -135,7 +135,7 @@ export const removeRecentEntry = (rid) => {
     });
 
     await dispatch(recentsRemove(rid));
-  };
+  }, null);
 };
 
 export function addOrUpdateRecentsFromContact(id) {
