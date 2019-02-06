@@ -37,11 +37,11 @@ class RTCStats extends React.PureComponent {
       transportsBytesReceived,
     } = this.state;
 
-    if (!ready) {
+    const bytesAll = (transportsBytesSend + transportsBytesReceived) / 1024 / 1024;
+    if (!ready || !bytesAll) {
       return null;
     }
 
-    const bytesAll = (transportsBytesSend + transportsBytesReceived) / 1024 / 1024;
     return <div className={className}>
       <span>{(transportsBytesReceivedPerSecond/125).toFixed(1)} Mbit/s in</span>
       <br/>
@@ -108,10 +108,13 @@ class RTCStats extends React.PureComponent {
     const transportsBytesSend = (stats.transportsBytesSend || 0) - (this.stats.transportsBytesSend || 0);
     const transportsBytesReceived = (stats.transportsBytesReceived || 0) - (this.stats.transportsBytesReceived || 0);
 
-    const duration = stats.timestamp - this.stats.timestamp;
+    let duration = stats.timestamp - this.stats.timestamp;
+    if (!duration || duration < 0) {
+      duration = 0;
+    }
 
-    stats.transportsBytesSendPerSecond = Math.floor(transportsBytesSend/duration);
-    stats.transportsBytesReceivedPerSecond = Math.floor(transportsBytesReceived/duration);
+    stats.transportsBytesSendPerSecond = duration ? Math.floor(transportsBytesSend/duration) : 0;
+    stats.transportsBytesReceivedPerSecond = duration ? Math.floor(transportsBytesReceived/duration) : 0;
     stats.duration = duration;
     this.stats = stats;
 
