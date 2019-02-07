@@ -360,7 +360,8 @@ function newCall(event) {
         displayName: '',
       };
       dispatch(fetchAndUpdateContactByID(id)).catch(err => {
-        console.warn('failed to fetch and update contact information for new call', err); // eslint-disable-line no-console
+        console.warn('failed to fetch and update contact' + // eslint-disable-line no-console
+        ' information for new call', err);
       });
     }
     // Copy to retain reference.

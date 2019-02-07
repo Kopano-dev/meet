@@ -90,7 +90,7 @@ const getMuteStateFromURL = () => {
   const muteState = {
     mic: false,
     cam: false,
-  }
+  };
   if (hpr.mute) {
     if (hpr.mute & 1) {
       muteState.mic = true;
