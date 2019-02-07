@@ -19,11 +19,27 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 
 import Persona from 'kpop/es/Persona';
+import { parseQuery } from 'kpop/es/utils';
 
+import { getCurrentAppPath } from '../base';
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyAppURL } from '../base';
 import { mapGroupEntryToUserShape } from './Recents';
 import { pushHistory } from '../actions/utils';
+
+const getAutoSettingsFromURL = () => {
+  const hpr = parseQuery(window.location.hash.substr(1));
+  if (hpr.auto) {
+    const auto = {
+      auto: hpr.auto,
+      path: getCurrentAppPath().substr(2),
+    };
+    return auto;
+  }
+  return null;
+};
+// Fetch auto settings once, on startup.
+const autoSettings = getAutoSettingsFromURL();
 
 const styles = (theme) => ({
   root: {
@@ -62,6 +78,24 @@ class GroupControl extends React.PureComponent {
     return {
       url: qualifyAppURL(`/r/${group.scope}/${group.id}`),
     };
+  }
+
+  componentDidMount() {
+    if (autoSettings && getCurrentAppPath().substr(2) == autoSettings.path) {
+      switch (autoSettings.auto) {
+        case '1':
+          // Auto audio call.
+          setTimeout(this.handleEntryClick('call'), 0);
+          break;
+        case '2':
+          // Auto video call.
+          setTimeout(this.handleEntryClick('videocall'), 0);
+          break;
+      }
+
+      // Only ever auto stuff once.
+      delete autoSettings.auto;
+    }
   }
 
   handleEntryClick = (mode) => () => {
