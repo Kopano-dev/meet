@@ -12,7 +12,13 @@ function apiURL(config, path) {
 }
 
 export function fetchUsers() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { config } = getState().common;
+    // Check if full GAB sync is disabled via config. If so, always search on
+    // the server.
+    if (config && config.disableFullGAB) {
+      return null;
+    }
     // Check if contacts result set is reasonably small.
     const test = await dispatch(fetchUsersWithParams({top: 1, skip: contactsLocalFetchLimit, select: 'id'}));
     if (test && test.value && test.value.length > 0) {

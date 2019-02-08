@@ -9,5 +9,6 @@
   },
   "guests": {
 	  "enabled": false
-  }
+  },
+  "disableFullGAB": false
 }
