@@ -18,6 +18,33 @@ Meet is a progressive web app. So to get it up and running either build it with
 `make` or get a release tarball from https://download.kopano.io/community/kapp:/kopano-meet-latest.tar.gz
 and put the resulting static files on a webserver and serve them with https.
 
+## URL fragment parameters
+
+Meet offers some user controlled behavior via parameters passed in as URL
+fragments. These can be used to control the initial behavior of Meet, for example
+when sharing links to a specific Meet group or conference.
+
+`auto=` : Meet will automatically join the group/conference if one is directly
+          given by URL if already signed in or signing in as guest. Values are
+		  `1` for auto join with audio only or `2` to auto join with video call.
+
+`mute=` : Meet automatically disables camera and/or microphone on startup, based
+          on the value of the `mute` parameter. This value is a bitmask which
+		  uses `1` for microphone and `2` for camera. The combined value `3` is
+		  therefore muting both.
+
+
+All URL fragment parameters need already be there when the Meet app loads. For
+example see the following link:
+
+  https://my-kopano.local/meet/r/group/super-duper#mute=1&auto=2
+
+Automatically joins the super-duper group as a video call but with muted
+microphone.
+
+Additional fragment parameters are supported to handle additional functionality.
+See the rest of this documentation for more information.
+
 ## Runtime dependencies
 
 To operate Meet, it needs backends. Meet currently uses Konnect for
