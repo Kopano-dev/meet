@@ -122,8 +122,8 @@ class App extends PureComponent {
           if (!guest) {
             return;
           }
-          // Create specific scope for guest access.
-          const scope = [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGuestOK].join(' ');
+          // Add guest scope to request.
+          const scope = userManager.settings.scope + ' ' + scopeGuestOK;
           // Logon guest via kwm API to receive extra guest logon values for OIDC.
           const logon = await dispatch(guestLogon({
             ...guest,
