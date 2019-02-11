@@ -29,7 +29,7 @@ import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
 import Snacks from '../components/Snacks';
 import { shiftSnacks } from '../actions/snacks';
-import { guestLogon } from '../api/kwm';
+import { tryGuestLogon } from '../api/kwm';
 
 const routes = [
   {
@@ -125,7 +125,7 @@ class App extends PureComponent {
           // Add guest scope to request.
           const scope = userManager.settings.scope + ' ' + scopeGuestOK;
           // Logon guest via kwm API to receive extra guest logon values for OIDC.
-          const logon = await dispatch(guestLogon({
+          const logon = await dispatch(tryGuestLogon({
             ...guest,
             scope,
             iss: userManager.settings.authority,
