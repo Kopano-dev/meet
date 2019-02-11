@@ -25,8 +25,7 @@ const kwmConfig = {
   webrtc: {
     config: {
       iceServers: [
-        {urls: 'stun:stun.l.google.com:19302'},
-        {urls: 'stun:stun.sipgate.net:3478'},
+        {urls: 'stun:stun.kopano.com:443'},
       ],
       // For now use Plan-B. See https://webrtc.org/web-apis/chrome/unified-plan/. You should continue to use Plan B
       // semantics only if you send or receive more than one audio track or more than one video track and need to
