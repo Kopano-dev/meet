@@ -120,7 +120,11 @@ export function connectToKWM(user) {
 export function disconnectFromKWM() {
   return async () => {
     if (kwm) {
-      await kwm.destroy();
+      try {
+        await kwm.destroy();
+      } catch(err) {
+        console.error('disconnect destroy failed with error', err); // eslint-disable-line no-console
+      }
     }
     kwmOptions.id = null;
     kwmOptions.user = null;
