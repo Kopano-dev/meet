@@ -85,9 +85,10 @@ const defaultCommonConstraints = (() => {
       googCpuOveruseEncodeUsage: true,
       googCpuUnderuseThreshold: 55,
       googCpuOveruseThreshold: 85,
-      googHighStartBitrate: true,
+      googHighStartBitrate: 0,
       googPayloadPadding: true,
       googSuspendBelowMinBitrate: true,
+      googScreencastMinBitrate: 400,
     });
   }
 
@@ -324,6 +325,7 @@ function createKWMManager() {
         return;
       }
 
+      console.log('xxx onstream', event);
       dispatch(streamReceived(event));
     };
 
@@ -686,6 +688,25 @@ export function unsetLocalStream() {
     console.info('KWM unsetting local stream'); // eslint-disable-line no-console
     if (kwm && kwm.webrtc) {
       kwm.webrtc.setLocalStream(); // clears.
+    }
+  };
+}
+
+export function setScreenshareStream(id, stream) {
+  return async () => {
+    console.info('KWM setting screen share stream', id, stream); // eslint-disable-line no-console
+    if (kwm && kwm.webrtc) {
+      kwm.webrtc.setScreenshareStream(id, stream);
+    }
+    return stream;
+  };
+}
+
+export function unsetLocalExtraStream(id) {
+  return async () => {
+    console.info('KWM unsetting local extra stream', id); // eslint-disable-line no-console
+    if (kwm && kwm.webrtc) {
+      kwm.webrtc.setLocalExtraStream(id); // clears.
     }
   };
 }

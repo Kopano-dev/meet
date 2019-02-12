@@ -3,22 +3,22 @@ import {
 } from '../actions/types';
 
 const defaultState = {
-  audioVideoStreams: {},
+  umAudioVideoStreams: {},
 };
 
-function usermediaReducer(state = defaultState, action) {
+function mediaReducer(state = defaultState, action) {
   switch (action.type) {
     case USERMEDIA_AUDIOVIDEO_STREAM: {
       const { id, stream } = action;
-      const audioVideoStreams = Object.assign({}, state.audioVideoStreams);
+      const umAudioVideoStreams = Object.assign({}, state.umAudioVideoStreams);
       if (stream) {
-        audioVideoStreams[id] = stream;
+        umAudioVideoStreams[id] = stream;
       } else {
-        delete audioVideoStreams[id];
+        delete umAudioVideoStreams[id];
       }
 
       return Object.assign({}, state, {
-        audioVideoStreams: audioVideoStreams,
+        umAudioVideoStreams: umAudioVideoStreams,
       });
     }
 
@@ -27,4 +27,4 @@ function usermediaReducer(state = defaultState, action) {
   }
 }
 
-export default usermediaReducer;
+export default mediaReducer;

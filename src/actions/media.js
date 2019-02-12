@@ -17,6 +17,11 @@ const defaultVideoSettings = {
   facingMode: 'user',
 };
 
+const defaultScreenSettings = {
+  idealFrameRate: 3,
+  maxFrameRate: 8,
+};
+
 export const globalSettings = (() => {
   const s = {
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
@@ -34,11 +39,12 @@ export const globalSettings = (() => {
     keepOldStreamAndReplaceTracks: false,
   };
 
-  console.info('gUM global settings', s, adapter.browserDetails); // eslint-disable-line no-console
+  console.info('media global settings', s, adapter.browserDetails); // eslint-disable-line no-console
   return s;
 })();
 
 const requestUserMediaStatus = {};
+const requestDisplayMediaStatus = {};
 
 const getSupportedConstraints = () => {
   const supportedConstraints = {};
@@ -95,6 +101,114 @@ const enumerateDeviceSupport = async (settings={}) => {
     audioSource,
   };
 };
+
+export function requestDisplayMedia(id='', settings={}) {
+  // NOTE(longsleep): This keeps a status record and promise for gDM to allow
+  // multiple to run at the same time. The last one always wins. If a new
+  // request is started while another one is already pending, they will all
+  // return to the same promise which is resolved on the first success or
+  // error callback.
+  let status = requestDisplayMediaStatus[id];
+  if (!status) {
+    status = requestDisplayMediaStatus[id] = {
+      id: id,
+      idx: 0,
+    };
+  }
+  let result = status.result;
+  if (!result) {
+    result = status.result = new Promise((resolve, reject) => {
+      status.resolve = resolve;
+      status.reject = reject;
+    });
+  }
+
+  // NOTE(longsleep): Keep an index of gDM requests to make sure multiple can
+  // run in a sane fasshion at the same time.
+  const idx = ++status.idx;
+  console.info('requestDisplayMedia request', idx, status); // eslint-disable-line no-console
+
+  return async dispatch => {
+    const constraints = {
+      video: {
+        ...defaultScreenSettings,
+        ...settings.video,
+      },
+    };
+
+    return navigator.mediaDevices.getDisplayMedia(constraints).then(async stream => {
+      // Process stream.
+      console.debug('gDM stream', idx, stream); // eslint-disable-line no-console
+      if (idx !== status.idx) {
+        console.debug('requestDisplayMedia is outdated after gDM', // eslint-disable-line no-console
+          idx, status);
+        if (stream !== null) {
+          stopMediaStream(stream);
+        }
+        // Return result promise. This is resolved on success of a gUM call.
+        return result;
+      }
+
+      // Result set.
+      const info = {
+        stream,
+      };
+      if (globalSettings.keepOldStreamAndReplaceTracks &&
+        status.stream && status.stream.active && status.stream !== stream) {
+        // Keep stream, just replace tracks.
+        // NOTE(longsleep): Is this a good idea? Check support for this.
+        info.stream = status.stream;
+        info.removedTracks = [];
+        info.newTracks = [];
+        const oldTracks = status.stream.getTracks();
+        const newTracks = stream.getTracks();
+        for (const track of oldTracks) {
+          // Remember.
+          info.removedTracks.push(track);
+          // Stop old track.
+          track.stop();
+          // Remove old track from existing stream.
+          removeTrackFromStream(status.stream, track);
+        }
+        for (const track of newTracks) {
+          // Remember.
+          info.newTracks.push(track);
+          // Add new track to existing stream.
+          addTrackToStream(status.stream, track);
+          // Remove new track from new stream.
+          removeTrackFromStream(stream, track);
+        }
+      }
+      status.stream = info.stream;
+      status.promise = null;
+      status.resolve(info);
+      await dispatch(displayMediaAudioVideoStream(id, info.stream));
+      return info;
+    });
+  };
+}
+
+function displayMediaAudioVideoStream(id='', stream) {
+  return {
+    type: types.DISPLAYMEDIA_AUDIOVIDEO_STREAM,
+    id,
+    stream,
+  };
+}
+
+export function stopDisplayMedia(id='') {
+  return async dispatch => {
+    let status = requestDisplayMediaStatus[id];
+    if (status) {
+      status.idx++;
+      if (status.stream) {
+        stopMediaStream(status.stream);
+        status.stream = null;
+      }
+      await dispatch(displayMediaAudioVideoStream(id, null));
+    }
+  };
+}
 
 export function requestUserMedia(id='', video=true, audio=true, settings={}) {
   // NOTE(longsleep): This keeps a status record and promise for gUM to allow
@@ -217,7 +331,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
         console.debug('requestUserMedia is outdated after gUM', // eslint-disable-line no-console
           idx, status);
         if (stream !== null) {
-          stopUserMediaStream(stream);
+          stopMediaStream(stream);
         }
         // Return result promise. This is resolved on success of a gUM call.
         return result;
@@ -310,7 +424,7 @@ export function stopUserMedia(id='') {
     if (status) {
       status.idx++;
       if (status.stream) {
-        stopUserMediaStream(status.stream);
+        stopMediaStream(status.stream);
         status.stream = null;
       }
       await dispatch(userMediaAudioVideoStream(id, null));
@@ -318,7 +432,7 @@ export function stopUserMedia(id='') {
   };
 }
 
-function stopUserMediaStream(stream) {
+function stopMediaStream(stream) {
   if (stream.stop) {
     // NOTE(longsleep): Backwards compatibilty. Is this still required?
     stream.stop();

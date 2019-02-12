@@ -29,6 +29,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
+import ScreenShareIcon from '@material-ui/icons/ScreenShare';
+import ScreenShareOffIcon from '@material-ui/icons/StopScreenShare';
 
 import renderIf from 'render-if';
 
@@ -46,6 +48,7 @@ import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGrou
 import {
   setLocalStream,
   unsetLocalStream,
+  setScreenshareStream,
   updateOfferAnswerConstraints,
   applyLocalStreamTracks,
   doCall,
@@ -56,12 +59,14 @@ import {
 } from '../actions/kwm';
 import { addSnack } from '../actions/snacks';
 import {
+  requestDisplayMedia,
   requestUserMedia,
+  stopDisplayMedia,
   stopUserMedia,
   muteVideoStream,
   muteAudioStream,
   globalSettings as gUMSettings,
-} from '../actions/usermedia';
+} from '../actions/media';
 import { pushHistory } from '../utils';
 import { resolveContactID } from '../utils';
 import CallGrid from './CallGrid';
@@ -296,6 +301,7 @@ const styles = theme => ({
 
 class CallView extends React.PureComponent {
   rum = null;
+  rdm = null;
   localStreamID = 'callview-main';
 
   constructor(props) {
@@ -309,7 +315,9 @@ class CallView extends React.PureComponent {
       withChannel: false,
       muteCam: !!muteState.cam,
       muteMic: !!muteState.mic,
+      shareScreen: false,
       rumFailed: false,
+      rdmFailed: false,
       openDialogs: {},
       openMenu: false,
       openTab: 'recents',
@@ -432,6 +440,7 @@ class CallView extends React.PureComponent {
     doHangup();
 
     this.stopUserMedia();
+    this.stopDisplayMedia();
   }
 
   handleCallGridClick = () => {
@@ -467,6 +476,34 @@ class CallView extends React.PureComponent {
 
     this.setState({
       muteMic: state,
+    });
+  }
+
+  handleShareScreenClick = state => () => {
+    if (state === undefined) {
+      state = !this.state.shareScreen;
+    }
+
+    if (state) {
+      this.requestDisplayMedia().then(stream => {
+        if (stream) {
+          stream.addEventListener('inactive', () => {
+            // TODO(longsleep): This might not detect that the stream is old.
+            this.setState({
+              shareScreen: false,
+            });
+          }, true);
+        } else {
+          this.setState({
+            shareScreen: false,
+          });
+        }
+      });
+    } else {
+      this.stopDisplayMedia();
+    }
+    this.setState({
+      shareScreen: state,
     });
   }
 
@@ -715,6 +752,73 @@ class CallView extends React.PureComponent {
     }
   }
 
+  requestDisplayMedia = () => {
+    const {
+      requestDisplayMedia,
+      setScreenshareStream,
+    } = this.props;
+
+    if (this.rdm) {
+      this.rdm.cancel();
+      this.rdm = null;
+    }
+
+    const id = 'screen1';
+
+    const settings = {
+      // TODO(longsleep): Add settings from store.
+    };
+
+    // Request display media with reference to allow cancel.
+    const rdm = debounce(requestDisplayMedia, 500)(this.localStreamID, settings);
+    this.rdm = rdm;
+
+    return rdm.catch(err => {
+      setError({
+        detail: `${err}`,
+        message: 'Failed to access your screen for sharing',
+        fatal: false,
+      });
+      this.setState({
+        rdmFailed: true,
+      });
+      return null;
+    }).then(async info => {
+      this.setState({
+        rdmFailed: false,
+      });
+      if (info && info.stream) {
+        return info.stream;
+      }
+      return null;
+    }).then(async stream => {
+      console.debug('requestDisplayMedia stream', id, stream); // eslint-disable-line no-console
+      if (stream) {
+        await setScreenshareStream(id, stream);
+        stream.addEventListener('inactive', () => {
+          // NOTE(longsleep): Some browsers have extra ui to stop screen sharing which needs handling.
+          // TODO(longsleep): This might not detect that the stream is old.
+          // TODO(longsleep): This is duplicated code from above.
+          setScreenshareStream(id); // clears.
+        }, true);
+      } else {
+        await setScreenshareStream(id); // clears.
+      }
+      return stream;
+    });
+  };
+
+  stopDisplayMedia = async () => {
+    const { stopDisplayMedia } = this.props;
+
+    if (this.rdm) {
+      this.rdm.cancel();
+      this.rdm = null;
+    }
+
+    await stopDisplayMedia(this.localStreamID);
+  }
+
   requestUserMedia = () => {
     const {
       mode,
@@ -805,7 +909,7 @@ class CallView extends React.PureComponent {
     });
   };
 
-  stopUserMedia = () => {
+  stopUserMedia = async () => {
     const { stopUserMedia } = this.props;
 
     if (this.rum) {
@@ -813,7 +917,7 @@ class CallView extends React.PureComponent {
       this.rum = null;
     }
 
-    stopUserMedia(this.localStreamID);
+    await stopUserMedia(this.localStreamID);
   }
 
   render() {
@@ -828,7 +932,7 @@ class CallView extends React.PureComponent {
       remoteStreams,
       connected,
     } = this.props;
-    const { mode, muteCam, muteMic, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
+    const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
 
     const callClassName = classNames(
       classes.call,
@@ -844,8 +948,10 @@ class CallView extends React.PureComponent {
 
     let muteCamButton = null;
     let muteMicButton = null;
+    let shareScreenButton = null;
     let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
     let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
+    let shareScreenButtonIcon = shareScreen ? <ScreenShareIcon /> : <ScreenShareOffIcon />;
     if (mode === 'videocall' || mode === 'standby') {
       muteCamButton = (<Button
         variant="fab"
@@ -855,6 +961,15 @@ class CallView extends React.PureComponent {
         onClick={this.handleMuteCamClick()}
       >
         {muteCamButtonIcon}
+      </Button>);
+      shareScreenButton = (<Button
+        variant="fab"
+        color="inherit"
+        aria-label="share screen"
+        className={classes.shareScreenButton}
+        onClick={this.handleShareScreenClick()}
+      >
+        {shareScreenButtonIcon}
       </Button>);
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
@@ -900,6 +1015,7 @@ class CallView extends React.PureComponent {
       <div key='permanent' className={controlsPermanentClassName}>
         {muteCamButton}
         {muteMicButton}
+        {shareScreenButton}
       </div>
     );
 
@@ -1142,7 +1258,9 @@ CallView.propTypes = {
   calling: PropTypes.object.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
+  requestDisplayMedia: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
+  stopDisplayMedia: PropTypes.func.isRequired,
   stopUserMedia: PropTypes.func.isRequired,
   doCallContact: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
@@ -1155,6 +1273,7 @@ CallView.propTypes = {
   applyLocalStreamTracks: PropTypes.func.isRequired,
   setLocalStream: PropTypes.func.isRequired,
   unsetLocalStream: PropTypes.func.isRequired,
+  setScreenshareStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
   addOrUpdateRecentsFromGroup: PropTypes.func.isRequired,
@@ -1210,7 +1329,7 @@ const updateUMSettingsFromURL = (settings) => {
 const mapStateToProps = state => {
   const { hidden, user, profile, guest } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { audioVideoStreams: localAudioVideoStreams } = state.usermedia;
+  const { umAudioVideoStreams: localAudioVideoStreams } = state.media;
 
   const remoteStreams = Object.values(state.streams);
 
@@ -1241,8 +1360,14 @@ const mapDispatchToProps = (dispatch) => {
       }
       return recents;
     },
+    requestDisplayMedia: (id='', settings={}) => {
+      return dispatch(requestDisplayMedia(id, settings));
+    },
     requestUserMedia: (id='', video=true, audio=true, settings={}) => {
       return dispatch(requestUserMedia(id, video, audio, settings));
+    },
+    stopDisplayMedia: (id='') => {
+      return dispatch(stopDisplayMedia(id));
     },
     stopUserMedia: (id='') => {
       return dispatch(stopUserMedia(id));
@@ -1281,6 +1406,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     unsetLocalStream: () => {
       return dispatch(unsetLocalStream());
+    },
+    setScreenshareStream: (id, stream) => {
+      return dispatch(setScreenshareStream(id, stream));
     },
     setError: (error) => {
       return dispatch(setError(error));
