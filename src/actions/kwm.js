@@ -1,5 +1,4 @@
 import { setError } from 'kpop/es/common/actions';
-import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 import * as kwmjs from 'kwmjs';
 
@@ -7,6 +6,7 @@ import * as types from './types';
 import * as sdputils from '../sdputils';
 import { fetchAndUpdateContactByID } from './contacts';
 import { addSnack } from './snacks';
+import { resolveContactIDFromRecord } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
@@ -68,7 +68,9 @@ const sdpParams = {
 };
 
 export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect} = {}) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { config } = getState().common;
+
     if (id !== kwmOptions.id) {
       // Always disconnect when the user changed.
       await dispatch(disconnectFromKWM());
@@ -80,6 +82,7 @@ export function setupKWM(id, idToken, {authorizationType, authorizationValue, au
     Object.assign(kwmOptions.options, {
       authorizationType,
       authorizationValue,
+      authorizationAuth: config.useIdentifiedUser ? '1' : '', // Use auth 1 to use real user identity.
     });
 
     // Auto connect support when requested.
@@ -352,9 +355,11 @@ function outgoingCall(event, doneHandler = null) {
 function newCall(event) {
   const { record } = event;
   return async (dispatch, getState) => {
-    const { table } = getState().contacts;
+    const state = getState();
+    const { table } = state.contacts;
+    const { config } = state.common;
 
-    const id = forceBase64URLEncoded(event.record.user);
+    const id = resolveContactIDFromRecord(config, event.record);
     let entry = table[id];
     if (!entry) {
       console.warn('unknown user for call', event.record.user); // eslint-disable-line no-console
@@ -362,6 +367,7 @@ function newCall(event) {
         // TODO(longsleep): Find some way to describe unknown users.
         displayName: '',
       };
+      // Try to fetch contact data via api.
       dispatch(fetchAndUpdateContactByID(id)).catch(err => {
         console.warn('failed to fetch and update contact' + // eslint-disable-line no-console
         ' information for new call', err);

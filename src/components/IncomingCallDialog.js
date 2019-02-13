@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import memoize from 'memoize-one';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,12 +14,12 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import ClearIcon from '@material-ui/icons/Clear';
 
-import { forceBase64URLEncoded } from 'kpop/es/utils';
 import Persona from 'kpop/es/Persona';
 
 import ContactLabel from './ContactLabel';
 import { mapContactEntryToUserShape } from './Recents';
 import { fetchAndUpdateContactByID } from '../actions/contacts';
+import { resolveContactIDFromRecord } from '../utils';
 
 const styles = theme => ({
   header: {
@@ -55,29 +56,44 @@ class IncomingCallDialog extends React.PureComponent {
     onRejectClick(entry, kind);
   }
 
+  getContactFromRecord = memoize(record => {
+    const { dispatch, contacts, config } = this.props;
+
+    const id = resolveContactIDFromRecord(config, record);
+    const contact = contacts[id];
+    if (!contact) {
+      // Try to fetch contact data via api.
+      dispatch(fetchAndUpdateContactByID(id)).catch(err => {
+        console.warn('failed to fetch contact information for incoming call', err); // eslint-disable-line no-console
+      });
+    }
+
+    return [contact, id];
+  })
+
   render() {
     const {
       classes,
       record,
+      contacts,
       dispatch, // eslint-disable-line
       onRejectClick, // eslint-disable-line
       onAcceptClick, // eslint-disable-line
-      contacts,
       ...other
     } = this.props;
 
-    // Base64 URL encoding required, simple conversion here.
-    const contact = contacts[forceBase64URLEncoded(record.id)];
+    // Try to fetch contact from record.
+    let [contact, id] = this.getContactFromRecord(record);
+    if (!contact && id) {
+      // Always check if we have contacts.
+      contact = contacts[id];
+    }
+
+    // Map contact for display purposes.
     const kind = contact ? 'contact' : undefined;
     const user = contact ? mapContactEntryToUserShape(contact) : {
-      id: record.id,
+      id,
     };
-    if (!contact) {
-      // Try to fetch user by id.
-      dispatch(fetchAndUpdateContactByID(forceBase64URLEncoded(record.id))).catch(err => {
-        console.warn('failed to fetch contact information for incoming call', err); // eslint-disable-line no-console
-      });
-    }
 
     return (
       <Dialog
@@ -137,6 +153,7 @@ IncomingCallDialog.propTypes = {
 
   record: PropTypes.object.isRequired,
 
+  config: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
 
   onAcceptClick: PropTypes.func.isRequired,
@@ -148,9 +165,11 @@ IncomingCallDialog.propTypes = {
 
 const mapStateToProps = state => {
   const { table: contacts } = state.contacts;
+  const { config } = state.common;
 
   return {
     contacts,
+    config,
   };
 };
 

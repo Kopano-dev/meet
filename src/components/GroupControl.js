@@ -25,7 +25,7 @@ import { getCurrentAppPath } from '../base';
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyAppURL } from '../base';
 import { mapGroupEntryToUserShape } from './Recents';
-import { pushHistory } from '../actions/utils';
+import { pushHistory } from '../utils';
 
 const getAutoSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));

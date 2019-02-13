@@ -103,6 +103,11 @@ class App extends PureComponent {
           scope,
           eqp,
         });
+        config = {
+          disableFullGAB: false,  // When true, does not count contacts on load, and searches on server always.
+          useIdentifiedUser: false,  // When true, authenticates with kwm as identified user name instead of user ID.
+          ...config,
+        };
 
         return config;
       },

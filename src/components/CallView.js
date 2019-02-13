@@ -37,7 +37,6 @@ import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
-import { forceBase64StdEncoded } from 'kpop/es/utils';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 import { parseQuery } from 'kpop/es/utils';
@@ -63,7 +62,8 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/usermedia';
-import { pushHistory } from '../actions/utils';
+import { pushHistory } from '../utils';
+import { resolveContactID } from '../utils';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
@@ -513,7 +513,7 @@ class CallView extends React.PureComponent {
         switch (kind) {
           case 'contact':
             this.doViewContact(entry);
-            addOrUpdateRecentsFromContact(entry.id);
+            addOrUpdateRecentsFromContact(entry);
             break;
         }
       }
@@ -581,7 +581,7 @@ class CallView extends React.PureComponent {
   }
 
   doCallContact = (contact, mode) => {
-    const { doCall, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
+    const { doCallContact, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.wakeFromStandby(mode).then(() => {
@@ -589,16 +589,9 @@ class CallView extends React.PureComponent {
         return;
       }
       return this.requestUserMedia();
-    }).then(() => {
-      const { id } = contact;
-
-      addOrUpdateRecentsFromContact(id);
-
-      // XXX(longsleep): Remove Base64 conversion once kwmserverd/konnectd is
-      // updated to use URL-safe ids which is required since contact IDs come
-      // from the REST API which is Base64 encoded while konnect requires the
-      // IDs in Standard encoding.
-      doCall(forceBase64StdEncoded(id));
+    }).then(async () => {
+      addOrUpdateRecentsFromContact(contact);
+      await doCallContact(contact);
     });
   };
 
@@ -611,11 +604,11 @@ class CallView extends React.PureComponent {
         return;
       }
       return this.requestUserMedia();
-    }).then(() => {
+    }).then(async () => {
       const { id, scope } = group;
       addOrUpdateRecentsFromGroup(id, scope);
 
-      doGroup(`${scope}/${id}`);
+      await doGroup(`${scope}/${id}`);
     });
   }
 
@@ -1147,7 +1140,7 @@ CallView.propTypes = {
   fetchContacts: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
   stopUserMedia: PropTypes.func.isRequired,
-  doCall: PropTypes.func.isRequired,
+  doCallContact: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
   doReject: PropTypes.func.isRequired,
@@ -1207,9 +1200,11 @@ const mapDispatchToProps = (dispatch) => {
     stopUserMedia: (id='') => {
       return dispatch(stopUserMedia(id));
     },
-    doCall: (id) => {
+    doCallContact: (contact) => dispatch((_, getState) => {
+      const { config } = getState().common;
+      const id = resolveContactID(config, contact);
       return dispatch(doCall(id));
-    },
+    }),
     doHangup: () => {
       return dispatch(doHangup());
     },
@@ -1243,8 +1238,8 @@ const mapDispatchToProps = (dispatch) => {
     setError: (error) => {
       return dispatch(setError(error));
     },
-    addOrUpdateRecentsFromContact: (id) => {
-      return dispatch(addOrUpdateRecentsFromContact(id));
+    addOrUpdateRecentsFromContact: (contact) => {
+      return dispatch(addOrUpdateRecentsFromContact(contact));
     },
     addOrUpdateRecentsFromGroup: (id, scope) => {
       return dispatch(addOrUpdateRecentsFromGroup(id, scope));

@@ -17,7 +17,7 @@ import Persona from 'kpop/es/Persona';
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
-import { pushHistory } from '../actions/utils';
+import { pushHistory } from '../utils';
 
 const styles = (theme) => ({
   root: {

@@ -11,6 +11,7 @@ import {
   RECENTS_ERROR,
 } from './types';
 import { maxRecentsCount } from '../reducers/recents';
+import { getContactID } from '../reducers/contacts';
 
 const kvsCollection = 'kopano-meet-recents';
 const globalIDPrefix = Math.random().toString(36).substring(7);
@@ -138,25 +139,27 @@ export const removeRecentEntry = (rid) => {
   }, null);
 };
 
-export function addOrUpdateRecentsFromContact(id) {
-  return (dispatch, getState) => {
-    const { table } = getState().contacts;
-
-    let contact = table[id];
-    if (!contact) {
-      // No contact for id - well we cannot do much but at least use id.
-      contact = {
-        id,
-      };
+export function addOrUpdateRecentsFromContact(contact) {
+  return async (dispatch, getState) => {
+    if (!contact || !contact.id) {
+      return;
     }
 
-    return dispatch(addOrUpdateRecentEntry(id, 'contact', contact));
+    // Get current contact entry if any to ensure to use up to date data.
+    const { table } = getState().contacts;
+    const id = getContactID(contact);
+    const currentContact = table[id];
+    if (currentContact) {
+      contact = currentContact;
+    }
+
+    await dispatch(addOrUpdateRecentEntry(id, 'contact', contact));
   };
 }
 
 export function addOrUpdateRecentsFromGroup(id, scope) {
-  return (dispatch) => {
-    return dispatch(addOrUpdateRecentEntry(id, 'group', {
+  return async dispatch => {
+    await dispatch(addOrUpdateRecentEntry(id, 'group', {
       id,
       scope,
       displayName: id,

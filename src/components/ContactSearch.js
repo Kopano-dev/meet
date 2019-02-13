@@ -26,9 +26,9 @@ import { forceBase64URLEncoded } from 'kpop/es/utils';
 import debounce from 'kpop/es/utils/debounce';
 
 import * as lunr from 'lunr';
-import base64 from 'binary-base64';
 
 import { fetchAndAddContacts, searchContacts } from '../actions/contacts';
+import { maybeIsABEID, idFromABEID } from '../abeid';
 import { getOwnGrapiUserEntryID } from '../selectors';
 import { mapContactEntryToUserShape } from './Recents';
 
@@ -431,33 +431,6 @@ const filterIDFromContacts = (contacts, id, mail) => {
       return contact.mail !== mail;
     }
   });
-};
-
-const maybeIsABEID = (s) => {
-  return s.indexOf('AAAAA') === 0;
-};
-
-const idFromABEID = (entryID) => {
-  if (!maybeIsABEID(entryID)) {
-    return entryID;
-  }
-
-  // Decode as base64.
-  const entryIDBytes = base64.decode(entryID);
-  const idBytes = entryIDBytes.slice(32); // ABEID assumed, 4 + 16 + 4 + 4 + 4 (abflags, guid, version, type, id, exid).
-  let idx = idBytes.length - 1;
-  while (idx >= 0) {
-    let padding = idBytes[idx];
-    if (padding === 0 || padding === 61) { // Detects ABEID padding and Base64 padding.
-      idx--;
-      continue;
-    }
-    break;
-  }
-
-  // Use raw exid value since it is already base64 encoded. We just need to
-  // ensure its URL encoded to compare it.
-  return forceBase64URLEncoded(String.fromCharCode.apply(null, idBytes.slice(0, idx+1)));
 };
 
 const mapStateToProps = state => {
