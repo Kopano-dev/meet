@@ -14,6 +14,9 @@ export const globalSettings = (() => {
     //   - Chrome 72 beta (added streams do not play on remote side < Chrome 62)
     //     when Chrome 72 is using the unified plan (Plan B works).
     muteWithAddRemoveTracks: adapter.browserDetails.browser === 'chrome',
+    // NOTE(longsleep): keeping old streamsn and just replacing tracks does not
+    // work in Firefox. Disable for now. Maybe be removed completely?
+    keepOldStreamAndReplaceTracks: false,
   };
 
   console.info('gUM global settings', s, adapter.browserDetails); // eslint-disable-line no-console
@@ -192,7 +195,8 @@ export function requestUserMedia(id='', video=true, audio=true) {
       const info = {
         stream,
       };
-      if (status.stream && status.stream.active && status.stream !== stream) {
+      if (globalSettings.keepOldStreamAndReplaceTracks &&
+        status.stream && status.stream.active && status.stream !== stream) {
         // Keep stream, just replace tracks.
         // NOTE(longsleep): Is this a good idea? Check support for this.
         info.stream = status.stream;
