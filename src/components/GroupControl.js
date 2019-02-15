@@ -81,7 +81,7 @@ class GroupControl extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (autoSettings && getCurrentAppPath().substr(2) == autoSettings.path) {
+    if (autoSettings && getCurrentAppPath().substr(2) === autoSettings.path) {
       switch (autoSettings.auto) {
         case '1':
           // Auto audio call.
