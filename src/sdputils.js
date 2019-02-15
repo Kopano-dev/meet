@@ -32,6 +32,11 @@
  *
  */
 
+// Firefox implements send bandwidth restrictions using standard conforming TIAS
+// while Chromeium does not. Set a flag when Firefox.
+// See https://bugzilla.mozilla.org/show_bug.cgi?id=1276368 for details.
+const withTIAS = !!navigator.mozGetUserMedia;
+
 const defaultParams = {
 };
 
@@ -132,8 +137,9 @@ export function maybeSetVideoReceiveBitRate(sdp, {
   return preferBitRate(sdp, videoRecvBitrate, 'video');
 }
 
-// Add a b=AS:bitrate line to the m=mediaType section.
-export function preferBitRate(sdp, bitrate, mediaType) {
+// Add a b=AS:bitrate line to the m=mediaType section. This os only supported in
+// Chromium. Firefox implements b=TIAS lines which are not handled by this
+export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS' : 'AS') {
   var sdpLines = sdp.split('\r\n');
 
   // Find m line for the given mediaType.
@@ -159,13 +165,18 @@ export function preferBitRate(sdp, bitrate, mediaType) {
 
   // Check if bandwidth line already exists between c-line and next m-line.
   var bLineIndex = findLineInRange(sdpLines, cLineIndex + 1,
-    nextMLineIndex, 'b=AS');
+    nextMLineIndex, `b=${variant}`);
   if (bLineIndex) {
     sdpLines.splice(bLineIndex, 1);
   }
 
+  if (variant === 'TIAS') {
+    // TIAS uses kbps while AS uses bps.
+    bitrate *= 1024;
+  }
+
   // Create the b (bandwidth) sdp line.
-  var bwLine = 'b=AS:' + bitrate;
+  var bwLine = `b=${variant}:${bitrate}`;
   // As per RFC 4566, the b line should follow after c-line.
   sdpLines.splice(cLineIndex + 1, 0, bwLine);
   sdp = sdpLines.join('\r\n');

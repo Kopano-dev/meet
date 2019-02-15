@@ -2,8 +2,19 @@ import adapter from 'webrtc-adapter';
 
 import * as types from './types';
 
+const highDefinition = false;
+
+// Useful framerates are 15 and 8.
+// Useful resolutions are 640x480, 640x360, 320x240, 320x160.
+const defaultVideoSettings = {
+  idealFrameRate: 15,
+  idealWidth: highDefinition ? 1280 : 640,
+  idealHeight: highDefinition ? 720: 360,
+};
+
 export const globalSettings = (() => {
   const s = {
+    maxVideoFrameRate: defaultVideoSettings.idealFrameRate,
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
     // tracks in established RTC connections.
     // - Works:
@@ -121,17 +132,18 @@ export function requestUserMedia(id='', video=true, audio=true) {
         if (supportedConstraints.width && supportedConstraints.height) {
           // Try to select some decent resolution.
           videoConstraints.width = {
-            ideal: 640,
+            ideal: defaultVideoSettings.idealWidth,
           };
           videoConstraints.height = {
-            ideal: 360,
+            ideal: defaultVideoSettings.idealHeight,
           };
         }
         if (supportedConstraints.frameRate) {
           // Try to select some decent frame rate.
           videoConstraints.advanced.push({
             frameRate: {
-              ideal: 15,
+              ideal: defaultVideoSettings.idealFrameRate,
+              max: globalSettings.maxVideoFrameRate || defaultVideoSettings.idealFrameRate,
             },
           });
         }

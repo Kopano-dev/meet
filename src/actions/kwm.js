@@ -40,29 +40,37 @@ const kwmConfig = {
 // WebRTC options.
 const webrtcOptions = {
   answerConstraints: {
+    googIPv6: true,
+    googDscp: true,
     googCpuOveruseDetection: true,
     googCpuOveruseEncodeUsage: true,
     googCpuUnderuseThreshold: 55,
     googCpuOveruseThreshold: 85,
     googHighStartBitrate: true,
     googPayloadPadding: true,
+    googSuspendBelowMinBitrate: true,
   },
   offerConstraints: {
     offerToReceiveAudio: 1,
     offerToReceiveVideo: 1,
 
+    googIPv6: true,
+    googDscp: true,
     googCpuOveruseDetection: true,
     googCpuOveruseEncodeUsage: true,
     googCpuUnderuseThreshold: 55,
     googCpuOveruseThreshold: 85,
     googHighStartBitrate: true,
     googPayloadPadding: true,
+    googSuspendBelowMinBitrate: true,
   },
 };
 
 // SDP Config.
 const sdpParams = {
-  videoRecvCodec: 'VP9',
+  videoRecvCodec: 'VP8', // Prefer VP8 since it takes less CPU?
+  videoSendBitrate: 1000, // kbps
+  videoRecvBitrate: 1000, // kbps
 
   opusDtx: true,
 };
