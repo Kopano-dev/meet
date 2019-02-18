@@ -30,7 +30,6 @@ const styles1 = theme => ({
     backgroundColor: theme.palette.error.dark,
   },
   info: {
-    backgroundColor: theme.palette.primary.dark,
   },
   warning: {
     backgroundColor: amber[700],

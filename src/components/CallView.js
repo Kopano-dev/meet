@@ -410,7 +410,7 @@ class CallView extends React.PureComponent {
         this.notifyBySnack('Your microphone is muted', {
           button: <Button
             size="small"
-            color="default"
+            color="secondary"
             onClick={this.handleMuteMicClick(false)}
           >
               unmute
