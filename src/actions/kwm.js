@@ -11,6 +11,22 @@ import { resolveContactIDFromRecord } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
+// Fixup webrtc-adpter for Firefox to be compatible with kwmjs simple-peer poor feature detection.
+// See https://github.com/feross/simple-peer/commits/master/index.js and ensure it ends up to detect promise based shit.
+(() => {
+  if (adapter.browserDetails.browser === 'firefox') {
+    // Ensure that function signature of getStats has zero parameters, so that
+    // the feature detection of kwmks simple-peer does select the promise based
+    // mode.
+    if (window.RTCPeerConnection.prototype.getStats.length > 0) {
+      const adaptedGetStats = window.RTCPeerConnection.prototype.getStats;
+      window.RTCPeerConnection.prototype.getStats = function() {
+        return adaptedGetStats.apply(this);
+      };
+    }
+  }
+})();
+
 // Reference to the active KWM and options.
 let kwm = null;
 const kwmOptions = {
