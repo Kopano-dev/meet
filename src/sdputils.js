@@ -172,7 +172,12 @@ export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS'
 
   if (variant === 'TIAS') {
     // TIAS uses kbps while AS uses bps.
-    bitrate *= 1024;
+    bitrate = bitrate * 1000 * 0.95 - (50 * 40 * 8);
+    // The 50 is based on 50 packets per second, the 40 is based on an
+    // estimate of total header size, the 1000 changes the unit from
+    // kbps to bps (as required by TIAS), and the 0.95 is to allocate
+    // 5% to RTCP. "TIAS" is used in preference to "AS" because it
+    // provides more accurate control of bandwidth.
   }
 
   // Create the b (bandwidth) sdp line.
