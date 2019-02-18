@@ -757,8 +757,12 @@ class CallView extends React.PureComponent {
       audio = audio && !muteMic;
     }
 
+    const settings = updateUMSettingsFromURL({
+      // TODO(longsleep): Add settings from store.
+    });
+
     // Request user media with reference to allow cancel.
-    const rum = debounce(requestUserMedia, 500)(this.localStreamID, video, audio);
+    const rum = debounce(requestUserMedia, 500)(this.localStreamID, video, audio, settings);
     this.rum = rum;
 
     // Response actions.
@@ -1160,6 +1164,49 @@ CallView.propTypes = {
   remoteStreams: PropTypes.array.isRequired,
 };
 
+const updateUMSettingsFromURL = (settings) => {
+  const hpr = parseQuery(window.location.hash.substr(1));
+  Object.assign(settings, {
+    video: {},
+    audio: {},
+  }, settings);
+  switch (hpr.hd) {
+    case '':
+    case undefined:
+      break;
+
+    case '0':
+    case '360p':
+      settings.video.idealWidth = 640;
+      settings.video.idealHeight = 360;
+      break;
+
+    // 1080p:
+    case '2':
+    case '1080p':
+      settings.video.idealWidth = 1920;
+      settings.video.idealHeight = 1080;
+      break;
+
+    // 4k
+    case '3':
+    case '4k':
+      settings.video.idealWidth = 4096;
+      settings.video.idealHeight = 2160;
+      break;
+
+    // 720p:
+    case '1':
+    case '720p':
+    default:
+      settings.video.idealWidth = 1280;
+      settings.video.idealHeight = 720;
+      break;
+  }
+
+  return settings;
+};
+
 const mapStateToProps = state => {
   const { hidden, user, profile, guest } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
@@ -1194,8 +1241,8 @@ const mapDispatchToProps = (dispatch) => {
       }
       return recents;
     },
-    requestUserMedia: (id='', video=true, audio=true) => {
-      return dispatch(requestUserMedia(id, video, audio));
+    requestUserMedia: (id='', video=true, audio=true, settings={}) => {
+      return dispatch(requestUserMedia(id, video, audio, settings));
     },
     stopUserMedia: (id='') => {
       return dispatch(stopUserMedia(id));
