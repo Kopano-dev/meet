@@ -11,6 +11,14 @@ import { resolveContactIDFromRecord } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
+const defaultSdpParams = {
+  videoRecvCodec: 'VP8', // Prefer VP8 since it takes less CPU?
+  videoSendBitrate: 1000, // kbps
+  videoRecvBitrate: 1000, // kbps
+
+  opusDtx: true,
+};
+
 // Fixup webrtc-adpter for Firefox to be compatible with kwmjs simple-peer poor feature detection.
 // See https://github.com/feross/simple-peer/commits/master/index.js and ensure it ends up to detect promise based shit.
 (() => {
@@ -101,11 +109,7 @@ const webrtcOptions = {
 
 // SDP Config.
 const sdpParams = {
-  videoRecvCodec: 'VP8', // Prefer VP8 since it takes less CPU?
-  videoSendBitrate: 1000, // kbps
-  videoRecvBitrate: 1000, // kbps
-
-  opusDtx: true,
+  ...defaultSdpParams,
 };
 
 export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect} = {}) {
