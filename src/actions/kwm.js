@@ -1,6 +1,7 @@
 import { setError } from 'kpop/es/common/actions';
 
 import * as kwmjs from 'kwmjs';
+import adapter from 'webrtc-adapter';
 
 import * as types from './types';
 import * as sdputils from '../sdputils';
@@ -20,49 +21,65 @@ const kwmOptions = {
 };
 
 // KWM config.
-const kwmConfig = {
-  url: '',
-  webrtc: {
-    config: {
-      iceServers: [
-        {urls: 'stun:stun.kopano.com:443'},
-      ],
-      // For now use Plan-B. See https://webrtc.org/web-apis/chrome/unified-plan/. You should continue to use Plan B
-      // semantics only if you send or receive more than one audio track or more than one video track and need to
-      // interoperate with existing WebRTC implementations that do not yet support Unified Plan (e.g., Chrome). This
-      // setting can be changed once we deprecate support for Chrome < 72.
-      sdpSemantics: 'plan-b',
+const kwmConfig = (() => {
+  const config ={
+    url: '',
+    webrtc: {
+      config: {
+        iceServers: [
+          {urls: 'stun:stun.kopano.com:443'},
+        ],
+      },
     },
-  },
-  sdpParams: {},
-};
+    sdpParams: {},
+  };
+
+  if (adapter.browserDetails.browser === 'chrome') {
+    // For now use Plan-B. See https://webrtc.org/web-apis/chrome/unified-plan/. You should continue to use Plan B
+    // semantics only if you send or receive more than one audio track or more than one video track and need to
+    // interoperate with existing WebRTC implementations that do not yet support Unified Plan (e.g., Chrome). This
+    // setting can be changed once we deprecate support for Chrome < 72.
+    config.webrtc.config.sdpSemantics = 'plan-b';
+  }
+
+  return config;
+})();
+
+
+// Default WebRTC constraints.
+const defaultCommonConstraints = (() => {
+  const constraints = {};
+
+  if (adapter.browserDetails.browser === 'chrome') {
+    // Add Google specific constraints.
+    Object.assign(constraints, {
+      googIPv6: true, // Constraint to enable IPv6 through JS.
+      googDscp: true, // Temporary pseudo-constraint for enabling DSCP through JS.
+
+      // Google specific constraints.
+      googCpuOveruseDetection: true,
+      googCpuOveruseEncodeUsage: true,
+      googCpuUnderuseThreshold: 55,
+      googCpuOveruseThreshold: 85,
+      googHighStartBitrate: true,
+      googPayloadPadding: true,
+      googSuspendBelowMinBitrate: true,
+    });
+  }
+
+  return constraints;
+})();
 
 // WebRTC options.
 const webrtcOptions = {
   answerConstraints: {
-    googIPv6: true,
-    googDscp: true,
-    googCpuOveruseDetection: true,
-    googCpuOveruseEncodeUsage: true,
-    googCpuUnderuseThreshold: 55,
-    googCpuOveruseThreshold: 85,
-    googHighStartBitrate: true,
-    googPayloadPadding: true,
-    googSuspendBelowMinBitrate: true,
+    ...defaultCommonConstraints,
   },
   offerConstraints: {
     offerToReceiveAudio: 1,
     offerToReceiveVideo: 1,
 
-    googIPv6: true,
-    googDscp: true,
-    googCpuOveruseDetection: true,
-    googCpuOveruseEncodeUsage: true,
-    googCpuUnderuseThreshold: 55,
-    googCpuOveruseThreshold: 85,
-    googHighStartBitrate: true,
-    googPayloadPadding: true,
-    googSuspendBelowMinBitrate: true,
+    ...defaultCommonConstraints,
   },
 };
 
@@ -252,9 +269,14 @@ function createKWMManager() {
           dispatch(pcStateChanged(event));
           break;
 
+        case 'pc.iceStateChange':
+          // TODO(longsleep): Implement iceRestart.
+          // See https://github.com/w3c/webrtc-pc/pull/1910#issuecomment-398986406
+          // and https://w3c.github.io/webrtc-pc/#dom-rtcofferoptions-icerestart.
+          break;
+
         // Reduce logging.
         case 'pc.new':
-        case 'pc.iceStateChange':
         case 'pc.error':
         case 'hangup':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
