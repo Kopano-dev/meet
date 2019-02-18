@@ -4,17 +4,21 @@ import * as types from './types';
 
 const highDefinition = false;
 
+const defaultAudioSettings = {
+};
+
 // Useful framerates are 15 and 8.
 // Useful resolutions are 640x480, 640x360, 320x240, 320x160.
 const defaultVideoSettings = {
   idealFrameRate: 15,
+  maxFrameRate: 15,
   idealWidth: highDefinition ? 1280 : 640,
   idealHeight: highDefinition ? 720: 360,
+  facingMode: 'user',
 };
 
 export const globalSettings = (() => {
   const s = {
-    maxVideoFrameRate: defaultVideoSettings.idealFrameRate,
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
     // tracks in established RTC connections.
     // - Works:
@@ -60,18 +64,31 @@ const getSupportedConstraints = () => {
 };
 export const supportedConstraints = getSupportedConstraints();
 
-const enumerateDevices = async () => {
+const enumerateDeviceSupport = async (settings={}) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
 
   let videoSource = null;
   let audioSource = null;
-  devices.forEach(device => {
-    if (device.kind === 'videoinput' && videoSource === null) {
+  for (let device of devices) {
+    if (videoSource === null && device.kind === 'videoinput')  {
+      if (settings.video && settings.video.deviceId && settings.video.deviceId !== device.deviceId) {
+        // Ignore devices with different device id if device id is given.
+        continue;
+      }
       videoSource = device.deviceId;
-    } else if (device.kind === 'audioinput' && audioSource === null) {
+    } else if (audioSource === null && device.kind === 'audioinput') {
+      if (settings.audio && settings.audio.deviceId && settings.audio.deviceId !== device.deviceId) {
+        // Ignore devices with different device id if device id is given.
+        continue;
+      }
       audioSource = device.deviceId;
     }
-  });
+
+    if (videoSource && audioSource) {
+      // Found all, stop here.
+      break;
+    }
+  }
 
   return {
     videoSource,
@@ -79,7 +96,7 @@ const enumerateDevices = async () => {
   };
 };
 
-export function requestUserMedia(id='', video=true, audio=true) {
+export function requestUserMedia(id='', video=true, audio=true, settings={}) {
   // NOTE(longsleep): This keeps a status record and promise for gUM to allow
   // multiple to run at the same time. The last one always wins. If a new
   // request is started while another one is already pending, they will all
@@ -102,11 +119,22 @@ export function requestUserMedia(id='', video=true, audio=true) {
   // NOTE(longsleep): Keep an index of gUM requests to make sure multiple can
   // run in a sane fasshion at the same time.
   const idx = ++status.idx;
-  console.info('requestUserMedia request', idx, status, {video, audio}); // eslint-disable-line no-console
+  console.info('requestUserMedia request', idx, status, {video, audio}, settings); // eslint-disable-line no-console
 
   return async dispatch => {
+    const currentSettings = {
+      video: {
+        ...defaultVideoSettings,
+        ...settings.video,
+      },
+      audio: {
+        ...defaultAudioSettings,
+        ...settings.audio,
+      },
+    };
+
     // Generate constraints for requested devices filtered by existing devices.
-    return enumerateDevices().then(({ videoSource, audioSource }) => {
+    return enumerateDeviceSupport(currentSettings).then(({ videoSource, audioSource }) => {
       console.info('requestUserMedia devices', idx, status, // eslint-disable-line no-console
         {video: videoSource && true, audio: audioSource && true});
       if (idx !== status.idx) {
@@ -127,23 +155,23 @@ export function requestUserMedia(id='', video=true, audio=true) {
       if (video) {
         if (supportedConstraints.facingMode) {
           // Try to select camera facing to the user.
-          videoConstraints.advanced.push({facingMode: 'user'});
+          videoConstraints.advanced.push({facingMode: currentSettings.video.facingMode});
         }
         if (supportedConstraints.width && supportedConstraints.height) {
           // Try to select some decent resolution.
           videoConstraints.width = {
-            ideal: defaultVideoSettings.idealWidth,
+            ideal: currentSettings.video.idealWidth,
           };
           videoConstraints.height = {
-            ideal: defaultVideoSettings.idealHeight,
+            ideal: currentSettings.video.idealHeight,
           };
         }
         if (supportedConstraints.frameRate) {
           // Try to select some decent frame rate.
           videoConstraints.advanced.push({
             frameRate: {
-              ideal: defaultVideoSettings.idealFrameRate,
-              max: globalSettings.maxVideoFrameRate || defaultVideoSettings.idealFrameRate,
+              ideal: currentSettings.video.idealFrameRate,
+              max: currentSettings.video.maxFrameRate,
             },
           });
         }
