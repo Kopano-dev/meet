@@ -2,7 +2,7 @@ import base64 from 'binary-base64';
 import { forceBase64URLEncoded } from 'kpop/es/utils';
 
 export const maybeIsABEID = (s) => {
-  return s.indexOf('AAAAA') === 0;
+  return s && s.indexOf('AAAAA') === 0;
 };
 
 export const idFromABEID = (entryID) => {
