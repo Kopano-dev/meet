@@ -931,6 +931,8 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       remoteStreams,
       connected,
+      gUMSupported,
+      gDMSupported,
     } = this.props;
     const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
 
@@ -953,7 +955,7 @@ class CallView extends React.PureComponent {
     let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
     let shareScreenButtonIcon = shareScreen ? <ScreenShareIcon /> : <ScreenShareOffIcon />;
     if (mode === 'videocall' || mode === 'standby') {
-      muteCamButton = (<Button
+      muteCamButton = gUMSupported && (<Button
         variant="fab"
         color="inherit"
         aria-label="hangup"
@@ -962,7 +964,7 @@ class CallView extends React.PureComponent {
       >
         {muteCamButtonIcon}
       </Button>);
-      shareScreenButton = (<Button
+      shareScreenButton = (!isMobile && gDMSupported) && (<Button
         variant="fab"
         color="inherit"
         aria-label="share screen"
@@ -973,7 +975,7 @@ class CallView extends React.PureComponent {
       </Button>);
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
-      muteMicButton = (<Button
+      muteMicButton = gUMSupported && (<Button
         variant="fab"
         color="inherit"
         aria-label="hangup"
@@ -1281,6 +1283,9 @@ CallView.propTypes = {
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteStreams: PropTypes.array.isRequired,
+
+  gUMSupported: PropTypes.bool.isRequired,
+  gDMSupported: PropTypes.bool.isRequired,
 };
 
 const updateUMSettingsFromURL = (settings) => {
@@ -1329,7 +1334,7 @@ const updateUMSettingsFromURL = (settings) => {
 const mapStateToProps = state => {
   const { hidden, user, profile, guest } = state.common;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { umAudioVideoStreams: localAudioVideoStreams } = state.media;
+  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported } = state.media;
 
   const remoteStreams = Object.values(state.streams);
 
@@ -1345,6 +1350,9 @@ const mapStateToProps = state => {
 
     localAudioVideoStreams,
     remoteStreams,
+
+    gUMSupported,
+    gDMSupported,
   };
 };
 
