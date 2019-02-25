@@ -1,8 +1,22 @@
+import 'webrtc-adapter';
+
 import {
   USERMEDIA_AUDIOVIDEO_STREAM,
 } from '../actions/types';
 
 const defaultState = {
+  gUMSupported: (
+    navigator.mediaDevices &&
+    navigator.mediaDevices.enumerateDevices &&
+    navigator.mediaDevices.getUserMedia &&
+    true)
+    || false,
+  gDMSupported: (
+    navigator.mediaDevices &&
+    navigator.mediaDevices.getDisplayMedia &&
+    true)
+    || false,
+
   umAudioVideoStreams: {},
 };
 
