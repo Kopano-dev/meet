@@ -90,6 +90,8 @@ const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
+const screenShareScreenID = 'screen1';
+
 const getMuteStateFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
   const muteState = {
@@ -126,7 +128,7 @@ const styles = theme => ({
     },
   },
   container: {
-    marginTop: 64,
+    marginTop: 48,
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -134,9 +136,12 @@ const styles = theme => ({
     [deskopWidthBreakpoint]: {
       flexDirection: 'row',
     },
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 48,
+    [`${theme.breakpoints.up('sm')} and (orientation: landscape)`]: {
+      marginTop: 64,
     },
+  },
+  flexDirectionRow: {
+    flexDirection: 'row',
   },
   topBar: {
   },
@@ -244,6 +249,15 @@ const styles = theme => ({
     [deskopWidthBreakpoint]: {
       height: 'auto',
     },
+  },
+  callAsSidebar: {
+    flex: 'auto',
+    maxWidth: 170,
+    height: 'auto',
+  },
+  screenshare: {
+    flex: 1,
+    background: `linear-gradient(#999, #666 100%)`,
   },
   menu: {
     boxSizing: 'border-box',
@@ -539,7 +553,7 @@ class CallView extends React.PureComponent {
   };
 
   handleAcceptClick = (id, mode, entry, kind) => {
-    const  { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
+    const { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.closeAllOpenDialogs();
@@ -766,7 +780,7 @@ class CallView extends React.PureComponent {
       this.rdm = null;
     }
 
-    const id = 'screen1';
+    const id = screenShareScreenID;
 
     const settings = {
       // TODO(longsleep): Add settings from store.
@@ -932,19 +946,13 @@ class CallView extends React.PureComponent {
       ringing,
       calling,
       localAudioVideoStreams,
-      remoteStreams,
+      remoteAudioVideoStreams,
+      remoteScreenShareStreams,
       connected,
       gUMSupported,
       gDMSupported,
     } = this.props;
     const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
-
-    const callClassName = classNames(
-      classes.call,
-      {
-        [classes.callWithCall]: !!channel,
-      },
-    );
 
     let controls = [];
     let icons = [];
@@ -957,6 +965,18 @@ class CallView extends React.PureComponent {
     let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
     let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
     let shareScreenButtonIcon = shareScreen ? <ScreenShareIcon /> : <ScreenShareOffIcon />;
+    let screenShareViewer = null;
+
+    if (channel && mode === 'videocall' && remoteScreenShareStreams.length > 0) {
+      screenShareViewer = <CallGrid
+        className={classes.screenshare}
+        remoteStreams={remoteScreenShareStreams}
+        remoteStreamsKey={`stream_screenshare_${screenShareScreenID}`}
+        mode={mode}
+        variant="full"
+      />;
+    }
+
     if (mode === 'videocall' || mode === 'standby') {
       muteCamButton = gUMSupported && (<Button
         variant="fab"
@@ -988,6 +1008,21 @@ class CallView extends React.PureComponent {
         {muteMicButtonIcon}
       </Button>);
     }
+
+    const containerClassName = classNames(
+      classes.container,
+      {
+        [classes.flexDirectionRow]: !!screenShareViewer,
+      }
+    );
+
+    const callClassName = classNames(
+      classes.call,
+      {
+        [classes.callWithCall]: !!channel,
+        [classes.callAsSidebar]: !!screenShareViewer,
+      },
+    );
 
     const rootClassName = classNames(
       classes.root,
@@ -1230,13 +1265,15 @@ class CallView extends React.PureComponent {
         <div className={classes.controls}>
           {controls}
         </div>
-        <div className={classes.container}>
+        <div className={containerClassName}>
+          {screenShareViewer}
           <CallGrid
             onClick={this.handleCallGridClick}
             className={callClassName}
             mode={mode}
             localStream={localStream}
-            remoteStreams={remoteStreams}
+            remoteStreams={remoteAudioVideoStreams}
+            variant={screenShareViewer ? 'overlay': 'full'}
           />
           {menu}
         </div>
@@ -1285,7 +1322,8 @@ CallView.propTypes = {
   addSnack: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
-  remoteStreams: PropTypes.array.isRequired,
+  remoteAudioVideoStreams: PropTypes.array.isRequired,
+  remoteScreenShareStreams: PropTypes.array.isRequired,
 
   gUMSupported: PropTypes.bool.isRequired,
   gDMSupported: PropTypes.bool.isRequired,
@@ -1339,7 +1377,18 @@ const mapStateToProps = state => {
   const { connected, channel, ringing, calling } = state.kwm;
   const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported } = state.media;
 
-  const remoteStreams = Object.values(state.streams);
+  const remoteAudioVideoStreams = [];
+  const remoteScreenShareStreams = [];
+  for (const stream of Object.values(state.streams)) {
+    remoteAudioVideoStreams.push(stream);
+    if (stream.announces) {
+      for (const announce of Object.values(stream.announces)) {
+        if (announce.kind === 'screenshare' && announce.id === screenShareScreenID) {
+          remoteScreenShareStreams.push(stream);
+        }
+      }
+    }
+  }
 
   return {
     hidden,
@@ -1352,7 +1401,8 @@ const mapStateToProps = state => {
     calling,
 
     localAudioVideoStreams,
-    remoteStreams,
+    remoteAudioVideoStreams,
+    remoteScreenShareStreams,
 
     gUMSupported,
     gDMSupported,

@@ -6,11 +6,13 @@ import {
   KWM_CALL_INCOMING,
   KWM_CALL_OUTGOING,
   KWM_PC_CONNECT,
+  KWM_STREAMS_ANNOUNCE,
   KWM_STREAM_RECEIVED,
   CONTACTS_UPDATE,
 } from '../actions/types';
 
 const defaultMediaStream = new MediaStream();
+const defaultStreamKey = 'stream';
 
 const defaultState = {
 };
@@ -24,8 +26,9 @@ function streamsReducer(state = defaultState, action) {
       }
       const entry = {
         id: action.record.user,
-        stream: defaultMediaStream,
+        [defaultStreamKey]: defaultMediaStream,
         user: action.user,
+        announces: {},
         calling: true,
       };
       return Object.assign({}, state, {
@@ -81,13 +84,47 @@ function streamsReducer(state = defaultState, action) {
       return streams;
     }
 
-    case KWM_STREAM_RECEIVED: {
-      const entry = Object.assign({}, state[action.record.user], {
-        stream: action.stream,
-        calling: false,
-      });
+    case KWM_STREAMS_ANNOUNCE: {
+      const entry = Object.assign({}, state[action.record.user]);
+      const announces = Object.assign({}, entry.announces);
+      for (let removed of action.removed) {
+        delete announces[removed.token];
+        const streamKey = `stream_${removed.kind}_${removed.id}`;
+        delete entry[streamKey];
+      }
+      for (let added of action.added) {
+        announces[added.token] = added;
+      }
+      entry.announces = announces;
       return Object.assign({}, state, {
         [action.record.user]: entry,
+      });
+    }
+
+    case KWM_STREAM_RECEIVED: {
+      const entry = state[action.record.user];
+
+      let streamKey = defaultStreamKey;
+      if (action.token) {
+        // Use token to lookup previously announced stream.
+        const announce = entry.announces[action.token];
+        if (!announce) {
+          // Unknown token, ignore.
+          return state;
+        }
+        streamKey = `stream_${announce.kind}_${announce.id}`;
+      }
+
+      if (entry && entry[streamKey] === action.stream) {
+        // Stream unchanged, do nothing.
+        return state;
+      }
+      return Object.assign({}, state, {
+        [action.record.user]: {
+          ...entry,
+          [streamKey]: action.stream,
+          calling: streamKey === defaultStreamKey ? false : entry.calling,
+        },
       });
     }
 

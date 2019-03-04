@@ -259,7 +259,7 @@ function createKWMManager() {
       console.info('KWM using TURN servers', event.iceServer.urls); // eslint-disable-line no-console
     };
     k.webrtc.onpeer = event => {
-      if (event.target.kwm !== kwm) {
+      if (!kwm || event.target !== kwm.webrtc) {
         return;
       }
 
@@ -286,9 +286,6 @@ function createKWMManager() {
         case 'pc.closed':
           dispatch(pcClosed(event));
           break;
-        case 'pc.signalingStateChange':
-          dispatch(pcStateChanged(event));
-          break;
 
         case 'pc.iceStateChange':
           // TODO(longsleep): Implement iceRestart.
@@ -298,6 +295,7 @@ function createKWMManager() {
 
         // Reduce logging.
         case 'pc.new':
+        case 'pc.signalingStateChange':
         case 'pc.error':
         case 'hangup':
           //console.debug(`KWM event ${event.event}`, event.details, event.record);
@@ -320,12 +318,26 @@ function createKWMManager() {
         }
       }
     };
-    k.webrtc.onstream = event => {
-      if (event.target.kwm !== kwm) {
+    /*k.webrtc.onstream = event => {
+      if (!kwm || event.target !== kwm.webrtc) {
         return;
       }
 
-      console.log('xxx onstream', event);
+      dispatch(streamReceived(event));
+    };*/
+    k.webrtc.onannouncestreams = event => {
+      if (!kwm || event.target !== kwm.webrtc) {
+        return;
+      }
+
+      console.log('xxx 111 announce streams', event);
+      dispatch(streamsAnnounce(event));
+    };
+    k.webrtc.ontrack = event => {
+      if (!kwm || event.target !== kwm.webrtc) {
+        return;
+      }
+
       dispatch(streamReceived(event));
     };
 
@@ -470,15 +482,6 @@ function pcClosed(event) {
   };
 }
 
-function pcStateChanged(event) {
-  const { record } = event;
-
-  return {
-    type: types.KWM_PC_STATE_CHANGED,
-    record,
-  };
-}
-
 function destroyAndHangupCall(event) {
   const { record } = event;
 
@@ -512,13 +515,24 @@ function abortAndHangupCall(event) {
 }
 
 function streamReceived(event) {
-  const { record, stream, user } = event;
+  const { record, stream, token } = event;
 
   return {
     type: types.KWM_STREAM_RECEIVED,
     record,
     stream,
-    user,
+    token,
+  };
+}
+
+function streamsAnnounce(event) {
+  const { record, added, removed } = event;
+
+  return {
+    type: types.KWM_STREAMS_ANNOUNCE,
+    record,
+    added,
+    removed,
   };
 }
 

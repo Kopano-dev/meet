@@ -43,6 +43,12 @@ const styles = theme => ({
     background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
   },
+  overlay: {
+    alignContent: 'end',
+    justifyContent: 'space-evenly',
+    gridTemplateColumns: 'repeat(auto-fit, 40%) ;',
+    paddingBottom: 138, // Avoids overlap with floating own video.
+  },
   standby: {
     flex: '1',
     justifyContent: 'center',
@@ -61,6 +67,21 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
   },
+  rounded: {
+    background: 'transparent',
+    width: '12vh',
+    height: '12vh',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit / 2,
+    marginBottom: theme.spacing.unit / 2,
+    minWidth: 50,
+    minHeight: 50,
+    maxWidth: '12vh',
+    maxHeight: '12vh',
+  },
   floatingLocal: {
     position: 'absolute',
     right: theme.spacing.unit * 4,
@@ -78,7 +99,9 @@ class CallGrid extends React.PureComponent {
       classes,
       className: classNameProp,
       mode,
+      variant,
       localStream,
+      remoteStreamsKey,
       remoteStreams,
       maxVideoStreams,
 
@@ -101,7 +124,11 @@ class CallGrid extends React.PureComponent {
       });
     } else {
       remoteStreams.map(stream => {
-        streams.push(stream);
+        const s = stream[remoteStreamsKey];
+        streams.push({
+          ...stream,
+          stream: s, // Use as stream whatever the key says.
+        });
         return true;
       });
     }
@@ -113,15 +140,26 @@ class CallGrid extends React.PureComponent {
     }
 
     const conference = remoteStreams.length > 1;
+    const overlay = variant === 'overlay';
 
     return (
       <div className={className} {...other}>
         {renderIf(renderMode === 'videocall')(() => (
-          <div className={classes.videocall}>
+          <div className={classNames(
+            classes.videocall,
+            {
+              [classes.overlay]: overlay,
+            }
+          )}>
             {streams.map((stream) =>
               <div
                 key={stream.id}
-                className={classes.container}
+                className={classNames(
+                  classes.container,
+                  {
+                    [classes.rounded]: overlay,
+                  }
+                )}
               >
                 <AudioVideo
                   className={classes.video}
@@ -130,7 +168,7 @@ class CallGrid extends React.PureComponent {
                   mirrored={stream.mirrored}
                   stream={stream.stream}
                   conference={conference}
-                  user={stream.user}
+                  user={overlay ? undefined : stream.user}
                   calling={stream.calling}
                 >
                 </AudioVideo>
@@ -139,7 +177,9 @@ class CallGrid extends React.PureComponent {
           </div>
         ))}
         {renderIf(renderMode === 'call')(() => (
-          <Grid className={classes.call} container alignItems="center" direction="row" justify="center">
+          <Grid className={classNames(
+            classes.call,
+          )} container alignItems="center" direction="row" justify="center">
             {streams.map((stream) =>
               <AudioVideo
                 key={stream.id}
@@ -173,7 +213,9 @@ class CallGrid extends React.PureComponent {
 CallGrid.defaultProps = {
   localStream: null,
 
+  remoteStreamsKey: 'stream',
   maxVideoStreams: 20,
+  variant: 'full',
 };
 
 CallGrid.propTypes = {
@@ -181,8 +223,10 @@ CallGrid.propTypes = {
   className: PropTypes.string,
 
   mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
+  variant: PropTypes.oneOf(['full', 'overlay']).isRequired,
 
   localStream: PropTypes.object,
+  remoteStreamsKey: PropTypes.string.isRequired,
   remoteStreams: PropTypes.array.isRequired,
 
   maxVideoStreams: PropTypes.number.isRequired,
