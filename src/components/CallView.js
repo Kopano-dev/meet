@@ -126,12 +126,16 @@ const styles = theme => ({
     },
   },
   container: {
+    marginTop: 64,
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     [deskopWidthBreakpoint]: {
       flexDirection: 'row',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 48,
     },
   },
   topBar: {
@@ -249,7 +253,6 @@ const styles = theme => ({
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     [deskopWidthBreakpoint]: {
       flex: 0,
-      paddingTop: 66,
       minWidth: 385,
     },
   },
@@ -1002,9 +1005,9 @@ class CallView extends React.PureComponent {
     );
     const topBarClassName = classNames(
       classes.topBar,
-      {
+      /*{
         [classes.topBarHidden]: !!channel,
-      }
+      }*/
     );
     const controlsMiddleClassName = classNames(
       classes.controlsMiddle,
