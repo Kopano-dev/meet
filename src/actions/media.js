@@ -19,7 +19,7 @@ const defaultVideoSettings = {
 
 const defaultScreenSettings = {
   idealFrameRate: 3,
-  maxFrameRate: 8,
+  logicalSurface: false,
 };
 
 export const globalSettings = (() => {
@@ -126,13 +126,20 @@ export function requestDisplayMedia(id='', settings={}) {
   // NOTE(longsleep): Keep an index of gDM requests to make sure multiple can
   // run in a sane fasshion at the same time.
   const idx = ++status.idx;
-  console.info('requestDisplayMedia request', idx, status); // eslint-disable-line no-console
+  console.info('requestDisplayMedia request', idx, status, settings); // eslint-disable-line no-console
 
   return async dispatch => {
+    const videoSettings = {
+      ...defaultScreenSettings,
+      ...settings.video,
+    }
+
     const constraints = {
       video: {
-        ...defaultScreenSettings,
-        ...settings.video,
+        frameRate: {
+          ideal: videoSettings.idealFrameRate || 3,
+        },
+        logicalSurface: videoSettings.logicalSurface,
       },
     };
 
