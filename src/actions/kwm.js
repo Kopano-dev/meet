@@ -716,15 +716,6 @@ export function setScreenshareStream(id, stream) {
   };
 }
 
-export function unsetLocalExtraStream(id) {
-  return async () => {
-    console.info('KWM unsetting local extra stream', id); // eslint-disable-line no-console
-    if (kwm && kwm.webrtc) {
-      kwm.webrtc.setLocalExtraStream(id); // clears.
-    }
-  };
-}
-
 export function updateOfferAnswerConstraints(options) {
   return async () => {
     console.info('KWM update offer/answer constaints', options); // eslint-disable-line no-console
