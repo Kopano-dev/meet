@@ -11,12 +11,18 @@ import { resolveContactIDFromRecord } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
-const defaultSdpParams = {
+const defaultAudioVideoSdpParams = {
   videoRecvCodec: 'VP8', // Prefer VP8 since it takes less CPU?
   videoSendBitrate: 1000, // kbps
   videoRecvBitrate: 1000, // kbps
 
   opusDtx: true,
+};
+
+const defaultScreenhareSdpParams = {
+  videoRecvCodec: 'VP9', // Prefer VP9 since its more modern and gives better results for screen sharing.
+  videoSendBitrate: 2500, // kbps
+  videoRecvBitrate: 2500, // kbps
 };
 
 // Fixup webrtc-adpter for Firefox to be compatible with kwmjs simple-peer poor feature detection.
@@ -109,8 +115,11 @@ const webrtcOptions = {
 };
 
 // SDP Config.
-const sdpParams = {
-  ...defaultSdpParams,
+const sdpParamsAudioVideo = {
+  ...defaultAudioVideoSdpParams,
+};
+const sdpParamsScreenshare = {
+  ...defaultScreenhareSdpParams,
 };
 
 export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect} = {}) {
@@ -193,7 +202,8 @@ function createKWMManager() {
     // Update defaults from configuration.
     Object.assign(kwmConfig, config.kwm);
     Object.assign(webrtcOptions, kwmConfig.webrtc.options);
-    Object.assign(sdpParams, kwmConfig.sdpParams);
+    Object.assign(sdpParamsAudioVideo, kwmConfig.sdpParams);
+    Object.assign(sdpParamsScreenshare, kwmConfig.sdpParamsScreenshare);
 
     kwmjs.KWMInit.init({}); // Init with default options.
     const k = new kwmjs.KWM(kwmConfig.url, kwmOptions.options);
@@ -202,7 +212,16 @@ function createKWMManager() {
     };
     k.webrtc.options = {
       ...webrtcOptions,
-      localSDPTransform: (sdp) => {
+      localSDPTransform: (sdp, kind='') => {
+        let sdpParams;
+        switch (kind) {
+          case 'screenshare':
+            sdpParams = sdpParamsScreenshare;
+            break;
+          default:
+            sdpParams = sdpParamsAudioVideo;
+            break;
+        }
         // Local SDP transform support.
         const params = Object.assign({}, sdpParams, {
           // TODO(longsleep): Add configuration settings here.
@@ -214,7 +233,16 @@ function createKWMManager() {
         sdp = sdputils.maybeRemoveVideoFec(sdp, params);
         return sdp;
       },
-      remoteSDPTransform: (sdp) => {
+      remoteSDPTransform: (sdp, kind='') => {
+        let sdpParams;
+        switch (kind) {
+          case 'screenshare':
+            sdpParams = sdpParamsScreenshare;
+            break;
+          default:
+            sdpParams = sdpParamsAudioVideo;
+            break;
+        }
         // Remote SDP transform support.
         const params = Object.assign({}, sdpParams, {
           // TODO(longsleep): Add configuration settings here.
@@ -229,7 +257,7 @@ function createKWMManager() {
         return sdp;
       },
     };
-    console.info('KWM init', kwmConfig, webrtcOptions, sdpParams); // eslint-disable-line no-console
+    console.info('KWM init', kwmConfig, webrtcOptions, sdpParamsAudioVideo, sdpParamsScreenshare); // eslint-disable-line no-console
 
     k.onstatechanged = event => {
       if (event.target !== kwm) {
@@ -318,19 +346,11 @@ function createKWMManager() {
         }
       }
     };
-    /*k.webrtc.onstream = event => {
-      if (!kwm || event.target !== kwm.webrtc) {
-        return;
-      }
-
-      dispatch(streamReceived(event));
-    };*/
     k.webrtc.onannouncestreams = event => {
       if (!kwm || event.target !== kwm.webrtc) {
         return;
       }
 
-      console.log('xxx 111 announce streams', event);
       dispatch(streamsAnnounce(event));
     };
     k.webrtc.ontrack = event => {
