@@ -5,25 +5,52 @@ import * as types from './actions/types';
 class MeetDebug {
   constructor(store) {
     this.counter = 0;
+    this.tokens = 0;
 
     this.store = store;
     this.dispatch = store.dispatch.bind(store);
     this.getState = store.getState.bind(store);
   }
 
-  addFakeStream = () => {
+  addFakeStream = ({ withScreenshare } = {}) => {
     const { dispatch } = this;
 
     const record = {
-      user: `fake-user-${this.counter++}`,
+      user: `fake-user-${++this.counter}`,
     };
-    const stream = new MediaStream();
 
+    dispatch({
+      type: types.KWM_CALL_NEW,
+      record,
+      user: {
+        displayName: `Fake ${record.user}`,
+      },
+    });
     dispatch({
       type: types.KWM_STREAM_RECEIVED,
       record,
-      stream,
+      stream: new MediaStream(),
     });
+
+    if (withScreenshare) {
+      const token = `${++this.tokens}`;
+      dispatch({
+        type: types.KWM_STREAMS_ANNOUNCE,
+        record,
+        added: [{
+          id: 'screen1',
+          kind: 'screenshare',
+          token,
+        }],
+        removed: [],
+      });
+      dispatch({
+        type: types.KWM_STREAM_RECEIVED,
+        record,
+        stream: new MediaStream(),
+        token,
+      });
+    }
   };
 
   toggleWebRTCDebug = (flag = true) => {
