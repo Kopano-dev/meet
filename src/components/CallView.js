@@ -969,10 +969,13 @@ class CallView extends React.PureComponent {
 
     if (channel && mode === 'videocall' && remoteScreenShareStreams.length > 0) {
       screenShareViewer = <CallGrid
+        onClick={this.handleCallGridClick}
         className={classes.screenshare}
         remoteStreams={remoteScreenShareStreams}
         remoteStreamsKey={`stream_screenshare_${screenShareScreenID}`}
         mode={mode}
+        cover={false}
+        labels={false}
         variant="full"
       />;
     }
@@ -1027,7 +1030,7 @@ class CallView extends React.PureComponent {
     const rootClassName = classNames(
       classes.root,
       {
-        [classes.rootWithHover]: !isTouchDevice,
+        [classes.rootWithHover]: !isTouchDevice || !isMobile,
         [classes.rootWasTouched]: wasTouched,
       },
     );
@@ -1040,9 +1043,6 @@ class CallView extends React.PureComponent {
     );
     const topBarClassName = classNames(
       classes.topBar,
-      /*{
-        [classes.topBarHidden]: !!channel,
-      }*/
     );
     const controlsMiddleClassName = classNames(
       classes.controlsMiddle,
@@ -1274,6 +1274,7 @@ class CallView extends React.PureComponent {
             localStream={localStream}
             remoteStreams={remoteAudioVideoStreams}
             variant={screenShareViewer ? 'overlay': 'full'}
+            labels={!screenShareViewer}
           />
           {menu}
         </div>

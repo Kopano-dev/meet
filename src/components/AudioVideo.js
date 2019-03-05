@@ -43,7 +43,6 @@ const styles = (theme) => ({
   video: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
     objectPosition: 'center',
     '&::-webkit-media-controls': {
       display: 'none',
@@ -75,6 +74,15 @@ const styles = (theme) => ({
       right: 0,
       background: 'rgba(255,255,255,0.7)',
     },
+  },
+  round: {
+    // NOTE(longsleep): Additional border radius is required for Safari since it
+    // cannot crop video elements on outer elements.
+    borderRadius: '50%',
+    overflow: 'hidden',
+  },
+  cover: {
+    objectFit: 'cover',
   },
   extra: {
     display: 'none',
@@ -272,6 +280,8 @@ class AudioVideo extends React.PureComponent {
       audio,
       mirrored,
       blurred,
+      round,
+      cover,
       muted,
       calling,
       conference,
@@ -285,6 +295,8 @@ class AudioVideo extends React.PureComponent {
       {
         [classes.mirrored]: mirrored,
         [classes.video]: !audio,
+        [classes.round]: round,
+        [classes.cover]: cover,
         [classes.active]: active && hasVideo,
       },
     );
@@ -369,6 +381,8 @@ AudioVideo.defaultProps = {
   audio: false,
   mirrored: false,
   blurred: false,
+  round: false,
+  cover: true,
   children: null,
   stream: null,
 
@@ -385,6 +399,8 @@ AudioVideo.propTypes = {
   audio: PropTypes.bool,
   mirrored: PropTypes.bool,
   blurred: PropTypes.bool,
+  round: PropTypes.bool,
+  cover: PropTypes.bool,
   children: PropTypes.element,
   stream: PropTypes.object,
 

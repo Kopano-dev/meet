@@ -44,10 +44,14 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
   },
   overlay: {
-    alignContent: 'end',
+    alignContent: 'start',
     justifyContent: 'space-evenly',
-    gridTemplateColumns: 'repeat(auto-fit, 40%) ;',
-    paddingBottom: 138, // Avoids overlap with floating own video.
+    gridTemplateColumns: 'unset',
+    minHeight: 0,
+    minWidth: 0,
+    overflowY: 'auto',
+    paddingTop: theme.spacing.unit,
+    paddingBottom: 130 + theme.spacing.unit, // Avoids overlap with floating own video.
   },
   standby: {
     flex: '1',
@@ -68,7 +72,6 @@ const styles = theme => ({
     height: '100%',
   },
   rounded: {
-    background: 'transparent',
     width: '12vh',
     height: '12vh',
     borderRadius: '50%',
@@ -77,8 +80,8 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit / 2,
     marginBottom: theme.spacing.unit / 2,
-    minWidth: 50,
-    minHeight: 50,
+    minWidth: 60,
+    minHeight: 60,
     maxWidth: '12vh',
     maxHeight: '12vh',
   },
@@ -100,12 +103,12 @@ class CallGrid extends React.PureComponent {
       className: classNameProp,
       mode,
       variant,
+      cover,
+      labels,
       localStream,
       remoteStreamsKey,
       remoteStreams,
       maxVideoStreams,
-
-      theme, // eslint-disable-line
       ...other
     } = this.props;
 
@@ -166,9 +169,11 @@ class CallGrid extends React.PureComponent {
                   id={stream.id}
                   muted={stream.muted}
                   mirrored={stream.mirrored}
+                  cover={cover}
                   stream={stream.stream}
                   conference={conference}
-                  user={overlay ? undefined : stream.user}
+                  round={!!overlay}
+                  user={labels ? stream.user : undefined}
                   calling={stream.calling}
                 >
                 </AudioVideo>
@@ -186,6 +191,7 @@ class CallGrid extends React.PureComponent {
                 audio
                 id={stream.id}
                 muted={stream.muted}
+                cover={cover}
                 stream={stream.stream}
                 conference={conference}
                 user={stream.user}
@@ -216,6 +222,8 @@ CallGrid.defaultProps = {
   remoteStreamsKey: 'stream',
   maxVideoStreams: 20,
   variant: 'full',
+
+  labels: true,
 };
 
 CallGrid.propTypes = {
@@ -225,6 +233,9 @@ CallGrid.propTypes = {
   mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
   variant: PropTypes.oneOf(['full', 'overlay']).isRequired,
 
+  cover: PropTypes.bool,
+  labels: PropTypes.bool,
+
   localStream: PropTypes.object,
   remoteStreamsKey: PropTypes.string.isRequired,
   remoteStreams: PropTypes.array.isRequired,
@@ -232,4 +243,4 @@ CallGrid.propTypes = {
   maxVideoStreams: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(CallGrid);
+export default withStyles(styles)(CallGrid);

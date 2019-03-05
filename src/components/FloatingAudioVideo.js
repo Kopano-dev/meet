@@ -22,12 +22,6 @@ const styles = (theme) => ({
     borderRadius: '50%',
     overflow: 'hidden',
   },
-  audioVideoVideo: {
-    // NOTE(longsleep): Additional border radius is required for Safari since it
-    // cannot crop video elements on outer elements.
-    borderRadius: '50%',
-    overflow: 'hidden',
-  },
 });
 
 class FloatingAudioVideo extends React.PureComponent {
@@ -47,9 +41,7 @@ class FloatingAudioVideo extends React.PureComponent {
 
     return (
       <div className={className} ref={hostRef}>
-        <AudioVideo className={classes.audioVideo} classes={{
-          video: classes.audioVideoVideo,
-        }} {...other}>
+        <AudioVideo className={classes.audioVideo} round {...other}>
           {children}
         </AudioVideo>
       </div>
