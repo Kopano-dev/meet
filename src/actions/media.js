@@ -132,7 +132,7 @@ export function requestDisplayMedia(id='', settings={}) {
     const videoSettings = {
       ...defaultScreenSettings,
       ...settings.video,
-    }
+    };
 
     const constraints = {
       video: {
@@ -184,6 +184,16 @@ export function requestDisplayMedia(id='', settings={}) {
           addTrackToStream(status.stream, track);
           // Remove new track from new stream.
           removeTrackFromStream(stream, track);
+        }
+      }
+      // Optimize track encoding for content. See https://www.w3.org/TR/mst-content-hint/.
+      for (const track of stream.getTracks()) {
+        if ('contentHint' in track) {
+          switch (track.kind) {
+            case 'video':
+              track.contentHint = 'text';
+              break;
+          }
         }
       }
       status.stream = info.stream;
@@ -382,6 +392,20 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
           removeTrackFromStream(stream, track);
         }
       }
+      // Optimize track encoding for content.  See https://www.w3.org/TR/mst-content-hint/.
+      for (const track of stream.getTracks()) {
+        if ('contentHint' in track) {
+          switch (track.kind) {
+            case 'video':
+              track.contentHint = 'motion';
+              break;
+            case 'audio':
+              track.contentHint = 'speech';
+              break;
+          }
+        }
+      }
+
       status.stream = info.stream;
       status.promise = null;
       status.resolve(info);
