@@ -160,6 +160,12 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     opacity: 1,
+    [theme.breakpoints.down('xs')]: {
+      transform: 'scale(.8, .8)',
+    },
+    [xsHeightDownBreakpoint]: {
+      transform: 'scale(.8, .8)',
+    },
     transition: theme.transitions.create('opacity', {
       easing: theme.transitions.easing.easeOut,
     }),
@@ -173,7 +179,7 @@ const styles = theme => ({
   },
   controlsPermanent: {
     position: 'absolute',
-    left: theme.spacing.unit * 4,
+    left: theme.spacing.unit * 2,
     bottom: theme.spacing.unit * 4,
     zIndex: theme.zIndex.drawer - 1,
     display: 'flex',
@@ -183,7 +189,6 @@ const styles = theme => ({
     },
     opacity: 0.7,
     [theme.breakpoints.down('xs')]: {
-      left: theme.spacing.unit,
       transform: 'scale(.8, .8)',
     },
     [xsHeightDownBreakpoint]: {
@@ -256,7 +261,7 @@ const styles = theme => ({
   },
   callAsSidebar: {
     flex: 'auto',
-    maxWidth: 170,
+    maxWidth: 135,
     height: 'auto',
   },
   screenshare: {

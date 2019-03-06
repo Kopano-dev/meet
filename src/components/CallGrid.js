@@ -87,7 +87,7 @@ const styles = theme => ({
   },
   floatingLocal: {
     position: 'absolute',
-    right: theme.spacing.unit * 4,
+    right: theme.spacing.unit * 2,
     bottom: theme.spacing.unit * 4,
     zIndex: 5,
     minHeight: 100,

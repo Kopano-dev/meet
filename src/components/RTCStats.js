@@ -43,8 +43,8 @@ class RTCStats extends React.PureComponent {
     }
 
     return <div className={className}>
-      <span>{(transportsBytesReceivedPerSecond/125).toFixed(1)} Mbit/s in, </span>
-      <span>{(transportsBytesSendPerSecond/125).toFixed(1)} Mbit/s out, </span>
+      <span>{(transportsBytesReceivedPerSecond/125).toFixed(1)} Mbps in, </span>
+      <span>{(transportsBytesSendPerSecond/125).toFixed(1)} Mbps out, </span>
       <span>{bytesAll.toFixed(0)} MiB</span>
     </div>;
   }

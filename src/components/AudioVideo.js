@@ -4,10 +4,11 @@ import classNames from 'classnames';
 
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
 import MicOffIcon from '@material-ui/icons/MicOff';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import DisplayNameLabel from './DisplayNameLabel';
 
@@ -84,19 +85,25 @@ const styles = (theme) => ({
   cover: {
     objectFit: 'cover',
   },
+  loader: {
+    position: 'absolute',
+    bottom: '50%',
+    width: '10%',
+    minWidth: 50,
+    margin: '0 auto',
+    height: 2,
+  },
   extra: {
     display: 'none',
   },
   overlayText: {
     position: 'absolute',
-    textAlign: 'center',
-    maxWidth: '90%',
+    maxWidth: '80%',
     textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
     overflow: 'hidden',
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-    top: 24,
+    left: theme.spacing.unit * 2,
+    top: theme.spacing.unit * 2,
     zIndex: 10,
     userSelect: 'none',
     '& > *': {
@@ -104,8 +111,10 @@ const styles = (theme) => ({
       textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
     },
   },
-  icon: {
+  overlayTextIcon: {
     verticalAlign: 'middle',
+    display: 'inline-block',
+    paddingBottom: 4,
   },
   callIcon: {
     flex: 1,
@@ -114,7 +123,7 @@ const styles = (theme) => ({
   alternativeIcon: {
     position: 'absolute',
     margin: 'auto',
-    fontSize: 46,
+    fontSize: 32,
   },
 });
 
@@ -301,25 +310,29 @@ class AudioVideo extends React.PureComponent {
       },
     );
 
-    let element;
+    let loader;
     let overlay;
+    let element;
     let icon;
 
-    if (!hasVideo && !audio) {
+    if (calling) {
+      loader = <LinearProgress color="secondary" variant="query" className={classes.loader}/>;
+    }
+
+    if (calling) {
+      icon = <HourglassEmptyIcon className={classes.alternativeIcon}/>;
+    } else if (!hasVideo && !audio) {
       // No video.
       icon = <CamOffIcon className={classes.alternativeIcon}/>;
     }
 
     if (user) {
       overlay = <div className={classes.overlayText}>
-        <Typography variant="display1" gutterBottom>
-          <DisplayNameLabel user={user} id={id}/> { !hasAudio ?  <MicOffIcon/> : null }
+        <Typography variant="headline" gutterBottom>
+          <DisplayNameLabel user={user} id={id}/> {
+            !hasAudio ?  <MicOffIcon className={classes.overlayTextIcon}/> : null
+          }
         </Typography>
-        { calling &&
-          <Typography>
-            { audio ? <CallIcon className={classes.icon}/> : <VideocamIcon className={classes.icon}/> } Calling ...
-          </Typography>
-        }
       </div>;
     }
 
@@ -334,7 +347,7 @@ class AudioVideo extends React.PureComponent {
           >
             {children}
           </audio>
-          <CallIcon className={classes.callIcon} />
+          {!calling && <CallIcon className={classes.callIcon} />}
         </React.Fragment>
       );
     } else {
@@ -369,6 +382,7 @@ class AudioVideo extends React.PureComponent {
       },
       classNameProp)}
       >
+        {loader}
         {overlay}
         {element}
         {icon}
