@@ -206,6 +206,12 @@ const styles = theme => ({
   controlsPermanentHidden: {
     opacity: 0,
   },
+  controlsOffset: {
+    bottom: '56vh',
+    [deskopWidthBreakpoint]: {
+      bottom: theme.spacing.unit * 4,
+    },
+  },
   hangupButton: {
     backgroundColor: red[500],
     color: 'white',
@@ -1048,6 +1054,7 @@ class CallView extends React.PureComponent {
       {
         [classes.controlsPermanentStandby]: mode === 'standby',
         [classes.controlsPermanentHidden]: !!channel,
+        [classes.controlsOffset]: !channel,
       }
     );
     const topBarClassName = classNames(
@@ -1057,6 +1064,7 @@ class CallView extends React.PureComponent {
       classes.controlsMiddle,
       {
         [classes.controlsMiddleHidden]: !!channel && withChannel,
+        [classes.controlsOffset]: !channel,
       }
     );
 
