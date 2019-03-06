@@ -163,6 +163,10 @@ const styles = theme => ({
     transition: theme.transitions.create('opacity', {
       easing: theme.transitions.easing.easeOut,
     }),
+    '& > *': {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+    },
   },
   controlsMiddleHidden: {
     opacity: 0,
@@ -170,12 +174,12 @@ const styles = theme => ({
   controlsPermanent: {
     position: 'absolute',
     left: theme.spacing.unit * 4,
-    top: theme.spacing.unit * 12,
+    bottom: theme.spacing.unit * 4,
     zIndex: theme.zIndex.drawer - 1,
     display: 'flex',
     flexDirection: 'column',
     '& > *': {
-      marginBottom: theme.spacing.unit * 2,
+      marginTop: theme.spacing.unit * 2,
     },
     opacity: 0.7,
     [theme.breakpoints.down('xs')]: {
@@ -210,8 +214,8 @@ const styles = theme => ({
   },
   rtcStats: {
     position: 'absolute',
-    left: theme.spacing.unit * 3,
-    bottom: 0,
+    right: 4,
+    bottom: -28,
     fontSize: 10,
     fontFamily: theme.typography.fontFamily,
     color: 'white',
@@ -1053,8 +1057,6 @@ class CallView extends React.PureComponent {
 
     controls.push(
       <div key='permanent' className={controlsPermanentClassName}>
-        {muteCamButton}
-        {muteMicButton}
         {shareScreenButton}
       </div>
     );
@@ -1075,23 +1077,24 @@ class CallView extends React.PureComponent {
       );
     }
 
-    if (channel) {
-      controls.push(
-        <div key='middle' className={controlsMiddleClassName}>
-          <Button
-            variant="fab"
-            color="inherit"
-            aria-label="hangup"
-            className={classes.hangupButton}
-            onClick={this.handleHangupClick}
-          >
-            <HangupIcon />
-          </Button>
-          <RTCStats className={classes.rtcStats}/>
-        </div>
-      );
-    } else {
+    controls.push(
+      <div key='middle' className={controlsMiddleClassName}>
+        {muteCamButton}
+        {muteMicButton}
+        {channel && <Button
+          variant="fab"
+          color="inherit"
+          aria-label="hangup"
+          className={classes.hangupButton}
+          onClick={this.handleHangupClick}
+        >
+          <HangupIcon />
+        </Button>}
+        <RTCStats className={classes.rtcStats}/>
+      </div>
+    );
 
+    if (!channel) {
       menu = (
         <div className={classes.menu}>
           {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
