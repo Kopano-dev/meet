@@ -119,12 +119,12 @@ const styles = theme => ({
   },
   rootWithHover: {
     '&:hover $controlsPermanentHidden, &:hover $controlsMiddleHidden': {
-      opacity: 0.7,
+      opacity: 1,
     },
   },
   rootWasTouched: {
     '& $controlsPermanentHidden, & $controlsMiddleHidden': {
-      opacity: 0.7,
+      opacity: 1,
     },
   },
   container: {
@@ -187,7 +187,7 @@ const styles = theme => ({
     '& > *': {
       marginTop: theme.spacing.unit * 2,
     },
-    opacity: 0.7,
+    opacity: 1,
     [theme.breakpoints.down('xs')]: {
       transform: 'scale(.8, .8)',
     },
