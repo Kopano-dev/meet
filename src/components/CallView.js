@@ -16,6 +16,7 @@ import CamOffIcon from '@material-ui/icons/VideocamOff';
 import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
@@ -30,7 +31,6 @@ import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
-import ScreenShareOffIcon from '@material-ui/icons/StopScreenShare';
 
 import renderIf from 'render-if';
 
@@ -220,6 +220,17 @@ const styles = theme => ({
       // Reset on touch devices, it doesn't add specificity
       '@media (hover: none)': {
         backgroundColor: red[700],
+      },
+    },
+  },
+  shareScreenButtonActive: {
+    backgroundColor: green[500],
+    color: 'white',
+    '&:hover': {
+      backgroundColor: green[700],
+      // Reset on touch devices, it doesn't add specificity
+      '@media (hover: none)': {
+        backgroundColor: green[700],
       },
     },
   },
@@ -979,7 +990,6 @@ class CallView extends React.PureComponent {
     let shareScreenButton = null;
     let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
     let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
-    let shareScreenButtonIcon = shareScreen ? <ScreenShareIcon /> : <ScreenShareOffIcon />;
     let screenShareViewer = null;
 
     if (channel && mode === 'videocall' && remoteScreenShareStreams.length > 0) {
@@ -1009,10 +1019,15 @@ class CallView extends React.PureComponent {
         variant="fab"
         color="inherit"
         aria-label="share screen"
-        className={classes.shareScreenButton}
+        className={classNames(
+          classes.shareScreenButton,
+          {
+            [classes.shareScreenButtonActive]: shareScreen,
+          }
+        )}
         onClick={this.handleShareScreenClick()}
       >
-        {shareScreenButtonIcon}
+        <ScreenShareIcon />
       </Button>);
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
