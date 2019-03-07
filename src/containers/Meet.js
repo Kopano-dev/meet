@@ -87,6 +87,12 @@ class App extends PureComponent {
     const options = {
       id: 'meet',
       defaults: async config => {
+        config = {
+          oidc: {},
+          disableFullGAB: false,  // When true, does not count contacts on load, and searches on server always.
+          useIdentifiedUser: false,  // When true, authenticates with kwm as identified user name instead of user ID.
+          ...config,
+        };
         const scope = config.oidc.scope ?
           config.oidc.scope : [scopeOpenID, scopeProfile, scopeEmail, scopeKwm, scopeGrapi, scopeKvs].join(' ');
         const eqp = Object.assign({}, {
@@ -103,11 +109,6 @@ class App extends PureComponent {
           scope,
           eqp,
         });
-        config = {
-          disableFullGAB: false,  // When true, does not count contacts on load, and searches on server always.
-          useIdentifiedUser: false,  // When true, authenticates with kwm as identified user name instead of user ID.
-          ...config,
-        };
 
         return config;
       },
