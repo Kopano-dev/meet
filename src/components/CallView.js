@@ -323,6 +323,7 @@ const styles = theme => ({
   },
   fab: {
     position: 'absolute',
+    zIndex: theme.zIndex.drawer - 1,
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 3,
   },
