@@ -148,7 +148,7 @@ part. We need to convert this to a JSON Web Key. Most tools out there cannot
 convert that properly, so Konnect contains a helper for this.
 
 ```
-kopano-konnectd utils --yaml jwk-from-pem my-test-key-1.pem
+kopano-konnectd utils jwk-from-pem --yaml my-test-key-1.pem
 ```
 
 Now we have the key in the correct format. It also uses the file name of the
