@@ -1,4 +1,6 @@
 # Kopano Meet
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FKopano-dev%2Fmeet.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FKopano-dev%2Fmeet?ref=badge_shield)
+
 
 Kopano Meet is a progressive web app for video meetings for desktop and mobile.
 
@@ -183,3 +185,6 @@ Caddyfile.dev to Caddyfile run `yarn start` and `caddy`.
 ## License
 
 See `LICENSE.txt` for licensing information of this project.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FKopano-dev%2Fmeet.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FKopano-dev%2Fmeet?ref=badge_large)
