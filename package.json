@@ -47,14 +47,16 @@
     "build": "react-scripts build && cra-append-sw ./src/sw/index.js && node ./scripts/local-workbox.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "licenses": "node ./scripts/js-license-ranger.js"
+    "licenses": "node ./scripts/js-license-ranger.js",
+    "deduplicate": "yarn-deduplicate -s fewer yarn.lock"
   },
   "devDependencies": {
     "@babel/runtime": "7.0.0-beta.55",
     "eslint-plugin-jest": "^22.0.0",
     "react-intl-cra": "^0.3.3",
     "react-intl-po": "^2.2.1",
-    "source-map-explorer": "^1.5.0"
+    "source-map-explorer": "^1.5.0",
+    "yarn-deduplicate": "^1.1.1"
   },
   "resolutions": {
     "**/moment": "2.22.2",
