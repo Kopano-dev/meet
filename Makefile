@@ -4,6 +4,8 @@ PACKAGE_NAME = kopano-meet
 
 YARN ?= yarn
 
+CHGLOG ?= git-chglog
+
 # Variables
 
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2>/dev/null | sed 's/^v//' || \
@@ -73,6 +75,10 @@ dist:  3rdparty-LICENSES.md ; $(info building dist tarball ...)
 	cp -avr ../build "${PACKAGE_NAME}-${VERSION}/meet-webapp" && \
 	tar --owner=0 --group=0 -czvf ${PACKAGE_NAME}-${VERSION}.tar.gz "${PACKAGE_NAME}-${VERSION}" && \
 	cd ..
+
+.PHONE: changelog
+changelog: ; $(info updating changelog ...)
+	$(CHGLOG) --output CHANGELOG.md
 
 .PHONY: clean ; $(info cleaning ...)	@
 clean:
