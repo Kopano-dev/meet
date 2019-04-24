@@ -26,6 +26,10 @@ build:  vendor | src ; $(info building ...)	@
 src:
 	@$(MAKE) -C src
 
+.PHONY: i18n
+i18n: vendor
+	@$(MAKE) -C i18n
+
 .PHONY: lint
 lint: vendor ; $(info running eslint ...)	@
 	$(YARN) eslint . --cache && echo "eslint: no lint errors"

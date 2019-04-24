@@ -31,3 +31,8 @@ yarn-error.log*
 # config
 /config.json
 /Caddyfile
+
+# i18n
+*.mo
+/src/locales/*.json
+/i18n/src

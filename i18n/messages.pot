@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2019-04-24T09:46:16.620Z\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"X-Generator: react-intl-po\n"
+
+
