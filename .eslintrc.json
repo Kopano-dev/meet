@@ -8,6 +8,7 @@
 			"jsx": true
 		}
 	},
+	"plugins": ["@calm/react-intl", "i18n-text"],
 	"extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
 	"env": {
 		"browser": true,
@@ -48,6 +49,26 @@
 		"semi": [
 			"error",
 			"always"
+		],
+		"@calm/react-intl/missing-formatted-message": [
+			"error",
+			{
+				"noTrailingWhitespace": false,
+				"ignoreLinks": false
+			}
+		],
+		"@calm/react-intl/missing-attribute": [
+			"error",
+			{
+				"noTrailingWhitespace": false,
+				"noSpreadOperator": true
+			}
+		],
+		"@calm/react-intl/missing-values": [
+			"error"
+		],
+		"i18n-text/no-en": [
+			"error"
 		]
 	}
 }
