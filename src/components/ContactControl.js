@@ -15,6 +15,8 @@ import CallIcon from '@material-ui/icons/Call';
 
 import Persona from 'kpop/es/Persona';
 
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
 import { pushHistory } from '../utils';
@@ -89,20 +91,22 @@ class ContactControl extends React.PureComponent {
                 onClick={this.handleEntryClick('videocall')}
               >
                 <VideocamIcon className={classes.leftIcon} />
-                Video
+                <FormattedMessage id="contactControl.videoCallButton.text" defaultMessage="Video"></FormattedMessage>
               </Button>
               <Button
                 color="primary"
                 onClick={this.handleEntryClick('call')}
               >
                 <CallIcon className={classes.leftIcon} />
-                Call
+                <FormattedMessage id="contactControl.voiceCallButton.text" defaultMessage="Call"></FormattedMessage>
               </Button>
               <Button
                 color="primary"
                 className={classes.close}
                 onClick={this.handleCloseClick}
-              >Close</Button>
+              >
+                <FormattedMessage id="contactControl.closeButton.text" defaultMessage="Close"></FormattedMessage>
+              </Button>
             </CardActions>
           </Card>
         </div>
@@ -114,6 +118,7 @@ class ContactControl extends React.PureComponent {
 ContactControl.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   entry: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -121,4 +126,4 @@ ContactControl.propTypes = {
   onEntryClick: PropTypes.func,
 };
 
-export default connect()(withStyles(styles)(ContactControl));
+export default connect()(withStyles(styles)(injectIntl(ContactControl)));

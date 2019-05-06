@@ -11,6 +11,8 @@ import renderIf from 'render-if';
 
 import posed from 'react-pose';
 
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+
 import AudioVideo from './AudioVideo';
 import FloatingAudioVideo from './FloatingAudioVideo';
 
@@ -204,7 +206,9 @@ class CallGrid extends React.PureComponent {
         {renderIf(renderMode === 'standby')(() => (
           <Grid className={classes.standby} container alignItems="center" direction="row" justify="center">
             <Grid item>
-              <Typography color="inherit" variant="headline">Suspended</Typography>
+              <Typography color="inherit" variant="headline">
+                <FormattedMessage id="callGrid.suspended.headline" defaultMessage="Suspended"></FormattedMessage>
+              </Typography>
             </Grid>
           </Grid>
         ))}
@@ -229,6 +233,7 @@ CallGrid.defaultProps = {
 CallGrid.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
   variant: PropTypes.oneOf(['full', 'overlay']).isRequired,
@@ -243,4 +248,4 @@ CallGrid.propTypes = {
   maxVideoStreams: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles)(CallGrid);
+export default withStyles(styles)(injectIntl(CallGrid));

@@ -16,6 +16,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import Persona from 'kpop/es/Persona';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 import ContactLabel from './ContactLabel';
 import { mapContactEntryToUserShape } from './Recents';
 import { fetchAndUpdateContactByID } from '../actions/contacts';
@@ -40,6 +42,13 @@ const styles = theme => ({
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
+  },
+});
+
+const translations = defineMessages({
+  incomingCallTitle: {
+    id: 'incomingCallDialog.incomingCall.title',
+    defaultMessage: 'Incoming call',
   },
 });
 
@@ -79,6 +88,7 @@ class IncomingCallDialog extends React.PureComponent {
       dispatch, // eslint-disable-line
       onRejectClick, // eslint-disable-line
       onAcceptClick, // eslint-disable-line
+      intl,
       ...other
     } = this.props;
 
@@ -104,7 +114,7 @@ class IncomingCallDialog extends React.PureComponent {
             <Persona
               user={user}
               className={classes.avatar} />
-            <ListItemText primary="Incoming call"
+            <ListItemText primary={intl.formatMessage(translations.incomingCallTitle)}
               secondary={<ContactLabel contact={contact} id={record.id}/>}
               secondaryTypographyProps={{
                 color: 'textPrimary',
@@ -116,7 +126,7 @@ class IncomingCallDialog extends React.PureComponent {
         <DialogActions className={classes.specialActions}>
           <Button onClick={this.handleRejectClick(contact, kind)} className={classes.reject}>
             <ClearIcon className={classes.leftIcon}/>
-            Reject
+            <FormattedMessage id="incomingCallDialog.rejectButton.text" defaultMessage="Reject"></FormattedMessage>
           </Button>
         </DialogActions>
         <DialogActions>
@@ -125,7 +135,7 @@ class IncomingCallDialog extends React.PureComponent {
             color="primary" autoFocus
           >
             <VideocamIcon className={classes.leftIcon}/>
-            Accept video
+            <FormattedMessage id="incomingCallDialog.acceptVideoCallButton.text" defaultMessage="Accept video"></FormattedMessage>
           </Button>
           <Button className={classes.flex}
             onClick={this.handleAcceptClick('call', contact, kind)}
@@ -133,9 +143,8 @@ class IncomingCallDialog extends React.PureComponent {
             autoFocus
           >
             <CallIcon className={classes.leftIcon}/>
-            Accept call
+            <FormattedMessage id="incomingCallDialog.acceptVoiceCallButton.text" defaultMessage="Accept call"></FormattedMessage>
           </Button>
-
         </DialogActions>
       </Dialog>
     );
@@ -150,6 +159,7 @@ IncomingCallDialog.defaultProps = {
 IncomingCallDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 
   record: PropTypes.object.isRequired,
 
@@ -173,4 +183,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(IncomingCallDialog));
+export default connect(mapStateToProps)(withStyles(styles)(injectIntl(IncomingCallDialog)));

@@ -1,6 +1,8 @@
 import React from 'react'; // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types';
 
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+
 let count = 0;
 const cache = {
 };
@@ -12,13 +14,17 @@ const DisplayNameLabel = ({user, id}) => {
     return displayName;
   }
   if (!id) {
-    return 'Unknown user';
+    return <FormattedMessage id="displayNameLabel.unknownUser.text" defaultMessage="Unknown user"></FormattedMessage>;
   }
 
   let label = cache[id];
   if (!label) {
     let idx = ++count;
-    label = `User ${idx}`;
+    label = <FormattedMessage
+      id="displayNameLabel.userWithIndex.text"
+      defaultMessage="User {idx}"
+      values={{idx}}
+    ></FormattedMessage>;
     cache[id] = label;
   }
 
@@ -26,8 +32,10 @@ const DisplayNameLabel = ({user, id}) => {
 };
 
 DisplayNameLabel.propTypes = {
+  intl: intlShape.isRequired,
+
   user: PropTypes.object,
   id: PropTypes.string.isRequired,
 };
 
-export default DisplayNameLabel;
+export default injectIntl(DisplayNameLabel);

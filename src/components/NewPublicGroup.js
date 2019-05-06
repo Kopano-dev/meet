@@ -13,6 +13,8 @@ import PublicConferenceIcon from '@material-ui/icons/Group';
 
 import Persona from 'kpop/es/Persona';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 const styles = () => ({
   root: {
     display: 'flex',
@@ -25,6 +27,13 @@ const styles = () => ({
     overflow: 'auto',
     flex: 1,
     maxWidth: 600,
+  },
+});
+
+const translations = defineMessages({
+  enterPublicGroupInputLabel: {
+    id: 'newPublicGroup.enterPublicGroup.inputLabel',
+    defaultMessage: 'Enter a public group',
   },
 });
 
@@ -51,6 +60,7 @@ class NewPublicGroup extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
+      intl,
     } = this.props;
 
     const className = classNames(
@@ -68,14 +78,16 @@ class NewPublicGroup extends React.PureComponent {
             <TextField
               autoFocus
               className={classes.inputField}
-              label="Enter a public group"
+              label={intl.formatMessage(translations.enterPublicGroupInputLabel)}
               value={query}
               fullWidth
               onChange={this.handleChange('query')}
             /> <Persona user={{displayName: query}} forceIcon icon={<PublicConferenceIcon/>}/>
           </ListItem>
           <ListItem>
-            <Button variant="raised" color="primary" disabled={!valid} onClick={this.handleActionClick}>Create</Button>
+            <Button variant="raised" color="primary" disabled={!valid} onClick={this.handleActionClick}>
+              <FormattedMessage id="newPublicGroup.createButton.text" defaultMessage="Create"></FormattedMessage>
+            </Button>
           </ListItem>
         </List>
       </div>
@@ -86,8 +98,9 @@ class NewPublicGroup extends React.PureComponent {
 NewPublicGroup.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   onActionClick: PropTypes.func.isRequired,
 };
 
-export default connect()(withStyles(styles)(NewPublicGroup));
+export default connect()(withStyles(styles)(injectIntl(NewPublicGroup)));

@@ -3,6 +3,10 @@
 YARN ?= yarn
 MSGMERGE ?= msgmerge
 
+# Variables
+
+POS = $(wildcard *.po)
+
 # Translations
 
 .PHONY: build
@@ -30,8 +34,12 @@ json:
 		 --indentation=2
 
 .PHONY: merge
-merge: messages.pot
+merge: $(POS)
+
+$(POS): FORCE messages.pot
 	$(MSGMERGE) -U \
 		--backup=none \
 		--no-wrap \
-		*.po messages.pot
+		$@ messages.pot
+
+FORCE:

@@ -15,6 +15,8 @@ import WarningIcon from '@material-ui/icons/Warning';
 import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
 
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
+
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
@@ -56,14 +58,36 @@ const styles2 = () => ({
   },
 });
 
+const translations = defineMessages({
+  'call_rejected': {
+    id: 'snacks.callRejected.message',
+    defaultMessage: 'Your call was rejected',
+  },
+  'call_rejected_busy': {
+    id: 'snacks.callRejectedBusy.message',
+    defaultMessage: 'Your call was rejected (busy)',
+  },
+});
+
 function TransitionDown(props) {
   return <Slide {...props} direction="down" />;
 }
 
 function SnacksContent(props) {
-  const { classes, className, onClose, snack, ...other } = props;
-  const { message, variant, button } = snack;
+  const { classes, className, intl, onClose, snack, ...other } = props;
+  const { id, message, variant, button } = snack;
   const Icon = variantIcon[variant];
+
+  let msg = message;
+  if (id) {
+    const translation = translations[id];
+    if (translation) {
+      msg = intl.formatMessage(translation);
+      if (!msg || msg === id) {
+        msg = message;
+      }
+    }
+  }
 
   return (
     <SnackbarContent
@@ -72,14 +96,13 @@ function SnacksContent(props) {
       message={
         <span id="client-snackbar" className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
-          {message}
+          {msg}
         </span>
       }
       action={[
         <React.Fragment key="button">{button}</React.Fragment>,
         <IconButton
           key="close"
-          aria-label="Close"
           color="inherit"
           className={classes.close}
           onClick={onClose}
@@ -95,12 +118,13 @@ function SnacksContent(props) {
 SnacksContent.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   snack: PropTypes.object.isRequired,
   onClose: PropTypes.func,
 };
 
-const SnacksContentWrapper = withStyles(styles1)(SnacksContent);
+const SnacksContentWrapper = withStyles(styles1)(injectIntl(SnacksContent));
 
 class Snacks extends React.PureComponent {
   queue = [];

@@ -4,6 +4,7 @@ import * as kwmjs from 'kwmjs';
 import adapter from 'webrtc-adapter';
 
 import * as types from './types';
+import * as errors from '../errors';
 import * as sdputils from '../sdputils';
 import { fetchAndUpdateContactByID } from './contacts';
 import { addSnack } from './snacks';
@@ -380,7 +381,7 @@ function error(event) {
         // with the error since this can happen when the access token
         // is expired (like after a device resume).
         dispatch(doHangup());
-        await setNonFatalError('No permission to access server', event);
+        await setNonFatalError(errors.ERROR_KWM_NO_PERMISSION, event);
         return;
       default:
     }
@@ -605,7 +606,7 @@ export function doCall(id) {
       });
       dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
       console.error('KWM doCall failed', err);  // eslint-disable-line no-console
-      dispatch(setNonFatalError('Unable to call', err));
+      dispatch(setNonFatalError(errors.ERROR_KWM_UNABLE_TO_CALL, err));
     });
   };
 }
@@ -662,7 +663,7 @@ export function doGroup(id) {
           break;
         default:
           console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
-          dispatch(setNonFatalError('Unable to join', err));
+          dispatch(setNonFatalError(error.ERROR_KWM_UNABLE_TO_JOIN, err));
       }
     });
   };
@@ -683,7 +684,7 @@ export function doAccept(id) {
       return channel;
     }).catch(err => {
       console.error('KWM doAccept failed', err);  // eslint-disable-line no-console
-      dispatch(setNonFatalError('Unable to accept call', err));
+      dispatch(setNonFatalError(error.ERROR_KWM_UNABLE_TO_ACCEPT, err));
     });
   };
 }

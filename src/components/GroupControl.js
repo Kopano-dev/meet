@@ -21,11 +21,14 @@ import CallIcon from '@material-ui/icons/Call';
 import Persona from 'kpop/es/Persona';
 import { parseQuery } from 'kpop/es/utils';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 import { getCurrentAppPath } from '../base';
 import { writeTextToClipboard } from '../clipboard';
 import { qualifyAppURL } from '../base';
 import { mapGroupEntryToUserShape } from './Recents';
 import { pushHistory } from '../utils';
+import ScopeLabel, { formatScopeLabel } from './ScopeLabel';
 
 const getAutoSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
@@ -64,6 +67,13 @@ const styles = (theme) => ({
     [theme.breakpoints.up('sm')]: {
       marginRight: -8,
     },
+  },
+});
+
+const translations = defineMessages({
+  shareLabel: {
+    id: 'groupControl.share.label',
+    defaultMessage: 'Share {scope}',
   },
 });
 
@@ -124,6 +134,7 @@ class GroupControl extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
+      intl,
 
       guest,
       group,
@@ -145,9 +156,8 @@ class GroupControl extends React.PureComponent {
                 user={mapGroupEntryToUserShape(group)}
                 forceIcon
                 icon={<PublicConferenceIcon/>}
-                aria-label={group.scope}
                 className={classes.avatar} />
-              <ListItemText primary={group.id} secondary={group.scope} />
+              <ListItemText primary={group.id} secondary={<ScopeLabel scope={group.scope} capitalize/>} />
             </ListItem>
           </List>
           <Card elevation={0} className={classes.card}>
@@ -155,7 +165,9 @@ class GroupControl extends React.PureComponent {
               <Chip
                 className={classes.chip}
                 avatar={<Avatar><LinkIcon/></Avatar>}
-                label={`Share ${group.scope}`}
+                label={intl.formatMessage(translations.shareLabel, {
+                  scope: formatScopeLabel(intl, group.scope),
+                })}
                 onClick={this.handleCopyLinkClick}
               />
             </CardContent>
@@ -165,20 +177,22 @@ class GroupControl extends React.PureComponent {
                 onClick={this.handleEntryClick('videocall')}
               >
                 <VideocamIcon className={classes.leftIcon} />
-                Video
+                <FormattedMessage id="groupControl.videoCallButton.text" defaultMessage="Video"></FormattedMessage>
               </Button>
               <Button
                 color="primary"
                 onClick={this.handleEntryClick('call')}
               >
                 <CallIcon className={classes.leftIcon} />
-                Call
+                <FormattedMessage id="groupControl.voiceCallButton.text" defaultMessage="Call"></FormattedMessage>
               </Button>
               {withClose && <Button
                 color="primary"
                 className={classes.close}
                 onClick={this.handleCloseClick}
-              >Close</Button>}
+              >
+                <FormattedMessage id="groupControl.closeButton.text" defaultMessage="Close"></FormattedMessage>
+              </Button>}
             </CardActions>
           </Card>
         </div>
@@ -190,6 +204,7 @@ class GroupControl extends React.PureComponent {
 GroupControl.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   group: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -206,4 +221,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(GroupControl));
+export default connect(mapStateToProps)(withStyles(styles)(injectIntl(GroupControl)));

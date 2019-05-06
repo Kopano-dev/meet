@@ -28,7 +28,10 @@ import 'rc-swipeout/assets/index.css';
 
 import Persona from 'kpop/es/Persona';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 import ContactLabel from './ContactLabel';
+import ScopeLabel from './ScopeLabel';
 import { removeRecentEntry } from '../actions/recents';
 
 const styles = theme => ({
@@ -68,6 +71,25 @@ const styles = theme => ({
     backgroundColor: 'red',
     color: 'white',
     minWidth: 95,
+  },
+});
+
+const translations = defineMessages({
+  videoCallButtonAria: {
+    id: 'recents.videoCallButton.aria',
+    defaultMessage: 'Video call',
+  },
+  voiceCallButtonAria: {
+    id: 'recents.voiceCallButton.aria',
+    defaultMessage: 'Voice call',
+  },
+  moreButtonAria: {
+    id: 'recents.moreButton.aria',
+    defaultMessage: 'More',
+  },
+  moreMenuDeleteItemLabel: {
+    id: 'recents.deleteMoreMenuItem.label',
+    defaultMessage: 'Delete',
   },
 });
 
@@ -130,6 +152,7 @@ class Recents extends React.PureComponent {
       classes,
       className: classNameProp,
       recents,
+      intl,
     } = this.props;
 
     const className = classNames(
@@ -144,7 +167,7 @@ class Recents extends React.PureComponent {
         <ListItem>
           <ListItemText>
             <Typography variant="caption" align="center">
-              Your call history is empty.
+              <FormattedMessage id="recents.callHistoryEmpty.message" defaultMessage="Your call history is empty."></FormattedMessage>
             </Typography>
           </ListItemText>
         </ListItem>
@@ -153,7 +176,9 @@ class Recents extends React.PureComponent {
             <IconButton color="primary" onClick={this.handleCallClick}>
               <AddCallIcon/>
             </IconButton>
-            <Typography>Call</Typography>
+            <Typography>
+              <FormattedMessage id="recents.callButton.text" defaultMessage="Call"></FormattedMessage>
+            </Typography>
           </ListItemText>
         </ListItem>
       </React.Fragment>
@@ -168,7 +193,9 @@ class Recents extends React.PureComponent {
                 key={entry.rid}
                 right={[
                   {
-                    text: <Typography color="inherit" variant="button">delete</Typography>,
+                    text: <Typography color="inherit" variant="button">
+                      <FormattedMessage id="recents.deleteSwipeButton.text" defaultMessage="delete"></FormattedMessage>
+                    </Typography>,
                     onPress: this.handleEntryDelete(entry),
                     className: classes.deleteSwiper,
                   },
@@ -181,13 +208,13 @@ class Recents extends React.PureComponent {
                     secondary={<RecentsEntrySubline entry={entry}/>}
                   />
                   <ListItemSecondaryAction className={classes.actions}>
-                    <IconButton aria-label="Video call" onClick={this.handleEntryClick(entry, 'videocall')}>
+                    <IconButton aria-label={intl.formatMessage(translations.videoCallButtonAria)} onClick={this.handleEntryClick(entry, 'videocall')}>
                       <VideocamIcon />
                     </IconButton>
-                    <IconButton aria-label="Audio call" onClick={this.handleEntryClick(entry, 'call')}>
+                    <IconButton aria-label={intl.formatMessage(translations.voiceCallButtonAria)} onClick={this.handleEntryClick(entry, 'call')}>
                       <CallIcon />
                     </IconButton>
-                    <IconButton aria-label="More" onClick={this.handleEntryClick(entry, 'more')}>
+                    <IconButton aria-label={intl.formatMessage(translations.moreButtonAria)} onClick={this.handleEntryClick(entry, 'more')}>
                       <MoreVertIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -205,7 +232,7 @@ class Recents extends React.PureComponent {
               <ListItemIcon>
                 <DeleteIcon />
               </ListItemIcon>
-              <ListItemText inset primary="Delete" />
+              <ListItemText inset primary={intl.formatMessage(translations.moreMenuDeleteItemLabel)} />
             </MenuItem>
           </Menu>
         </div>
@@ -217,6 +244,7 @@ class Recents extends React.PureComponent {
 Recents.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   recents: PropTypes.array.isRequired,
   table: PropTypes.object.isRequired,
@@ -260,8 +288,7 @@ const RecentsEntrySubline = ({ entry }) => {
   let prefix = null;
   switch (entry.kind) {
     case 'group': {
-      const label = entry.scope[0].toUpperCase() + entry.scope.substr(1);
-      prefix=<React.Fragment>{label} &mdash; </React.Fragment>;
+      prefix=<React.Fragment><ScopeLabel scope={entry.scope} capitalize/> &mdash; </React.Fragment>;
       break;
     }
   }
@@ -303,4 +330,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Recents));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(injectIntl(Recents)));

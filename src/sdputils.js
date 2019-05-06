@@ -145,7 +145,7 @@ export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS'
   // Find m line for the given mediaType.
   var mLineIndex = findLine(sdpLines, 'm=', mediaType);
   if (mLineIndex === null) {
-    trace('Failed to add bandwidth line to sdp, as no m-line found');
+    trace('Failed to add bandwidth line to sdp, as no m-line found'); // eslint-disable-line i18n-text/no-en
     return sdp;
   }
 
@@ -159,7 +159,7 @@ export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS'
   var cLineIndex = findLineInRange(sdpLines, mLineIndex + 1,
     nextMLineIndex, 'c=');
   if (cLineIndex === null) {
-    trace('Failed to add bandwidth line to sdp, as no c-line found');
+    trace('Failed to add bandwidth line to sdp, as no c-line found'); // eslint-disable-line i18n-text/no-en
     return sdp;
   }
 
@@ -218,7 +218,7 @@ export function maybeSetVideoSendInitialBitRate(sdp, {
   // Search for m line.
   var mLineIndex = findLine(sdpLines, 'm=', 'video');
   if (mLineIndex === null) {
-    trace('Failed to find video m-line');
+    trace('Failed to find video m-line'); // eslint-disable-line i18n-text/no-en
     return sdp;
   }
   // Figure out the first codec payload type on the m=video SDP line.

@@ -27,6 +27,8 @@ import debounce from 'kpop/es/utils/debounce';
 
 import * as lunr from 'lunr';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 import { fetchAndAddContacts, searchContacts } from '../actions/contacts';
 import { maybeIsABEID, idFromABEID } from '../abeid';
 import { getOwnGrapiUserEntryID } from '../selectors';
@@ -84,6 +86,13 @@ const styles = theme => ({
     textAlign: 'center',
     maxWidth: '50%',
     margin: '0 auto',
+  },
+});
+
+const translations = defineMessages({
+  searchByNamePlaceholder: {
+    id: 'contactSearch.searchByNameTextField.placeholder',
+    defaultMessage: 'Search by name',
   },
 });
 
@@ -273,6 +282,7 @@ class ContactSearch extends React.PureComponent {
       loading,
       error,
       embedded,
+      intl,
     } = this.props;
 
     const className = classNames(
@@ -288,7 +298,7 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              {searching ? 'Searching for' : 'Loading'} contacts ...
+              {searching ? <FormattedMessage id="contactSearch.messageSearchingForContacts" defaultMessage="Searching for contacts ..."/> : <FormattedMessage id="contactSearch.messageLoadingContacts" defaultMessage="Loading contacts ..."/>}
             </Typography>
           </ListItemText>
         </ListItem>
@@ -298,8 +308,10 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              Failed to load contacts. <Button size="small" color="secondary"
-                onClick={this.handleReloadContactsClick}>Retry</Button>
+              <FormattedMessage id="contactSearch.failedToLoad.message" defaultMessage="Failed to load contacts."></FormattedMessage> <Button size="small" color="secondary"
+                onClick={this.handleReloadContactsClick}>
+                <FormattedMessage id="contactSearch.failedToLoad.retryButton.text" defaultMessage="Retry"></FormattedMessage>
+              </Button>
             </Typography>
           </ListItemText>
         </ListItem>
@@ -309,7 +321,7 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              No contacts match the selected criteria.
+              <FormattedMessage id="contactSearch.noMatches.message" defaultMessage="No contacts match the selected criteria."></FormattedMessage>
             </Typography>
           </ListItemText>
         </ListItem>
@@ -330,7 +342,7 @@ class ContactSearch extends React.PureComponent {
             autoFocus
             value={query}
             onChange={this.handleSearch}
-            placeholder="Search by name"
+            placeholder={intl.formatMessage(translations.searchByNamePlaceholder)}
             className={classes.searchField}
             InputProps={{
               disableUnderline: true,
@@ -350,7 +362,7 @@ class ContactSearch extends React.PureComponent {
       { embedded ? null : <Toolbar className={classes.extraToolbar}>
         <Button color="primary"
           onClick={this.handleActionClick.bind(this, 'new-public-group')}>
-            New Public Group
+          <FormattedMessage id="contactSearch.newPublicGroup.button.text" defaultMessage="New Public Group"></FormattedMessage>
         </Button>
       </Toolbar> }
       {embedded ? null : <Divider/>}
@@ -393,6 +405,7 @@ class ContactSearch extends React.PureComponent {
 ContactSearch.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   id: PropTypes.string,
   mail: PropTypes.string,
@@ -466,4 +479,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ContactSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(injectIntl(ContactSearch)));

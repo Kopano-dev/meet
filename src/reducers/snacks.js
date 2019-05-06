@@ -29,6 +29,7 @@ function snacksReducer(state = defaultState, action) {
       if (action.details === 'reject_busy' || action.details === 'reject') {
         const snacks = state.snacks.slice(0);
         snacks.push({
+          id: action.details === 'reject_busy' ? 'call_rejected_busy' : 'call_rejected',
           message: 'Your call was rejected' + (action.details === 'reject_busy' ? ' (busy)' : ''),
           variant: 'info',
         });

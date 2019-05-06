@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 const styles = () => ({
   appBar: {
     position: 'relative',
@@ -23,6 +25,13 @@ const styles = () => ({
   },
 });
 
+const translations = defineMessages({
+  closeButtonAria: {
+    id: 'fullscreenDialog.closeButton.aria',
+    defaultMessage: 'Close',
+  },
+});
+
 class FullscreenDialog extends React.PureComponent {
   handleClose = (event) => {
     const { onClose } = this.props;
@@ -33,7 +42,7 @@ class FullscreenDialog extends React.PureComponent {
   }
 
   render() {
-    const { children, classes, topTitle, topElevation, open } = this.props;
+    const { children, classes, topTitle, topElevation, open, intl } = this.props;
 
     return (
       <Dialog
@@ -43,14 +52,14 @@ class FullscreenDialog extends React.PureComponent {
       >
         <AppBar className={classes.appBar} color="inherit" elevation={topElevation}>
           <Toolbar>
-            <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label="Close">
+            <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label={intl.formatMessage(translations.closeButtonAria)}>
               <CloseIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
               {topTitle}
             </Typography>
             <Button color="primary" onClick={this.handleClose}>
-              Cancel
+              <FormattedMessage id="fullscreenDialog.cancelButton.text" defaultMessage="Cancel"></FormattedMessage>
             </Button>
           </Toolbar>
         </AppBar>
@@ -67,6 +76,7 @@ FullscreenDialog.defaultProps = {
 FullscreenDialog.propTypes = {
   children: PropTypes.node,
   classes: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
@@ -75,4 +85,4 @@ FullscreenDialog.propTypes = {
   topElevation: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles)(FullscreenDialog);
+export default withStyles(styles)(injectIntl(FullscreenDialog));

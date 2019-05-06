@@ -34,6 +34,8 @@ import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 
 import renderIf from 'render-if';
 
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
 import { setError } from 'kpop/es/common/actions';
 import TopBar from 'kpop/es/TopBar';
 import { userShape } from 'kpop/es/shapes';
@@ -343,6 +345,41 @@ const styles = theme => ({
   },
 });
 
+const translations = defineMessages({
+  microphoneIsMutedSnack: {
+    id: 'callView.microphoneIsMutedSnack.message',
+    defaultMessage: 'Your microphone is muted',
+  },
+  noConnectionTooltipTitle: {
+    id: 'callView.noConnectionTooltip.title',
+    defaultMessage: 'No connection - check your internet connection.',
+  },
+  tabLabelRecents: {
+    id: 'callView.tabRecents.label',
+    defaultMessage: 'Recents',
+  },
+  tabLabelContacts: {
+    id: 'callView.tabContacts.label',
+    defaultMessage: 'Contacts',
+  },
+  fabButtonAriaLabel: {
+    id: 'callView.fabButton.aria',
+    defaultMessage: 'add',
+  },
+  newCallDialogTopTitle: {
+    id: 'callView.newCallDialog.topTitle',
+    defaultMessage: 'New call',
+  },
+  newPublicGroupDialogTopTitle: {
+    id: 'callView.newPublicGroupDialog.topTitle',
+    defaultMessage: 'Public group',
+  },
+  settingsListLabel: {
+    id: 'callView.settingsList.label',
+    defaultMessage: 'Settings',
+  },
+});
+
 class CallView extends React.PureComponent {
   rum = null;
   rdm = null;
@@ -392,6 +429,7 @@ class CallView extends React.PureComponent {
       connected,
       localAudioVideoStreams,
       setLocalStream,
+      intl,
     } = this.props;
 
     let rum = false;
@@ -459,13 +497,13 @@ class CallView extends React.PureComponent {
         }
       }, 5000);
       if (muteMic) {
-        this.notifyBySnack('Your microphone is muted', {
+        this.notifyBySnack(intl.formatMessage(translations.microphoneIsMutedSnack), {
           button: <Button
             size="small"
             color="secondary"
             onClick={this.handleMuteMicClick(false)}
           >
-              unmute
+            <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
           </Button>,
         });
       }
@@ -978,6 +1016,7 @@ class CallView extends React.PureComponent {
       connected,
       gUMSupported,
       gDMSupported,
+      intl,
     } = this.props;
     const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
 
@@ -1010,7 +1049,6 @@ class CallView extends React.PureComponent {
       muteCamButton = gUMSupported && (<Button
         variant="fab"
         color="inherit"
-        aria-label="hangup"
         className={classes.muteCamButton}
         onClick={this.handleMuteCamClick()}
       >
@@ -1019,7 +1057,6 @@ class CallView extends React.PureComponent {
       shareScreenButton = (!isMobile && gDMSupported) && (<Button
         variant="fab"
         color="inherit"
-        aria-label="share screen"
         className={classNames(
           classes.shareScreenButton,
           {
@@ -1035,7 +1072,6 @@ class CallView extends React.PureComponent {
       muteMicButton = gUMSupported && (<Button
         variant="fab"
         color="inherit"
-        aria-label="hangup"
         className={classes.muteMicButton}
         onClick={this.handleMuteMicClick()}
       >
@@ -1100,7 +1136,10 @@ class CallView extends React.PureComponent {
 
     if (!connected) {
       icons.unshift(
-        <Tooltip title="No connection - check your internet connection." key="offline-icon" >
+        <Tooltip
+          title={intl.formatMessage(translations.noConnectionTooltipTitle)}
+          key="offline-icon"
+        >
           <OfflineIcon color="error"/>
         </Tooltip>
       );
@@ -1113,7 +1152,6 @@ class CallView extends React.PureComponent {
         {channel && <Button
           variant="fab"
           color="inherit"
-          aria-label="hangup"
           className={classes.hangupButton}
           onClick={this.handleHangupClick}
         >
@@ -1139,8 +1177,8 @@ class CallView extends React.PureComponent {
                       onChange={this.handleTabChange}
                       centered
                     >
-                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} label="Recents" />
-                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} label="Contacts" />
+                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} label={intl.formatMessage(translations.tabLabelRecents)} />
+                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
                     </Tabs>
                     { openTab === 'recents' ?
                       <Recents
@@ -1163,7 +1201,7 @@ class CallView extends React.PureComponent {
                     <Button
                       variant="fab"
                       className={classes.fab}
-                      aria-label="add"
+                      aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
                       color="primary"
                       onClick={this.handleFabClick}
                     >
@@ -1225,7 +1263,7 @@ class CallView extends React.PureComponent {
     dialogs.push(
       <FullscreenDialog
         key="new-call"
-        topTitle="New call"
+        topTitle={intl.formatMessage(translations.newCallDialogTopTitle)}
         topElevation={0}
         open={openDialogs.newCall || false}
         onClose={() => { this.openDialog({newCall: false}); }}
@@ -1245,7 +1283,7 @@ class CallView extends React.PureComponent {
     dialogs.push(
       <FullscreenDialog
         key="new-public-group"
-        topTitle="Public group"
+        topTitle={intl.formatMessage(translations.newPublicGroupDialogTopTitle)}
         topElevation={0}
         open={openDialogs.newPublicGroup || false}
         onClose={() => { this.openDialog({newPublicGroup: false}); }}
@@ -1286,7 +1324,7 @@ class CallView extends React.PureComponent {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
             </ListItem>
             <Hidden mdUp>
               <AppsSwitcherListItem/>
@@ -1320,6 +1358,7 @@ class CallView extends React.PureComponent {
 
 CallView.propTypes = {
   classes: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 
   history: PropTypes.object.isRequired,
 
@@ -1519,4 +1558,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(CallView));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(CallView)));
