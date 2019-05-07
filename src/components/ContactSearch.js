@@ -298,7 +298,11 @@ class ContactSearch extends React.PureComponent {
         <ListItem className={classes.message}>
           <ListItemText>
             <Typography variant="caption" align="center">
-              {searching ? <FormattedMessage id="contactSearch.messageSearchingForContacts" defaultMessage="Searching for contacts ..."/> : <FormattedMessage id="contactSearch.messageLoadingContacts" defaultMessage="Loading contacts ..."/>}
+              {searching ?
+                <FormattedMessage id="contactSearch.messageSearchingForContacts" defaultMessage="Searching for contacts ..."/>
+                :
+                <FormattedMessage id="contactSearch.messageLoadingContacts" defaultMessage="Loading contacts ..."/>
+              }
             </Typography>
           </ListItemText>
         </ListItem>
