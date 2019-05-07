@@ -1,6 +1,8 @@
 // NOTE(longsleep): This loads all translation files to be included in the
 // app bundle. They are not that large.
 
+import { defineLocales } from 'kpop/i18n/locales';
+
 // Please keep imports and exports alphabetically sorted.
 import de from './de.json';
 import es from './es.json';
@@ -13,7 +15,7 @@ import nl from './nl.json';
 import ptPT from './pt_PT.json';
 import ru from './ru.json';
 
-export default {
+const locales = {
   de,
   es,
   fr,
@@ -26,3 +28,5 @@ export default {
   'pt-pt': ptPT,
   ru,
 };
+
+export default defineLocales(locales);
