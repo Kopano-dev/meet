@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-05-06T14:32:28.917Z\n"
-"PO-Revision-Date: 2019-05-06 11:36+0200\n"
-"Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
-"Language-Team: Dutch\n"
+"PO-Revision-Date: 2019-05-09 13:26+0000\n"
+"Last-Translator: Bob <b.huisman@kopano.com>\n"
+"Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: react-intl-po\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.4\n"
 
 #. [incomingCallDialog.acceptVoiceCallButton.text]
 #. defaultMessage is:
@@ -18,7 +18,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.acceptVoiceCallButton.text"
 msgid "Accept call"
-msgstr ""
+msgstr "Oproep aannemen"
 
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
@@ -26,7 +26,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept video"
-msgstr ""
+msgstr "Videooproep aannemen"
 
 #. [contactControl.voiceCallButton.text]
 #. defaultMessage is:
@@ -34,7 +34,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.text"
 msgid "Call"
-msgstr ""
+msgstr "Oproep"
 
 #. [groupControl.voiceCallButton.text]
 #. defaultMessage is:
@@ -42,7 +42,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.text"
 msgid "Call"
-msgstr ""
+msgstr "Oproep"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -50,7 +50,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr ""
+msgstr "Oproep"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -58,7 +58,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #. [contactControl.closeButton.text]
 #. defaultMessage is:
@@ -66,7 +66,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.closeButton.text"
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
@@ -74,7 +74,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #. [groupControl.closeButton.text]
 #. defaultMessage is:
@@ -82,7 +82,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.closeButton.text"
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #. [callView.tabContacts.label]
 #. defaultMessage is:
@@ -90,7 +90,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabContacts.label"
 msgid "Contacts"
-msgstr ""
+msgstr "Contactpersonen"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -98,7 +98,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Create"
-msgstr ""
+msgstr "Aanmaken"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -106,7 +106,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr ""
+msgstr "Verwijderen"
 
 #. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
@@ -114,7 +114,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Enter a public group"
-msgstr ""
+msgstr "Deelnemen aan publieke groep"
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -122,7 +122,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr ""
+msgstr "Contacten laden mislukt."
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -130,7 +130,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr ""
+msgstr "Inkomende oproep"
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -138,7 +138,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
+msgstr "Contacten laden ..."
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -146,7 +146,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
+msgstr "Meer"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
@@ -154,7 +154,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "New Public Group"
-msgstr ""
+msgstr "Nieuwe Publieke Groep"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -162,7 +162,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr ""
+msgstr "Nieuwe oproep"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -170,7 +170,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr ""
+msgstr "Geen verbinding - controleer je internetverbinding."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -178,7 +178,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr ""
+msgstr "Geen contacten met selecteerde criteria."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -186,7 +186,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
-msgstr ""
+msgstr "Geen toegang tot de server"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
@@ -194,7 +194,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
-msgstr ""
+msgstr "Publieke groep"
 
 #. [callView.tabRecents.label]
 #. defaultMessage is:
@@ -202,7 +202,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabRecents.label"
 msgid "Recents"
-msgstr ""
+msgstr "Recent"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -210,7 +210,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
-msgstr ""
+msgstr "Afwijzen"
 
 #. [contactSearch.failedToLoad.retryButton.text]
 #. defaultMessage is:
@@ -218,7 +218,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
+msgstr "Opnieuw"
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -226,7 +226,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Search by name"
-msgstr ""
+msgstr "Zoeken op naam"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -234,7 +234,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
-msgstr ""
+msgstr "Zoeken naar contacten ..."
 
 #. [callView.settingsList.label]
 #. defaultMessage is:
@@ -242,7 +242,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsList.label"
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #. [groupControl.share.label]
 #. defaultMessage is:
@@ -250,7 +250,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.share.label"
 msgid "Share {scope}"
-msgstr ""
+msgstr "Delen {scope}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -258,7 +258,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr ""
+msgstr "Opgeschort"
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -266,7 +266,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr ""
+msgstr "Kon oproep niet accepteren"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -274,7 +274,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr ""
+msgstr "Kon oproep niet starten"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -282,7 +282,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr ""
+msgstr "Kon niet deelnemen"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -290,7 +290,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.unknownUser.text"
 msgid "Unknown user"
-msgstr ""
+msgstr "Onbekende gebruiker"
 
 #. [displayNameLabel.userWithIndex.text]
 #. defaultMessage is:
@@ -298,7 +298,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
-msgstr ""
+msgstr "Gebruiker {idx}"
 
 #. [contactControl.videoCallButton.text]
 #. defaultMessage is:
@@ -306,7 +306,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.videoCallButton.text"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. [groupControl.videoCallButton.text]
 #. defaultMessage is:
@@ -314,7 +314,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.videoCallButton.text"
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. [recents.videoCallButton.aria]
 #. defaultMessage is:
@@ -322,7 +322,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Videooproep"
 
 #. [recents.voiceCallButton.aria]
 #. defaultMessage is:
@@ -330,7 +330,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Audio oproep"
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -338,7 +338,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
+msgstr "Je oproep historie is leeg."
 
 #. [snacks.callRejected.message]
 #. defaultMessage is:
@@ -346,7 +346,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "snacks.callRejected.message"
 msgid "Your call was rejected"
-msgstr ""
+msgstr "Je oproep is afgewezen"
 
 #. [snacks.callRejectedBusy.message]
 #. defaultMessage is:
@@ -354,7 +354,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "snacks.callRejectedBusy.message"
 msgid "Your call was rejected (busy)"
-msgstr ""
+msgstr "Je oproep is afgewezen (in gesprek)"
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -362,7 +362,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted"
-msgstr ""
+msgstr "Je microfoon is uitgeschakeld"
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -370,7 +370,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.fabButton.aria"
 msgid "add"
-msgstr ""
+msgstr "toevoegen"
 
 #. [scopeLabel.call.label]
 #. defaultMessage is:
@@ -378,7 +378,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.call.label"
 msgid "call"
-msgstr ""
+msgstr "bellen"
 
 #. [scopeLabel.conference.label]
 #. defaultMessage is:
@@ -386,7 +386,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.conference.label"
 msgid "conference"
-msgstr ""
+msgstr "conferentie"
 
 #. [recents.deleteSwipeButton.text]
 #. defaultMessage is:
@@ -394,7 +394,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr ""
+msgstr "verwijderen"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -402,7 +402,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.group.label"
 msgid "group"
-msgstr ""
+msgstr "groep"
 
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
@@ -410,7 +410,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
-msgstr ""
+msgstr "onbekend"
 
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
@@ -418,4 +418,4 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr ""
+msgstr "inschakelen"
