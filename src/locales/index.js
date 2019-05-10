@@ -40,6 +40,7 @@ const locales = enableLocales({
   'de',
   'en-GB',
   'en-US',
+  'nl',
 ]);
 
 export default locales;
