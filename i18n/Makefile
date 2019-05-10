@@ -2,6 +2,7 @@
 
 YARN ?= yarn
 MSGMERGE ?= msgmerge
+MSGFMT ?= msgfmt
 
 # Variables
 
@@ -26,7 +27,7 @@ pot: i18n/src/messages.json
 		-c 'id'
 
 .PHONY: json
-json:
+json: i18n/src/messages.json
 	$(YARN) rip po2json './i18n/*.po' \
 		-m './i18n/src/**/*.json' \
 		-o './src/locales/' \
@@ -35,6 +36,11 @@ json:
 
 .PHONY: merge
 merge: $(POS)
+
+.PHONY: stats
+stats:
+	$(foreach po, $(POS), $(shell $(MSGFMT) -v --statistics $(po)))
+	@- true
 
 $(POS): FORCE messages.pot
 	$(MSGMERGE) -U \
