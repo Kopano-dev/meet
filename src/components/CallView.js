@@ -301,8 +301,8 @@ const styles = theme => ({
   tabs: {
   },
   tab: {
-    maxWidth: 90,
-    minWidth: 90,
+    maxWidth: 120,
+    minWidth: 120,
   },
   menuContainer: {
     flex: 1,

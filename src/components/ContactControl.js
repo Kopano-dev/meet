@@ -41,9 +41,6 @@ const styles = (theme) => ({
   },
   close: {
     marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: -8,
-    },
   },
 });
 
