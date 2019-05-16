@@ -57,11 +57,13 @@ const getSupportedConstraints = () => {
   // NOTE(longsleep): iOS Safari does not like all video resolutions and frame
   // rates. For now we just disable thse corresponding constraints to ensure
   // the correct camera is selected and all.
+  // Also disable facingMode since it has apparently stopped to function.
   if (adapter.browserDetails.browser === 'safari') {
     Object.assign(supportedConstraints, {
       height: false,
       width: false,
       frameRate: false,
+      facingMode: false,
     });
   }
 
@@ -267,7 +269,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
     // Generate constraints for requested devices filtered by existing devices.
     return enumerateDeviceSupport(currentSettings).then(({ videoSource, audioSource }) => {
       console.info('requestUserMedia devices', idx, status, // eslint-disable-line no-console
-        {video: videoSource && true, audio: audioSource && true});
+        {video: videoSource !== null, audio: audioSource !== null});
       if (idx !== status.idx) {
         console.debug('requestUserMedia is outdated after enumerateDevices', // eslint-disable-line no-console
           idx, status);
@@ -309,11 +311,14 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       }
 
       // Apply.
-      if (video && videoSource) {
+      if (video && videoSource !== null) {
+        if (videoConstraints.advanced.length === 0) {
+          delete videoConstraints.advanced;
+        }
         constraints.video = videoConstraints;
       } else
         constraints.video = false;
-      if (audio && audioSource) {
+      if (audio && audioSource !== null) {
         constraints.audio = audioConstraints;
       } else {
         constraints.audio = false;
