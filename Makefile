@@ -3,7 +3,6 @@ PACKAGE_NAME = kopano-meet
 # Tools
 
 YARN ?= yarn
-
 CHGLOG ?= git-chglog
 
 # Variables
@@ -74,13 +73,14 @@ dist:  3rdparty-LICENSES.md ; $(info building dist tarball ...)
 	cp -avf ../LICENSE.txt "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../3rdparty-LICENSES.md "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../README.md "${PACKAGE_NAME}-${VERSION}" && \
+	cp -avf ../CHANGELOG.md "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../config.json.in "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avf ../Caddyfile.example "${PACKAGE_NAME}-${VERSION}" && \
 	cp -avr ../build "${PACKAGE_NAME}-${VERSION}/meet-webapp" && \
 	tar --owner=0 --group=0 -czvf ${PACKAGE_NAME}-${VERSION}.tar.gz "${PACKAGE_NAME}-${VERSION}" && \
 	cd ..
 
-.PHONE: changelog
+.PHONY: changelog
 changelog: ; $(info updating changelog ...)
 	$(CHGLOG) --output CHANGELOG.md
 

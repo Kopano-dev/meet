@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+
+
+## v0.20.0 (2019-05-16)
+
+- Update kpop to 0.19.0
+- Bring back iOS Safari compatibility
+- Update webrtc-adapter to latest release
+- Use Meet colors in theme
+- Enable Dutch translation in production build
+- Only enable i18n for languages which are complete
+- Ensure proper i18n build
+- Fixup minor style issues after MUI update
+- Update more dependencies
+- Update kpop and dependencies to latest
+- Translated using Weblate (Dutch)
+- Make linter happy
+- Ensure to build i18n as dependency for build
+- Build with node:10
+- Update kpop and import its translatiosn too
+- Add translations and translate to German
+- Add translation checks to linter
+- add translation framework
 - Deduplicate external dependencies
 - fix ordering of arguments
 
