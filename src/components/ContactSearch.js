@@ -73,6 +73,18 @@ const styles = theme => ({
       background: theme.palette.action.hover,
     },
   },
+  entryContainer: {
+    '& $actions': {
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    '&:hover $actions': {
+      [theme.breakpoints.up('md')]: {
+        display: 'block',
+      },
+    },
+  },
   actions: {
     '& > *': {
       marginLeft: -12,
@@ -340,7 +352,7 @@ class ContactSearch extends React.PureComponent {
 
     const header = <React.Fragment>
       <Paper square elevation={embedded ? 0 : 4}>
-        <Toolbar className={classes.search}>
+        <Toolbar className={classes.search} disableGutters={embedded}>
           <TextField
             fullWidth
             autoFocus
@@ -380,7 +392,7 @@ class ContactSearch extends React.PureComponent {
             {items.map((contact, idx) =>
               <ListItem
                 ContainerComponent={ContactListItem}
-                ContainerProps={{idx, search: !!query}}
+                ContainerProps={{idx, search: !!query, className: classes.entryContainer}}
                 button
                 key={contact.id}
                 className={classes.entry}

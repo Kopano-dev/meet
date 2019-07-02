@@ -9,6 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import Moment from 'react-moment';
 
@@ -59,6 +61,18 @@ const styles = theme => ({
       background: theme.palette.action.hover,
     },
   },
+  entryContainer: {
+    '& $actions': {
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    '&:hover $actions': {
+      [theme.breakpoints.up('md')]: {
+        display: 'block',
+      },
+    },
+  },
   actions: {
     '& > *': {
       marginLeft: -12,
@@ -66,6 +80,12 @@ const styles = theme => ({
   },
   centered: {
     textAlign: 'center',
+  },
+  vertialAlignMiddle: {
+    verticalAlign: 'middle',
+  },
+  withBackground: {
+    background: 'white',
   },
   deleteSwiper: {
     backgroundColor: 'red',
@@ -187,7 +207,14 @@ class Recents extends React.PureComponent {
     return (
       <div className={className}>
         <div className={classes.entries}>
-          <List disablePadding>
+          <List
+            disablePadding
+            subheader={
+              <ListSubheader component="div" className={classes.withBackground}>
+                <FormattedMessage id="recents.subheaderLabel" defaultMessage="Recent"></FormattedMessage> <ArrowDropDownIcon className={classes.vertialAlignMiddle}/>
+              </ListSubheader>
+            }
+          >
             {items.map((entry) =>
               <Swipeout
                 key={entry.rid}
@@ -201,7 +228,12 @@ class Recents extends React.PureComponent {
                   },
                 ]}
               >
-                <ListItem button onClick={this.handleEntryClick(entry)} className={classes.entry}>
+                <ListItem
+                  button
+                  onClick={this.handleEntryClick(entry)}
+                  className={classes.entry}
+                  ContainerProps={{className: classes.entryContainer}}
+                >
                   <RecentsEntryPersona entry={entry}/>
                   <ListItemText
                     primary={<ContactLabel contact={entry} id={entry.id}/>}

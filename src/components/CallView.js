@@ -7,8 +7,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import HistoryIcon from '@material-ui/icons/History';
-import PeopleIcon from '@material-ui/icons/People';
+import CallIcon from '@material-ui/icons/Call';
+import ContactsIcon from '@material-ui/icons/Contacts';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import CamIcon from '@material-ui/icons/Videocam';
@@ -44,6 +44,7 @@ import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 import { parseQuery } from 'kpop/es/utils';
+import MasterButton from 'kpop/es/MasterButton/MasterButton';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
@@ -91,6 +92,8 @@ const minimalHeightDownBreakpoint = '@media (max-height:275px)';
 const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
+
+const drawerWidth = 358;
 
 const screenShareScreenID = 'screen1';
 
@@ -140,6 +143,42 @@ const styles = theme => ({
     },
     [`${theme.breakpoints.up('sm')} and (orientation: landscape)`]: {
       marginTop: 64,
+    },
+  },
+  content: {
+    position: 'relative',
+    flex: 1,
+    display: 'flex',
+    minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  'content-left': {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 0,
+    },
+  },
+  'content-right': {
+    [theme.breakpoints.up('md')]: {
+      marginRight: 0,
+    },
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'contentShift-left': {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: drawerWidth,
+    },
+  },
+  'contentShift-right': {
+    [theme.breakpoints.up('md')]: {
+      marginRight: drawerWidth,
     },
   },
   flexDirectionRow: {
@@ -293,12 +332,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
-    [deskopWidthBreakpoint]: {
-      flex: 0,
-      minWidth: 385,
-    },
   },
   tabs: {
+    borderTop: '1px solid #eee',
+    borderBottom: '1px solid #eee',
   },
   tab: {
   },
@@ -310,13 +347,17 @@ const styles = theme => ({
     position: 'relative',
   },
   mainView: {
-    margin: '10px auto 0 auto',
+    margin: '0 auto 0 auto',
     maxWidth: 450,
     width: '100%',
     minWidth: 300,
     flex: 1,
     flexGrow: 1,
     flexShrink: 1,
+  },
+  contactSearchView: {
+    background: 'white',
+    paddingTop: 10,
     [minimalHeightDownBreakpoint]: {
       paddingTop: 0,
     },
@@ -330,16 +371,25 @@ const styles = theme => ({
   searchButton: {
     display: 'none',
   },
+  navDrawer: {
+  },
   drawerPaper: {
-    width: 300,
+    width: 250,
     height: 'auto',
     position: 'absolute',
     top: 64,
     bottom: 0,
     paddingTop: 1,
+    backgroundColor: theme.palette.background.default,
+    [theme.breakpoints.up('md')]: {
+      width: drawerWidth,
+    },
     [theme.breakpoints.down('sm')]: {
       top: 56,
     },
+  },
+  masterButton: {
+    margin: `${theme.spacing.unit * 2}px 24px 12px 24px`,
   },
 });
 
@@ -352,9 +402,9 @@ const translations = defineMessages({
     id: 'callView.noConnectionTooltip.title',
     defaultMessage: 'No connection - check your internet connection.',
   },
-  tabLabelRecents: {
-    id: 'callView.tabRecents.label',
-    defaultMessage: 'Recents',
+  tabLabelCalls: {
+    id: 'callView.tabCalls.label',
+    defaultMessage: 'Calls',
   },
   tabLabelContacts: {
     id: 'callView.tabContacts.label',
@@ -363,6 +413,10 @@ const translations = defineMessages({
   fabButtonAriaLabel: {
     id: 'callView.fabButton.aria',
     defaultMessage: 'add',
+  },
+  masterButtonLabel: {
+    id: 'callView.masterButton.label',
+    defaultMessage: 'New call',
   },
   newCallDialogTopTitle: {
     id: 'callView.newCallDialog.topTitle',
@@ -397,8 +451,9 @@ class CallView extends React.PureComponent {
       shareScreen: false,
       rumFailed: false,
       rdmFailed: false,
+      sidebarOpen: true,
+      sidebarMobileOpen: false,
       openDialogs: {},
-      openMenu: false,
       openTab: 'recents',
     };
 
@@ -494,6 +549,9 @@ class CallView extends React.PureComponent {
           });
         }
       }, 5000);
+      this.setState({
+        sidebarOpen: false,
+      });
       if (muteMic) {
         this.notifyBySnack(intl.formatMessage(translations.microphoneIsMutedSnack), {
           button: <Button
@@ -505,10 +563,11 @@ class CallView extends React.PureComponent {
           </Button>,
         });
       }
-    } else if (!channel && withChannel) {
+    } else if (!channel && (withChannel || prevProps.channel)) {
       // No channel.
       this.setState({
         withChannel: false,
+        sidebarOpen: true,
       });
     }
   }
@@ -651,11 +710,10 @@ class CallView extends React.PureComponent {
     doReject(id);
   }
 
-  handleMenuAnchorClick = () => {
-    const { openMenu } = this.state;
-
+  handleSidebarToggle = () => {
     this.setState({
-      openMenu: !openMenu,
+      sidebarOpen: !this.state.sidebarOpen,
+      sidebarMobileOpen: !this.state.sidebarMobileOpen,
     });
   }
 
@@ -1015,8 +1073,11 @@ class CallView extends React.PureComponent {
       gUMSupported,
       gDMSupported,
       intl,
+      theme,
     } = this.props;
-    const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, openMenu, openTab } = this.state;
+    const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
+
+    const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
     let controls = [];
     let icons = [];
@@ -1124,6 +1185,14 @@ class CallView extends React.PureComponent {
       </div>
     );
 
+    icons.push(
+      <Hidden smDown key='settings'>
+        <IconButton disabled className={classes.settingsButton}>
+          <SettingsIcon/>
+        </IconButton>
+      </Hidden>
+    );
+
     if (!guest) {
       icons.push(
         <Hidden smDown key='kopano-apps'>
@@ -1167,6 +1236,11 @@ class CallView extends React.PureComponent {
               <Switch>
                 <Route exact path="/r/call" render={() => (
                   <React.Fragment>
+                    <Hidden smDown>
+                      <MasterButton icon={<AddCallIcon />} onClick={this.handleFabClick} className={classes.masterButton}>
+                        {intl.formatMessage(translations.masterButtonLabel)}
+                      </MasterButton>
+                    </Hidden>
                     <Tabs
                       value={openTab}
                       className={classes.tabs}
@@ -1174,9 +1248,10 @@ class CallView extends React.PureComponent {
                       textColor="primary"
                       onChange={this.handleTabChange}
                       centered
+                      variant="fullWidth"
                     >
-                      <Tab value="recents" className={classes.tab} icon={<HistoryIcon />} label={intl.formatMessage(translations.tabLabelRecents)} />
-                      <Tab value="people" className={classes.tab} icon={<PeopleIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
+                      <Tab value="recents" className={classes.tab} icon={<CallIcon />} label={intl.formatMessage(translations.tabLabelCalls)} />
+                      <Tab value="people" className={classes.tab} icon={<ContactsIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
                     </Tabs>
                     { openTab === 'recents' ?
                       <Recents
@@ -1185,7 +1260,7 @@ class CallView extends React.PureComponent {
                         onCallClick={this.handleFabClick}
                       /> :
                       <ContactSearch
-                        className={classes.mainView}
+                        className={classNames(classes.mainView, classes.contactSearchView)}
                         onEntryClick={(...args) => {
                           this.handleEntryClick(...args);
                           this.openDialog({newCall: false});
@@ -1196,15 +1271,17 @@ class CallView extends React.PureComponent {
                         embedded
                       ></ContactSearch>
                     }
-                    <Button
-                      variant="fab"
-                      className={classes.fab}
-                      aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
-                      color="primary"
-                      onClick={this.handleFabClick}
-                    >
-                      <AddCallIcon />
-                    </Button>
+                    <Hidden smUp>
+                      <Button
+                        variant="fab"
+                        className={classes.fab}
+                        aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
+                        color="primary"
+                        onClick={this.handleFabClick}
+                      >
+                        <AddCallIcon />
+                      </Button>
+                    </Hidden>
                   </React.Fragment>
                 )}/>
                 <Route exact
@@ -1295,6 +1372,27 @@ class CallView extends React.PureComponent {
       </FullscreenDialog>
     );
 
+    const drawer = <React.Fragment>
+      <Divider />
+      <Hidden smDown>
+        {menu}
+        <Divider/>
+      </Hidden>
+      <Hidden mdUp>
+        <List>
+          <ListItem button disabled>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
+          </ListItem>
+          <Hidden mdUp>
+            <AppsSwitcherListItem/>
+          </Hidden>
+        </List>
+      </Hidden>
+    </React.Fragment>;
+
     const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={rootClassName}>
@@ -1302,49 +1400,60 @@ class CallView extends React.PureComponent {
           className={topBarClassName}
           title="Meet"
           appLogo={<KopanoMeetIcon alt="Kopano"/>}
-          onAnchorClick={this.handleMenuAnchorClick}
+          onAnchorClick={this.handleSidebarToggle}
           user={profile}
         >
           {icons}
-          <IconButton disabled className={classes.searchButton}>
-            <SearchIcon/>
-          </IconButton>
         </TopBar>
-        <Drawer
-          variant="persistent"
-          open={openMenu}
-          classes={{
-            paper: classes.drawerPaper,
-          }}>
-          <Divider />
-          <List>
-            <ListItem button disabled>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
-            </ListItem>
-            <Hidden mdUp>
-              <AppsSwitcherListItem/>
-            </Hidden>
-          </List>
-        </Drawer>
-        <BackdropOverlay open={openMenu} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
-        <div className={classes.controls}>
-          {controls}
-        </div>
-        <div className={containerClassName}>
-          {screenShareViewer}
-          <CallGrid
-            onClick={this.handleCallGridClick}
-            className={callClassName}
-            mode={mode}
-            localStream={localStream}
-            remoteStreams={remoteAudioVideoStreams}
-            variant={screenShareViewer ? 'overlay': 'full'}
-            labels={!screenShareViewer}
-          />
-          {menu}
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor={anchor}
+            open={sidebarMobileOpen}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            onClose={this.handleSidebarToggle}
+          >
+            {drawer}
+          </Drawer>
+          <BackdropOverlay open={sidebarMobileOpen} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            variant="persistent"
+            anchor={anchor}
+            open={sidebarOpen}
+            className={classes.navDrawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <div
+          className={classNames(classes.content, classes[`content-${anchor}`], {
+            [classes.contentShift]: sidebarOpen,
+            [classes[`contentShift-${anchor}`]]: sidebarOpen,
+          })}
+        >
+          <div className={classes.controls}>
+            {controls}
+          </div>
+          <div className={containerClassName}>
+            {screenShareViewer}
+            <CallGrid
+              onClick={this.handleCallGridClick}
+              className={callClassName}
+              mode={mode}
+              localStream={localStream}
+              remoteStreams={remoteAudioVideoStreams}
+              variant={screenShareViewer ? 'overlay': 'full'}
+              labels={!screenShareViewer}
+            />
+            <Hidden mdUp>{menu}</Hidden>
+          </div>
         </div>
         {dialogs}
         <Howling label="ring2" playing={Object.keys(ringing).length > 0} loop/>
@@ -1358,6 +1467,7 @@ CallView.propTypes = {
   classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 
+  theme: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 
   hidden: PropTypes.bool.isRequired,

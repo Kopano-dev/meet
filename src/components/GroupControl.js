@@ -50,6 +50,7 @@ const styles = (theme) => ({
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     userSelect: 'none',
+    background: 'white',
   },
   base: {
     flex: 1,
