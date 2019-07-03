@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-05-06T14:32:28.917Z\n"
-"PO-Revision-Date: 2019-05-06 16:33+0200\n"
+"POT-Creation-Date: 2019-07-03T13:43:07.149Z\n"
+"PO-Revision-Date: 2019-07-03 15:44+0200\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -28,21 +28,21 @@ msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept video"
 msgstr "Video annehmen"
 
-#. [contactControl.voiceCallButton.text]
+#. [contactControl.backButton.aria]
 #. defaultMessage is:
-#. Call
+#. Back
 #: i18n/src/messages.json
-msgctxt "contactControl.voiceCallButton.text"
-msgid "Call"
-msgstr "Anrufen"
+msgctxt "contactControl.backButton.aria"
+msgid "Back"
+msgstr "Zurück"
 
-#. [groupControl.voiceCallButton.text]
+#. [groupControl.backButton.aria]
 #. defaultMessage is:
-#. Call
+#. Back
 #: i18n/src/messages.json
-msgctxt "groupControl.voiceCallButton.text"
-msgid "Call"
-msgstr "Anrufen"
+msgctxt "groupControl.backButton.aria"
+msgid "Back"
+msgstr "Zurück"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -52,6 +52,14 @@ msgctxt "recents.callButton.text"
 msgid "Call"
 msgstr "Anrufen"
 
+#. [callView.tabCalls.label]
+#. defaultMessage is:
+#. Calls
+#: i18n/src/messages.json
+msgctxt "callView.tabCalls.label"
+msgid "Calls"
+msgstr "Anrufe"
+
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
 #. Cancel
@@ -60,27 +68,11 @@ msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#. [contactControl.closeButton.text]
-#. defaultMessage is:
-#. Close
-#: i18n/src/messages.json
-msgctxt "contactControl.closeButton.text"
-msgid "Close"
-msgstr "Schließen"
-
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
 #. Close
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
-msgid "Close"
-msgstr "Schließen"
-
-#. [groupControl.closeButton.text]
-#. defaultMessage is:
-#. Close
-#: i18n/src/messages.json
-msgctxt "groupControl.closeButton.text"
 msgid "Close"
 msgstr "Schließen"
 
@@ -156,6 +148,14 @@ msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "New Public Group"
 msgstr "Neue Öffentliche Gruppe"
 
+#. [callView.masterButton.label]
+#. defaultMessage is:
+#. New call
+#: i18n/src/messages.json
+msgctxt "callView.masterButton.label"
+msgid "New call"
+msgstr "Neuer Anruf"
+
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
 #. New call
@@ -196,12 +196,12 @@ msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
 msgstr "Öffentliche Gruppe"
 
-#. [callView.tabRecents.label]
+#. [recents.subheaderLabel]
 #. defaultMessage is:
-#. Recents
+#. Recent
 #: i18n/src/messages.json
-msgctxt "callView.tabRecents.label"
-msgid "Recents"
+msgctxt "recents.subheaderLabel"
+msgid "Recent"
 msgstr "Verlauf"
 
 #. [incomingCallDialog.rejectButton.text]
@@ -300,21 +300,21 @@ msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
 msgstr "Benutzer {idx}"
 
-#. [contactControl.videoCallButton.text]
+#. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
-#. Video
+#. Video call
 #: i18n/src/messages.json
-msgctxt "contactControl.videoCallButton.text"
-msgid "Video"
-msgstr "Video"
+msgctxt "contactControl.videoCallButton.aria"
+msgid "Video call"
+msgstr "Videoanruf"
 
-#. [groupControl.videoCallButton.text]
+#. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
-#. Video
+#. Video call
 #: i18n/src/messages.json
-msgctxt "groupControl.videoCallButton.text"
-msgid "Video"
-msgstr "Video"
+msgctxt "groupControl.videoCallButton.aria"
+msgid "Video call"
+msgstr "Videoanruf"
 
 #. [recents.videoCallButton.aria]
 #. defaultMessage is:
@@ -323,6 +323,22 @@ msgstr "Video"
 msgctxt "recents.videoCallButton.aria"
 msgid "Video call"
 msgstr "Videoanruf"
+
+#. [contactControl.voiceCallButton.aria]
+#. defaultMessage is:
+#. Voice call
+#: i18n/src/messages.json
+msgctxt "contactControl.voiceCallButton.aria"
+msgid "Voice call"
+msgstr "Sprachanruf"
+
+#. [groupControl.voiceCallButton.aria]
+#. defaultMessage is:
+#. Voice call
+#: i18n/src/messages.json
+msgctxt "groupControl.voiceCallButton.aria"
+msgid "Voice call"
+msgstr "Sprachanruf"
 
 #. [recents.voiceCallButton.aria]
 #. defaultMessage is:
@@ -419,6 +435,26 @@ msgstr "unbekannt"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#~ msgctxt "groupControl.voiceCallButton.text"
+#~ msgid "Call"
+#~ msgstr "Anrufen"
+
+#~ msgctxt "contactControl.closeButton.text"
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgctxt "groupControl.closeButton.text"
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgctxt "contactControl.videoCallButton.text"
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgctxt "groupControl.videoCallButton.text"
+#~ msgid "Video"
+#~ msgstr "Video"
 
 #~ msgctxt "groupControl.callButton.text"
 #~ msgid "Call"
