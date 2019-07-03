@@ -6,16 +6,17 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
+import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import Persona from 'kpop/es/Persona';
 
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
@@ -35,14 +36,38 @@ const styles = (theme) => ({
   card: {
     background: theme.palette.background.default,
   },
+  avatar: {
+    margin: '0 auto',
+    marginBottom: 8,
+  },
+  header: {
+    paddingTop: 0,
+    textAlign: 'center',
+  },
   actions: {
     flex: 1,
+    justifyContent: 'center',
+    paddingBottom: theme.spacing.unit * 2,
   },
-  leftIcon: {
-    marginRight: theme.spacing.unit,
+  fabIcon: {
   },
   close: {
     marginLeft: 'auto',
+  },
+});
+
+const translations = defineMessages({
+  backAria: {
+    id: 'contactControl.backButton.aria',
+    defaultMessage: 'Back',
+  },
+  videocallAria: {
+    id: 'contactControl.videoCallButton.aria',
+    defaultMessage: 'Video call',
+  },
+  voicecallAria: {
+    id: 'contactControl.voiceCallButton.aria',
+    defaultMessage: 'Voice call',
   },
 });
 
@@ -63,6 +88,7 @@ class ContactControl extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
+      intl,
 
       entry,
       channel,
@@ -74,41 +100,43 @@ class ContactControl extends React.PureComponent {
     );
 
     const withActions = !channel;
+    const withClose = withActions;
 
     return (
       <div className={className}>
         <div className={classes.base}>
-          <List disablePadding>
-            <ListItem>
+          <Card elevation={0} className={classes.card}>
+            <CardActions>
+              {withClose && <IconButton aria-label={intl.formatMessage(translations.backAria)} onClick={this.handleCloseClick}>
+                <ArrowBackIcon />
+              </IconButton>}
+            </CardActions>
+            <CardContent className={classes.header}>
               <Persona
                 user={mapContactEntryToUserShape(entry)}
                 className={classes.avatar} />
-              <ListItemText primary={<ContactLabel contact={entry} id={entry.id}/>} secondary={entry.jobTitle} />
-            </ListItem>
-          </List>
-          <Card elevation={0} className={classes.card}>
+              <Typography variant="h6"><ContactLabel contact={entry} id={entry.id}/></Typography>
+              <Typography variant="body2">{entry.jobTitle}</Typography>
+            </CardContent>
             {withActions && <CardActions className={classes.actions}>
-              <Button
+              <Fab
                 color="primary"
+                size="medium"
+                aria-label={intl.formatMessage(translations.videocallAria)}
+                className={classes.fabIcon}
                 onClick={this.handleEntryClick('videocall')}
               >
-                <VideocamIcon className={classes.leftIcon} />
-                <FormattedMessage id="contactControl.videoCallButton.text" defaultMessage="Video"></FormattedMessage>
-              </Button>
-              <Button
+                <VideocamIcon />
+              </Fab>
+              <Fab
                 color="primary"
+                size="medium"
+                aria-label={intl.formatMessage(translations.voicecallAria)}
+                className={classes.fabIcon}
                 onClick={this.handleEntryClick('call')}
               >
-                <CallIcon className={classes.leftIcon} />
-                <FormattedMessage id="contactControl.voiceCallButton.text" defaultMessage="Call"></FormattedMessage>
-              </Button>
-              <Button
-                color="primary"
-                className={classes.close}
-                onClick={this.handleCloseClick}
-              >
-                <FormattedMessage id="contactControl.closeButton.text" defaultMessage="Close"></FormattedMessage>
-              </Button>
+                <CallIcon />
+              </Fab>
             </CardActions>}
           </Card>
         </div>

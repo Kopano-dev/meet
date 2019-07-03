@@ -66,6 +66,7 @@ const styles = theme => ({
     marginBottom: 8,
   },
   header: {
+    paddingTop: 0,
     textAlign: 'center',
   },
   actions: {
