@@ -440,7 +440,7 @@ ContactSearch.propTypes = {
 };
 
 function ContactListItem(props) {
-  const { idx, search, children, ...other} = props;
+  const { idx, search, children, ...other} = props; // eslint-disable-line react/prop-types
 
   const ref = search ? 's:' + idx : idx;
   return <li data-contact-ref={ref} {...other}>{children}</li>;

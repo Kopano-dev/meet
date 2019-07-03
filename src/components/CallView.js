@@ -17,7 +17,6 @@ import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
-import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -1480,6 +1479,7 @@ CallView.propTypes = {
   calling: PropTypes.object.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
+  fetchRecents: PropTypes.func.isRequired,
   requestDisplayMedia: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
   stopDisplayMedia: PropTypes.func.isRequired,
