@@ -1227,98 +1227,98 @@ class CallView extends React.PureComponent {
       </div>
     );
 
-    if (!channel) {
-      menu = (
-        <div className={classes.menu}>
-          {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
-            <div className={classes.menuContainer}>
-              <Switch>
-                <Route exact path="/r/call" render={() => (
-                  <React.Fragment>
-                    <Hidden smDown>
-                      <MasterButton icon={<AddCallIcon />} onClick={this.handleFabClick} className={classes.masterButton}>
-                        {intl.formatMessage(translations.masterButtonLabel)}
-                      </MasterButton>
-                    </Hidden>
-                    <Tabs
-                      value={openTab}
-                      className={classes.tabs}
-                      indicatorColor="primary"
-                      textColor="primary"
-                      onChange={this.handleTabChange}
-                      centered
-                      variant="fullWidth"
-                    >
-                      <Tab value="recents" className={classes.tab} icon={<CallIcon />} label={intl.formatMessage(translations.tabLabelCalls)} />
-                      <Tab value="people" className={classes.tab} icon={<ContactsIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
-                    </Tabs>
-                    { openTab === 'recents' ?
-                      <Recents
-                        className={classes.mainView}
-                        onEntryClick={this.handleEntryClick}
-                        onCallClick={this.handleFabClick}
-                      /> :
-                      <ContactSearch
-                        className={classNames(classes.mainView, classes.contactSearchView)}
-                        onEntryClick={(...args) => {
-                          this.handleEntryClick(...args);
-                          this.openDialog({newCall: false});
-                        }}
-                        onActionClick={(action) => {
-                          this.handleDialogActionClick(action);
-                        }}
-                        embedded
-                      ></ContactSearch>
-                    }
-                    <Hidden smUp>
-                      <Button
-                        variant="fab"
-                        className={classes.fab}
-                        aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
-                        color="primary"
-                        onClick={this.handleFabClick}
-                      >
-                        <AddCallIcon />
-                      </Button>
-                    </Hidden>
-                  </React.Fragment>
-                )}/>
-                <Route exact
-                  path="/r/call/:id(.*)"
-                  render={({ match, location, ...other }) => {
-                    const { entry } = location.state ? location.state : {};
-                    if (!entry || entry.id !== match.params.id) {
-                      return <Redirect to="/r/call"/>;
-                    }
-                    return <ContactControl
+    menu = (
+      <div className={classes.menu}>
+        {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
+          <div className={classes.menuContainer}>
+            <Switch>
+              <Route exact path="/r/call" render={() => (
+                <React.Fragment>
+                  <Hidden smDown>
+                    <MasterButton icon={<AddCallIcon />} onClick={this.handleFabClick} className={classes.masterButton}>
+                      {intl.formatMessage(translations.masterButtonLabel)}
+                    </MasterButton>
+                  </Hidden>
+                  <Tabs
+                    value={openTab}
+                    className={classes.tabs}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    onChange={this.handleTabChange}
+                    centered
+                    variant="fullWidth"
+                  >
+                    <Tab value="recents" className={classes.tab} icon={<CallIcon />} label={intl.formatMessage(translations.tabLabelCalls)} />
+                    <Tab value="people" className={classes.tab} icon={<ContactsIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
+                  </Tabs>
+                  { openTab === 'recents' ?
+                    <Recents
                       className={classes.mainView}
                       onEntryClick={this.handleEntryClick}
-                      entry={entry}
-                      {...other}
-                    />;
-                  }}
-                />
-                <Route exact
-                  path="/r/:scope(conference|group)/:id(.*)?"
-                  render={({ match, ...other }) => {
-                    return <GroupControl
-                      className={classes.mainView}
-                      onEntryClick={this.handleEntryClick}
-                      group={{
-                        scope: match.params.scope,
-                        id: match.params.id,
+                      onCallClick={this.handleFabClick}
+                    /> :
+                    <ContactSearch
+                      className={classNames(classes.mainView, classes.contactSearchView)}
+                      onEntryClick={(...args) => {
+                        this.handleEntryClick(...args);
+                        this.openDialog({newCall: false});
                       }}
-                      {...other}
-                    />;
-                  }}
-                />
-                <Redirect to="/r/call"/>
-              </Switch>
-            </div>
-          ))}
-        </div>
-      );
-    }
+                      onActionClick={(action) => {
+                        this.handleDialogActionClick(action);
+                      }}
+                      embedded
+                    ></ContactSearch>
+                  }
+                  <Hidden smUp>
+                    <Button
+                      variant="fab"
+                      className={classes.fab}
+                      aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
+                      color="primary"
+                      onClick={this.handleFabClick}
+                    >
+                      <AddCallIcon />
+                    </Button>
+                  </Hidden>
+                </React.Fragment>
+              )}/>
+              <Route exact
+                path="/r/call/:id(.*)"
+                render={({ match, location, ...other }) => {
+                  const { entry } = location.state ? location.state : {};
+                  if (!entry || entry.id !== match.params.id) {
+                    return <Redirect to="/r/call"/>;
+                  }
+                  return <ContactControl
+                    className={classes.mainView}
+                    onEntryClick={this.handleEntryClick}
+                    entry={entry}
+                    channel={channel}
+                    {...other}
+                  />;
+                }}
+              />
+              <Route exact
+                path="/r/:scope(conference|group)/:id(.*)?"
+                render={({ match, ...other }) => {
+                  return <GroupControl
+                    className={classes.mainView}
+                    onEntryClick={this.handleEntryClick}
+                    channel={channel}
+                    group={{
+                      scope: match.params.scope,
+                      id: match.params.id,
+                    }}
+                    {...other}
+                  />;
+                }}
+              />
+              <Redirect to="/r/call"/>
+            </Switch>
+          </div>
+        ))}
+      </div>
+    );
 
     for (const id in ringing) {
       const record = ringing[id];

@@ -7,21 +7,24 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PublicConferenceIcon from '@material-ui/icons/Group';
-import Chip from '@material-ui/core/Chip';
-import LinkIcon from '@material-ui/icons/Link';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
+import Fab from '@material-ui/core/Fab';
+import Typography from '@material-ui/core/Typography';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ShareIcon from '@material-ui/icons/Share';
 
 import Persona from 'kpop/es/Persona';
 import { parseQuery } from 'kpop/es/utils';
 
-import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import { getCurrentAppPath } from '../base';
 import { writeTextToClipboard } from '../clipboard';
@@ -44,26 +47,35 @@ const getAutoSettingsFromURL = () => {
 // Fetch auto settings once, on startup.
 const autoSettings = getAutoSettingsFromURL();
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     userSelect: 'none',
-    background: 'white',
+    background: theme.palette.background.default,
   },
   base: {
     flex: 1,
   },
   card: {
+    background: theme.palette.background.default,
+  },
+  avatar: {
+    margin: '0 auto',
+    marginBottom: 8,
+  },
+  header: {
+    textAlign: 'center',
   },
   actions: {
     flex: 1,
+    justifyContent: 'center',
+    paddingBottom: theme.spacing.unit * 2,
   },
-  leftIcon: {
-    marginRight: theme.spacing.unit,
+  fabIcon: {
   },
-  close: {
+  burger: {
     marginLeft: 'auto',
   },
 });
@@ -72,6 +84,18 @@ const translations = defineMessages({
   shareLabel: {
     id: 'groupControl.share.label',
     defaultMessage: 'Share {scope}',
+  },
+  backAria: {
+    id: 'groupControl.backButton.aria',
+    defaultMessage: 'Back',
+  },
+  videocallAria: {
+    id: 'groupControl.videoCallButton.aria',
+    defaultMessage: 'Video call',
+  },
+  voicecallAria: {
+    id: 'groupControl.voiceCallButton.aria',
+    defaultMessage: 'Voice call',
   },
 });
 
@@ -106,10 +130,23 @@ class GroupControl extends React.PureComponent {
     }
   }
 
-  handleEntryClick = (mode) => () => {
+  handleEntryClick = (mode) => (event) => {
     const { group, onEntryClick } = this.props;
 
-    onEntryClick(group, 'group', mode);
+    switch(mode) {
+      case 'more':
+        this.setState({
+          entryMenuAnchorEl: event.target,
+        });
+        return;
+
+      case 'share':
+        this.handleCopyLinkClick();
+        return;
+
+      default:
+        onEntryClick(group, 'group', mode);
+    }
   };
 
   handleCloseClick = () => {
@@ -117,6 +154,17 @@ class GroupControl extends React.PureComponent {
 
     pushHistory(history, '/r/call');
   };
+
+  handleEntryMenuClose = () => {
+    this.setState({
+      entryMenuAnchorEl: null,
+    });
+  }
+
+  handleEntryMenuClick = (mode) => (event) => {
+    this.handleEntryMenuClose();
+    this.handleEntryClick(mode)(event);
+  }
 
   handleCopyLinkClick = () => {
     const { url } = this.state;
@@ -129,6 +177,7 @@ class GroupControl extends React.PureComponent {
   };
 
   render() {
+    const { entryMenuAnchorEl } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -136,6 +185,7 @@ class GroupControl extends React.PureComponent {
 
       guest,
       group,
+      channel,
     } = this.props;
 
     const className = classNames(
@@ -143,56 +193,65 @@ class GroupControl extends React.PureComponent {
       classNameProp,
     );
 
-    const withClose = !guest;
+    const withActions = !channel;
+    const withClose = !guest && withActions;
 
     return (
       <div className={className}>
         <div className={classes.base}>
-          <List disablePadding>
-            <ListItem>
+          <Card elevation={0} className={classes.card}>
+            <CardActions>
+              {withClose && <IconButton aria-label={intl.formatMessage(translations.backAria)} onClick={this.handleCloseClick}>
+                <ArrowBackIcon />
+              </IconButton>}
+              <IconButton aria-label="More" className={classes.burger} onClick={this.handleEntryClick('more')}>
+                <MoreVertIcon />
+              </IconButton>
+            </CardActions>
+            <CardContent className={classes.header}>
               <Persona
                 user={mapGroupEntryToUserShape(group)}
                 forceIcon
                 icon={<PublicConferenceIcon/>}
                 className={classes.avatar} />
-              <ListItemText primary={group.id} secondary={<ScopeLabel scope={group.scope} capitalize/>} />
-            </ListItem>
-          </List>
-          <Card elevation={0} className={classes.card}>
-            <CardContent>
-              <Chip
-                className={classes.chip}
-                avatar={<Avatar><LinkIcon/></Avatar>}
-                label={intl.formatMessage(translations.shareLabel, {
-                  scope: formatScopeLabel(intl, group.scope),
-                })}
-                onClick={this.handleCopyLinkClick}
-              />
+              <Typography variant="h6">{group.id}</Typography>
+              <Typography variant="body2"><ScopeLabel scope={group.scope} capitalize/></Typography>
             </CardContent>
-            <CardActions className={classes.actions}>
-              <Button
+            {withActions && <CardActions className={classes.actions}>
+              <Fab
                 color="primary"
+                size="medium"
+                aria-label={intl.formatMessage(translations.videocallAria)}
+                className={classes.fabIcon}
                 onClick={this.handleEntryClick('videocall')}
               >
-                <VideocamIcon className={classes.leftIcon} />
-                <FormattedMessage id="groupControl.videoCallButton.text" defaultMessage="Video"></FormattedMessage>
-              </Button>
-              <Button
+                <VideocamIcon />
+              </Fab>
+              <Fab
                 color="primary"
+                size="medium"
+                aria-label={intl.formatMessage(translations.voicecallAria)}
+                className={classes.fabIcon}
                 onClick={this.handleEntryClick('call')}
               >
-                <CallIcon className={classes.leftIcon} />
-                <FormattedMessage id="groupControl.voiceCallButton.text" defaultMessage="Call"></FormattedMessage>
-              </Button>
-              {withClose && <Button
-                color="primary"
-                className={classes.close}
-                onClick={this.handleCloseClick}
-              >
-                <FormattedMessage id="groupControl.closeButton.text" defaultMessage="Close"></FormattedMessage>
-              </Button>}
-            </CardActions>
+                <CallIcon />
+              </Fab>
+            </CardActions>}
           </Card>
+          <Menu
+            anchorEl={entryMenuAnchorEl}
+            open={Boolean(entryMenuAnchorEl)}
+            onClose={this.handleEntryMenuClose}
+          >
+            <MenuItem onClick={this.handleEntryMenuClick('share')}>
+              <ListItemIcon>
+                <ShareIcon />
+              </ListItemIcon>
+              <ListItemText inset primary={intl.formatMessage(translations.shareLabel, {
+                scope: formatScopeLabel(intl, group.scope),
+              })} />
+            </MenuItem>
+          </Menu>
         </div>
       </div>
     );
@@ -207,6 +266,8 @@ GroupControl.propTypes = {
   group: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   guest: PropTypes.bool.isRequired,
+
+  channel: PropTypes.string,
 
   onEntryClick: PropTypes.func,
 };

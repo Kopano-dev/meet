@@ -27,12 +27,13 @@ const styles = (theme) => ({
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     userSelect: 'none',
-    background: 'white',
+    background: theme.palette.background.default,
   },
   base: {
     flex: 1,
   },
   card: {
+    background: theme.palette.background.default,
   },
   actions: {
     flex: 1,
@@ -64,12 +65,15 @@ class ContactControl extends React.PureComponent {
       className: classNameProp,
 
       entry,
+      channel,
     } = this.props;
 
     const className = classNames(
       classes.root,
       classNameProp,
     );
+
+    const withActions = !channel;
 
     return (
       <div className={className}>
@@ -83,7 +87,7 @@ class ContactControl extends React.PureComponent {
             </ListItem>
           </List>
           <Card elevation={0} className={classes.card}>
-            <CardActions className={classes.actions}>
+            {withActions && <CardActions className={classes.actions}>
               <Button
                 color="primary"
                 onClick={this.handleEntryClick('videocall')}
@@ -105,7 +109,7 @@ class ContactControl extends React.PureComponent {
               >
                 <FormattedMessage id="contactControl.closeButton.text" defaultMessage="Close"></FormattedMessage>
               </Button>
-            </CardActions>
+            </CardActions>}
           </Card>
         </div>
       </div>
@@ -120,6 +124,8 @@ ContactControl.propTypes = {
 
   entry: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  channel: PropTypes.string,
 
   onEntryClick: PropTypes.func,
 };
