@@ -30,6 +30,7 @@ import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
+import Fab from '@material-ui/core/Fab';
 
 import renderIf from 'render-if';
 
@@ -1104,16 +1105,14 @@ class CallView extends React.PureComponent {
     }
 
     if (mode === 'videocall' || mode === 'standby') {
-      muteCamButton = gUMSupported && (<Button
-        variant="fab"
+      muteCamButton = gUMSupported && (<Fab
         color="inherit"
         className={classes.muteCamButton}
         onClick={this.handleMuteCamClick()}
       >
         {muteCamButtonIcon}
-      </Button>);
-      shareScreenButton = (!isMobile && gDMSupported) && (<Button
-        variant="fab"
+      </Fab>);
+      shareScreenButton = (!isMobile && gDMSupported) && (<Fab
         color="inherit"
         className={classNames(
           classes.shareScreenButton,
@@ -1124,17 +1123,16 @@ class CallView extends React.PureComponent {
         onClick={this.handleShareScreenClick()}
       >
         <ScreenShareIcon />
-      </Button>);
+      </Fab>);
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
-      muteMicButton = gUMSupported && (<Button
-        variant="fab"
+      muteMicButton = gUMSupported && (<Fab
         color="inherit"
         className={classes.muteMicButton}
         onClick={this.handleMuteMicClick()}
       >
         {muteMicButtonIcon}
-      </Button>);
+      </Fab>);
     }
 
     const containerClassName = classNames(
@@ -1215,14 +1213,13 @@ class CallView extends React.PureComponent {
       <div key='middle' className={controlsMiddleClassName}>
         {muteCamButton}
         {muteMicButton}
-        {channel && <Button
-          variant="fab"
+        {channel && <Fab
           color="inherit"
           className={classes.hangupButton}
           onClick={this.handleHangupClick}
         >
           <HangupIcon />
-        </Button>}
+        </Fab>}
         <RTCStats className={classes.rtcStats}/>
       </div>
     );
