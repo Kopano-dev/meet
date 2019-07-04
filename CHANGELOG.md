@@ -4,6 +4,18 @@
 
 
 
+## v0.21.0 (2019-07-03)
+
+- Update translations and translate to German
+- Update contact control to new design
+- Replace deprecated fab button variant with Fab component
+- Update style of group control
+- Fixup linter errors
+- Move right bar to left drawer
+- Deduplicate yarn.lock
+- Bump handlebars from 4.0.12 to 4.1.2
+
+
 ## v0.20.0 (2019-05-16)
 
 - Update kpop to 0.19.0
