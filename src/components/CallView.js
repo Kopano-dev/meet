@@ -383,6 +383,12 @@ const styles = theme => ({
       top: 57,
     },
   },
+  dialog: {
+    [theme.breakpoints.up('md')]: {
+      height: 420,
+      minWidth: 450,
+    },
+  },
   masterButton: {
     margin: `${theme.spacing.unit * 2}px 24px 12px 24px`,
   },
@@ -1331,6 +1337,10 @@ class CallView extends React.PureComponent {
         key="new-call"
         topTitle={intl.formatMessage(translations.newCallDialogTopTitle)}
         topElevation={0}
+        responsive
+        PaperProps={{
+          className: classes.dialog,
+        }}
         open={openDialogs.newCall || false}
         onClose={() => { this.openDialog({newCall: false}); }}
       >
@@ -1351,6 +1361,10 @@ class CallView extends React.PureComponent {
         key="new-public-group"
         topTitle={intl.formatMessage(translations.newPublicGroupDialogTopTitle)}
         topElevation={0}
+        responsive
+        PaperProps={{
+          className: classes.dialog,
+        }}
         open={openDialogs.newPublicGroup || false}
         onClose={() => { this.openDialog({newPublicGroup: false}); }}
       >

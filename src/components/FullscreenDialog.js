@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
@@ -42,13 +43,16 @@ class FullscreenDialog extends React.PureComponent {
   }
 
   render() {
-    const { children, classes, topTitle, topElevation, open, intl } = this.props;
+    const { children, classes, topTitle, topElevation, open, responsive, fullScreen, intl, ...other } = this.props;
+
+    const isfullScreen = !responsive || fullScreen;
 
     return (
       <Dialog
-        fullScreen
+        fullScreen={isfullScreen}
         open={open}
         onClose={this.handleClose}
+        {...other}
       >
         <AppBar className={classes.appBar} color="inherit" elevation={topElevation}>
           <Toolbar>
@@ -79,10 +83,12 @@ FullscreenDialog.propTypes = {
   intl: intlShape.isRequired,
 
   open: PropTypes.bool.isRequired,
+  responsive: PropTypes.bool,
+  fullScreen: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 
   topTitle: PropTypes.string,
   topElevation: PropTypes.number.isRequired,
 };
 
-export default withStyles(styles)(injectIntl(FullscreenDialog));
+export default withStyles(styles)(withMobileDialog()(injectIntl(FullscreenDialog)));
