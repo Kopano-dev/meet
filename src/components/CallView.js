@@ -347,13 +347,8 @@ const styles = theme => ({
     position: 'relative',
   },
   mainView: {
-    margin: '0 auto 0 auto',
-    maxWidth: 450,
-    width: '100%',
-    minWidth: 300,
     flex: 1,
-    flexGrow: 1,
-    flexShrink: 1,
+    minWidth: 300,
   },
   contactSearchView: {
     background: 'white',
@@ -374,18 +369,18 @@ const styles = theme => ({
   navDrawer: {
   },
   drawerPaper: {
-    width: 250,
+    width: 300,
     height: 'auto',
     position: 'absolute',
-    top: 64,
+    top: 65,
     bottom: 0,
     paddingTop: 1,
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up('md')]: {
       width: drawerWidth,
     },
-    [theme.breakpoints.down('sm')]: {
-      top: 56,
+    [theme.breakpoints.down('xs')]: {
+      top: 57,
     },
   },
   masterButton: {
@@ -1369,7 +1364,6 @@ class CallView extends React.PureComponent {
     );
 
     const drawer = <React.Fragment>
-      <Divider />
       <Hidden smDown>
         {menu}
         <Divider/>
