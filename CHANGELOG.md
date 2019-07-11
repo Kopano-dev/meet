@@ -4,7 +4,17 @@
 
 
 
-## v0.21.0 (2019-07-03)
+## v0.21.1 (2019-07-11)
+
+- Update webrtc-adapter to 7.2.7
+- Improve new call and new group dialogs
+- Fixup typography variants
+- Move settings to a popover menu
+- Make new call and group create dialogs responsive
+- Fix minor size issues after drawer move to the left
+
+
+## v0.21.0 (2019-07-04)
 
 - Update translations and translate to German
 - Update contact control to new design
