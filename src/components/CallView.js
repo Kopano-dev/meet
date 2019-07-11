@@ -385,8 +385,10 @@ const styles = theme => ({
   },
   dialog: {
     [theme.breakpoints.up('md')]: {
-      height: 420,
-      minWidth: 450,
+      height: '60%',
+      maxHeight: 600,
+      minHeight: 340,
+      minWidth: 480,
     },
   },
   masterButton: {

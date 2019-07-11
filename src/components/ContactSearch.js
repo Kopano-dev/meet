@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import PublicConferenceIcon from '@material-ui/icons/Group';
 
 import Persona from 'kpop/es/Persona';
 import { forceBase64URLEncoded } from 'kpop/es/utils';
@@ -50,7 +51,6 @@ const styles = theme => ({
   },
   extraToolbar: {
     minHeight: 48,
-    padding: theme.spacing.unit,
   },
   searchRoot: {
   },
@@ -60,6 +60,7 @@ const styles = theme => ({
     overflowY: 'scroll',
     flex: 1,
     paddingBottom: 100,
+    position: 'relative',
   },
   entry: {
     minHeight: 68,
@@ -95,16 +96,24 @@ const styles = theme => ({
     verticalAlign: 'middle',
   },
   spinner: {
-    textAlign: 'center',
-    maxWidth: '50%',
-    margin: '0 auto',
+    position: 'absolute',
+    left: theme.spacing.unit * 2,
+    right: 2,
+    top: 0,
+    height: 2,
+  },
+  spinnerInner: {
+    height: 2,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
   },
 });
 
 const translations = defineMessages({
   searchByNamePlaceholder: {
     id: 'contactSearch.searchByNameTextField.placeholder',
-    defaultMessage: 'Search by name',
+    defaultMessage: 'Find contact',
   },
 });
 
@@ -344,14 +353,12 @@ class ContactSearch extends React.PureComponent {
       );
     }
 
-    const spinner = loading ? <ListItem>
-      <ListItemText className={classes.spinner}>
-        <LinearProgress color="primary" variant="query" />
-      </ListItemText>
-    </ListItem> : null;
+    const spinner = loading ? <div className={classes.spinner}>
+      <LinearProgress color="primary" variant="query" className={classes.spinnerInner}/>
+    </div> : null;
 
     const header = <React.Fragment>
-      <Paper square elevation={embedded ? 0 : 4}>
+      <Paper square elevation={0}>
         <Toolbar className={classes.search} disableGutters={embedded}>
           <TextField
             fullWidth
@@ -378,7 +385,8 @@ class ContactSearch extends React.PureComponent {
       { embedded ? null : <Toolbar className={classes.extraToolbar}>
         <Button color="primary"
           onClick={this.handleActionClick.bind(this, 'new-public-group')}>
-          <FormattedMessage id="contactSearch.newPublicGroup.button.text" defaultMessage="New Public Group"></FormattedMessage>
+          <PublicConferenceIcon className={classes.leftIcon}/>
+          <FormattedMessage id="contactSearch.newPublicGroup.button.text" defaultMessage="Join public group"></FormattedMessage>
         </Button>
       </Toolbar> }
       {embedded ? null : <Divider/>}
@@ -388,6 +396,7 @@ class ContactSearch extends React.PureComponent {
       <div className={className}>
         {header}
         <div className={classes.contacts}>
+          {spinner}
           <List disablePadding onClick={this.handleContactClick}>
             {items.map((contact, idx) =>
               <ListItem
@@ -410,7 +419,6 @@ class ContactSearch extends React.PureComponent {
               </ListItem>
             )}
             {message}
-            {spinner}
           </List>
         </div>
       </div>

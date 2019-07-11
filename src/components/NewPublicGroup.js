@@ -15,11 +15,12 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-const styles = () => ({
+const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+    padding: theme.spacing.unit,
   },
   inputField: {
   },
@@ -27,13 +28,14 @@ const styles = () => ({
     overflow: 'auto',
     flex: 1,
     maxWidth: 600,
+    marginTop: -2 * theme.spacing.unit,
   },
 });
 
 const translations = defineMessages({
   enterPublicGroupInputLabel: {
     id: 'newPublicGroup.enterPublicGroup.inputLabel',
-    defaultMessage: 'Enter a public group',
+    defaultMessage: 'Public group name',
   },
 });
 
@@ -72,7 +74,6 @@ class NewPublicGroup extends React.PureComponent {
 
     return (
       <div className={className}>
-        <Divider/>
         <List disablePadding onClick={this.handleContactClick} className={classes.form}>
           <ListItem>
             <TextField
@@ -86,7 +87,7 @@ class NewPublicGroup extends React.PureComponent {
           </ListItem>
           <ListItem>
             <Button variant="contained" color="primary" disabled={!valid} onClick={this.handleActionClick}>
-              <FormattedMessage id="newPublicGroup.createButton.text" defaultMessage="Create"></FormattedMessage>
+              <FormattedMessage id="newPublicGroup.createButton.text" defaultMessage="Join"></FormattedMessage>
             </Button>
           </ListItem>
         </List>
