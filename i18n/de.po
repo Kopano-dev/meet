@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-07-11T13:40:08.640Z\n"
-"PO-Revision-Date: 2019-07-11 15:45+0200\n"
+"POT-Creation-Date: 2019-07-11T16:49:29.428Z\n"
+"PO-Revision-Date: 2019-07-11 18:52+0200\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -258,7 +258,31 @@ msgstr "{scope} teilen"
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr "Ruht"
+msgstr "Schlafend"
+
+#. [kwmProvider.rejectedBusy.snack]
+#. defaultMessage is:
+#. The target is busy.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejectedBusy.snack"
+msgid "The target is busy."
+msgstr "Das Ziel ist besetzt."
+
+#. [kwmProvider.rejected.snack]
+#. defaultMessage is:
+#. The target rejected your call.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejected.snack"
+msgid "The target rejected your call."
+msgstr "Das Ziel hat Ihren Anruf abgelehnt."
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. There is currently nothing active here.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "There is currently nothing active here."
+msgstr "Hier existiert im Moment nichts."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -348,6 +372,14 @@ msgctxt "recents.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Sprachanruf"
 
+#. [callView.noAccess.snack]
+#. defaultMessage is:
+#. You do not have access here.
+#: i18n/src/messages.json
+msgctxt "callView.noAccess.snack"
+msgid "You do not have access here."
+msgstr "Sie haben hier keinen Zugriff."
+
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
 #. Your call history is empty.
@@ -355,22 +387,6 @@ msgstr "Sprachanruf"
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
 msgstr "Ihr Anrufverlauf ist leer."
-
-#. [snacks.callRejected.message]
-#. defaultMessage is:
-#. Your call was rejected
-#: i18n/src/messages.json
-msgctxt "snacks.callRejected.message"
-msgid "Your call was rejected"
-msgstr "Ihr Anruf wurde abgelehnt"
-
-#. [snacks.callRejectedBusy.message]
-#. defaultMessage is:
-#. Your call was rejected (busy)
-#: i18n/src/messages.json
-msgctxt "snacks.callRejectedBusy.message"
-msgid "Your call was rejected (busy)"
-msgstr "Ihr Anruf wurde abgelehnt (besetzt)"
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -435,6 +451,14 @@ msgstr "unbekannt"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#~ msgctxt "snacks.callRejected.message"
+#~ msgid "Your call was rejected"
+#~ msgstr "Ihr Anruf wurde abgelehnt"
+
+#~ msgctxt "snacks.callRejectedBusy.message"
+#~ msgid "Your call was rejected (busy)"
+#~ msgstr "Ihr Anruf wurde abgelehnt (besetzt)"
 
 #~ msgctxt "newPublicGroup.createButton.text"
 #~ msgid "Create"

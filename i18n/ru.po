@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-11T13:40:08.640Z\n"
+"POT-Creation-Date: 2019-07-11T16:49:29.428Z\n"
 "PO-Revision-Date: 2019-05-06 15:08+0200\n"
 "Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
 "Language-Team: Russian\n"
@@ -260,6 +260,30 @@ msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
 msgstr ""
 
+#. [kwmProvider.rejectedBusy.snack]
+#. defaultMessage is:
+#. The target is busy.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejectedBusy.snack"
+msgid "The target is busy."
+msgstr ""
+
+#. [kwmProvider.rejected.snack]
+#. defaultMessage is:
+#. The target rejected your call.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejected.snack"
+msgid "The target rejected your call."
+msgstr ""
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. There is currently nothing active here.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "There is currently nothing active here."
+msgstr ""
+
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
 #. Unable to accept call
@@ -348,28 +372,20 @@ msgctxt "recents.voiceCallButton.aria"
 msgid "Voice call"
 msgstr ""
 
+#. [callView.noAccess.snack]
+#. defaultMessage is:
+#. You do not have access here.
+#: i18n/src/messages.json
+msgctxt "callView.noAccess.snack"
+msgid "You do not have access here."
+msgstr ""
+
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
 #. Your call history is empty.
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
-
-#. [snacks.callRejected.message]
-#. defaultMessage is:
-#. Your call was rejected
-#: i18n/src/messages.json
-msgctxt "snacks.callRejected.message"
-msgid "Your call was rejected"
-msgstr ""
-
-#. [snacks.callRejectedBusy.message]
-#. defaultMessage is:
-#. Your call was rejected (busy)
-#: i18n/src/messages.json
-msgctxt "snacks.callRejectedBusy.message"
-msgid "Your call was rejected (busy)"
 msgstr ""
 
 #. [callView.microphoneIsMutedSnack.message]
