@@ -17,7 +17,6 @@ import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
-import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
@@ -83,6 +82,7 @@ import ContactControl from './ContactControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 import { Howling } from './howling';
+import IconButtonWithPopover from './IconButtonWithPopover';
 
 // NOTE(longsleep): Poor mans check if on mobile.
 const isMobile = /Mobi/.test(navigator.userAgent);
@@ -1185,9 +1185,16 @@ class CallView extends React.PureComponent {
 
     icons.push(
       <Hidden smDown key='settings'>
-        <IconButton disabled className={classes.settingsButton}>
-          <SettingsIcon/>
-        </IconButton>
+        <IconButtonWithPopover
+          className={classes.settingsButton}
+          icon={<SettingsIcon/>}
+        >
+          <List>
+            <ListItem button disabled>
+              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
+            </ListItem>
+          </List>
+        </IconButtonWithPopover>
       </Hidden>
     );
 
