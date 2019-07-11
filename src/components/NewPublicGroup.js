@@ -8,7 +8,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import PublicConferenceIcon from '@material-ui/icons/Group';
 
 import Persona from 'kpop/es/Persona';
