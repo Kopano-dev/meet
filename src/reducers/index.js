@@ -4,7 +4,6 @@ import kwmReducer from './kwm';
 import mediaReducer from './media';
 import streamsReducer from './streams';
 import recentsReducer from './recents';
-import snacksReducer from './snacks';
 
 const reducers = {
   common: commonReducer,
@@ -13,7 +12,6 @@ const reducers = {
   media: mediaReducer,
   streams: streamsReducer,
   recents: recentsReducer,
-  snacks: snacksReducer,
 };
 
 export default reducers;

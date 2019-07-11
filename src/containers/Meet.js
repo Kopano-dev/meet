@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
+import { SnackbarProvider } from 'notistack';
+
 import BaseContainer from 'kpop/es/BaseContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
@@ -27,8 +29,6 @@ import soundSprite1Json from '../sounds/sprite1.json';
 import { basePath, getCurrentAppPath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
-import Snacks from '../components/Snacks';
-import { shiftSnacks } from '../actions/snacks';
 import { tryGuestLogon } from '../api/kwm';
 
 const routes = [
@@ -163,15 +163,9 @@ class App extends PureComponent {
     }
   }
 
-  handleShiftSnacks = () => {
-    const { dispatch } = this.props;
-
-    return dispatch(shiftSnacks());
-  }
-
   render() {
     const { initialized } = this.state;
-    const { config, user, error, snacks, ...other } = this.props;
+    const { config, user, error, ...other } = this.props;
     const ready = config && user && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
@@ -181,14 +175,18 @@ class App extends PureComponent {
       <BaseContainer ready={ready} error={error} config={config} {...other}>
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
-          <Router basename={basePath}>
-            <Switch>
-              {routes.map((route, i) => <Route key={i} {...route} />)}
-              <Redirect to="/r" />
-            </Switch>
-          </Router>
+          <SnackbarProvider maxSnack={3} anchorOrigin={{
+            horizontal: 'center',
+            vertical: 'top',
+          }}>
+            <Router basename={basePath}>
+              <Switch>
+                {routes.map((route, i) => <Route key={i} {...route} />)}
+                <Redirect to="/r" />
+              </Switch>
+            </Router>
+          </SnackbarProvider>
         </HowlingProvider>
-        <Snacks snacks={snacks} shiftSnacks={this.handleShiftSnacks}/>
       </BaseContainer>
     );
   }
@@ -201,7 +199,6 @@ App.propTypes = {
   config: PropTypes.object,
   user: PropTypes.object,
   error: PropTypes.object,
-  snacks: PropTypes.array.isRequired,
 
   dispatch: PropTypes.func.isRequired,
 };
@@ -227,7 +224,6 @@ const getGuestSettingsFromURL = () => {
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error } = state.common;
   const { available: a2HsAvailable } = state.pwa.a2hs;
-  const { snacks } = state.snacks;
 
   return {
     offline,
@@ -236,7 +232,6 @@ const mapStateToProps = (state) => {
     config,
     user,
     error,
-    snacks,
   };
 };
 

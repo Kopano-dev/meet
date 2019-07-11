@@ -7,7 +7,6 @@ import * as types from './types';
 import * as errors from '../errors';
 import * as sdputils from '../sdputils';
 import { fetchAndUpdateContactByID } from './contacts';
-import { addSnack } from './snacks';
 import { resolveContactIDFromRecord } from '../utils';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
@@ -586,7 +585,7 @@ function setNonFatalError(text, err) {
   };
 }
 
-export function doCall(id) {
+export function doCall(id, errorCallback) {
   return async dispatch => {
     if (!kwm || !kwm.webrtc) {
       throw new Error('no kwm');
@@ -605,8 +604,11 @@ export function doCall(id) {
         id,
       });
       dispatch(doHangup(id, '')); // Hangup without reason is a local hangup.
-      console.error('KWM doCall failed', err);  // eslint-disable-line no-console
-      dispatch(setNonFatalError(errors.ERROR_KWM_UNABLE_TO_CALL, err));
+      err = errorCallback ? errorCallback(err) : err;
+      if (err) {
+        console.error('KWM doCall failed', err);  // eslint-disable-line no-console
+        dispatch(setNonFatalError(errors.ERROR_KWM_UNABLE_TO_CALL, err));
+      }
     });
   };
 }
@@ -634,7 +636,7 @@ export function doHangup(id='', reason) {
   };
 }
 
-export function doGroup(id) {
+export function doGroup(id, errorCallback) {
   return async dispatch => {
     if (!kwm || !kwm.webrtc) {
       throw new Error('no kwm');
@@ -648,22 +650,10 @@ export function doGroup(id) {
       dispatch(channelChanged(channel));
       return channel;
     }).catch(err => {
-      switch (err.code) {
-        case 'create_restricted':
-          dispatch(addSnack({
-            message: 'This call is currently not active.',
-            variant: 'warning',
-          }));
-          break;
-        case 'access_restricted':
-          dispatch(addSnack({
-            message: 'You do not have access to this call.',
-            variant: 'warning',
-          }));
-          break;
-        default:
-          console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
-          dispatch(setNonFatalError(error.ERROR_KWM_UNABLE_TO_JOIN, err));
+      err = errorCallback ? errorCallback(err) : err;
+      if (err) {
+        console.error('KWM doGroup failed', err);  // eslint-disable-line no-console
+        dispatch(setNonFatalError(error.ERROR_KWM_UNABLE_TO_JOIN, err));
       }
     });
   };

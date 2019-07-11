@@ -19,6 +19,7 @@
     "mdi-material-ui": "^5.3.0",
     "memoize-one": "^5.0.0",
     "moment": "^2.22.2",
+    "notistack": "^0.8.8",
     "oidc-client": "^1.5.4",
     "prop-types": "^15.6.0",
     "rc-swipeout": "^2.0.11",

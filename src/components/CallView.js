@@ -33,6 +33,8 @@ import Fab from '@material-ui/core/Fab';
 
 import renderIf from 'render-if';
 
+import { withSnackbar } from 'notistack';
+
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { setError } from 'kpop/es/common/actions';
@@ -59,7 +61,6 @@ import {
   doReject,
   doGroup,
 } from '../actions/kwm';
-import { addSnack } from '../actions/snacks';
 import {
   requestDisplayMedia,
   requestUserMedia,
@@ -557,13 +558,19 @@ class CallView extends React.PureComponent {
       });
       if (muteMic) {
         this.notifyBySnack(intl.formatMessage(translations.microphoneIsMutedSnack), {
-          button: <Button
-            size="small"
-            color="secondary"
-            onClick={this.handleMuteMicClick(false)}
-          >
-            <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
-          </Button>,
+          variant: 'info',
+          autoHideDuration: 10000,
+          action: id => {
+            return <Button
+              size="small"
+              onClick={() => {
+                this.closeSnack(id);
+                this.handleMuteMicClick(false)();
+              }}
+            >
+              <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
+            </Button>;
+          }
         });
       }
     } else if (!channel && (withChannel || prevProps.channel)) {
@@ -774,7 +781,7 @@ class CallView extends React.PureComponent {
   };
 
   doCallGroup = (group, mode) => {
-    const { doGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
+    const { doCallGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.wakeFromStandby(mode).then(() => {
@@ -786,7 +793,17 @@ class CallView extends React.PureComponent {
       const { id, scope } = group;
       addOrUpdateRecentsFromGroup(id, scope);
 
-      await doGroup(`${scope}/${id}`);
+      await doCallGroup(`${scope}/${id}`, err => {
+        switch (err.code) {
+          case 'create_restricted':
+            this.notifyBySnack('This call is currently not active.', { variant: 'warning' });
+            return;
+          case 'access_restricted':
+            this.notifyBySnack('You do not have access to this call.', { variant: 'warning' });
+            return;
+        }
+        return err;
+      });
     });
   }
 
@@ -808,13 +825,16 @@ class CallView extends React.PureComponent {
   }
 
   notifyBySnack = (message, options={}) => {
-    const { addSnack } = this.props;
+    const { enqueueSnackbar } = this.props;
+    const { variant, ...other } = options;
 
-    addSnack({
-      message,
-      variant: 'info',
-      ...options,
-    });
+    enqueueSnackbar(message, { variant, ...other });
+  }
+
+  closeSnack = (id) => {
+    const { closeSnackbar } = this.props;
+
+    closeSnackbar(id);
   }
 
   openDialog = (updates = {}) => {
@@ -1483,6 +1503,9 @@ CallView.propTypes = {
   theme: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 
+  enqueueSnackbar: PropTypes.func.isRequired,
+  closeSnackbar: PropTypes.func.isRequired,
+
   hidden: PropTypes.bool.isRequired,
   profile: userShape.isRequired,
   guest: PropTypes.bool.isRequired,
@@ -1502,7 +1525,7 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
   doReject: PropTypes.func.isRequired,
-  doGroup: PropTypes.func.isRequired,
+  doCallGroup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
@@ -1513,7 +1536,6 @@ CallView.propTypes = {
   setError: PropTypes.func.isRequired,
   addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
   addOrUpdateRecentsFromGroup: PropTypes.func.isRequired,
-  addSnack: PropTypes.func.isRequired,
 
   localAudioVideoStreams: PropTypes.object.isRequired,
   remoteAudioVideoStreams: PropTypes.array.isRequired,
@@ -1627,10 +1649,10 @@ const mapDispatchToProps = (dispatch) => {
     stopUserMedia: (id='') => {
       return dispatch(stopUserMedia(id));
     },
-    doCallContact: (contact) => dispatch((_, getState) => {
+    doCallContact: (contact, errorCallback) => dispatch((_, getState) => {
       const { config } = getState().common;
       const id = resolveContactID(config, contact);
-      return dispatch(doCall(id));
+      return dispatch(doCall(id, errorCallback));
     }),
     doHangup: () => {
       return dispatch(doHangup());
@@ -1641,8 +1663,8 @@ const mapDispatchToProps = (dispatch) => {
     doReject: (id) => {
       return dispatch(doReject(id));
     },
-    doGroup: (id) => {
-      return dispatch(doGroup(id));
+    doCallGroup: (id, errorCallback) => {
+      return dispatch(doGroup(id, errorCallback));
     },
     muteVideoStream: (stream, mute=true, id='') => {
       return dispatch(muteVideoStream(stream, mute, id));
@@ -1674,10 +1696,7 @@ const mapDispatchToProps = (dispatch) => {
     addOrUpdateRecentsFromGroup: (id, scope) => {
       return dispatch(addOrUpdateRecentsFromGroup(id, scope));
     },
-    addSnack: (snack) => {
-      return dispatch(addSnack(snack));
-    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(CallView)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(withSnackbar(CallView))));
