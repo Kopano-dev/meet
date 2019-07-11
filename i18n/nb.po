@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-03T13:43:07.149Z\n"
+"POT-Creation-Date: 2019-07-11T13:40:08.640Z\n"
 "PO-Revision-Date: 2019-05-06 15:07+0200\n"
 "Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -84,28 +84,12 @@ msgctxt "callView.tabContacts.label"
 msgid "Contacts"
 msgstr ""
 
-#. [newPublicGroup.createButton.text]
-#. defaultMessage is:
-#. Create
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.createButton.text"
-msgid "Create"
-msgstr ""
-
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
 #. Delete
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr ""
-
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Enter a public group
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Enter a public group"
 msgstr ""
 
 #. [contactSearch.failedToLoad.message]
@@ -116,12 +100,36 @@ msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
 msgstr ""
 
+#. [contactSearch.searchByNameTextField.placeholder]
+#. defaultMessage is:
+#. Find contact
+#: i18n/src/messages.json
+msgctxt "contactSearch.searchByNameTextField.placeholder"
+msgid "Find contact"
+msgstr ""
+
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
 #. Incoming call
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
+msgstr ""
+
+#. [newPublicGroup.createButton.text]
+#. defaultMessage is:
+#. Join
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.createButton.text"
+msgid "Join"
+msgstr ""
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join public group
+#: i18n/src/messages.json
+msgctxt "contactSearch.newPublicGroup.button.text"
+msgid "Join public group"
 msgstr ""
 
 #. [contactSearch.messageLoadingContacts]
@@ -138,14 +146,6 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
-
-#. [contactSearch.newPublicGroup.button.text]
-#. defaultMessage is:
-#. New Public Group
-#: i18n/src/messages.json
-msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "New Public Group"
 msgstr ""
 
 #. [callView.masterButton.label]
@@ -196,6 +196,14 @@ msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
 msgstr ""
 
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Public group name
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Public group name"
+msgstr ""
+
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -218,14 +226,6 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
-
-#. [contactSearch.searchByNameTextField.placeholder]
-#. defaultMessage is:
-#. Search by name
-#: i18n/src/messages.json
-msgctxt "contactSearch.searchByNameTextField.placeholder"
-msgid "Search by name"
 msgstr ""
 
 #. [contactSearch.messageSearchingForContacts]

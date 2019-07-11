@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-03T13:43:07.149Z\n"
+"POT-Creation-Date: 2019-07-11T13:40:08.640Z\n"
 "PO-Revision-Date: 2019-05-09 13:26+0000\n"
 "Last-Translator: Bob <b.huisman@kopano.com>\n"
 "Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
@@ -85,14 +85,6 @@ msgctxt "callView.tabContacts.label"
 msgid "Contacts"
 msgstr "Contactpersonen"
 
-#. [newPublicGroup.createButton.text]
-#. defaultMessage is:
-#. Create
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.createButton.text"
-msgid "Create"
-msgstr "Aanmaken"
-
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
 #. Delete
@@ -100,14 +92,6 @@ msgstr "Aanmaken"
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
 msgstr "Verwijderen"
-
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Enter a public group
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Enter a public group"
-msgstr "Deelnemen aan publieke groep"
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -117,6 +101,15 @@ msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
 msgstr "Contacten laden mislukt."
 
+#. [contactSearch.searchByNameTextField.placeholder]
+#. defaultMessage is:
+#. Find contact
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "contactSearch.searchByNameTextField.placeholder"
+msgid "Find contact"
+msgstr "Contacten laden ..."
+
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
 #. Incoming call
@@ -124,6 +117,23 @@ msgstr "Contacten laden mislukt."
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
 msgstr "Inkomende oproep"
+
+#. [newPublicGroup.createButton.text]
+#. defaultMessage is:
+#. Join
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.createButton.text"
+msgid "Join"
+msgstr ""
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join public group
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "contactSearch.newPublicGroup.button.text"
+msgid "Join public group"
+msgstr "Publieke groep"
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -140,14 +150,6 @@ msgstr "Contacten laden ..."
 msgctxt "recents.moreButton.aria"
 msgid "More"
 msgstr "Meer"
-
-#. [contactSearch.newPublicGroup.button.text]
-#. defaultMessage is:
-#. New Public Group
-#: i18n/src/messages.json
-msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "New Public Group"
-msgstr "Nieuwe Publieke Groep"
 
 #. [callView.masterButton.label]
 #. defaultMessage is:
@@ -198,6 +200,15 @@ msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
 msgstr "Publieke groep"
 
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Public group name
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Public group name"
+msgstr "Publieke groep"
+
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -222,14 +233,6 @@ msgstr "Afwijzen"
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr "Opnieuw"
-
-#. [contactSearch.searchByNameTextField.placeholder]
-#. defaultMessage is:
-#. Search by name
-#: i18n/src/messages.json
-msgctxt "contactSearch.searchByNameTextField.placeholder"
-msgid "Search by name"
-msgstr "Zoeken op naam"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -442,6 +445,22 @@ msgstr "onbekend"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "inschakelen"
+
+#~ msgctxt "newPublicGroup.createButton.text"
+#~ msgid "Create"
+#~ msgstr "Aanmaken"
+
+#~ msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+#~ msgid "Enter a public group"
+#~ msgstr "Deelnemen aan publieke groep"
+
+#~ msgctxt "contactSearch.newPublicGroup.button.text"
+#~ msgid "New Public Group"
+#~ msgstr "Nieuwe Publieke Groep"
+
+#~ msgctxt "contactSearch.searchByNameTextField.placeholder"
+#~ msgid "Search by name"
+#~ msgstr "Zoeken op naam"
 
 #~ msgctxt "groupControl.voiceCallButton.text"
 #~ msgid "Call"
