@@ -85,7 +85,7 @@ class NewPublicGroup extends React.PureComponent {
             /> <Persona user={{displayName: query}} forceIcon icon={<PublicConferenceIcon/>}/>
           </ListItem>
           <ListItem>
-            <Button variant="raised" color="primary" disabled={!valid} onClick={this.handleActionClick}>
+            <Button variant="contained" color="primary" disabled={!valid} onClick={this.handleActionClick}>
               <FormattedMessage id="newPublicGroup.createButton.text" defaultMessage="Create"></FormattedMessage>
             </Button>
           </ListItem>
