@@ -93,7 +93,7 @@ const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
-const drawerWidth = 358;
+const drawerWidth = 388;
 
 const screenShareScreenID = 'screen1';
 
