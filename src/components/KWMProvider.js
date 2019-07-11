@@ -2,9 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { withSnackbar } from 'notistack';
+
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
+
 import debounce from 'kpop/es/utils/debounce';
 
 import { setupKWM, destroyKWM } from '../actions/kwm';
+
+const translations = defineMessages({
+  rejectedBusySnack: {
+    id: 'kwmProvider.rejectedBusy.snack',
+    defaultMessage: 'The target is busy.',
+  },
+  rejectedSnack: {
+    id: 'kwmProvider.rejected.snack',
+    defaultMessage: ' The target rejected your call.',
+  },
+});
 
 class KWMProvider extends React.PureComponent {
   reconnector = null;
@@ -89,6 +104,7 @@ class KWMProvider extends React.PureComponent {
       authorizationType,
       authorizationValue,
       autoConnect: true,
+      eventCallback: this.handleEvent,
     })).then(kwm => {
       if (this.destroyed) {
         // Disconnect.
@@ -116,6 +132,30 @@ class KWMProvider extends React.PureComponent {
     this.kwm = kwm;
   }
 
+  handleEvent = event => {
+    const { enqueueSnackbar, intl } = this.props;
+
+    // Extra KWM event handler, bridge to UI.
+    switch (event.event) {
+      case 'incomingcall':
+      case 'destroycall':
+        // TODO(longsleep): Start timer for incoming call, auto reject it after a while and show a snack about missed call.
+        break;
+
+      case 'abortcall': {
+        switch (event.details) {
+          case 'reject_busy':
+            enqueueSnackbar(intl.formatMessage(translations.rejectedBusySnack), { variant: 'info' });
+            break;
+          case 'reject':
+            enqueueSnackbar(intl.formatMessage(translations.rejectedSnack), { variant: 'info' });
+            break;
+        }
+        break;
+      }
+    }
+  }
+
   destroy = () => {
     const { dispatch } = this.props;
 
@@ -130,6 +170,10 @@ class KWMProvider extends React.PureComponent {
 
 KWMProvider.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+
+  enqueueSnackbar: PropTypes.func.isRequired,
+  closeSnackbar: PropTypes.func.isRequired,
 
   user: PropTypes.object,
 };
@@ -142,4 +186,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(KWMProvider);
+export default connect(mapStateToProps)(injectIntl(withSnackbar(KWMProvider)));

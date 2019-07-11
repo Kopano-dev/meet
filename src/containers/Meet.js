@@ -173,20 +173,20 @@ class App extends PureComponent {
 
     return (
       <BaseContainer ready={ready} error={error} config={config} {...other}>
-        <KWMProvider/>
-        <HowlingProvider src={soundSrc} sprite={soundSprite}>
-          <SnackbarProvider maxSnack={3} anchorOrigin={{
-            horizontal: 'center',
-            vertical: 'top',
-          }}>
+        <SnackbarProvider maxSnack={3} anchorOrigin={{
+          horizontal: 'center',
+          vertical: 'top',
+        }}>
+          <KWMProvider/>
+          <HowlingProvider src={soundSrc} sprite={soundSprite}>
             <Router basename={basePath}>
               <Switch>
                 {routes.map((route, i) => <Route key={i} {...route} />)}
                 <Redirect to="/r" />
               </Switch>
             </Router>
-          </SnackbarProvider>
-        </HowlingProvider>
+          </HowlingProvider>
+        </SnackbarProvider>
       </BaseContainer>
     );
   }

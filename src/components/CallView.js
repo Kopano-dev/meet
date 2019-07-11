@@ -434,6 +434,14 @@ const translations = defineMessages({
     id: 'callView.settingsList.label',
     defaultMessage: 'Settings',
   },
+  callCurrentlyNotActiveSnack: {
+    id: 'callView.notActive.snack',
+    defaultMessage: 'There is currently nothing active here.',
+  },
+  callNoAccessSnack: {
+    id: 'callView.noAccess.snack',
+    defaultMessage: 'You do not have access here.',
+  },
 });
 
 class CallView extends React.PureComponent {
@@ -570,7 +578,7 @@ class CallView extends React.PureComponent {
             >
               <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
             </Button>;
-          }
+          },
         });
       }
     } else if (!channel && (withChannel || prevProps.channel)) {
@@ -781,7 +789,7 @@ class CallView extends React.PureComponent {
   };
 
   doCallGroup = (group, mode) => {
-    const { doCallGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams } = this.props;
+    const { doCallGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams, intl } = this.props;
 
     const localStream = localAudioVideoStreams[this.localStreamID];
     this.wakeFromStandby(mode).then(() => {
@@ -796,10 +804,10 @@ class CallView extends React.PureComponent {
       await doCallGroup(`${scope}/${id}`, err => {
         switch (err.code) {
           case 'create_restricted':
-            this.notifyBySnack('This call is currently not active.', { variant: 'warning' });
+            this.notifyBySnack(intl.formatMessage(translations.callCurrentlyNotActiveSnack), { variant: 'warning' });
             return;
           case 'access_restricted':
-            this.notifyBySnack('You do not have access to this call.', { variant: 'warning' });
+            this.notifyBySnack(intl.formatMessage(translations.callNoAccessSnack), { variant: 'warning' });
             return;
         }
         return err;

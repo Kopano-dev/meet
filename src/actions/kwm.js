@@ -122,7 +122,7 @@ const sdpParamsScreenshare = {
   ...defaultScreenhareSdpParams,
 };
 
-export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect} = {}) {
+export function setupKWM(id, idToken, {authorizationType, authorizationValue, autoConnect, eventCallback} = {}) {
   return async (dispatch, getState) => {
     const { config } = getState().common;
 
@@ -142,7 +142,7 @@ export function setupKWM(id, idToken, {authorizationType, authorizationValue, au
 
     // Auto connect support when requested.
     if (autoConnect && kwm === null) {
-      return dispatch(connectToKWM(idToken));
+      return dispatch(connectToKWM(idToken, eventCallback));
     }
 
     return kwm;
@@ -158,7 +158,7 @@ export function destroyKWM() {
   };
 }
 
-export function connectToKWM(user) {
+function connectToKWM(user, eventCallback) {
   return async (dispatch) => {
     if (!user || kwmOptions.user !== user) {
       throw new Error('invalid user set for KWM connect');
@@ -167,7 +167,7 @@ export function connectToKWM(user) {
       throw new Error('no user or options set for KWM connect');
     }
     if (kwm === null) {
-      kwm = await dispatch(createKWMManager());
+      kwm = await dispatch(createKWMManager(eventCallback));
     }
 
     await kwm.connect(user, kwmOptions.userMode);
@@ -175,7 +175,7 @@ export function connectToKWM(user) {
   };
 }
 
-export function disconnectFromKWM() {
+function disconnectFromKWM() {
   return async () => {
     if (kwm) {
       try {
@@ -191,7 +191,7 @@ export function disconnectFromKWM() {
   };
 }
 
-function createKWMManager() {
+function createKWMManager(eventCallback) {
   return async (dispatch, getState) => {
     const { config } = getState().common;
 
@@ -344,6 +344,10 @@ function createKWMManager() {
           // Reset channel when not having a channel and no peers.
           dispatch(resetChannel());
         }
+      }
+
+      if (eventCallback) {
+        eventCallback(event);
       }
     };
     k.webrtc.onannouncestreams = event => {
