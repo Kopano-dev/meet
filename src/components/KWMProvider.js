@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { withSnackbar } from 'notistack';
 
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
+import { withSnackbar } from 'kpop/es/BaseContainer';
 
 import { setupKWM, destroyKWM } from '../actions/kwm';
 

@@ -33,8 +33,6 @@ import Fab from '@material-ui/core/Fab';
 
 import renderIf from 'render-if';
 
-import { withSnackbar } from 'notistack';
-
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { setError } from 'kpop/es/common/actions';
@@ -48,6 +46,7 @@ import debounce from 'kpop/es/utils/debounce';
 import { parseQuery } from 'kpop/es/utils';
 import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
+import { withSnackbar } from 'kpop/es/BaseContainer';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';

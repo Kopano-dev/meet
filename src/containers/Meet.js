@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
-import { SnackbarProvider } from 'notistack';
-
 import BaseContainer from 'kpop/es/BaseContainer';
 import MainContainer from 'kpop/es/MainContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
@@ -173,23 +171,18 @@ class App extends PureComponent {
     const soundSprite = soundSprite1Json;
 
     return (
-      <BaseContainer ready={ready} error={error} config={config} {...other}>
-        <SnackbarProvider maxSnack={3} anchorOrigin={{
-          horizontal: 'center',
-          vertical: 'top',
-        }}>
-          <KWMProvider/>
-          <HowlingProvider src={soundSrc} sprite={soundSprite}>
-            <MainContainer>
-              <Router basename={basePath}>
-                <Switch>
-                  {routes.map((route, i) => <Route key={i} {...route} />)}
-                  <Redirect to="/r" />
-                </Switch>
-              </Router>
-            </MainContainer>
-          </HowlingProvider>
-        </SnackbarProvider>
+      <BaseContainer ready={ready} error={error} config={config} withSnackbar {...other}>
+        <KWMProvider/>
+        <HowlingProvider src={soundSrc} sprite={soundSprite}>
+          <MainContainer>
+            <Router basename={basePath}>
+              <Switch>
+                {routes.map((route, i) => <Route key={i} {...route} />)}
+                <Redirect to="/r" />
+              </Switch>
+            </Router>
+          </MainContainer>
+        </HowlingProvider>
       </BaseContainer>
     );
   }
