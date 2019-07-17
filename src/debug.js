@@ -1,6 +1,9 @@
 import * as Debug from 'debug';
 
+import { setLogLevel } from 'kpop/es/oidc/usermanager';
+
 import * as types from './actions/types';
+
 
 class MeetDebug {
   constructor(store) {
@@ -58,6 +61,14 @@ class MeetDebug {
       Debug.enable('simple-peer');
     } else {
       Debug.disable('simple-peer');
+    }
+  }
+
+  toggleOIDCDebug = (flag = true) => {
+    if (flag) {
+      setLogLevel(4);
+    } else {
+      setLogLevel();
     }
   }
 }

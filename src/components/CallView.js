@@ -39,6 +39,7 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 
 import { setError } from 'kpop/es/common/actions';
 import TopBar from 'kpop/es/TopBar';
+import TopBarBound from 'kpop/es/TopBar/TopBarBound';
 import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
@@ -46,6 +47,7 @@ import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import debounce from 'kpop/es/utils/debounce';
 import { parseQuery } from 'kpop/es/utils';
 import MasterButton from 'kpop/es/MasterButton/MasterButton';
+import AsideBar from 'kpop/es/AsideBar';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
@@ -134,16 +136,12 @@ const styles = theme => ({
     },
   },
   container: {
-    marginTop: 48,
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     [deskopWidthBreakpoint]: {
       flexDirection: 'row',
-    },
-    [`${theme.breakpoints.up('sm')} and (orientation: landscape)`]: {
-      marginTop: 64,
     },
   },
   content: {
@@ -373,15 +371,12 @@ const styles = theme => ({
     width: 300,
     height: 'auto',
     position: 'absolute',
-    top: 65,
+    top: 1,
     bottom: 0,
     paddingTop: 1,
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up('md')]: {
       width: drawerWidth,
-    },
-    [theme.breakpoints.down('xs')]: {
-      top: 57,
     },
   },
   dialog: {
@@ -1442,7 +1437,7 @@ class CallView extends React.PureComponent {
           title="Meet"
           appLogo={<KopanoMeetIcon alt="Kopano"/>}
           onAnchorClick={this.handleSidebarToggle}
-          user={profile}
+          profile={profile}
         >
           {icons}
         </TopBar>
@@ -1466,6 +1461,9 @@ class CallView extends React.PureComponent {
             anchor={anchor}
             open={sidebarOpen}
             className={classes.navDrawer}
+            PaperProps={{
+              component: TopBarBound,
+            }}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -1473,7 +1471,7 @@ class CallView extends React.PureComponent {
             {drawer}
           </Drawer>
         </Hidden>
-        <div
+        <TopBarBound
           className={classNames(classes.content, classes[`content-${anchor}`], {
             [classes.contentShift]: sidebarOpen,
             [classes[`contentShift-${anchor}`]]: sidebarOpen,
@@ -1495,7 +1493,8 @@ class CallView extends React.PureComponent {
             />
             <Hidden mdUp>{menu}</Hidden>
           </div>
-        </div>
+          <AsideBar/>
+        </TopBarBound>
         {dialogs}
         <Howling label="ring2" playing={Object.keys(ringing).length > 0} loop/>
         <Howling label="dial1" playing={Object.keys(calling).length > 0} interval={4}/>
@@ -1597,7 +1596,8 @@ const updateUMSettingsFromURL = (settings) => {
 };
 
 const mapStateToProps = state => {
-  const { hidden, user, profile, guest } = state.common;
+  const { hidden, profile } = state.common;
+  const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported } = state.media;
 
@@ -1616,7 +1616,7 @@ const mapStateToProps = state => {
 
   return {
     hidden,
-    profile: user ? profile : null,
+    profile,
     guest,
 
     connected,

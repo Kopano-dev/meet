@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import { SnackbarProvider } from 'notistack';
 
 import BaseContainer from 'kpop/es/BaseContainer';
+import MainContainer from 'kpop/es/MainContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
 import { initialize as initializeOffline } from 'kpop/es/offline/actions';
@@ -179,12 +180,14 @@ class App extends PureComponent {
         }}>
           <KWMProvider/>
           <HowlingProvider src={soundSrc} sprite={soundSprite}>
-            <Router basename={basePath}>
-              <Switch>
-                {routes.map((route, i) => <Route key={i} {...route} />)}
-                <Redirect to="/r" />
-              </Switch>
-            </Router>
+            <MainContainer>
+              <Router basename={basePath}>
+                <Switch>
+                  {routes.map((route, i) => <Route key={i} {...route} />)}
+                  <Redirect to="/r" />
+                </Switch>
+              </Router>
+            </MainContainer>
           </HowlingProvider>
         </SnackbarProvider>
       </BaseContainer>

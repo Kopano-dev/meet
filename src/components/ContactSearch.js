@@ -472,7 +472,9 @@ const filterIDFromContacts = (contacts, id, mail) => {
 
 const mapStateToProps = state => {
   const { sorted: sortedContacts, loading, error, remote } = state.contacts;
-  const { mail } = state.common.profile;
+  const { profile } = state.common;
+
+  const { mail } = profile ? profile.mail : null;
 
   // getOwnGrapiUserEntryID comes from OIDC which is using Base64 Standard
   // encoding while contacts come from the API which use URL encoding.

@@ -274,7 +274,7 @@ GroupControl.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { guest } = state.common;
+  const { guest } = state.meet;
 
   return {
     guest,
