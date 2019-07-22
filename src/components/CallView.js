@@ -367,15 +367,16 @@ const styles = theme => ({
   navDrawer: {
   },
   drawerPaper: {
-    width: 300,
+    width: 250,
     height: 'auto',
     position: 'absolute',
-    top: 1,
+    top: 0,
     bottom: 0,
-    paddingTop: 1,
     backgroundColor: theme.palette.background.default,
     [theme.breakpoints.up('md')]: {
       width: drawerWidth,
+      top: 1,
+      paddingTop: 1,
     },
   },
   dialog: {
@@ -1453,7 +1454,7 @@ class CallView extends React.PureComponent {
           </Drawer>
           <BackdropOverlay open={sidebarMobileOpen} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
         </Hidden>
-        <Hidden smDown implementation="css">
+        <Hidden smDown>
           <Drawer
             variant="persistent"
             anchor={anchor}
