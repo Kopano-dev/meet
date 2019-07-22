@@ -11,7 +11,7 @@
     "cra-append-sw": "^2.6.0",
     "debug": "^3.1.0",
     "howler": "^2.0.9",
-    "kpop": "https://download.kopano.io/community/kapp:/kpop-0.20.0.tgz",
+    "kpop": "https://download.kopano.io/community/kapp:/kpop-0.20.1.tgz",
     "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-0.17.1.tgz",
     "localforage": "^1.7.1",
     "lodash-es": "^4.17.14",
