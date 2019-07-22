@@ -162,6 +162,12 @@ class AudioVideo extends React.PureComponent {
     if (stream) {
       this.removeStreamEvents(stream);
     }
+    if (this.element) {
+      this.element.src = '';
+    }
+    if (this.extra) {
+      this.extra.src = '';
+    }
   }
 
   updateStream() {
