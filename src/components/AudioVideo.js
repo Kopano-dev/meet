@@ -328,7 +328,7 @@ class AudioVideo extends React.PureComponent {
 
     if (user) {
       overlay = <div className={classes.overlayText}>
-        <Typography variant="headline" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           <DisplayNameLabel user={user} id={id}/> {
             !hasAudio ?  <MicOffIcon className={classes.overlayTextIcon}/> : null
           }

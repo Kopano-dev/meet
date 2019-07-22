@@ -206,7 +206,7 @@ class CallGrid extends React.PureComponent {
         {renderIf(renderMode === 'standby')(() => (
           <Grid className={classes.standby} container alignItems="center" direction="row" justify="center">
             <Grid item>
-              <Typography color="inherit" variant="headline">
+              <Typography color="inherit" variant="h5">
                 <FormattedMessage id="callGrid.suspended.headline" defaultMessage="Suspended"></FormattedMessage>
               </Typography>
             </Grid>
