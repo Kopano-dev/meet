@@ -162,30 +162,34 @@ export function requestDisplayMedia(id='', settings={}) {
       const info = {
         stream,
       };
-      if (globalSettings.keepOldStreamAndReplaceTracks &&
-        status.stream && status.stream.active && status.stream !== stream) {
-        // Keep stream, just replace tracks.
-        // NOTE(longsleep): Is this a good idea? Check support for this.
-        info.stream = status.stream;
-        info.removedTracks = [];
-        info.newTracks = [];
-        const oldTracks = status.stream.getTracks();
-        const newTracks = stream.getTracks();
-        for (const track of oldTracks) {
-          // Remember.
-          info.removedTracks.push(track);
-          // Stop old track.
-          track.stop();
-          // Remove old track from existing stream.
-          removeTrackFromStream(status.stream, track);
-        }
-        for (const track of newTracks) {
-          // Remember.
-          info.newTracks.push(track);
-          // Add new track to existing stream.
-          addTrackToStream(status.stream, track);
-          // Remove new track from new stream.
-          removeTrackFromStream(stream, track);
+      if (status.stream && status.stream.active && status.stream !== stream) {
+        if (globalSettings.keepOldStreamAndReplaceTracks) {
+          // Keep stream, just replace tracks.
+          // NOTE(longsleep): Is this a good idea? Check support for this.
+          info.stream = status.stream;
+          info.removedTracks = [];
+          info.newTracks = [];
+          const oldTracks = status.stream.getTracks();
+          const newTracks = stream.getTracks();
+          for (const track of oldTracks) {
+            // Remember.
+            info.removedTracks.push(track);
+            // Stop old track.
+            track.stop();
+            // Remove old track from existing stream.
+            removeTrackFromStream(status.stream, track);
+          }
+          for (const track of newTracks) {
+            // Remember.
+            info.newTracks.push(track);
+            // Add new track to existing stream.
+            addTrackToStream(status.stream, track);
+            // Remove new track from new stream.
+            removeTrackFromStream(stream, track);
+          }
+        } else {
+          // Ensure to stop old stream.
+          stopMediaStream(status.stream);
         }
       }
       // Optimize track encoding for content. See https://www.w3.org/TR/mst-content-hint/.
@@ -335,9 +339,9 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
         return null;
       }
       if (!constraints.audio && !constraints.video) {
-        // Neither audio nor video -> return what we have.
+        // Neither audio nor video -> return no stream.
         console.debug('requestUserMedia, neither audio nor video', idx, status); // eslint-disable-line no-console
-        return status.stream && status.stream.active ? status.stream : null;
+        return null;
       }
       return navigator.mediaDevices.getUserMedia(constraints).then(async stream => {
         await dispatch(userMediaSuccess(id, audio, video, constraints));
@@ -371,30 +375,34 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       const info = {
         stream,
       };
-      if (globalSettings.keepOldStreamAndReplaceTracks &&
-        status.stream && status.stream.active && status.stream !== stream) {
-        // Keep stream, just replace tracks.
-        // NOTE(longsleep): Is this a good idea? Check support for this.
-        info.stream = status.stream;
-        info.removedTracks = [];
-        info.newTracks = [];
-        const oldTracks = status.stream.getTracks();
-        const newTracks = stream.getTracks();
-        for (const track of oldTracks) {
-          // Remember.
-          info.removedTracks.push(track);
-          // Stop old track.
-          track.stop();
-          // Remove old track from existing stream.
-          removeTrackFromStream(status.stream, track);
-        }
-        for (const track of newTracks) {
-          // Remember.
-          info.newTracks.push(track);
-          // Add new track to existing stream.
-          addTrackToStream(status.stream, track);
-          // Remove new track from new stream.
-          removeTrackFromStream(stream, track);
+      if (status.stream && status.stream.active && status.stream !== stream) {
+        if (globalSettings.keepOldStreamAndReplaceTracks) {
+          // Keep stream, just replace tracks.
+          // NOTE(longsleep): Is this a good idea? Check support for this.
+          info.stream = status.stream;
+          info.removedTracks = [];
+          info.newTracks = [];
+          const oldTracks = status.stream.getTracks();
+          const newTracks = stream.getTracks();
+          for (const track of oldTracks) {
+            // Remember.
+            info.removedTracks.push(track);
+            // Stop old track.
+            track.stop();
+            // Remove old track from existing stream.
+            removeTrackFromStream(status.stream, track);
+          }
+          for (const track of newTracks) {
+            // Remember.
+            info.newTracks.push(track);
+            // Add new track to existing stream.
+            addTrackToStream(status.stream, track);
+            // Remove new track from new stream.
+            removeTrackFromStream(stream, track);
+          }
+        } else {
+          // Ensure to stop old stream.
+          stopMediaStream(status.stream);
         }
       }
       // Optimize track encoding for content.  See https://www.w3.org/TR/mst-content-hint/.
