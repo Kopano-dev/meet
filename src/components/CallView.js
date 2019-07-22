@@ -1299,15 +1299,14 @@ class CallView extends React.PureComponent {
                     ></ContactSearch>
                   }
                   <Hidden smUp>
-                    <Button
-                      variant="fab"
+                    <Fab
                       className={classes.fab}
                       aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
                       color="primary"
                       onClick={this.handleFabClick}
                     >
                       <AddCallIcon />
-                    </Button>
+                    </Fab>
                   </Hidden>
                 </React.Fragment>
               )}/>
