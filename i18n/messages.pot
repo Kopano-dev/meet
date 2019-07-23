@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-07-11T16:49:29.428Z\n"
+"POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -8,19 +8,19 @@ msgstr ""
 
 
 #: ./i18n/src/messages.json
-#. [incomingCallDialog.acceptVoiceCallButton.text]
+#. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
-#. Accept call
-msgctxt "incomingCallDialog.acceptVoiceCallButton.text"
-msgid "Accept call"
+#. Accept
+msgctxt "incomingCallDialog.acceptVideoCallButton.text"
+msgid "Accept"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [incomingCallDialog.acceptVideoCallButton.text]
+#. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
-#. Accept video
-msgctxt "incomingCallDialog.acceptVideoCallButton.text"
-msgid "Accept video"
+#. Audio only
+msgctxt "callView.settingsAudioOnly.label"
+msgid "Audio only"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -37,6 +37,38 @@ msgstr ""
 #. Back
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [contactControl.callButton.label]
+#. defaultMessage is:
+#. Call
+msgctxt "contactControl.callButton.label"
+msgid "Call"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [contactSearch.callButton.aria]
+#. defaultMessage is:
+#. Call
+msgctxt "contactSearch.callButton.aria"
+msgid "Call"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [groupControl.callButton.label]
+#. defaultMessage is:
+#. Call
+msgctxt "groupControl.callButton.label"
+msgid "Call"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [recents.callButton.aria]
+#. defaultMessage is:
+#. Call
+msgctxt "recents.callButton.aria"
+msgid "Call"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -72,6 +104,14 @@ msgid "Close"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [incomingCallDialog.closeButton.aria]
+#. defaultMessage is:
+#. Close
+msgctxt "incomingCallDialog.closeButton.aria"
+msgid "Close"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.tabContacts.label]
 #. defaultMessage is:
 #. Contacts
@@ -101,6 +141,14 @@ msgstr ""
 #. Find contact
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [fullscreenDialog.ignoreButton.text]
+#. defaultMessage is:
+#. Ignore
+msgctxt "fullscreenDialog.ignoreButton.text"
+msgid "Ignore"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -336,14 +384,6 @@ msgid "Video call"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [recents.videoCallButton.aria]
-#. defaultMessage is:
-#. Video call
-msgctxt "recents.videoCallButton.aria"
-msgid "Video call"
-msgstr ""
-
-#: ./i18n/src/messages.json
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
 #. Voice call
@@ -356,14 +396,6 @@ msgstr ""
 #. defaultMessage is:
 #. Voice call
 msgctxt "groupControl.voiceCallButton.aria"
-msgid "Voice call"
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [recents.voiceCallButton.aria]
-#. defaultMessage is:
-#. Voice call
-msgctxt "recents.voiceCallButton.aria"
 msgid "Voice call"
 msgstr ""
 

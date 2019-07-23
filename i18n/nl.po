@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-11T16:49:29.428Z\n"
+"POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
 "PO-Revision-Date: 2019-05-09 13:26+0000\n"
 "Last-Translator: Bob <b.huisman@kopano.com>\n"
 "Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
@@ -12,21 +12,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
-#. [incomingCallDialog.acceptVoiceCallButton.text]
-#. defaultMessage is:
-#. Accept call
-#: i18n/src/messages.json
-msgctxt "incomingCallDialog.acceptVoiceCallButton.text"
-msgid "Accept call"
-msgstr "Oproep aannemen"
-
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
-#. Accept video
+#. Accept
 #: i18n/src/messages.json
+#, fuzzy
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
-msgid "Accept video"
-msgstr "Videooproep aannemen"
+msgid "Accept"
+msgstr "Oproep aannemen"
+
+#. [callView.settingsAudioOnly.label]
+#. defaultMessage is:
+#. Audio only
+#: i18n/src/messages.json
+msgctxt "callView.settingsAudioOnly.label"
+msgid "Audio only"
+msgstr ""
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -43,6 +44,42 @@ msgstr ""
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
 msgstr ""
+
+#. [contactControl.callButton.label]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "contactControl.callButton.label"
+msgid "Call"
+msgstr "Oproep"
+
+#. [contactSearch.callButton.aria]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "contactSearch.callButton.aria"
+msgid "Call"
+msgstr "Oproep"
+
+#. [groupControl.callButton.label]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "groupControl.callButton.label"
+msgid "Call"
+msgstr "Oproep"
+
+#. [recents.callButton.aria]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "recents.callButton.aria"
+msgid "Call"
+msgstr "Oproep"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -74,6 +111,15 @@ msgstr "Annuleren"
 #. Close
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
+msgid "Close"
+msgstr "Sluiten"
+
+#. [incomingCallDialog.closeButton.aria]
+#. defaultMessage is:
+#. Close
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
 msgstr "Sluiten"
 
@@ -109,6 +155,14 @@ msgstr "Contacten laden mislukt."
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
 msgstr "Contacten laden ..."
+
+#. [fullscreenDialog.ignoreButton.text]
+#. defaultMessage is:
+#. Ignore
+#: i18n/src/messages.json
+msgctxt "fullscreenDialog.ignoreButton.text"
+msgid "Ignore"
+msgstr ""
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -348,14 +402,6 @@ msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
 msgstr "Videooproep"
 
-#. [recents.videoCallButton.aria]
-#. defaultMessage is:
-#. Video call
-#: i18n/src/messages.json
-msgctxt "recents.videoCallButton.aria"
-msgid "Video call"
-msgstr "Videooproep"
-
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
 #. Voice call
@@ -371,14 +417,6 @@ msgstr "Audio oproep"
 #: i18n/src/messages.json
 #, fuzzy
 msgctxt "groupControl.voiceCallButton.aria"
-msgid "Voice call"
-msgstr "Audio oproep"
-
-#. [recents.voiceCallButton.aria]
-#. defaultMessage is:
-#. Voice call
-#: i18n/src/messages.json
-msgctxt "recents.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Audio oproep"
 
@@ -461,6 +499,18 @@ msgstr "onbekend"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "inschakelen"
+
+#~ msgctxt "incomingCallDialog.acceptVideoCallButton.text"
+#~ msgid "Accept video"
+#~ msgstr "Videooproep aannemen"
+
+#~ msgctxt "recents.videoCallButton.aria"
+#~ msgid "Video call"
+#~ msgstr "Videooproep"
+
+#~ msgctxt "recents.voiceCallButton.aria"
+#~ msgid "Voice call"
+#~ msgstr "Audio oproep"
 
 #~ msgctxt "snacks.callRejected.message"
 #~ msgid "Your call was rejected"
