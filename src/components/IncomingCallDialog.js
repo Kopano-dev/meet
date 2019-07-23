@@ -17,6 +17,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import Persona from 'kpop/es/Persona';
 
@@ -202,6 +203,8 @@ IncomingCallDialog.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 
+  fullScreen: PropTypes.bool.isRequired,
+
   mode: PropTypes.string.isRequired,
   record: PropTypes.object.isRequired,
 
@@ -227,4 +230,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(injectIntl(IncomingCallDialog)));
+export default connect(mapStateToProps)(withStyles(styles)(withMobileDialog()(injectIntl(IncomingCallDialog))));
