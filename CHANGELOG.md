@@ -2,6 +2,25 @@
 
 ## Unreleased
 
+- Rebuild and update translations
+- Simplify call flow options
+- Update kpop to 0.20.2
+- Optimize embedded styles
+- Update kpop to 0.20.1
+- Replace fab button variant with fab component
+- Update webrtc-adapter to 7.2.8
+- Always stop old gUM and gDM streams when they are replaced
+- Reset element src on unmount to prevent potential leaks
+- Update material typography variants
+- Update kpop to 0.20.0
+- Use snackbar from kpop
+- Use more from kpop
+- Update translations
+- Add more snack messages
+- Move main notification snacks to notistack
+- Increase drawer width
+- Rebuild translations
+- Remove unused import
 
 
 ## v0.21.1 (2019-07-11)
