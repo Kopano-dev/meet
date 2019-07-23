@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Use full screen incoming call dialog on mobile
 - Rebuild and update translations
 - Simplify call flow options
 - Update kpop to 0.20.2
