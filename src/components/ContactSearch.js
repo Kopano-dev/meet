@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -114,6 +113,10 @@ const translations = defineMessages({
   searchByNamePlaceholder: {
     id: 'contactSearch.searchByNameTextField.placeholder',
     defaultMessage: 'Find contact',
+  },
+  callButtonAria: {
+    id: 'contactSearch.callButton.aria',
+    defaultMessage: 'Call',
   },
 });
 
@@ -409,10 +412,7 @@ class ContactSearch extends React.PureComponent {
                 <Persona user={mapContactEntryToUserShape(contact)}/>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction className={classes.actions}>
-                  <IconButton aria-label="Video call" data-contact-action="videocall">
-                    <VideocamIcon />
-                  </IconButton>
-                  <IconButton aria-label="Audio call" data-contact-action="call">
+                  <IconButton aria-label={intl.formatMessage(translations.callButtonAria)} data-contact-action="default">
                     <CallIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

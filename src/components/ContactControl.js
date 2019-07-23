@@ -9,14 +9,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
-import VideocamIcon from '@material-ui/icons/Videocam';
+import Button from '@material-ui/core/Button';
 import CallIcon from '@material-ui/icons/Call';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import Persona from 'kpop/es/Persona';
 
-import { injectIntl, intlShape, defineMessages } from 'react-intl';
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
@@ -119,24 +118,14 @@ class ContactControl extends React.PureComponent {
               <Typography variant="body2">{entry.jobTitle}</Typography>
             </CardContent>
             {withActions && <CardActions className={classes.actions}>
-              <Fab
+              <Button
+                variant="contained"
                 color="primary"
-                size="medium"
-                aria-label={intl.formatMessage(translations.videocallAria)}
-                className={classes.fabIcon}
-                onClick={this.handleEntryClick('videocall')}
-              >
-                <VideocamIcon />
-              </Fab>
-              <Fab
-                color="primary"
-                size="medium"
-                aria-label={intl.formatMessage(translations.voicecallAria)}
-                className={classes.fabIcon}
-                onClick={this.handleEntryClick('call')}
+                onClick={this.handleEntryClick('default')}
               >
                 <CallIcon />
-              </Fab>
+                <FormattedMessage id="contactControl.callButton.label" defaultMessage="Call"/>
+              </Button>
             </CardActions>}
           </Card>
         </div>

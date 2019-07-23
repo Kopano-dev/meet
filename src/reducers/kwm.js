@@ -3,6 +3,7 @@ import {
   KWM_CHANNEL_CHANGED,
   KWM_DO_CALL,
   KWM_DO_ACCEPT,
+  KWM_DO_IGNORE,
   KWM_CALL_INCOMING,
   KWM_CALL_OUTGOING,
   KWM_CALL_DESTROY,
@@ -50,6 +51,14 @@ function kwmReducer(state = defaultState, action) {
     }
 
     case KWM_DO_ACCEPT: {
+      const ringing = Object.assign({}, state.ringing);
+      delete ringing[action.id];
+      return Object.assign({}, state, {
+        ringing,
+      });
+    }
+
+    case KWM_DO_IGNORE: {
       const ringing = Object.assign({}, state.ringing);
       delete ringing[action.id];
       return Object.assign({}, state, {

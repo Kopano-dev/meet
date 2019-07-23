@@ -10,9 +10,8 @@ import CardActions from '@material-ui/core/CardActions';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PublicConferenceIcon from '@material-ui/icons/Group';
-import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
-import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -24,7 +23,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import Persona from 'kpop/es/Persona';
 import { parseQuery } from 'kpop/es/utils';
 
-import { injectIntl, intlShape, defineMessages } from 'react-intl';
+import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { getCurrentAppPath } from '../base';
 import { writeTextToClipboard } from '../clipboard';
@@ -219,24 +218,14 @@ class GroupControl extends React.PureComponent {
               <Typography variant="body2"><ScopeLabel scope={group.scope} capitalize/></Typography>
             </CardContent>
             {withActions && <CardActions className={classes.actions}>
-              <Fab
+              <Button
+                variant="contained"
                 color="primary"
-                size="medium"
-                aria-label={intl.formatMessage(translations.videocallAria)}
-                className={classes.fabIcon}
-                onClick={this.handleEntryClick('videocall')}
-              >
-                <VideocamIcon />
-              </Fab>
-              <Fab
-                color="primary"
-                size="medium"
-                aria-label={intl.formatMessage(translations.voicecallAria)}
-                className={classes.fabIcon}
-                onClick={this.handleEntryClick('call')}
+                onClick={this.handleEntryClick('default')}
               >
                 <CallIcon />
-              </Fab>
+                <FormattedMessage id="groupControl.callButton.label" defaultMessage="Call"/>
+              </Button>
             </CardActions>}
           </Card>
           <Menu

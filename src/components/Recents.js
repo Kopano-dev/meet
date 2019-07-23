@@ -15,7 +15,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import PublicConferenceIcon from '@material-ui/icons/Group';
-import VideocamIcon from '@material-ui/icons/Videocam';
 import CallIcon from '@material-ui/icons/Call';
 import IconButton from '@material-ui/core/IconButton';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
@@ -95,13 +94,9 @@ const styles = theme => ({
 });
 
 const translations = defineMessages({
-  videoCallButtonAria: {
-    id: 'recents.videoCallButton.aria',
-    defaultMessage: 'Video call',
-  },
-  voiceCallButtonAria: {
-    id: 'recents.voiceCallButton.aria',
-    defaultMessage: 'Voice call',
+  callButtonAria: {
+    id: 'recents.callButton.aria',
+    defaultMessage: 'Call',
   },
   moreButtonAria: {
     id: 'recents.moreButton.aria',
@@ -240,10 +235,7 @@ class Recents extends React.PureComponent {
                     secondary={<RecentsEntrySubline entry={entry}/>}
                   />
                   <ListItemSecondaryAction className={classes.actions}>
-                    <IconButton aria-label={intl.formatMessage(translations.videoCallButtonAria)} onClick={this.handleEntryClick(entry, 'videocall')}>
-                      <VideocamIcon />
-                    </IconButton>
-                    <IconButton aria-label={intl.formatMessage(translations.voiceCallButtonAria)} onClick={this.handleEntryClick(entry, 'call')}>
+                    <IconButton aria-label={intl.formatMessage(translations.callButtonAria)} onClick={this.handleEntryClick(entry, 'default')}>
                       <CallIcon />
                     </IconButton>
                     <IconButton aria-label={intl.formatMessage(translations.moreButtonAria)} onClick={this.handleEntryClick(entry, 'more')}>

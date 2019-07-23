@@ -702,6 +702,13 @@ export function doReject(id, reason='reject') {
   };
 }
 
+export function doIgnore(id) {
+  return {
+    type: types.KWM_DO_IGNORE,
+    id,
+  };
+}
+
 export function setLocalStream(stream) {
   return async () => {
     console.info('KWM setting local stream', stream); // eslint-disable-line no-console

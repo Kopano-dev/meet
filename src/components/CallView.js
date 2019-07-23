@@ -23,6 +23,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ToggleSwitch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
@@ -60,6 +62,7 @@ import {
   doHangup,
   doAccept,
   doReject,
+  doIgnore,
   doGroup,
 } from '../actions/kwm';
 import {
@@ -138,6 +141,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
     [deskopWidthBreakpoint]: {
       flexDirection: 'row',
@@ -390,6 +394,9 @@ const styles = theme => ({
   masterButton: {
     margin: `${theme.spacing.unit * 2}px 24px 12px 24px`,
   },
+  settingsList: {
+    minWidth: 230,
+  },
 });
 
 const translations = defineMessages({
@@ -428,6 +435,10 @@ const translations = defineMessages({
   settingsListLabel: {
     id: 'callView.settingsList.label',
     defaultMessage: 'Settings',
+  },
+  settingsAudioOnlyLabel: {
+    id: 'callView.settingsAudioOnly.label',
+    defaultMessage: 'Audio only',
   },
   callCurrentlyNotActiveSnack: {
     id: 'callView.notActive.snack',
@@ -482,7 +493,7 @@ class CallView extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { mode, muteCam, muteMic, rumFailed, withChannel } = this.state;
+    const { mode, previousMode, muteCam, muteMic, rumFailed, withChannel } = this.state;
     const {
       hidden,
       channel,
@@ -530,18 +541,14 @@ class CallView extends React.PureComponent {
           console.info('Switching to standby after hide'); // eslint-disable-line no-console
           this.setState({
             mode: 'standby',
-          });
-        } else if (!channel && mode !== 'videocall') {
-          // Always restore to videocall mode when not in a call.
-          this.setState({
-            mode: 'videocall',
+            previousMode: mode,
           });
         }
       } else {
         if (prevProps.hidden && !hidden) {
           console.info('Switching to previous mode after no longer hide'); // eslint-disable-line no-console
           this.setState({
-            mode: 'videocall',
+            mode: previousMode ? previousMode : 'videocall',
           });
         }
       }
@@ -723,6 +730,12 @@ class CallView extends React.PureComponent {
     doReject(id);
   }
 
+  handleIgnoreClick = (id) => {
+    const { doIgnore } = this.props;
+
+    doIgnore(id);
+  }
+
   handleSidebarToggle = () => {
     this.setState({
       sidebarOpen: !this.state.sidebarOpen,
@@ -751,6 +764,13 @@ class CallView extends React.PureComponent {
   handleTabChange = (event, value) => {
     this.setState({
       openTab: value,
+    });
+  }
+
+  handleVoiceOnlyToggle = () => {
+    const { mode } = this.state;
+    this.setState({
+      mode: mode === 'call' ? 'videocall' : 'call',
     });
   }
 
@@ -816,7 +836,7 @@ class CallView extends React.PureComponent {
 
     return new Promise(async (resolve) => {
       newMode = newMode ? newMode : (muteCam ? 'call' : 'videocall');
-      if (mode !== newMode) {
+      if (newMode !== 'default' && mode !== newMode) {
         await unsetLocalStream();
         this.setState({
           mode: newMode,
@@ -1202,6 +1222,22 @@ class CallView extends React.PureComponent {
       }
     );
 
+    const quickSettingsList = <List className={classes.settingsList}>
+      <ListItem>
+        <ListItemIcon>
+          <CamOffIcon />
+        </ListItemIcon>
+        <ListItemText primary={intl.formatMessage(translations.settingsAudioOnlyLabel)} />
+        <ListItemSecondaryAction>
+          <ToggleSwitch
+            color="primary"
+            onChange={this.handleVoiceOnlyToggle}
+            checked={mode === 'call'}
+          />
+        </ListItemSecondaryAction>
+      </ListItem>
+    </List>;
+
     controls.push(
       <div key='permanent' className={controlsPermanentClassName}>
         {shareScreenButton}
@@ -1214,11 +1250,13 @@ class CallView extends React.PureComponent {
           className={classes.settingsButton}
           icon={<SettingsIcon/>}
         >
-          <List>
+          <List className={classes.settingsList}>
             <ListItem button disabled>
               <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
             </ListItem>
           </List>
+          <Divider/>
+          {quickSettingsList}
         </IconButtonWithPopover>
       </Hidden>
     );
@@ -1356,8 +1394,10 @@ class CallView extends React.PureComponent {
           open={!record.ignore}
           key={`incoming-call-${id}`}
           record={record}
+          mode={mode}
           onAcceptClick={(mode, entry, kind) => { this.handleAcceptClick(record.id, mode, entry, kind); }}
           onRejectClick={(entry, kind) => { this.handleRejectClick(record.id, entry, kind); }}
+          onIgnoreClick={() => { this.handleIgnoreClick(record.id); }}
         >
         </IncomingCallDialog>
       );
@@ -1414,6 +1454,7 @@ class CallView extends React.PureComponent {
         <Divider/>
       </Hidden>
       <Hidden mdUp>
+        {quickSettingsList}
         <List>
           <ListItem button disabled>
             <ListItemIcon>
@@ -1421,9 +1462,7 @@ class CallView extends React.PureComponent {
             </ListItemIcon>
             <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
           </ListItem>
-          <Hidden mdUp>
-            <AppsSwitcherListItem/>
-          </Hidden>
+          <AppsSwitcherListItem/>
         </List>
       </Hidden>
     </React.Fragment>;
@@ -1476,10 +1515,10 @@ class CallView extends React.PureComponent {
             [classes[`contentShift-${anchor}`]]: sidebarOpen,
           })}
         >
-          <div className={classes.controls}>
-            {controls}
-          </div>
           <div className={containerClassName}>
+            <div className={classes.controls}>
+              {controls}
+            </div>
             {screenShareViewer}
             <CallGrid
               onClick={this.handleCallGridClick}
@@ -1531,6 +1570,7 @@ CallView.propTypes = {
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
   doReject: PropTypes.func.isRequired,
+  doIgnore: PropTypes.func.isRequired,
   doCallGroup: PropTypes.func.isRequired,
   muteVideoStream: PropTypes.func.isRequired,
   muteAudioStream: PropTypes.func.isRequired,
@@ -1669,6 +1709,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     doReject: (id) => {
       return dispatch(doReject(id));
+    },
+    doIgnore: (id) => {
+      return dispatch(doIgnore(id));
     },
     doCallGroup: (id, errorCallback) => {
       return dispatch(doGroup(id, errorCallback));
