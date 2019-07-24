@@ -11,7 +11,7 @@ const styles = (theme) => ({
     background: `${theme.videoBackground.top}`,
     width: '12vh',
     height: '12vh',
-    borderRadius: '50%',
+    borderRadius: 5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -19,7 +19,7 @@ const styles = (theme) => ({
   audioVideo: {
     height: '100%',
     width: '100%',
-    borderRadius: '50%',
+    borderRadius: 5,
     overflow: 'hidden',
   },
 });

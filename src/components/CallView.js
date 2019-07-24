@@ -288,7 +288,6 @@ const styles = theme => ({
   },
   call: {
     height: '40vh',
-    background: '#ddd',
     minHeight: 200,
     overflow: 'hidden',
     boxSizing: 'border-box',

@@ -27,7 +27,7 @@ const styles = theme => ({
   },
   videocall: {
     display: 'grid',
-    background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
+    backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
     overflow: 'hidden',
     flex: 1,
@@ -42,7 +42,8 @@ const styles = theme => ({
   call: {
     flex: '1',
     justifyContent: 'center',
-    background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
+    //background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
+    background: 'yellow',
     color: theme.palette.primary.contrastText,
   },
   overlay: {
@@ -67,7 +68,6 @@ const styles = theme => ({
     maxHeight: '100%',
     overflow: 'hidden',
     boxSizing: 'border-box',
-    boxShadow: 'inset 0 0 10px white',
   },
   video: {
     width: '100%',
@@ -76,7 +76,7 @@ const styles = theme => ({
   rounded: {
     width: '12vh',
     height: '12vh',
-    borderRadius: '50%',
+    borderRadius: 5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

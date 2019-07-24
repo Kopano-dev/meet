@@ -4,7 +4,7 @@ import kopanoGreen from 'kpop/es/colors/kopanoGreen';
 
 const darkGrey = '#272c2e';
 const lightBlue = '#3eb4f3';
-const lightGrey = '#c1c1c1';
+const lightGrey = '#585759';
 
 const theme = createMuiTheme({
   palette: {
