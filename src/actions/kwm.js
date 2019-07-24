@@ -65,11 +65,9 @@ const kwmConfig = (() => {
   };
 
   if (adapter.browserDetails.browser === 'chrome') {
-    // For now use Plan-B. See https://webrtc.org/web-apis/chrome/unified-plan/. You should continue to use Plan B
-    // semantics only if you send or receive more than one audio track or more than one video track and need to
-    // interoperate with existing WebRTC implementations that do not yet support Unified Plan (e.g., Chrome). This
-    // setting can be changed once we deprecate support for Chrome < 72.
-    config.webrtc.config.sdpSemantics = 'plan-b';
+    // For interoperability with Firefox and others, we need to send standard sdp. This sets the plan to unified plan
+    // effectively breaking compatibilty with Chromeium < M69. See https://webrtc.org/web-apis/chrome/unified-plan/.
+    config.webrtc.config.sdpSemantics = 'unified-plan';
   }
 
   return config;
