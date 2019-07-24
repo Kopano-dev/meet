@@ -978,13 +978,18 @@ class CallView extends React.PureComponent {
     }).then(async stream => {
       console.debug('requestDisplayMedia stream', id, stream); // eslint-disable-line no-console
       if (stream) {
-        await setScreenshareStream(id, stream);
-        stream.addEventListener('inactive', () => {
-          // NOTE(longsleep): Some browsers have extra ui to stop screen sharing which needs handling.
-          // TODO(longsleep): This might not detect that the stream is old.
-          // TODO(longsleep): This is duplicated code from above.
-          setScreenshareStream(id); // clears.
-        }, true);
+        const tracks = stream.getVideoTracks();
+        if (tracks.length > 0) {
+          await setScreenshareStream(id, stream);
+          // Register event to clean up the stream when the first video track
+          // has ended.
+          tracks[0].onended = () => {
+            // TODO(longsleep): This might not detect that the stream is old.
+            setScreenshareStream(id); // clears.
+          };
+        } else {
+          console.warn('requestDisplayMedia stream got stream with no video tracks', stream); // eslint-disable-line no-console
+        }
       } else {
         await setScreenshareStream(id); // clears.
       }

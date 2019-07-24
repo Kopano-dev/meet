@@ -483,6 +483,11 @@ function stopMediaStream(stream) {
   } else {
     for (const track of stream.getTracks()) {
       track.stop();
+      // Manually trigger event, since this does not trigger when stop is
+      // called directly. See https://w3c.github.io/mediacapture-main/#event-summary
+      // for details.
+      var event = new Event('ended');
+      track.dispatchEvent(event);
     }
   }
 }
