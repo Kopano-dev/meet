@@ -74,7 +74,7 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/media';
-import { pushHistory } from '../utils';
+import { pushHistory, isMobile, isTouchDevice } from '../utils';
 import { resolveContactID } from '../utils';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -89,9 +89,6 @@ import RTCStats from './RTCStats';
 import { Howling } from './howling';
 import IconButtonWithPopover from './IconButtonWithPopover';
 
-// NOTE(longsleep): Poor mans check if on mobile.
-const isMobile = /Mobi/.test(navigator.userAgent);
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';
 const deskopWidthBreakpoint = '@media (min-width:1025px)';

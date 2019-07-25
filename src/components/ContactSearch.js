@@ -33,6 +33,7 @@ import { fetchAndAddContacts, searchContacts } from '../actions/contacts';
 import { maybeIsABEID, idFromABEID } from '../abeid';
 import { getOwnGrapiUserEntryID } from '../selectors';
 import { mapContactEntryToUserShape } from './Recents';
+import { isMobile } from '../utils';
 
 const styles = theme => ({
   root: {
@@ -365,7 +366,7 @@ class ContactSearch extends React.PureComponent {
         <Toolbar className={classes.search} disableGutters={embedded}>
           <TextField
             fullWidth
-            autoFocus
+            autoFocus={!isMobile}
             value={query}
             onChange={this.handleSearch}
             placeholder={intl.formatMessage(translations.searchByNamePlaceholder)}

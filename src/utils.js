@@ -1,5 +1,9 @@
 import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
 
+// NOTE(longsleep): Poor mans check if on mobile.
+export const isMobile = /Mobi/.test(navigator.userAgent);
+export const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+
 export function pushHistory(history, path, state) {
   // Simple helper to push the history, keeping the current query and hash.
   history.push(path + window.location.search + window.location.hash, state);
