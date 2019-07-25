@@ -349,6 +349,7 @@ class AudioVideo extends React.PureComponent {
             className={elementClassName}
             ref={this.handleElement.bind()}
             muted={muted}
+            playsInline
             {...other}
           >
             {children}
@@ -373,6 +374,7 @@ class AudioVideo extends React.PureComponent {
             className={elementClassName}
             ref={this.handleElement.bind()}
             muted={extra ? true : muted}
+            playsInline
             {...other}
           >
             {children}
