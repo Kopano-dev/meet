@@ -29,12 +29,13 @@ export const globalSettings = (() => {
     // - Works:
     //   - Chrome 67 (Plan B)
     //   - Chrome with Unified Plan.
+    //   - Safari iOS 12.4
     // - Issues:
     //   - Firefox 60 (added streams do not play on remote side < Chrome 62)
     //   - Firefox 65 (disable both local streams, streams do not start again)
     //   - Chrome 72 beta (added streams do not play on remote side < Chrome 62)
     //     when Chrome 72 is using the unified plan (Plan B works).
-    muteWithAddRemoveTracks: adapter.browserDetails.browser === 'chrome',
+    muteWithAddRemoveTracks: ['chrome', 'safari'].indexOf(adapter.browserDetails.browser) !== -1,
     // NOTE(longsleep): keeping old streamsn and just replacing tracks does not
     // work in Firefox. Disable for now. Maybe be removed completely?
     keepOldStreamAndReplaceTracks: false,
