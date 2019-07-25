@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+
+
+## v0.22.0 (2019-07-25)
+
+- Update kwmjs to 0.19.0
+- Enable add/remove of tracks for Firefox and Safari
+- Disable auto focus of search field on mobile
+- Add playsinline attribute to all audio and video elements
+- Enable track remove/add on Safari
+- Get rid of grizzly styles
+- Use unified plan with Chromium
+- Remove depcreated inactive event in favour of onended
 - Use full screen incoming call dialog on mobile
 - Rebuild and update translations
 - Simplify call flow options
