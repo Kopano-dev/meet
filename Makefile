@@ -7,6 +7,7 @@ CHGLOG ?= git-chglog
 
 # Variables
 
+ARGS    ?=
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2>/dev/null | sed 's/^v//' || \
 			cat $(CURDIR)/.version 2> /dev/null || echo 0.0.0-unreleased)
 
@@ -82,7 +83,7 @@ dist:  3rdparty-LICENSES.md ; $(info building dist tarball ...)
 
 .PHONY: changelog
 changelog: ; $(info updating changelog ...)
-	$(CHGLOG) --output CHANGELOG.md
+	$(CHGLOG) --output CHANGELOG.md $(ARGS)
 
 .PHONY: clean ; $(info cleaning ...)	@
 clean:

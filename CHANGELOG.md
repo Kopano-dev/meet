@@ -4,6 +4,11 @@
 
 
 
+## v0.22.1 (2019-07-31)
+
+- Get rid of yellow background left over
+
+
 ## v0.22.0 (2019-07-25)
 
 - Update kwmjs to 0.19.0
