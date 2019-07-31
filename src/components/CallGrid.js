@@ -42,8 +42,7 @@ const styles = theme => ({
   call: {
     flex: '1',
     justifyContent: 'center',
-    //background: `linear-gradient(${theme.callBackground.top}, ${theme.callBackground.bottom} 100%)`,
-    background: 'yellow',
+    backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
   },
   overlay: {
