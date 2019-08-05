@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-05-06T14:32:28.917Z\n"
-"PO-Revision-Date: 2019-05-31 09:56+0000\n"
+"POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
+"PO-Revision-Date: 2019-08-05 13:24+0000\n"
 "Last-Translator: Nuno Jerónimo <nuno.jeronimo@valsousa.pt>\n"
 "Language-Team: Portuguese (Portugal) <http://translate.kopano.io/projects/kopano/meet/pt_PT/>\n"
 "Language: pt_PT\n"
@@ -12,37 +12,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.4\n"
 
-#. [incomingCallDialog.acceptVoiceCallButton.text]
-#. defaultMessage is:
-#. Accept call
-#: i18n/src/messages.json
-msgctxt "incomingCallDialog.acceptVoiceCallButton.text"
-msgid "Accept call"
-msgstr "Aceitar chamada"
-
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
-#. Accept video
+#. Accept
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
-msgid "Accept video"
-msgstr "Aceitar vídeo"
+msgid "Accept"
+msgstr "Aceitar"
 
-#. [contactControl.voiceCallButton.text]
+#. [callView.settingsAudioOnly.label]
+#. defaultMessage is:
+#. Audio only
+#: i18n/src/messages.json
+msgctxt "callView.settingsAudioOnly.label"
+msgid "Audio only"
+msgstr "Só áudio"
+
+#. [contactControl.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+msgctxt "contactControl.backButton.aria"
+msgid "Back"
+msgstr "Recuar"
+
+#. [groupControl.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+msgctxt "groupControl.backButton.aria"
+msgid "Back"
+msgstr "Recuar"
+
+#. [contactControl.callButton.label]
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-msgctxt "contactControl.voiceCallButton.text"
+msgctxt "contactControl.callButton.label"
 msgid "Call"
-msgstr "Ligar"
+msgstr "Chamada"
 
-#. [groupControl.voiceCallButton.text]
+#. [contactSearch.callButton.aria]
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-msgctxt "groupControl.voiceCallButton.text"
+msgctxt "contactSearch.callButton.aria"
 msgid "Call"
-msgstr "Ligar"
+msgstr "Chamada"
+
+#. [groupControl.callButton.label]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "groupControl.callButton.label"
+msgid "Call"
+msgstr "Chamada"
+
+#. [recents.callButton.aria]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "recents.callButton.aria"
+msgid "Call"
+msgstr "Chamada"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -50,7 +82,15 @@ msgstr "Ligar"
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr "Ligar"
+msgstr "Chamada"
+
+#. [callView.tabCalls.label]
+#. defaultMessage is:
+#. Calls
+#: i18n/src/messages.json
+msgctxt "callView.tabCalls.label"
+msgid "Calls"
+msgstr "Chamadas"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -60,14 +100,6 @@ msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#. [contactControl.closeButton.text]
-#. defaultMessage is:
-#. Close
-#: i18n/src/messages.json
-msgctxt "contactControl.closeButton.text"
-msgid "Close"
-msgstr "Fechar"
-
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
 #. Close
@@ -76,11 +108,11 @@ msgctxt "fullscreenDialog.closeButton.aria"
 msgid "Close"
 msgstr "Fechar"
 
-#. [groupControl.closeButton.text]
+#. [incomingCallDialog.closeButton.aria]
 #. defaultMessage is:
 #. Close
 #: i18n/src/messages.json
-msgctxt "groupControl.closeButton.text"
+msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
 msgstr "Fechar"
 
@@ -92,29 +124,13 @@ msgctxt "callView.tabContacts.label"
 msgid "Contacts"
 msgstr "Contactos"
 
-#. [newPublicGroup.createButton.text]
-#. defaultMessage is:
-#. Create
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.createButton.text"
-msgid "Create"
-msgstr "Criar"
-
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
 #. Delete
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr "Eliminar"
-
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Enter a public group
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Enter a public group"
-msgstr "Entrar num grupo público"
+msgstr "Remover"
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -124,6 +140,22 @@ msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
 msgstr "Falhou a carregar os contactos."
 
+#. [contactSearch.searchByNameTextField.placeholder]
+#. defaultMessage is:
+#. Find contact
+#: i18n/src/messages.json
+msgctxt "contactSearch.searchByNameTextField.placeholder"
+msgid "Find contact"
+msgstr "Procurar contacto"
+
+#. [fullscreenDialog.ignoreButton.text]
+#. defaultMessage is:
+#. Ignore
+#: i18n/src/messages.json
+msgctxt "fullscreenDialog.ignoreButton.text"
+msgid "Ignore"
+msgstr "Ignorar"
+
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
 #. Incoming call
@@ -131,6 +163,22 @@ msgstr "Falhou a carregar os contactos."
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
 msgstr "A receber chamada"
+
+#. [newPublicGroup.createButton.text]
+#. defaultMessage is:
+#. Join
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.createButton.text"
+msgid "Join"
+msgstr "Entrar"
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join public group
+#: i18n/src/messages.json
+msgctxt "contactSearch.newPublicGroup.button.text"
+msgid "Join public group"
+msgstr "Entrar no grupo público"
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -148,13 +196,13 @@ msgctxt "recents.moreButton.aria"
 msgid "More"
 msgstr "Mais"
 
-#. [contactSearch.newPublicGroup.button.text]
+#. [callView.masterButton.label]
 #. defaultMessage is:
-#. New Public Group
+#. New call
 #: i18n/src/messages.json
-msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "New Public Group"
-msgstr "Novo Grupo Público"
+msgctxt "callView.masterButton.label"
+msgid "New call"
+msgstr "Nova chamada"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -170,7 +218,7 @@ msgstr "Nova chamada"
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr "Sem ligação - verifique a sua ligação de Internet."
+msgstr "Sem ligação - verifique a ligação à Internet."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -178,7 +226,7 @@ msgstr "Sem ligação - verifique a sua ligação de Internet."
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr "Nenhum contacto encontrado para os critérios selecionados."
+msgstr "Nenhum contacto corresponde aos critérios selecionados."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -196,13 +244,21 @@ msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
 msgstr "Grupo público"
 
-#. [callView.tabRecents.label]
+#. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
-#. Recents
+#. Public group name
 #: i18n/src/messages.json
-msgctxt "callView.tabRecents.label"
-msgid "Recents"
-msgstr "Recentes"
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Public group name"
+msgstr "Nome do grupo público"
+
+#. [recents.subheaderLabel]
+#. defaultMessage is:
+#. Recent
+#: i18n/src/messages.json
+msgctxt "recents.subheaderLabel"
+msgid "Recent"
+msgstr "Recente"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -219,14 +275,6 @@ msgstr "Rejeitar"
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr "Tentar novamente"
-
-#. [contactSearch.searchByNameTextField.placeholder]
-#. defaultMessage is:
-#. Search by name
-#: i18n/src/messages.json
-msgctxt "contactSearch.searchByNameTextField.placeholder"
-msgid "Search by name"
-msgstr "Procurar por nome"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -258,7 +306,31 @@ msgstr "Partilhar {scope}"
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr "Suspender"
+msgstr "Suspensa"
+
+#. [kwmProvider.rejectedBusy.snack]
+#. defaultMessage is:
+#. The target is busy.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejectedBusy.snack"
+msgid "The target is busy."
+msgstr "O destino está ocupado."
+
+#. [kwmProvider.rejected.snack]
+#. defaultMessage is:
+#. The target rejected your call.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejected.snack"
+msgid "The target rejected your call."
+msgstr "O destino rejeitou a chamada."
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. There is currently nothing active here.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "There is currently nothing active here."
+msgstr "Não existe nada ativo atualmente aqui."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -282,7 +354,7 @@ msgstr "Não foi possível realizar a chamada"
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr "Não foi possível juntar"
+msgstr "Não foi possível entrar"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -300,37 +372,45 @@ msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
 msgstr "Utilizador {idx}"
 
-#. [contactControl.videoCallButton.text]
-#. defaultMessage is:
-#. Video
-#: i18n/src/messages.json
-msgctxt "contactControl.videoCallButton.text"
-msgid "Video"
-msgstr "Vídeo"
-
-#. [groupControl.videoCallButton.text]
-#. defaultMessage is:
-#. Video
-#: i18n/src/messages.json
-msgctxt "groupControl.videoCallButton.text"
-msgid "Video"
-msgstr "Vídeo"
-
-#. [recents.videoCallButton.aria]
+#. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
 #. Video call
 #: i18n/src/messages.json
-msgctxt "recents.videoCallButton.aria"
+msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr "Chamada de vídeo"
+msgstr "Vídeo chamada"
 
-#. [recents.voiceCallButton.aria]
+#. [groupControl.videoCallButton.aria]
+#. defaultMessage is:
+#. Video call
+#: i18n/src/messages.json
+msgctxt "groupControl.videoCallButton.aria"
+msgid "Video call"
+msgstr "Vídeo chamada"
+
+#. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
 #. Voice call
 #: i18n/src/messages.json
-msgctxt "recents.voiceCallButton.aria"
+msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Chamada de voz"
+
+#. [groupControl.voiceCallButton.aria]
+#. defaultMessage is:
+#. Voice call
+#: i18n/src/messages.json
+msgctxt "groupControl.voiceCallButton.aria"
+msgid "Voice call"
+msgstr "Chamada de voz"
+
+#. [callView.noAccess.snack]
+#. defaultMessage is:
+#. You do not have access here.
+#: i18n/src/messages.json
+msgctxt "callView.noAccess.snack"
+msgid "You do not have access here."
+msgstr "Não tem acesso aqui."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -338,23 +418,7 @@ msgstr "Chamada de voz"
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr "Histórico de chamadas está vazio."
-
-#. [snacks.callRejected.message]
-#. defaultMessage is:
-#. Your call was rejected
-#: i18n/src/messages.json
-msgctxt "snacks.callRejected.message"
-msgid "Your call was rejected"
-msgstr "A chamada foi rejeitada"
-
-#. [snacks.callRejectedBusy.message]
-#. defaultMessage is:
-#. Your call was rejected (busy)
-#: i18n/src/messages.json
-msgctxt "snacks.callRejectedBusy.message"
-msgid "Your call was rejected (busy)"
-msgstr "A chamada foi rejeitada (ocupado)"
+msgstr "O seu histórico de chamadas está vazio."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -362,7 +426,7 @@ msgstr "A chamada foi rejeitada (ocupado)"
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted"
-msgstr "O microfone está sem som"
+msgstr "O microfone está silenciado"
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -394,7 +458,7 @@ msgstr "conferência"
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr "eliminar"
+msgstr "remover"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -418,4 +482,4 @@ msgstr "desconhecido"
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr "repor som"
+msgstr "ativar"
