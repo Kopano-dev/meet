@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
+"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
 "PO-Revision-Date: 2019-08-05 13:24+0000\n"
 "Last-Translator: Nuno Jerónimo <nuno.jeronimo@valsousa.pt>\n"
 "Language-Team: Portuguese (Portugal) <http://translate.kopano.io/projects/kopano/meet/pt_PT/>\n"
@@ -54,14 +54,14 @@ msgstr ""
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
 #. Add email addresses using the text field above to invite to this Meet. To finish, click
-#.                  invite and email message with instructions how to join this Meet will be created in your email program
-#.                  for review and to send the invitation message.
+#.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
+#.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
-"                 for review and to send the invitation message."
+"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before sending the invitation."
 msgstr ""
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
@@ -208,6 +208,14 @@ msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
 msgstr "Remover"
 
+#. [settingsDialog.devicesTab.label]
+#. defaultMessage is:
+#. Devices
+#: i18n/src/messages.json
+msgctxt "settingsDialog.devicesTab.label"
+msgid "Devices"
+msgstr ""
+
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -226,14 +234,14 @@ msgstr ""
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any
-#.                  name. A new group will created automatically if it does not exist already. The
+#. Enter a name for the group in the field above. You can use any
+#.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.helper.text"
 msgid ""
-"Enter a name of the group in the field above. You can use any\n"
-"                 name. A new group will created automatically if it does not exist already. The\n"
+"Enter a name for the group in the field above. You can use any\n"
+"                 name. A new group will be created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr ""
 
