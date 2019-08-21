@@ -74,6 +74,7 @@ import {
   muteAudioStream,
   globalSettings as gUMSettings,
 } from '../actions/media';
+import { writeTextToClipboard } from '../clipboard';
 import { pushHistory, isMobile, isTouchDevice } from '../utils';
 import { resolveContactID } from '../utils';
 import CallGrid from './CallGrid';
@@ -81,6 +82,7 @@ import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
 import Recents from './Recents';
 import ContactSearch from './ContactSearch';
+import Invite from './Invite';
 import BackdropOverlay from './BackdropOverlay';
 import GroupControl from './GroupControl';
 import ContactControl from './ContactControl';
@@ -398,7 +400,7 @@ const styles = theme => ({
 const translations = defineMessages({
   microphoneIsMutedSnack: {
     id: 'callView.microphoneIsMutedSnack.message',
-    defaultMessage: 'Your microphone is muted',
+    defaultMessage: 'Your microphone is muted.',
   },
   noConnectionTooltipTitle: {
     id: 'callView.noConnectionTooltip.title',
@@ -428,6 +430,10 @@ const translations = defineMessages({
     id: 'callView.newPublicGroupDialog.topTitle',
     defaultMessage: 'Public group',
   },
+  inviteDialogTopTitle: {
+    id: 'callView.inviteDialog.topTitle',
+    defaultMessage: 'Invite to {id}',
+  },
   settingsListLabel: {
     id: 'callView.settingsList.label',
     defaultMessage: 'Settings',
@@ -443,6 +449,14 @@ const translations = defineMessages({
   callNoAccessSnack: {
     id: 'callView.noAccess.snack',
     defaultMessage: 'You do not have access here.',
+  },
+  copiedLinkToClipboardSnack: {
+    id: 'callView.copiedLinkToClipboard.snack',
+    defaultMessage: 'Link copied to clipboard.',
+  },
+  inviteByMailtoSnack: {
+    id: 'callView.inviteByMailTo.snack',
+    defaultMessage: 'Invitation email created, opening your mail program now.',
   },
 });
 
@@ -740,6 +754,8 @@ class CallView extends React.PureComponent {
   }
 
   handleDialogActionClick = (action, props) => {
+    const { intl } = this.props;
+
     switch (action) {
       case 'new-public-group':
         this.openDialog({
@@ -747,8 +763,33 @@ class CallView extends React.PureComponent {
         });
         break;
 
-      case 'view-public-group':
+      case 'view-public-group': {
         this.doViewGroup(props);
+        const { id, scope } = props;
+        const { addOrUpdateRecentsFromGroup } = this.props;
+        addOrUpdateRecentsFromGroup(id, scope);
+        break;
+      }
+
+      case 'share-link':
+        writeTextToClipboard(props).then(() => {
+          this.notifyBySnack(intl.formatMessage(translations.copiedLinkToClipboardSnack), { variant: 'info' });
+        }).catch(err => {
+          console.warn('Failed to copy link to clipboard', err); // eslint-disable-line no-console
+        });
+        break;
+
+      case 'invite-group':
+        this.openDialog({
+          invite: true,
+        });
+        break;
+
+      case 'invite-by-mailto':
+        this.notifyBySnack(intl.formatMessage(translations.inviteByMailtoSnack), { variant: 'info' });
+        this.openDialog({
+          invite: false,
+        });
         break;
 
       default:
@@ -1369,16 +1410,39 @@ class CallView extends React.PureComponent {
               <Route exact
                 path="/r/:scope(conference|group)/:id(.*)?"
                 render={({ match, ...other }) => {
+                  const group = {
+                    scope: match.params.scope,
+                    id: match.params.id,
+                  };
+
                   return <GroupControl
                     className={classes.mainView}
                     onEntryClick={this.handleEntryClick}
-                    channel={channel}
-                    group={{
-                      scope: match.params.scope,
-                      id: match.params.id,
+                    onActionClick={(action, props) => {
+                      this.handleDialogActionClick(action, props);
                     }}
+                    channel={channel}
+                    group={group}
                     {...other}
-                  />;
+                  >
+                    <FullscreenDialog
+                      topTitle={intl.formatMessage(translations.inviteDialogTopTitle, {id: group.id})}
+                      topElevation={0}
+                      responsive
+                      PaperProps={{
+                        className: classes.dialog,
+                      }}
+                      open={openDialogs.invite || false}
+                      onClose={() => { this.openDialog({invite: false}); }}
+                    >
+                      <Invite
+                        group={group}
+                        onActionClick={(action, props) => {
+                          this.handleDialogActionClick(action, props);
+                        }}
+                      />
+                    </FullscreenDialog>
+                  </GroupControl>;
                 }}
               />
               <Redirect to="/r/call"/>

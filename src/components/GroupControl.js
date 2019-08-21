@@ -7,18 +7,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PublicConferenceIcon from '@material-ui/icons/Group';
 import CallIcon from '@material-ui/icons/Call';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MailIcon from '@material-ui/icons/Mail';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import ShareIcon from '@material-ui/icons/Share';
+import Divider from '@material-ui/core/Divider';
 
 import Persona from 'kpop/es/Persona';
 import { parseQuery } from 'kpop/es/utils';
@@ -26,11 +23,10 @@ import { parseQuery } from 'kpop/es/utils';
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { getCurrentAppPath } from '../base';
-import { writeTextToClipboard } from '../clipboard';
-import { qualifyAppURL } from '../base';
+import { makeGroupLink } from '../utils';
 import { mapGroupEntryToUserShape } from './Recents';
 import { pushHistory } from '../utils';
-import ScopeLabel, { formatScopeLabel } from './ScopeLabel';
+import ScopeLabel from './ScopeLabel';
 
 const getAutoSettingsFromURL = () => {
   const hpr = parseQuery(window.location.hash.substr(1));
@@ -73,18 +69,17 @@ const styles = theme => ({
     justifyContent: 'center',
     paddingBottom: theme.spacing.unit * 2,
   },
+  extra: {
+    marginTop: theme.spacing.unit * 3,
+  },
   fabIcon: {
   },
-  burger: {
-    marginLeft: 'auto',
+  leftIcon: {
+    marginRight: theme.spacing.unit,
   },
 });
 
 const translations = defineMessages({
-  shareLabel: {
-    id: 'groupControl.share.label',
-    defaultMessage: 'Share {scope}',
-  },
   backAria: {
     id: 'groupControl.backButton.aria',
     defaultMessage: 'Back',
@@ -108,7 +103,7 @@ class GroupControl extends React.PureComponent {
     const { group } = props;
 
     return {
-      url: qualifyAppURL(`/r/${group.scope}/${group.id}`),
+      url: makeGroupLink(group),
     };
   }
 
@@ -130,22 +125,23 @@ class GroupControl extends React.PureComponent {
     }
   }
 
-  handleEntryClick = (mode) => (event) => {
-    const { group, onEntryClick } = this.props;
+  handleEntryClick = (mode) => () => {
+    const { group, onEntryClick, onActionClick } = this.props;
 
     switch(mode) {
-      case 'more':
-        this.setState({
-          entryMenuAnchorEl: event.target,
-        });
+      case 'share-link': {
+        const { url } = this.state;
+        onActionClick(mode, url);
         return;
+      }
 
-      case 'share':
-        this.handleCopyLinkClick();
-        return;
+      case 'invite-group':
+        onActionClick(mode, group);
+        break;
 
       default:
         onEntryClick(group, 'group', mode);
+        return;
     }
   };
 
@@ -155,30 +151,9 @@ class GroupControl extends React.PureComponent {
     pushHistory(history, '/r/call');
   };
 
-  handleEntryMenuClose = () => {
-    this.setState({
-      entryMenuAnchorEl: null,
-    });
-  }
-
-  handleEntryMenuClick = (mode) => (event) => {
-    this.handleEntryMenuClose();
-    this.handleEntryClick(mode)(event);
-  }
-
-  handleCopyLinkClick = () => {
-    const { url } = this.state;
-
-    writeTextToClipboard(url).then(() => {
-      console.debug('Copied link to clipboard', url); // eslint-disable-line no-console
-    }).catch(err => {
-      console.warn('Failed to copy link to clipboard', err); // eslint-disable-line no-console
-    });
-  };
-
   render() {
-    const { entryMenuAnchorEl } = this.state;
     const {
+      children,
       classes,
       className: classNameProp,
       intl,
@@ -204,9 +179,6 @@ class GroupControl extends React.PureComponent {
               {withClose && <IconButton aria-label={intl.formatMessage(translations.backAria)} onClick={this.handleCloseClick}>
                 <ArrowBackIcon />
               </IconButton>}
-              <IconButton aria-label="More" className={classes.burger} onClick={this.handleEntryClick('more')}>
-                <MoreVertIcon />
-              </IconButton>
             </CardActions>
             <CardContent className={classes.header}>
               <Persona
@@ -227,28 +199,43 @@ class GroupControl extends React.PureComponent {
                 <FormattedMessage id="groupControl.callButton.label" defaultMessage="Call"/>
               </Button>
             </CardActions>}
+            <CardContent>
+              <Divider />
+              <div className={classes.extra}>
+                <Button color="primary"
+                  onClick={this.handleEntryClick('invite-group')}>
+                  <MailIcon className={classes.leftIcon}/>
+                  <FormattedMessage
+                    id="groupControl.extraInviteButton.label"
+                    defaultMessage="Invite to this {scope}"
+                    values={{
+                      scope: group.scope,
+                    }}
+                  ></FormattedMessage>
+                </Button>
+                <Button color="primary"
+                  onClick={this.handleEntryClick('share-link')}>
+                  <ShareIcon className={classes.leftIcon}/>
+                  <FormattedMessage
+                    id="groupControl.extraShareLinkButton.label"
+                    defaultMessage="Share {scope} link"
+                    values={{
+                      scope: group.scope,
+                    }}
+                  ></FormattedMessage>
+                </Button>
+              </div>
+            </CardContent>
           </Card>
-          <Menu
-            anchorEl={entryMenuAnchorEl}
-            open={Boolean(entryMenuAnchorEl)}
-            onClose={this.handleEntryMenuClose}
-          >
-            <MenuItem onClick={this.handleEntryMenuClick('share')}>
-              <ListItemIcon>
-                <ShareIcon />
-              </ListItemIcon>
-              <ListItemText inset primary={intl.formatMessage(translations.shareLabel, {
-                scope: formatScopeLabel(intl, group.scope),
-              })} />
-            </MenuItem>
-          </Menu>
         </div>
+        {children}
       </div>
     );
   }
 }
 
 GroupControl.propTypes = {
+  children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   intl: intlShape.isRequired,
@@ -259,7 +246,8 @@ GroupControl.propTypes = {
 
   channel: PropTypes.string,
 
-  onEntryClick: PropTypes.func,
+  onEntryClick: PropTypes.func.isRequired,
+  onActionClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -1,4 +1,5 @@
 import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
+import { qualifyAppURL } from './base';
 
 // NOTE(longsleep): Poor mans check if on mobile.
 export const isMobile = /Mobi/.test(navigator.userAgent);
@@ -32,4 +33,8 @@ export function resolveContactIDFromRecord(config, record) {
     // Record id is ABEID, but force base64URL encoded as used in grapi.
     return forceBase64URLEncoded(record.id);
   }
+}
+
+export function makeGroupLink(group) {
+  return qualifyAppURL(`/r/${group.scope}/${group.id}`);
 }
