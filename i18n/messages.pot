@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
+"POT-Creation-Date: 2019-08-22T16:43:39.016Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,16 @@ msgstr ""
 #. Accept
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.addEmailAddressesHelper.text]
+#. defaultMessage is:
+#. Add email addresses using the text field above to invite to this Meet. To finish, click
+#.                  invite and email message with instructions how to join this Meet will be created in your email program
+#.                  for review and to send the invitation message.
+msgctxt "invite.addEmailAddressesHelper.text"
+msgid "Add email addresses using the text field above to invite to this Meet. To finish, click\n                 invite and email message with instructions how to join this Meet will be created in your email program\n                 for review and to send the invitation message."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -128,6 +138,22 @@ msgid "Delete"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [invite.emailTextField.placeholder]
+#. defaultMessage is:
+#. Email addresses
+msgctxt "invite.emailTextField.placeholder"
+msgid "Email addresses"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [newPublicGroup.helper.text]
+#. defaultMessage is:
+#. Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name.
+msgctxt "newPublicGroup.helper.text"
+msgid "Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name."
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
 #. Failed to load contacts.
@@ -160,6 +186,38 @@ msgid "Incoming call"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [callView.inviteByMailTo.snack]
+#. defaultMessage is:
+#. Invitation email created, opening your mail program now.
+msgctxt "callView.inviteByMailTo.snack"
+msgid "Invitation email created, opening your mail program now."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.inviteButton.label]
+#. defaultMessage is:
+#. Invite
+msgctxt "invite.inviteButton.label"
+msgid "Invite"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.inviteDialog.topTitle]
+#. defaultMessage is:
+#. Invite to "{id}"
+msgctxt "callView.inviteDialog.topTitle"
+msgid "Invite to \"{id}\""
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [groupControl.extraInviteButton.label]
+#. defaultMessage is:
+#. Invite to this {scope}
+msgctxt "groupControl.extraInviteButton.label"
+msgid "Invite to this {scope}"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
 #. Join
@@ -176,11 +234,35 @@ msgid "Join public group"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [callView.copiedLinkToClipboard.snack]
+#. defaultMessage is:
+#. Link copied to clipboard.
+msgctxt "callView.copiedLinkToClipboard.snack"
+msgid "Link copied to clipboard."
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
 #. Loading contacts ...
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.inviteByShareLink.subject.template]
+#. defaultMessage is:
+#. Meet "{id}" invitation
+msgctxt "callView.inviteByShareLink.subject.template"
+msgid "Meet \"{id}\" invitation"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.email.subject.template]
+#. defaultMessage is:
+#. Meet "{id}" invitation
+msgctxt "invite.email.subject.template"
+msgid "Meet \"{id}\" invitation"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -288,11 +370,11 @@ msgid "Settings"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [groupControl.share.label]
+#. [groupControl.extraShareLinkButton.label]
 #. defaultMessage is:
-#. Share {scope}
-msgctxt "groupControl.share.label"
-msgid "Share {scope}"
+#. Share {scope} link
+msgctxt "groupControl.extraShareLinkButton.label"
+msgid "Share {scope} link"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -400,6 +482,24 @@ msgid "Voice call"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [callView.inviteByShareLink.text.template]
+#. defaultMessage is:
+#. You are invited to join the Meet "{id}".
+msgctxt "callView.inviteByShareLink.text.template"
+msgid "You are invited to join the Meet \"{id}\"."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.email.body.template]
+#. defaultMessage is:
+#. You are invited to join the Meet "{id}".
+#. 
+#. Link: {url}
+msgctxt "invite.email.body.template"
+msgid "You are invited to join the Meet \"{id}\".\n\nLink: {url}"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.noAccess.snack]
 #. defaultMessage is:
 #. You do not have access here.
@@ -418,9 +518,9 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
-#. Your microphone is muted
+#. Your microphone is muted.
 msgctxt "callView.microphoneIsMutedSnack.message"
-msgid "Your microphone is muted"
+msgid "Your microphone is muted."
 msgstr ""
 
 #: ./i18n/src/messages.json
