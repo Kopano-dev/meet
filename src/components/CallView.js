@@ -90,6 +90,7 @@ import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 import { Howling } from './howling';
 import IconButtonWithPopover from './IconButtonWithPopover';
+import SettingsDialog from './SettingsDialog';
 
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';
@@ -499,6 +500,8 @@ class CallView extends React.PureComponent {
     };
 
     this.touchedTimer = null;
+
+    this.settingsMenuRef = React.createRef();
   }
 
   componentDidMount() {
@@ -524,12 +527,17 @@ class CallView extends React.PureComponent {
       localAudioVideoStreams,
       setLocalStream,
       intl,
+      audioSourceId,
+      videoSourceId,
     } = this.props;
 
     let rum = false;
 
     if (mode !== prevState.mode) {
       this.updateOfferAnswerConstraints();
+      this.requestUserMedia();
+      rum = true;
+    } else if (audioSourceId !== prevProps.audioSourceId || videoSourceId !== prevProps.videoSourceId) {
       this.requestUserMedia();
       rum = true;
     }
@@ -716,6 +724,10 @@ class CallView extends React.PureComponent {
   handleFabClick = () => {
     this.openDialog({ newCall: true});
   };
+
+  handleSettingsClick = () => {
+    this.openDialog({ settings: true});
+  }
 
   handleAcceptClick = (id, mode, entry, kind) => {
     const { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
@@ -940,7 +952,8 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteVideoStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info)).catch(err => {
+      const settings = this.getUserMediaSettings();
+      muteVideoStream(stream, mute, this.localStreamID, settings).then(info => applyLocalStreamTracks(info)).catch(err => {
         console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
         setError({
           detail: `${err}`,
@@ -963,7 +976,8 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
-      muteAudioStream(stream, mute, this.localStreamID).then(info => applyLocalStreamTracks(info)).catch(err => {
+      const settings = this.getUserMediaSettings();
+      muteAudioStream(stream, mute, this.localStreamID, settings).then(info => applyLocalStreamTracks(info)).catch(err => {
         console.warn('failed to toggle mute for audio stream', err); // eslint-disable-line no-console
         setError({
           detail: `${err}`,
@@ -990,6 +1004,18 @@ class CallView extends React.PureComponent {
         offerToReceiveVideo: false,
       });
     }
+  }
+
+  getUserMediaSettings = () => {
+    const { audioSourceId, videoSourceId } = this.props;
+
+    const settings = updateUMSettingsFromURL({
+      // TODO(longsleep): Add more settings from store.
+      videoSourceId,
+      audioSourceId,
+    });
+
+    return settings;
   }
 
   requestDisplayMedia = () => {
@@ -1107,9 +1133,7 @@ class CallView extends React.PureComponent {
       audio = audio && !muteMic;
     }
 
-    const settings = updateUMSettingsFromURL({
-      // TODO(longsleep): Add settings from store.
-    });
+    const settings = this.getUserMediaSettings();
 
     // Request user media with reference to allow cancel.
     const rum = debounce(requestUserMedia, 500)(this.localStreamID, video, audio, settings);
@@ -1181,6 +1205,7 @@ class CallView extends React.PureComponent {
       connected,
       gUMSupported,
       gDMSupported,
+      audioSinkId,
       intl,
       theme,
     } = this.props;
@@ -1311,11 +1336,15 @@ class CallView extends React.PureComponent {
       <Hidden smDown key='settings'>
         <IconButtonWithPopover
           className={classes.settingsButton}
+          innerRef={this.settingsMenuRef}
           icon={<SettingsIcon/>}
         >
           <List className={classes.settingsList}>
-            <ListItem button disabled>
-              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
+            <ListItem button onClick={() => {
+              this.handleSettingsClick();
+              this.settingsMenuRef.current.close();
+            }}>
+              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)}/>
             </ListItem>
           </List>
           <Divider/>
@@ -1538,6 +1567,18 @@ class CallView extends React.PureComponent {
       </FullscreenDialog>
     );
 
+    dialogs.push(
+      <SettingsDialog
+        key="settings"
+        PaperProps={{
+          className: classes.dialog,
+        }}
+        open={openDialogs.settings || false}
+        disableBackdropClick
+        onClose={() => { this.openDialog({settings: false}); }}
+      ></SettingsDialog>
+    );
+
     const drawer = <React.Fragment>
       <Hidden smDown>
         {menu}
@@ -1546,11 +1587,11 @@ class CallView extends React.PureComponent {
       <Hidden mdUp>
         {quickSettingsList}
         <List>
-          <ListItem button disabled>
+          <ListItem button onClick={this.handleSettingsClick}>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary={intl.formatMessage(translations.settingsListLabel)} />
+            <ListItemText primary={intl.formatMessage(translations.settingsListLabel)}/>
           </ListItem>
           <AppsSwitcherListItem/>
         </List>
@@ -1618,6 +1659,7 @@ class CallView extends React.PureComponent {
               remoteStreams={remoteAudioVideoStreams}
               variant={screenShareViewer ? 'overlay': 'full'}
               labels={!screenShareViewer}
+              audioSinkId={audioSinkId}
             />
             <Hidden mdUp>{menu}</Hidden>
           </div>
@@ -1680,6 +1722,10 @@ CallView.propTypes = {
 
   gUMSupported: PropTypes.bool.isRequired,
   gDMSupported: PropTypes.bool.isRequired,
+
+  audioSourceId: PropTypes.string.isRequired,
+  videoSourceId: PropTypes.string.isRequired,
+  audioSinkId: PropTypes.string.isRequired,
 };
 
 const updateUMSettingsFromURL = (settings) => {
@@ -1729,7 +1775,7 @@ const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
   const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported } = state.media;
+  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId } = state.media;
 
   const remoteAudioVideoStreams = [];
   const remoteScreenShareStreams = [];
@@ -1761,6 +1807,10 @@ const mapStateToProps = state => {
 
     gUMSupported,
     gDMSupported,
+
+    videoSourceId,
+    audioSourceId,
+    audioSinkId,
   };
 };
 

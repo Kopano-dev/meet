@@ -110,6 +110,7 @@ class CallGrid extends React.PureComponent {
       remoteStreamsKey,
       remoteStreams,
       maxVideoStreams,
+      audioSinkId,
       ...other
     } = this.props;
 
@@ -176,6 +177,7 @@ class CallGrid extends React.PureComponent {
                   round={!!overlay}
                   user={labels ? stream.user : undefined}
                   calling={stream.calling}
+                  audioSinkId={audioSinkId}
                 >
                 </AudioVideo>
               </div>
@@ -197,6 +199,7 @@ class CallGrid extends React.PureComponent {
                 conference={conference}
                 user={stream.user}
                 calling={stream.calling}
+                audioSinkId={audioSinkId}
               >
               </AudioVideo>
             )}
@@ -243,6 +246,8 @@ CallGrid.propTypes = {
   localStream: PropTypes.object,
   remoteStreamsKey: PropTypes.string.isRequired,
   remoteStreams: PropTypes.array.isRequired,
+
+  audioSinkId: PropTypes.string,
 
   maxVideoStreams: PropTypes.number.isRequired,
 };

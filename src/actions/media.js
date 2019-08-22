@@ -26,6 +26,12 @@ const defaultScreenSettings = {
   logicalSurface: false,
 };
 
+const isMediaElementSetSinkIdSupported = (() => {
+  const audio = document.createElement('audio');
+  // Check support for https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId.
+  return 'setSinkId' in audio;
+})();
+
 export const globalSettings = (() => {
   const s = {
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
@@ -43,6 +49,7 @@ export const globalSettings = (() => {
     // NOTE(longsleep): keeping old streamsn and just replacing tracks does not
     // work in Firefox. Disable for now. Maybe be removed completely?
     keepOldStreamAndReplaceTracks: false,
+    withAudioSetSinkId: isMediaElementSetSinkIdSupported,
   };
 
   console.info('media global settings', s, adapter.browserDetails); // eslint-disable-line no-console
@@ -51,6 +58,10 @@ export const globalSettings = (() => {
 
 const requestUserMediaStatus = {};
 const requestDisplayMediaStatus = {};
+
+export const enumerateDevices = () => {
+  return navigator.mediaDevices.enumerateDevices();
+};
 
 const getSupportedConstraints = () => {
   const supportedConstraints = {};
@@ -79,10 +90,10 @@ const getSupportedConstraints = () => {
 export const supportedConstraints = getSupportedConstraints();
 
 const enumerateDeviceSupport = async (settings={}) => {
-  const devices = await navigator.mediaDevices.enumerateDevices();
+  const devices = await enumerateDevices();
 
-  let videoSource = null;
-  let audioSource = null;
+  let videoSource = settings.videoSourceId || null;
+  let audioSource = settings.audioSourceId || null;
   for (let device of devices) {
     if (videoSource === null && device.kind === 'videoinput')  {
       if (settings.video && settings.video.deviceId && settings.video.deviceId !== device.deviceId) {
@@ -318,7 +329,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
         if (supportedConstraints.deviceId && videoSource && currentSettings.videoSourceId === videoSource) {
           // Select camera as requested.
           videoConstraints.deviceId = {
-            exact: videoSource,
+            ideal: videoSource,
           };
         } else {
           if (supportedConstraints.facingMode && currentSettings.video.facingMode) {
@@ -331,22 +342,22 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       if (audio) {
         if (supportedConstraints.deviceId && audioSource && currentSettings.audioSourceId === audioSource) {
           audioConstraints.deviceId = {
-            exact: audioSource,
+            ideal: audioSource,
           };
         }
         if (supportedConstraints.echoCancellation && currentSettings.audio.echoCancellation !== undefined) {
           audioConstraints.echoCancellation = {
-            exact: currentSettings.audio.echoCancellation,
+            ideal: currentSettings.audio.echoCancellation,
           };
         }
         if (supportedConstraints.autoGainControl && currentSettings.audio.autoGainControl !== undefined) {
           audioConstraints.autoGainControl = {
-            exact: currentSettings.audio.autoGainControl,
+            ideal: currentSettings.audio.autoGainControl,
           };
         }
         if (supportedConstraints.noiseSuppression && currentSettings.audio.noiseSuppression !== undefined) {
           audioConstraints.noiseSuppression = {
-            exact: currentSettings.audio.noiseSuppression,
+            ideal: currentSettings.audio.noiseSuppression,
           };
         }
         if (supportedConstraints.channelCount && currentSettings.audio.channelCount !== undefined) {
@@ -507,6 +518,15 @@ function userMediaSuccess(id, audio, video, constraints) {
   };
 }
 
+function userMediaSetDeviceIds({ audioSourceId, videoSourceId, audioSinkId } = {}) {
+  return {
+    type: types.USERMEDIA_SET_DEVICEIDS,
+    audioSourceId,
+    videoSourceId,
+    audioSinkId,
+  };
+}
+
 export function stopUserMedia(id='') {
   return async dispatch => {
     let status = requestUserMediaStatus[id];
@@ -555,7 +575,7 @@ export function removeTrackFromStream(stream, track) {
   stream.dispatchEvent(trackEvent);
 }
 
-export function muteStreamByType(stream, mute=true, type='video', id='') {
+export function muteStreamByType(stream, mute=true, type='video', id='', settings={}) {
   let status = requestUserMediaStatus[id];
 
   return async dispatch => {
@@ -600,7 +620,7 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
     } else {
       return Promise.resolve().then(() => {
         if (globalSettings.muteWithAddRemoveTracks) {
-          return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio)).then(async newInfo => {
+          return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio, settings)).then(async newInfo => {
             if (newInfo && newInfo.stream && newInfo.stream !== stream) {
               const newTracks = helpers.getTracks(newInfo.stream);
               if (stream.active) {
@@ -636,14 +656,24 @@ export function muteStreamByType(stream, mute=true, type='video', id='') {
   };
 }
 
-export function muteVideoStream(stream, mute=true, id='') {
+export function muteVideoStream(stream, mute=true, id='', settings={}) {
   return async dispatch => {
-    return dispatch(muteStreamByType(stream, mute, 'video', id));
+    return dispatch(muteStreamByType(stream, mute, 'video', id, settings));
   };
 }
 
-export function muteAudioStream(stream, mute=true, id='') {
+export function muteAudioStream(stream, mute=true, id='', settings={}) {
   return async dispatch => {
-    return dispatch(muteStreamByType(stream, mute, 'audio', id));
+    return dispatch(muteStreamByType(stream, mute, 'audio', id, settings));
+  };
+}
+
+export function updateDeviceIds({ audioSourceId, videoSourceId, audioSinkId } = {}) {
+  return dispatch => {
+    return dispatch(userMediaSetDeviceIds({
+      audioSourceId,
+      videoSourceId,
+      audioSinkId,
+    }));
   };
 }

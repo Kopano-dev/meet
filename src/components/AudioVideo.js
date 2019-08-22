@@ -54,6 +54,7 @@ const styles = (theme) => ({
     transition: theme.transitions.create('opacity', {
       easing: theme.transitions.easing.easeOut,
     }),
+    display: 'block',
   },
   active: {
     opacity: 1,
@@ -193,6 +194,17 @@ class AudioVideo extends React.PureComponent {
     }
   }
 
+  updateAudioSink(element) {
+    const { audioSinkId } = this.props;
+
+    if (audioSinkId && 'setSinkId' in element) {
+      element.setSinkId(audioSinkId).then(() => {
+      }).catch(err => {
+        console.debug('failed to set audio sink: ' + err); // eslint-disable-line no-console
+      });
+    }
+  }
+
   addStreamEvents(stream) {
     stream.addEventListener('removetrack', this.handleReset, true);
     stream.addEventListener('addtrack', this.handleReset, true);
@@ -275,6 +287,7 @@ class AudioVideo extends React.PureComponent {
     this.element = element;
     if (element) {
       this.element.addEventListener('loadedmetadata', this.handleMetadata, true);
+      this.updateAudioSink(element);
     }
   }
 
@@ -284,6 +297,9 @@ class AudioVideo extends React.PureComponent {
     }
 
     this.extra = extra;
+    if (extra) {
+      this.updateAudioSink(extra);
+    }
   }
 
   render() {
@@ -305,6 +321,7 @@ class AudioVideo extends React.PureComponent {
       ...other
     } = this.props;
     delete other.stream;
+    delete other.audioSinkId;
 
     const elementClassName = classNames(
       {
@@ -425,6 +442,8 @@ AudioVideo.propTypes = {
   cover: PropTypes.bool,
   children: PropTypes.element,
   stream: PropTypes.object,
+
+  audioSinkId: PropTypes.string,
 
   muted: PropTypes.bool,
   autoPlay: PropTypes.bool,

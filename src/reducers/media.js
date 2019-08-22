@@ -2,6 +2,7 @@ import 'webrtc-adapter';
 
 import {
   USERMEDIA_AUDIOVIDEO_STREAM,
+  USERMEDIA_SET_DEVICEIDS,
 } from '../actions/types';
 
 const defaultState = {
@@ -18,6 +19,10 @@ const defaultState = {
     || false,
 
   umAudioVideoStreams: {},
+
+  videoSourceId: '',
+  audioSourceId: '',
+  audioSinkId: '',
 };
 
 function mediaReducer(state = defaultState, action) {
@@ -34,6 +39,22 @@ function mediaReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         umAudioVideoStreams: umAudioVideoStreams,
       });
+    }
+
+    case USERMEDIA_SET_DEVICEIDS: {
+      const { videoSourceId, audioSourceId, audioSinkId } = action;
+      const updates = {};
+      if (videoSourceId !== undefined) {
+        updates.videoSourceId = videoSourceId;
+      }
+      if (audioSourceId !== undefined) {
+        updates.audioSourceId = audioSourceId;
+      }
+      if (audioSinkId !== undefined) {
+        updates.audioSinkId = audioSinkId;
+      }
+
+      return Object.assign({}, state, updates);
     }
 
     default:

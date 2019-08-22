@@ -29,18 +29,23 @@ class UserProfileButton extends React.PureComponent {
     if (handler) {
       handler(event);
     }
-  };
+  }
 
-  handleClose = handler => event => {
+  handleClose = () => {
+    this.close();
+  }
+
+  close = () => {
+    const { onClose } = this.props;
     this.setState({ anchorEl: null });
-    if (handler) {
-      handler(event);
+    if (onClose) {
+      onClose();
     }
-  };
+  }
 
   render() {
     const { anchorEl } = this.state;
-    const { children, theme, onClick, onClose, icon, ...other  } = this.props;
+    const { children, theme, onClick, icon, ...other  } = this.props;
 
     return (
       <React.Fragment>
@@ -56,7 +61,7 @@ class UserProfileButton extends React.PureComponent {
           id={this.id}
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={this.handleClose(onClose)}
+          onClose={this.handleClose}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: theme.direction === 'ltr' ? 'right' : 'left',
