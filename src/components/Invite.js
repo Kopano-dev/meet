@@ -240,6 +240,8 @@ class Invite extends React.PureComponent {
               InputProps={{
                 disableUnderline: true,
                 spellCheck: false,
+                autoCapitalize: 'none',
+                autoCorrect: 'off',
                 classes: {
                   root: classes.searchRoot,
                   input: classes.searchInput,

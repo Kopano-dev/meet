@@ -98,6 +98,8 @@ class NewPublicGroup extends React.PureComponent {
               onChange={this.handleChange('query')}
               InputProps={{
                 disableUnderline: true,
+                autoCapitalize: 'none',
+                autoCorrect: 'off',
                 classes: {
                   root: classes.inputFieldRoot,
                   input: classes.inputFieldInput,
