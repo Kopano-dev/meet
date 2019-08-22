@@ -4,9 +4,13 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import Paper from '@material-ui/core/Paper';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import PublicConferenceIcon from '@material-ui/icons/Group';
 
@@ -19,15 +23,25 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
-    padding: theme.spacing.unit,
+  },
+  search: {
+    minHeight: 48,
+    marginBottom: theme.spacing.unit * 2,
   },
   inputField: {
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+    padding: theme.spacing.unit,
+    marginRight: theme.spacing.unit * 2,
   },
-  form: {
-    overflow: 'auto',
-    flex: 1,
-    maxWidth: 600,
-    marginTop: -2 * theme.spacing.unit,
+  inputFieldIcon: {
+    color: '#ddd',
+  },
+  inputFieldIconValid: {
+    color: 'green',
+  },
+  actions: {
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
   },
 });
 
@@ -73,23 +87,48 @@ class NewPublicGroup extends React.PureComponent {
 
     return (
       <div className={className}>
-        <List disablePadding onClick={this.handleContactClick} className={classes.form}>
-          <ListItem>
+        <Paper square elevation={0} className={classes.paper}>
+          <Toolbar className={classes.search}>
             <TextField
               autoFocus
               className={classes.inputField}
-              label={intl.formatMessage(translations.enterPublicGroupInputLabel)}
+              placeholder={intl.formatMessage(translations.enterPublicGroupInputLabel)}
               value={query}
               fullWidth
               onChange={this.handleChange('query')}
+              InputProps={{
+                disableUnderline: true,
+                classes: {
+                  root: classes.inputFieldRoot,
+                  input: classes.inputFieldInput,
+                },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PublicConferenceIcon color="inherit" className={classNames(
+                      classes.inputFieldIcon,
+                      {
+                        [classes.inputFieldIconValid]: query,
+                      }
+                    )}/>
+                  </InputAdornment>
+                ),
+              }}
             /> <Persona user={{displayName: query}} forceIcon icon={<PublicConferenceIcon/>}/>
-          </ListItem>
-          <ListItem>
+          </Toolbar>
+          <DialogContent>
+            <Typography>
+              <FormattedMessage
+                id="newPublicGroup.helper.text"
+                defaultMessage="Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name.">
+              </FormattedMessage>
+            </Typography>
+          </DialogContent>
+          <DialogActions className={classes.actions}>
             <Button variant="contained" color="primary" disabled={!valid} onClick={this.handleActionClick}>
               <FormattedMessage id="newPublicGroup.createButton.text" defaultMessage="Join"></FormattedMessage>
             </Button>
-          </ListItem>
-        </List>
+          </DialogActions>
+        </Paper>
       </div>
     );
   }
