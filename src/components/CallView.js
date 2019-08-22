@@ -432,7 +432,7 @@ const translations = defineMessages({
   },
   inviteDialogTopTitle: {
     id: 'callView.inviteDialog.topTitle',
-    defaultMessage: 'Invite to {id}',
+    defaultMessage: 'Invite to "{id}"',
   },
   settingsListLabel: {
     id: 'callView.settingsList.label',
@@ -1443,6 +1443,7 @@ class CallView extends React.PureComponent {
                       topTitle={intl.formatMessage(translations.inviteDialogTopTitle, {id: group.id})}
                       topElevation={0}
                       responsive
+                      disableBackdropClick
                       PaperProps={{
                         className: classes.dialog,
                       }}
