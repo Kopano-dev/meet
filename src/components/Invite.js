@@ -113,8 +113,16 @@ class Invite extends React.PureComponent {
         params.append('subject', intl.formatMessage(translations.inviteEmailSubject, {id: group.id}));
         params.append('body', intl.formatMessage(translations.inviteEmailBody, {id: group.id, url}));
         const mailto = `mailto:${encodeURI(added.map(a => a.mail).join(','))}?${params.toString().replace(/\+/g, '%20')}`;
-        // Open it in new window, to avoid loosing our app when the mailto link is attached to a web app.
-        window.open(mailto);
+        if (isMobile) {
+          // Set our direct location on mobile. Hopefully the environment is smart
+          // enough to not replace our app.
+          window.location.href = mailto;
+        } else {
+          // Open it in new window, to avoid loosing our app when the mailto link
+          // is attached to a web app. The Desktop browser is not smart enough and
+          // replaces our app if a web app is registered.
+          window.open(mailto);
+        }
         break;
       }
     }
