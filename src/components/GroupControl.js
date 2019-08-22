@@ -129,9 +129,12 @@ class GroupControl extends React.PureComponent {
     const { group, onEntryClick, onActionClick } = this.props;
 
     switch(mode) {
-      case 'share-link': {
+      case 'share-link-click': {
         const { url } = this.state;
-        onActionClick(mode, url);
+        onActionClick(mode, {
+          id: group.id,
+          url,
+        });
         return;
       }
 
@@ -214,7 +217,7 @@ class GroupControl extends React.PureComponent {
                   ></FormattedMessage>
                 </Button>
                 <Button color="primary"
-                  onClick={this.handleEntryClick('share-link')}>
+                  onClick={this.handleEntryClick('share-link-click')}>
                   <ShareIcon className={classes.leftIcon}/>
                   <FormattedMessage
                     id="groupControl.extraShareLinkButton.label"

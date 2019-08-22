@@ -458,6 +458,14 @@ const translations = defineMessages({
     id: 'callView.inviteByMailTo.snack',
     defaultMessage: 'Invitation email created, opening your mail program now.',
   },
+  inviteShareLinkSubject: {
+    id: 'callView.inviteByShareLink.subject.template',
+    defaultMessage: 'Meet "{id}" invitation',
+  },
+  inviteShareLinkText: {
+    id: 'callView.inviteByShareLink.text.template',
+    defaultMessage: 'You are invited to join the Meet "{id}".\n\n',
+  },
 });
 
 class CallView extends React.PureComponent {
@@ -771,12 +779,18 @@ class CallView extends React.PureComponent {
         break;
       }
 
-      case 'share-link':
-        writeTextToClipboard(props).then(() => {
-          this.notifyBySnack(intl.formatMessage(translations.copiedLinkToClipboardSnack), { variant: 'info' });
-        }).catch(err => {
-          console.warn('Failed to copy link to clipboard', err); // eslint-disable-line no-console
-        });
+      case 'share-link-click':
+        if (navigator.share) {
+          navigator.share({
+            title: intl.formatMessage(translations.inviteShareLinkSubject, { id: props.id }),
+            text: intl.formatMessage(translations.inviteShareLinkText, { id: props.id }),
+            url: props.url,
+          }).catch(err => console.warn('Error sharing', err)); // eslint-disable-line no-console
+        } else {
+          writeTextToClipboard(props.url).then(() => {
+            this.notifyBySnack(intl.formatMessage(translations.copiedLinkToClipboardSnack), { variant: 'info' });
+          }).catch(err => console.warn('Failed to copy link to clipboard', err)); // eslint-disable-line no-console
+        }
         break;
 
       case 'invite-group':
