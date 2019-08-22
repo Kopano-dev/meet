@@ -249,9 +249,13 @@ const styles = theme => ({
     opacity: 0,
   },
   controlsOffset: {
-    bottom: '64vh',
+    top: theme.spacing.unit * 2,
+    bottom: 'auto',
+    opacity: 0.5,
     [deskopWidthBreakpoint]: {
+      top: 'auto',
       bottom: theme.spacing.unit * 4,
+      opacity: 1,
     },
   },
   hangupButton: {
