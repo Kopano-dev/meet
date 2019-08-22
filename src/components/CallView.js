@@ -249,7 +249,7 @@ const styles = theme => ({
     opacity: 0,
   },
   controlsOffset: {
-    bottom: '56vh',
+    bottom: '64vh',
     [deskopWidthBreakpoint]: {
       bottom: theme.spacing.unit * 4,
     },
@@ -286,8 +286,8 @@ const styles = theme => ({
     textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
   },
   call: {
-    height: '40vh',
-    minHeight: 200,
+    height: '20vh',
+    minHeight: 100,
     overflow: 'hidden',
     boxSizing: 'border-box',
     transition: theme.transitions.create('height', {

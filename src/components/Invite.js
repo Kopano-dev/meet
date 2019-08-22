@@ -33,7 +33,6 @@ const styles = theme => ({
     maxWidth: 550,
     paddingBottom: 0,
     marginLeft: -1 * theme.spacing.unit / 2,
-    marginRight: -1 * theme.spacing.unit / 2,
   },
   chip: {
     margin: theme.spacing.unit / 2,

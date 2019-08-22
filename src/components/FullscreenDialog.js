@@ -21,8 +21,12 @@ const styles = () => ({
     marginLeft: -12,
     marginRight: 20,
   },
-  flex: {
+  title: {
     flex: 1,
+    whiteSpace: 'nowrap',
+    maxWidth: '60vw',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 });
 
@@ -59,7 +63,7 @@ class FullscreenDialog extends React.PureComponent {
             <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label={intl.formatMessage(translations.closeButtonAria)}>
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.title}>
               {topTitle}
             </Typography>
             <Button color="primary" onClick={this.handleClose}>
