@@ -212,7 +212,7 @@ class GroupControl extends React.PureComponent {
                     id="groupControl.extraInviteButton.label"
                     defaultMessage="Invite to this {scope}"
                     values={{
-                      scope: group.scope,
+                      scope: <ScopeLabel scope={group.scope} capitalize/>,
                     }}
                   ></FormattedMessage>
                 </Button>
@@ -223,7 +223,7 @@ class GroupControl extends React.PureComponent {
                     id="groupControl.extraShareLinkButton.label"
                     defaultMessage="Share {scope} link"
                     values={{
-                      scope: group.scope,
+                      scope: <ScopeLabel scope={group.scope} capitalize/>,
                     }}
                   ></FormattedMessage>
                 </Button>
