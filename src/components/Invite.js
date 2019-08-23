@@ -118,7 +118,7 @@ class Invite extends React.PureComponent {
         const params = new URLSearchParams();
         params.append('subject', intl.formatMessage(translations.inviteEmailSubject, {id: group.id}));
         params.append('body', intl.formatMessage(translations.inviteEmailBody, {id: group.id, url}));
-        const mailto = `mailto:${encodeURI(added.map(a => a.mail).join(','))}?${params.toString().replace(/\+/g, '%20')}`;
+        const mailto = `mailto:${encodeURI(added.map(a => a.mail).join(';'))}?${params.toString().replace(/\+/g, '%20')}`;
         if (isMobile) {
           // Set our direct location on mobile. Hopefully the environment is smart
           // enough to not replace our app.
@@ -148,7 +148,7 @@ class Invite extends React.PureComponent {
   }
 
   validateQuery = query => {
-    const newQueries = query.split(/[ ,]+/).map(q => q.trim());
+    const newQueries = query.split(/[ ,;]+/).map(q => q.trim());
     const valid = newQueries.reduce((v, q) => {
       return v && validateEmail(q);
     }, true);
