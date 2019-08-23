@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-08-22T16:43:39.016Z\n"
+"POT-Creation-Date: 2019-08-23T15:26:03.338Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,14 @@ msgstr ""
 #.                  for review and to send the invitation message.
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid "Add email addresses using the text field above to invite to this Meet. To finish, click\n                 invite and email message with instructions how to join this Meet will be created in your email program\n                 for review and to send the invitation message."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [newPublicGroup.allowExternalGuests.toggleLabel]
+#. defaultMessage is:
+#. Allow public guest access
+msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
+msgid "Allow public guest access"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -148,9 +156,11 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name.
+#. Enter a name of the group in the field above. You can use any
+#.                  name. A new group will created automatically if it does not exist already. The
+#.                  group can be joined by anyone who knows its exact name.
 msgctxt "newPublicGroup.helper.text"
-msgid "Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name."
+msgid "Enter a name of the group in the field above. You can use any\n                 name. A new group will created automatically if it does not exist already. The\n                 group can be joined by anyone who knows its exact name."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -167,6 +177,14 @@ msgstr ""
 #. Find contact
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Group name
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Group name"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -228,9 +246,17 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
-#. Join public group
+#. Join  or create group
 msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "Join public group"
+msgid "Join  or create group"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.newPublicGroupDialog.topTitle]
+#. defaultMessage is:
+#. Join or create group
+msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Join or create group"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -314,22 +340,6 @@ msgid "No permission to access server"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [callView.newPublicGroupDialog.topTitle]
-#. defaultMessage is:
-#. Public group
-msgctxt "callView.newPublicGroupDialog.topTitle"
-msgid "Public group"
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Public group name
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Public group name"
-msgstr ""
-
-#: ./i18n/src/messages.json
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -407,6 +417,22 @@ msgstr ""
 #. There is currently nothing active here.
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.groupIsPublic.text]
+#. defaultMessage is:
+#. This group is protected - a user account is required to join.
+msgctxt "invite.groupIsPublic.text"
+msgid "This group is protected - a user account is required to join."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.groupIsProtected.text]
+#. defaultMessage is:
+#. This group is public - guests are allowed to join.
+msgctxt "invite.groupIsProtected.text"
+msgid "This group is public - guests are allowed to join."
 msgstr ""
 
 #: ./i18n/src/messages.json

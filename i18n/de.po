@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-22T16:43:39.016Z\n"
-"PO-Revision-Date: 2019-08-22 18:35+0200\n"
+"POT-Creation-Date: 2019-08-23T15:26:03.338Z\n"
+"PO-Revision-Date: 2019-08-23 17:29+0200\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -32,6 +32,14 @@ msgid ""
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
 msgstr "Fügen Sie die E-Mail-Adressen mit dem Eingabefeld hinzu die Sie zu diesem Meet einladen möchten. Wenn Sie fertig sind wird bei einem klick auf Einladen eine E-Mail-Einladung für diese Meet erzeugt und Ihr E-Mail-Programm damit geöffnet. "
+
+#. [newPublicGroup.allowExternalGuests.toggleLabel]
+#. defaultMessage is:
+#. Allow public guest access
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
+msgid "Allow public guest access"
+msgstr "Öffentlichen Zugriff für Gäste gestatten"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -155,11 +163,16 @@ msgstr "E-Mail-Adressen"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name.
+#. Enter a name of the group in the field above. You can use any
+#.                  name. A new group will created automatically if it does not exist already. The
+#.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.helper.text"
-msgid "Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name."
-msgstr "Geben Sie den Namen einer Gruppe ein. Sie können beliebige Namen verwende. Existiert noch keine Gruppe mit dem gleiche Namen, wird automatisch eine erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den Namen kennt."
+msgid ""
+"Enter a name of the group in the field above. You can use any\n"
+"                 name. A new group will created automatically if it does not exist already. The\n"
+"                 group can be joined by anyone who knows its exact name."
+msgstr "Geben Sie den Namen einer Gruppe ein. Sie können beliebige Namen verwende. Existiert noch keine Gruppe mit dem gleiche Namen, wird automatisch eine erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -176,6 +189,14 @@ msgstr "Kontakte konnten nicht geladen werden."
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
 msgstr "Kontakt suchen"
+
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Group name
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Group name"
+msgstr "Name der Gruppe"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -235,11 +256,19 @@ msgstr "Betreten"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
-#. Join public group
+#. Join  or create group
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "Join public group"
-msgstr "Öffentliche Gruppe betreten"
+msgid "Join  or create group"
+msgstr "Gruppe betreten oder erstellen"
+
+#. [callView.newPublicGroupDialog.topTitle]
+#. defaultMessage is:
+#. Join or create group
+#: i18n/src/messages.json
+msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Join or create group"
+msgstr "Gruppe betreten oder erstellen"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -321,22 +350,6 @@ msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
 msgstr "Keine Berechtigung für Serverzugriff"
 
-#. [callView.newPublicGroupDialog.topTitle]
-#. defaultMessage is:
-#. Public group
-#: i18n/src/messages.json
-msgctxt "callView.newPublicGroupDialog.topTitle"
-msgid "Public group"
-msgstr "Öffentliche Gruppe"
-
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Public group name
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Public group name"
-msgstr "Name der öffentlichen Gruppe"
-
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -416,6 +429,22 @@ msgstr "Das Ziel hat Ihren Anruf abgelehnt."
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
 msgstr "Hier existiert im Moment nichts."
+
+#. [invite.groupIsPublic.text]
+#. defaultMessage is:
+#. This group is protected - a user account is required to join.
+#: i18n/src/messages.json
+msgctxt "invite.groupIsPublic.text"
+msgid "This group is protected - a user account is required to join."
+msgstr "Diese Gruppe ist geschützt - Teilnehmer benötigen ein Benutzerkonto."
+
+#. [invite.groupIsProtected.text]
+#. defaultMessage is:
+#. This group is public - guests are allowed to join.
+#: i18n/src/messages.json
+msgctxt "invite.groupIsProtected.text"
+msgid "This group is public - guests are allowed to join."
+msgstr "Diese Gruppe ist öffentlich  - Gäste sind erlaubt."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -592,6 +621,10 @@ msgstr "unbekannt"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#~ msgctxt "callView.newPublicGroupDialog.topTitle"
+#~ msgid "Public group"
+#~ msgstr "Öffentliche Gruppe"
 
 #~ msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 #~ msgid "Accept video"
