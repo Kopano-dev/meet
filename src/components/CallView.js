@@ -1169,6 +1169,7 @@ class CallView extends React.PureComponent {
     const {
       classes,
       profile,
+      config,
       guest,
       channel,
       ringing,
@@ -1442,6 +1443,7 @@ class CallView extends React.PureComponent {
                     }}
                     channel={channel}
                     group={group}
+                    config={config}
                     {...other}
                   >
                     <FullscreenDialog
@@ -1460,6 +1462,7 @@ class CallView extends React.PureComponent {
                         onActionClick={(action, props) => {
                           this.handleDialogActionClick(action, props);
                         }}
+                        config={config}
                       />
                     </FullscreenDialog>
                   </GroupControl>;
@@ -1529,6 +1532,7 @@ class CallView extends React.PureComponent {
             this.handleDialogActionClick(action, props);
             this.closeAllOpenDialogs();
           }}
+          config={config}
         ></NewPublicGroup>
       </FullscreenDialog>
     );
@@ -1638,6 +1642,7 @@ CallView.propTypes = {
 
   hidden: PropTypes.bool.isRequired,
   profile: userShape.isRequired,
+  config: PropTypes.object.isRequired,
   guest: PropTypes.bool.isRequired,
 
   connected: PropTypes.bool.isRequired,
@@ -1720,7 +1725,7 @@ const updateUMSettingsFromURL = (settings) => {
 };
 
 const mapStateToProps = state => {
-  const { hidden, profile } = state.common;
+  const { hidden, profile, config } = state.common;
   const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported } = state.media;
@@ -1741,6 +1746,7 @@ const mapStateToProps = state => {
   return {
     hidden,
     profile,
+    config,
     guest,
 
     connected,

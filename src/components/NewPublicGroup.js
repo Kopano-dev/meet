@@ -20,7 +20,7 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { PUBLIC_GROUP_PREFIX } from '../utils';
+import { PUBLIC_GROUP_PREFIX, isPublicGroup } from '../utils';
 
 const styles = theme => ({
   root: {
@@ -59,7 +59,7 @@ const translations = defineMessages({
   },
   allowExternalGuestsToggleLabel: {
     id: 'newPublicGroup.allowExternalGuests.toggleLabel',
-    defaultMessage: 'Allow external guests',
+    defaultMessage: 'Allow public guest access',
   },
 });
 
@@ -70,13 +70,14 @@ class NewPublicGroup extends React.PureComponent {
   }
 
   handleChange = name => event => {
+    const { config } = this.props;
     const state = {
       [name]: event.target.value,
     };
 
     if (name === 'query') {
       let isPublic = false;
-      if (event.target.value.indexOf(PUBLIC_GROUP_PREFIX) === 0) {
+      if (isPublicGroup({id: event.target.value}, config)) {
         isPublic = true;
       }
       state.isPublic = isPublic;
@@ -100,7 +101,7 @@ class NewPublicGroup extends React.PureComponent {
       else if (!event.target.checked && query.indexOf(PUBLIC_GROUP_PREFIX) === 0) {
         newQuery = query.substr(PUBLIC_GROUP_PREFIX.length);
       }
-      if (newQuery) {
+      if (newQuery !== query) {
         state.query = newQuery;
       }
     }
@@ -126,6 +127,7 @@ class NewPublicGroup extends React.PureComponent {
       classes,
       className: classNameProp,
       intl,
+      config,
     } = this.props;
 
     const className = classNames(
@@ -134,6 +136,7 @@ class NewPublicGroup extends React.PureComponent {
     );
 
     const valid = query.trim().length > 0 && query.trim() !== PUBLIC_GROUP_PREFIX;
+    const withPublic = config && config.guests && config.guests.enabled;
 
     return (
       <div className={className}>
@@ -177,12 +180,12 @@ class NewPublicGroup extends React.PureComponent {
                  group can be joined by anyone who knows its exact name.">
               </FormattedMessage>
             </Typography>
-            <FormControlLabel
+            {withPublic && <FormControlLabel
               control={
                 <Switch checked={isPublic} color="secondary" onChange={this.handleCheckboxChange('isPublic')} value="true" />
               }
               label={intl.formatMessage(translations.allowExternalGuestsToggleLabel)}
-            />
+            />}
           </DialogContent>
           <DialogActions className={classes.actions}>
             <Button variant="contained" color="primary" disabled={!valid} onClick={this.handleActionClick}>
@@ -200,6 +203,7 @@ NewPublicGroup.propTypes = {
   className: PropTypes.string,
   intl: intlShape.isRequired,
 
+  config: PropTypes.object.isRequired,
   onActionClick: PropTypes.func.isRequired,
 };
 

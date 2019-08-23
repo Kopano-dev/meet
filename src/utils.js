@@ -37,14 +37,14 @@ export function resolveContactIDFromRecord(config, record) {
   }
 }
 
-export function makeGroupLink(group, options) {
+export function makeGroupLink(group, options, config) {
   let hst = '';
   if (options) {
     const params = new URLSearchParams();
     Object.keys(options).forEach(key => {
       params.set(key, options[key]);
     });
-    if (group.id.indexOf(PUBLIC_GROUP_PREFIX) === 0 && options.guest === undefined) {
+    if (options.guest === undefined && isPublicGroup(group, config)) {
       // Automatically add guest parameter if this is a public group.
       params.set('guest', '1');
     }
@@ -55,4 +55,12 @@ export function makeGroupLink(group, options) {
   }
 
   return qualifyAppURL(`/r/${group.scope}/${group.id}${hst}`);
+}
+
+export function isPublicGroup(group, config) {
+  return config &&
+    config.guests &&
+    config.guests.enabled &&
+    group &&
+    group.id.indexOf(PUBLIC_GROUP_PREFIX) === 0;
 }

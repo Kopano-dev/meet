@@ -17,10 +17,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { isMobile, makeGroupLink } from '../utils';
+import { isMobile, makeGroupLink, isPublicGroup } from '../utils';
 
 const styles = theme => ({
   root: {
@@ -68,6 +70,9 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
   },
+  textIcon: {
+    verticalAlign: 'middle',
+  },
 });
 
 const translations = defineMessages({
@@ -101,13 +106,13 @@ class Invite extends React.PureComponent {
   }
 
   handleActionClick = (action) => () => {
-    const { intl, onActionClick } = this.props;
+    const { intl, onActionClick, config } = this.props;
 
     switch (action) {
       case 'invite-by-mailto': {
         const { added, options } = this.state;
         const { group } = this.props;
-        const url = makeGroupLink(group, options);
+        const url = makeGroupLink(group, options, config);
 
         // Create mailto link with parameters.
         const params = new URLSearchParams();
@@ -200,12 +205,16 @@ class Invite extends React.PureComponent {
       classes,
       className: classNameProp,
       intl,
+      group,
+      config,
     } = this.props;
 
     const className = classNames(
       classes.root,
       classNameProp,
     );
+
+    const isPublic = isPublicGroup(group, config);
 
     return (
       <div className={className}>
@@ -272,6 +281,22 @@ class Invite extends React.PureComponent {
             />
           </Toolbar>
           <DialogContent>
+            { isPublic ?
+              <Typography variant="subtitle2">
+                <LockOpenIcon color="primary" className={classes.textIcon}/> <FormattedMessage
+                  id="invite.groupIsProtected.text"
+                  defaultMessage="This group is public - guests are allowed to join.">
+                </FormattedMessage>
+              </Typography> :
+              <Typography variant="subtitle2">
+                <LockIcon color="error" className={classes.textIcon}/> <FormattedMessage
+                  id="invite.groupIsPublic.text"
+                  defaultMessage="This group is protected - a user account is required to join.">
+                </FormattedMessage>
+              </Typography>
+            }
+          </DialogContent>
+          <DialogContent>
             <Typography>
               <FormattedMessage
                 id="invite.addEmailAddressesHelper.text"
@@ -301,6 +326,7 @@ Invite.propTypes = {
 
   group: PropTypes.object.isRequired,
 
+  config: PropTypes.object.isRequired,
   onActionClick: PropTypes.func.isRequired,
 };
 

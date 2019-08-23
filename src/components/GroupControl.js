@@ -126,11 +126,11 @@ class GroupControl extends React.PureComponent {
   }
 
   handleEntryClick = (mode) => () => {
-    const { group, onEntryClick, onActionClick } = this.props;
+    const { group, onEntryClick, onActionClick, config } = this.props;
 
     switch(mode) {
       case 'share-link-click': {
-        const url = makeGroupLink(group, {}); // Create link with options.
+        const url = makeGroupLink(group, {}, config); // Create link with options.
         onActionClick(mode, {
           id: group.id,
           url,
@@ -243,6 +243,7 @@ GroupControl.propTypes = {
   className: PropTypes.string,
   intl: intlShape.isRequired,
 
+  config: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   guest: PropTypes.bool.isRequired,
