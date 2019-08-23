@@ -13,10 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import PublicConferenceIcon from '@material-ui/icons/Group';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+
+import { PUBLIC_GROUP_PREFIX } from '../utils';
 
 const styles = theme => ({
   root: {
@@ -36,6 +40,9 @@ const styles = theme => ({
   inputFieldIcon: {
     color: '#ddd',
   },
+  inputFieldIconError: {
+    color: 'red',
+  },
   inputFieldIconValid: {
     color: 'green',
   },
@@ -48,30 +55,73 @@ const styles = theme => ({
 const translations = defineMessages({
   enterPublicGroupInputLabel: {
     id: 'newPublicGroup.enterPublicGroup.inputLabel',
-    defaultMessage: 'Public group name',
+    defaultMessage: 'Group name',
+  },
+  allowExternalGuestsToggleLabel: {
+    id: 'newPublicGroup.allowExternalGuests.toggleLabel',
+    defaultMessage: 'Allow external guests',
   },
 });
 
 class NewPublicGroup extends React.PureComponent {
   state = {
     query: '',
+    isPublic: false,
   }
 
   handleChange = name => event => {
-    this.setState({
+    const state = {
       [name]: event.target.value,
-    });
+    };
+
+    if (name === 'query') {
+      let isPublic = false;
+      if (event.target.value.indexOf(PUBLIC_GROUP_PREFIX) === 0) {
+        isPublic = true;
+      }
+      state.isPublic = isPublic;
+    }
+
+    this.setState(state);
   };
 
-  handleActionClick = () => {
+  handleCheckboxChange = name => event => {
     const { query } = this.state;
+
+    const state = {
+      [name]: event.target.checked,
+    };
+
+    if (name === 'isPublic') {
+      let newQuery = '';
+      if (event.target.checked && query.indexOf(PUBLIC_GROUP_PREFIX) !== 0) {
+        newQuery = `${PUBLIC_GROUP_PREFIX}${query}`;
+      }
+      else if (!event.target.checked && query.indexOf(PUBLIC_GROUP_PREFIX) === 0) {
+        newQuery = query.substr(PUBLIC_GROUP_PREFIX.length);
+      }
+      if (newQuery) {
+        state.query = newQuery;
+      }
+    }
+
+    this.setState(state);
+  }
+
+  handleActionClick = () => {
+    const { query, isPublic } = this.state;
     const { onActionClick } = this.props;
 
-    onActionClick('view-public-group', {id: query, scope: 'group'});
+    let id = query;
+    if (isPublic && query.indexOf(PUBLIC_GROUP_PREFIX) !== 0) {
+      id = `${PUBLIC_GROUP_PREFIX}${query}`;
+    }
+
+    onActionClick('view-public-group', {id, scope: 'group'});
   }
 
   render() {
-    const { query } = this.state;
+    const { query, isPublic } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -83,7 +133,7 @@ class NewPublicGroup extends React.PureComponent {
       classNameProp,
     );
 
-    const valid = query.trim().length > 0;
+    const valid = query.trim().length > 0 && query.trim() !== PUBLIC_GROUP_PREFIX;
 
     return (
       <div className={className}>
@@ -109,7 +159,8 @@ class NewPublicGroup extends React.PureComponent {
                     <PublicConferenceIcon color="inherit" className={classNames(
                       classes.inputFieldIcon,
                       {
-                        [classes.inputFieldIconValid]: query,
+                        [classes.inputFieldIconValid]: query && valid,
+                        [classes.inputFieldIconError]: query && !valid,
                       }
                     )}/>
                   </InputAdornment>
@@ -121,9 +172,17 @@ class NewPublicGroup extends React.PureComponent {
             <Typography>
               <FormattedMessage
                 id="newPublicGroup.helper.text"
-                defaultMessage="Enter a name of the group in the field above. You can use any name. A new group will created automatically if it does not exist already. A public group can be joined by anyone who knows its name.">
+                defaultMessage="Enter a name of the group in the field above. You can use any
+                 name. A new group will created automatically if it does not exist already. The
+                 group can be joined by anyone who knows its exact name.">
               </FormattedMessage>
             </Typography>
+            <FormControlLabel
+              control={
+                <Switch checked={isPublic} color="secondary" onChange={this.handleCheckboxChange('isPublic')} value="true" />
+              }
+              label={intl.formatMessage(translations.allowExternalGuestsToggleLabel)}
+            />
           </DialogContent>
           <DialogActions className={classes.actions}>
             <Button variant="contained" color="primary" disabled={!valid} onClick={this.handleActionClick}>

@@ -5,6 +5,8 @@ import { qualifyAppURL } from './base';
 export const isMobile = /Mobi/.test(navigator.userAgent);
 export const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
+export const PUBLIC_GROUP_PREFIX = 'public/';
+
 export function pushHistory(history, path, state) {
   // Simple helper to push the history, keeping the current query and hash.
   history.push(path + window.location.search + window.location.hash, state);
@@ -35,6 +37,22 @@ export function resolveContactIDFromRecord(config, record) {
   }
 }
 
-export function makeGroupLink(group) {
-  return qualifyAppURL(`/r/${group.scope}/${group.id}`);
+export function makeGroupLink(group, options) {
+  let hst = '';
+  if (options) {
+    const params = new URLSearchParams();
+    Object.keys(options).forEach(key => {
+      params.set(key, options[key]);
+    });
+    if (group.id.indexOf(PUBLIC_GROUP_PREFIX) === 0 && options.guest === undefined) {
+      // Automatically add guest parameter if this is a public group.
+      params.set('guest', '1');
+    }
+    hst = params.toString();
+    if (hst) {
+      hst = '#' + hst;
+    }
+  }
+
+  return qualifyAppURL(`/r/${group.scope}/${group.id}${hst}`);
 }

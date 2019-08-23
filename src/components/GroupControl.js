@@ -130,7 +130,7 @@ class GroupControl extends React.PureComponent {
 
     switch(mode) {
       case 'share-link-click': {
-        const { url } = this.state;
+        const url = makeGroupLink(group, {}); // Create link with options.
         onActionClick(mode, {
           id: group.id,
           url,

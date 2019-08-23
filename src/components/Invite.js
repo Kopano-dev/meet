@@ -97,6 +97,7 @@ class Invite extends React.PureComponent {
     invalid: true,
     dirty: false,
     added: [],
+    options: {},
   }
 
   handleActionClick = (action) => () => {
@@ -104,9 +105,9 @@ class Invite extends React.PureComponent {
 
     switch (action) {
       case 'invite-by-mailto': {
-        const { added } = this.state;
+        const { added, options } = this.state;
         const { group } = this.props;
-        const url = makeGroupLink(group);
+        const url = makeGroupLink(group, options);
 
         // Create mailto link with parameters.
         const params = new URLSearchParams();

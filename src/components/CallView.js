@@ -388,6 +388,7 @@ const styles = theme => ({
   dialog: {
     [theme.breakpoints.up('md')]: {
       height: '60%',
+      width: '80vw',
       maxHeight: 600,
       minHeight: 340,
       minWidth: 480,
@@ -432,7 +433,7 @@ const translations = defineMessages({
   },
   newPublicGroupDialogTopTitle: {
     id: 'callView.newPublicGroupDialog.topTitle',
-    defaultMessage: 'Public group',
+    defaultMessage: 'Join or create group',
   },
   inviteDialogTopTitle: {
     id: 'callView.inviteDialog.topTitle',
