@@ -146,6 +146,14 @@ class App extends PureComponent {
             }
           }
         },
+        onBeforeSignout: async (userManager, args) => {
+          if (args.state && args.state.route) {
+            // Remove all hash values from the current route on sign out.
+            const route = new URL(args.state.route, 'http://localhost');
+            route.hash = ''; // Reset hash before signout.
+            args.state.route = route.toString().substr(16);
+          }
+        },
         noRedirect: !!guestEnabled,
         removeUser: !!guestEnabled,
       },
