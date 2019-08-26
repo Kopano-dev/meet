@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
-"PO-Revision-Date: 2019-08-26 15:16+0000\n"
+"PO-Revision-Date: 2019-08-26 15:17+0000\n"
 "Last-Translator: Dominique <dperessoni@alternatiq.com>\n"
 "Language-Team: French <http://translate.kopano.io/projects/kopano/meet/fr/>\n"
 "Language: fr\n"
@@ -138,7 +138,7 @@ msgstr "Annuler"
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr "Erreur de chargement des contacts"
+msgstr "Erreur de chargement des contacts."
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -186,7 +186,7 @@ msgstr "Rejoindre le groupe public"
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr "Chargement en cours des contacts"
+msgstr "Chargement en cours des contacts ..."
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -218,7 +218,7 @@ msgstr "Nouvel appel"
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr "Connexion impossible - vérifier votre connexion internet"
+msgstr "Connexion impossible - vérifier votre connexion internet."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -226,7 +226,7 @@ msgstr "Connexion impossible - vérifier votre connexion internet"
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr "Pas de contacts correspondant à votre recherche"
+msgstr "Pas de contacts correspondant à votre recherche."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
