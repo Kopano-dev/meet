@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
-"PO-Revision-Date: 2019-08-26 15:15+0000\n"
+"PO-Revision-Date: 2019-08-26 15:54+0000\n"
 "Last-Translator: Klaus <klaus@linuxavdelingen.no>\n"
 "Language-Team: Norwegian Bokmål <http://translate.kopano.io/projects/kopano/meet/nb/>\n"
 "Language: nb\n"
@@ -138,7 +138,7 @@ msgstr "Slett"
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr ""
+msgstr "Kan ikke laste inn kontakter."
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -146,7 +146,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
-msgstr ""
+msgstr "Søk etter kontakter"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -154,7 +154,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.ignoreButton.text"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorer"
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -162,7 +162,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr ""
+msgstr "Innkommende anrop"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -170,7 +170,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
-msgstr ""
+msgstr "Bli med"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
@@ -178,7 +178,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join public group"
-msgstr ""
+msgstr "Bli med i offentlig gruppe"
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -186,7 +186,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
+msgstr "Laster inn kontakter ..."
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -194,7 +194,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
+msgstr "Mer"
 
 #. [callView.masterButton.label]
 #. defaultMessage is:
@@ -202,7 +202,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.masterButton.label"
 msgid "New call"
-msgstr ""
+msgstr "Nytt anrop"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -210,7 +210,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr ""
+msgstr "Nytt anrop"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -218,7 +218,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr ""
+msgstr "Ingen tilkobling - Kontroller Internett-forbindelsen."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -226,7 +226,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr ""
+msgstr "Ingen kontakter passer med de valgte vilkårene."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -234,7 +234,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
-msgstr ""
+msgstr "Ingen tilgang til server"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
@@ -242,7 +242,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Public group"
-msgstr ""
+msgstr "Offentlig gruppe"
 
 #. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
@@ -250,7 +250,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Public group name"
-msgstr ""
+msgstr "Offentlig gruppenavn"
 
 #. [recents.subheaderLabel]
 #. defaultMessage is:
@@ -258,7 +258,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.subheaderLabel"
 msgid "Recent"
-msgstr ""
+msgstr "Nylig"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -266,7 +266,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
-msgstr ""
+msgstr "Avslå"
 
 #. [contactSearch.failedToLoad.retryButton.text]
 #. defaultMessage is:
@@ -274,7 +274,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
+msgstr "Prøv igjen"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -282,7 +282,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
-msgstr ""
+msgstr "Søker etter kontakter ..."
 
 #. [callView.settingsList.label]
 #. defaultMessage is:
@@ -290,7 +290,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsList.label"
 msgid "Settings"
-msgstr ""
+msgstr "Innstillinger"
 
 #. [groupControl.share.label]
 #. defaultMessage is:
@@ -298,7 +298,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.share.label"
 msgid "Share {scope}"
-msgstr ""
+msgstr "{scope} dele"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -306,7 +306,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr ""
+msgstr "Avstengt"
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -314,7 +314,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejectedBusy.snack"
 msgid "The target is busy."
-msgstr ""
+msgstr "Målet er opptatt."
 
 #. [kwmProvider.rejected.snack]
 #. defaultMessage is:
@@ -322,7 +322,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr ""
+msgstr "Målet avviste ditt anrop."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -330,7 +330,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
-msgstr ""
+msgstr "Det er ikke noen aktivitet her akkurat nå."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -338,7 +338,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr ""
+msgstr "Kan ikke akseptere samtale"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -346,7 +346,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr ""
+msgstr "Kan ikke ringe"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -354,7 +354,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr ""
+msgstr "Kan ikke bli med i samtalen"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -362,7 +362,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.unknownUser.text"
 msgid "Unknown user"
-msgstr ""
+msgstr "Ukjent bruker"
 
 #. [displayNameLabel.userWithIndex.text]
 #. defaultMessage is:
@@ -370,7 +370,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
-msgstr ""
+msgstr "Bruker {idx}"
 
 #. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -378,7 +378,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Videosamtale"
 
 #. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -386,7 +386,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Videosamtale"
 
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -394,7 +394,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Lydsamtale"
 
 #. [groupControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -402,7 +402,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Lydsamtale"
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -410,7 +410,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
-msgstr ""
+msgstr "Du har ikke tilgang her."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -418,7 +418,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
+msgstr "Din anropslogg er tom."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -426,7 +426,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted"
-msgstr ""
+msgstr "Mikrofonen din er dempet"
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -434,7 +434,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.fabButton.aria"
 msgid "add"
-msgstr ""
+msgstr "legg til"
 
 #. [scopeLabel.call.label]
 #. defaultMessage is:
@@ -442,7 +442,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.call.label"
 msgid "call"
-msgstr ""
+msgstr "ring"
 
 #. [scopeLabel.conference.label]
 #. defaultMessage is:
@@ -450,7 +450,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.conference.label"
 msgid "conference"
-msgstr ""
+msgstr "konferanse"
 
 #. [recents.deleteSwipeButton.text]
 #. defaultMessage is:
@@ -458,7 +458,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr ""
+msgstr "slett"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -466,7 +466,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.group.label"
 msgid "group"
-msgstr ""
+msgstr "gruppe"
 
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
@@ -474,7 +474,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
-msgstr ""
+msgstr "ukjent"
 
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
@@ -482,4 +482,4 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr ""
+msgstr "Slå lyd på"
