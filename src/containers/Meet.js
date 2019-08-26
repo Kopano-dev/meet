@@ -212,7 +212,7 @@ const getGuestSettingsFromURL = () => {
   if (hpr.guest) {
     const guest = {
       guest: hpr.guest,
-      path: getCurrentAppPath().substr(2),
+      path: decodeURI(getCurrentAppPath().substr(2)),
     };
     if (hpr.token) {
       guest.token = hpr.token;
