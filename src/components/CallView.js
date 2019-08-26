@@ -465,11 +465,11 @@ const translations = defineMessages({
   },
   inviteShareLinkSubject: {
     id: 'callView.inviteByShareLink.subject.template',
-    defaultMessage: 'Meet "{id}" invitation',
+    defaultMessage: 'Invitation to "{id}"',
   },
   inviteShareLinkText: {
     id: 'callView.inviteByShareLink.text.template',
-    defaultMessage: 'You are invited to join the Meet "{id}".\n\n',
+    defaultMessage: 'You can join this meeting from your computer, tablet or smartphone.\n\n',
   },
 });
 

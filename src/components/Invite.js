@@ -82,11 +82,17 @@ const translations = defineMessages({
   },
   inviteEmailSubject: {
     id: 'invite.email.subject.template',
-    defaultMessage: 'Meet "{id}" invitation',
+    defaultMessage: 'Invitation to "{id}"',
   },
   inviteEmailBody: {
     id: 'invite.email.body.template',
-    defaultMessage: 'You are invited to join the Meet "{id}".\n\nLink: {url}\n\n',
+    defaultMessage: '\
+----------------------------------------------------------------------\n\n\
+You can join this meeting from your computer, tablet or smartphone.\n\
+{url}\n\n\
+Learn more about Kopano Meet at https://meet-app.io\n\n\
+----------------------------------------------------------------------\n\
+',
   },
 });
 

@@ -1,11 +1,26 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-08-23T15:26:03.338Z\n"
+"POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
 "X-Generator: react-intl-po\n"
 
+
+#: ./i18n/src/messages.json
+#. [invite.email.body.template]
+#. defaultMessage is:
+#. ----------------------------------------------------------------------
+#. 
+#. You can join this meeting from your computer, tablet or smartphone.
+#. {url}
+#. 
+#. Learn more about Kopano Meet at https://meet-app.io
+#. 
+#. ----------------------------------------------------------------------
+msgctxt "invite.email.body.template"
+msgid "----------------------------------------------------------------------\n\nYou can join this meeting from your computer, tablet or smartphone.\n{url}\n\nLearn more about Kopano Meet at https://meet-app.io\n\n----------------------------------------------------------------------"
+msgstr ""
 
 #: ./i18n/src/messages.json
 #. [incomingCallDialog.acceptVideoCallButton.text]
@@ -212,6 +227,22 @@ msgid "Invitation email created, opening your mail program now."
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [callView.inviteByShareLink.subject.template]
+#. defaultMessage is:
+#. Invitation to "{id}"
+msgctxt "callView.inviteByShareLink.subject.template"
+msgid "Invitation to \"{id}\""
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [invite.email.subject.template]
+#. defaultMessage is:
+#. Invitation to "{id}"
+msgctxt "invite.email.subject.template"
+msgid "Invitation to \"{id}\""
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [invite.inviteButton.label]
 #. defaultMessage is:
 #. Invite
@@ -273,22 +304,6 @@ msgstr ""
 #. Loading contacts ...
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [callView.inviteByShareLink.subject.template]
-#. defaultMessage is:
-#. Meet "{id}" invitation
-msgctxt "callView.inviteByShareLink.subject.template"
-msgid "Meet \"{id}\" invitation"
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [invite.email.subject.template]
-#. defaultMessage is:
-#. Meet "{id}" invitation
-msgctxt "invite.email.subject.template"
-msgid "Meet \"{id}\" invitation"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -510,19 +525,9 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
-#. You are invited to join the Meet "{id}".
+#. You can join this meeting from your computer, tablet or smartphone.
 msgctxt "callView.inviteByShareLink.text.template"
-msgid "You are invited to join the Meet \"{id}\"."
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [invite.email.body.template]
-#. defaultMessage is:
-#. You are invited to join the Meet "{id}".
-#. 
-#. Link: {url}
-msgctxt "invite.email.body.template"
-msgid "You are invited to join the Meet \"{id}\".\n\nLink: {url}"
+msgid "You can join this meeting from your computer, tablet or smartphone."
 msgstr ""
 
 #: ./i18n/src/messages.json
