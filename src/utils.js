@@ -2,7 +2,7 @@ import { forceBase64URLEncoded, forceBase64StdEncoded } from 'kpop/es/utils';
 import { qualifyAppURL } from './base';
 
 // NOTE(longsleep): Poor mans check if on mobile.
-export const isMobile = /Mobi/.test(navigator.userAgent);
+export const isMobile = /(Mobi|Android)/.test(navigator.userAgent);
 export const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
 export const PUBLIC_GROUP_PREFIX = 'public/';
