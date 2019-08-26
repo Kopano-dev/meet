@@ -373,7 +373,7 @@ const styles = theme => ({
   navDrawer: {
   },
   drawerPaper: {
-    width: 250,
+    width: 280,
     height: 'auto',
     position: 'absolute',
     top: 0,
