@@ -996,6 +996,7 @@ class CallView extends React.PureComponent {
     const {
       requestDisplayMedia,
       setScreenshareStream,
+      setError,
     } = this.props;
 
     if (this.rdm) {
