@@ -5,6 +5,10 @@ import * as types from './types';
 const highDefinition = false;
 
 const defaultAudioSettings = {
+  echoCancellation: true,
+  autoGainControl: true,
+  noiseSuppression: true,
+  channelCount: 1,
 };
 
 // Useful framerates are 15 and 8.
@@ -262,6 +266,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
 
   return async dispatch => {
     const currentSettings = {
+      ...settings,
       video: {
         ...defaultVideoSettings,
         ...settings.video,
@@ -292,10 +297,6 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
         advanced: [],
       };
       if (video) {
-        if (supportedConstraints.facingMode) {
-          // Try to select camera facing to the user.
-          videoConstraints.advanced.push({facingMode: currentSettings.video.facingMode});
-        }
         if (supportedConstraints.width && supportedConstraints.height) {
           // Try to select some decent resolution.
           videoConstraints.width = {
@@ -305,7 +306,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
             ideal: currentSettings.video.idealHeight,
           };
         }
-        if (supportedConstraints.frameRate) {
+        if (supportedConstraints.frameRate && currentSettings.video.idealFrameRate) {
           // Try to select some decent frame rate.
           videoConstraints.advanced.push({
             frameRate: {
@@ -313,6 +314,45 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
               max: currentSettings.video.maxFrameRate,
             },
           });
+        }
+        if (supportedConstraints.deviceId && videoSource && currentSettings.videoSourceId === videoSource) {
+          // Select camera as requested.
+          videoConstraints.deviceId = {
+            exact: videoSource,
+          };
+        } else {
+          if (supportedConstraints.facingMode && currentSettings.video.facingMode) {
+            // Try to select camera facing as requested.
+            videoConstraints.advanced.push({facingMode: currentSettings.video.facingMode});
+          }
+        }
+      }
+
+      if (audio) {
+        if (supportedConstraints.deviceId && audioSource && currentSettings.audioSourceId === audioSource) {
+          audioConstraints.deviceId = {
+            exact: audioSource,
+          };
+        }
+        if (supportedConstraints.echoCancellation && currentSettings.audio.echoCancellation !== undefined) {
+          audioConstraints.echoCancellation = {
+            exact: currentSettings.audio.echoCancellation,
+          };
+        }
+        if (supportedConstraints.autoGainControl && currentSettings.audio.autoGainControl !== undefined) {
+          audioConstraints.autoGainControl = {
+            exact: currentSettings.audio.autoGainControl,
+          };
+        }
+        if (supportedConstraints.noiseSuppression && currentSettings.audio.noiseSuppression !== undefined) {
+          audioConstraints.noiseSuppression = {
+            exact: currentSettings.audio.noiseSuppression,
+          };
+        }
+        if (supportedConstraints.channelCount && currentSettings.audio.channelCount !== undefined) {
+          audioConstraints.channelCount = {
+            ideal: currentSettings.audio.channelCount,
+          };
         }
       }
 
@@ -325,6 +365,9 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       } else
         constraints.video = false;
       if (audio && audioSource !== null) {
+        if (audioConstraints.advanced.length === 0) {
+          delete audioConstraints.advanced;
+        }
         constraints.audio = audioConstraints;
       } else {
         constraints.audio = false;
