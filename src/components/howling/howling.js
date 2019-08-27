@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { howlingShape } from './types';
+import { HowlingContext } from './provider';
 
 
 class Howling extends React.PureComponent {
-  static contextTypes = {
-    howling: howlingShape.isRequired,
-  };
+  static contextType = HowlingContext;
 
   sound = null;
   interval = null;
 
   howl({ stop } = {}) {
-    const { howling } = this.context;
+    const howling = this.context;
     const { playing, autoReset, loop, label, interval } = this.props;
 
     const id = this.sound ? this.sound : label;
@@ -35,7 +33,7 @@ class Howling extends React.PureComponent {
   }
 
   updateInterval(delay=0) { /* NOTE(longsleep): Delay in seconds */
-    const { howling } = this.context;
+    const howling = this.context;
     const { sound, interval } = this;
 
     if (interval !== null) {
@@ -84,8 +82,7 @@ class Howling extends React.PureComponent {
   }
 
   render() {
-    // Nothing really.
-    return React.createElement('div', null);
+    return null;
   }
 }
 

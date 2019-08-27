@@ -1,41 +1,47 @@
-import { PureComponent, Children } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Howl } from 'howler';
+import { Howl, Howler as HowlerGlobal } from 'howler';
 
 import { howlingShape } from './types';
 
-class HowlingProvider extends PureComponent {
-  static contextTypes = {
-    howling: howlingShape,
+export const HowlingContext = React.createContext({});
+
+export function withHowling(Component) {
+  return function ComponentWithHowling(props) {
+    return (
+      <HowlingContext.Consumer>
+        {howling => <Component {...props} howling={howling}/>}
+      </HowlingContext.Consumer>
+    );
   };
+}
 
-  static childContextTypes = {
-    howling: howlingShape.isRequired,
-  };
-
-  state = {
-    loaded: false,
-    helpers: null,
-  }
-
+class HowlingProvider extends React.PureComponent {
   constructor(props, context = {}) {
     super(props, context);
 
-    const { howling: howlingContext } = context;
+    const { howling: howlingContext } = props;
+
+    const state = {
+      loaded: false,
+    };
 
     if (howlingContext) {
-      this.state.helpers = { ...howlingContext };
+      state.context = howlingContext;
     } else {
-      const howler = this.createHowler();
-      this.howler = howler;
-      this.state.helpers = {
+      const howler = this.howler = this.createHowler();
+      state.context = {
         play: howler.play.bind(howler),
         pause: howler.pause.bind(howler),
         stop: howler.stop.bind(howler),
         loop: howler.loop.bind(howler),
+        howler,
+        global: HowlerGlobal,
       };
     }
+
+    this.state = state;
   }
 
   createHowler() {
@@ -55,7 +61,7 @@ class HowlingProvider extends PureComponent {
       },
       onloaderror: (id , error) => {
         // NOTE(longsleep): What to do on this error? Can we retry?
-        console.error('howler provider load error', error, id); // eslint-disable-line no-console
+        console.error('howling provider load error', error, id); // eslint-disable-line no-console
       },
       onplay: (id) => {
         this.onSoundEvent({name: 'play', id});
@@ -71,6 +77,9 @@ class HowlingProvider extends PureComponent {
       },
       onpause: (id) => {
         this.onSoundEvent({name: 'pause', id});
+      },
+      onunlock: () => {
+        console.debug('howling provider now is now unlocked');  // eslint-disable-line no-console
       },
     });
 
@@ -89,17 +98,6 @@ class HowlingProvider extends PureComponent {
     //console.log('howler sound event', event.name, event.id);
   }
 
-  getChildContext() {
-    const { helpers } = this.state;
-
-    return {
-      howling: {
-        ...helpers,
-        howler: this.howler, // NOTE(longsleep): Expose howler directly.
-      },
-    };
-  }
-
   componentDidMount() {
   }
 
@@ -111,7 +109,14 @@ class HowlingProvider extends PureComponent {
   }
 
   render() {
-    return Children.only(this.props.children);
+    const { children } = this.props;
+    const { context } = this.state;
+
+    return (
+      <HowlingContext.Provider value={context}>
+        {children}
+      </HowlingContext.Provider>
+    );
   }
 }
 
@@ -131,6 +136,8 @@ HowlingProvider.propTypes = {
   format: PropTypes.arrayOf(PropTypes.string),
   preload: PropTypes.bool,
   html5: PropTypes.bool,
+
+  howling: howlingShape,
 };
 
 export default HowlingProvider;

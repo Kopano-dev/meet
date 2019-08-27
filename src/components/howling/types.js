@@ -5,4 +5,7 @@ export const howlingShape = PropTypes.shape({
   pause: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   loop: PropTypes.func.isRequired,
+
+  howler: PropTypes.object.isRequired,
+  global: PropTypes.object.isRequired,
 });
