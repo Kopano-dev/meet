@@ -1,39 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
-"PO-Revision-Date: 2019-05-06 15:08+0200\n"
-"Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
-"Language-Team: Russian\n"
+"POT-Creation-Date: 2019-07-23T14:00:33.201Z\n"
+"PO-Revision-Date: 2019-08-27 08:41+0000\n"
+"Last-Translator: Sotneo <kerovsot@gmail.com>\n"
+"Language-Team: Russian <http://translate.kopano.io/projects/kopano/meet/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: react-intl-po\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#. [invite.email.body.template]
-#. defaultMessage is:
-#. ----------------------------------------------------------------------
-#.
-#. You can join this meeting from your computer, tablet or smartphone.
-#. {url}
-#.
-#. Learn more about Kopano Meet at https://meet-app.io
-#.
-#. ----------------------------------------------------------------------
-#: i18n/src/messages.json
-msgctxt "invite.email.body.template"
-msgid ""
-"----------------------------------------------------------------------\n"
-"\n"
-"You can join this meeting from your computer, tablet or smartphone.\n"
-"{url}\n"
-"\n"
-"Learn more about Kopano Meet at https://meet-app.io\n"
-"\n"
-"----------------------------------------------------------------------"
-msgstr ""
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.4\n"
 
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
@@ -41,28 +18,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
-msgstr ""
-
-#. [invite.addEmailAddressesHelper.text]
-#. defaultMessage is:
-#. Add email addresses using the text field above to invite to this Meet. To finish, click
-#.                  invite and email message with instructions how to join this Meet will be created in your email program
-#.                  for review and to send the invitation message.
-#: i18n/src/messages.json
-msgctxt "invite.addEmailAddressesHelper.text"
-msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
-"                 for review and to send the invitation message."
-msgstr ""
-
-#. [newPublicGroup.allowExternalGuests.toggleLabel]
-#. defaultMessage is:
-#. Allow public guest access
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
-msgid "Allow public guest access"
-msgstr ""
+msgstr "Принять"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -70,7 +26,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
-msgstr ""
+msgstr "Только звук"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -78,7 +34,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #. [groupControl.backButton.aria]
 #. defaultMessage is:
@@ -86,7 +42,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #. [contactControl.callButton.label]
 #. defaultMessage is:
@@ -94,7 +50,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "Звонок"
 
 #. [contactSearch.callButton.aria]
 #. defaultMessage is:
@@ -102,7 +58,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "Звонок"
 
 #. [groupControl.callButton.label]
 #. defaultMessage is:
@@ -110,7 +66,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "Звонок"
 
 #. [recents.callButton.aria]
 #. defaultMessage is:
@@ -118,7 +74,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "Звонок"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -126,7 +82,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr ""
+msgstr "Звонок"
 
 #. [callView.tabCalls.label]
 #. defaultMessage is:
@@ -134,7 +90,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabCalls.label"
 msgid "Calls"
-msgstr ""
+msgstr "Звонки"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -142,7 +98,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
@@ -150,7 +106,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #. [incomingCallDialog.closeButton.aria]
 #. defaultMessage is:
@@ -158,7 +114,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #. [callView.tabContacts.label]
 #. defaultMessage is:
@@ -166,7 +122,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabContacts.label"
 msgid "Contacts"
-msgstr ""
+msgstr "Контакты"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -174,28 +130,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr ""
-
-#. [invite.emailTextField.placeholder]
-#. defaultMessage is:
-#. Email addresses
-#: i18n/src/messages.json
-msgctxt "invite.emailTextField.placeholder"
-msgid "Email addresses"
-msgstr ""
-
-#. [newPublicGroup.helper.text]
-#. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any
-#.                  name. A new group will created automatically if it does not exist already. The
-#.                  group can be joined by anyone who knows its exact name.
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.helper.text"
-msgid ""
-"Enter a name of the group in the field above. You can use any\n"
-"                 name. A new group will created automatically if it does not exist already. The\n"
-"                 group can be joined by anyone who knows its exact name."
-msgstr ""
+msgstr "Удалить"
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -203,7 +138,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr ""
+msgstr "Не удалось загрузить контакты."
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -211,15 +146,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
-msgstr ""
-
-#. [newPublicGroup.enterPublicGroup.inputLabel]
-#. defaultMessage is:
-#. Group name
-#: i18n/src/messages.json
-msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
-msgid "Group name"
-msgstr ""
+msgstr "Найти контакт"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -227,7 +154,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.ignoreButton.text"
 msgid "Ignore"
-msgstr ""
+msgstr "Игнорировать"
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -235,55 +162,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr ""
-
-#. [callView.inviteByMailTo.snack]
-#. defaultMessage is:
-#. Invitation email created, opening your mail program now.
-#: i18n/src/messages.json
-msgctxt "callView.inviteByMailTo.snack"
-msgid "Invitation email created, opening your mail program now."
-msgstr ""
-
-#. [callView.inviteByShareLink.subject.template]
-#. defaultMessage is:
-#. Invitation to "{id}"
-#: i18n/src/messages.json
-msgctxt "callView.inviteByShareLink.subject.template"
-msgid "Invitation to \"{id}\""
-msgstr ""
-
-#. [invite.email.subject.template]
-#. defaultMessage is:
-#. Invitation to "{id}"
-#: i18n/src/messages.json
-msgctxt "invite.email.subject.template"
-msgid "Invitation to \"{id}\""
-msgstr ""
-
-#. [invite.inviteButton.label]
-#. defaultMessage is:
-#. Invite
-#: i18n/src/messages.json
-msgctxt "invite.inviteButton.label"
-msgid "Invite"
-msgstr ""
-
-#. [callView.inviteDialog.topTitle]
-#. defaultMessage is:
-#. Invite to "{id}"
-#: i18n/src/messages.json
-msgctxt "callView.inviteDialog.topTitle"
-msgid "Invite to \"{id}\""
-msgstr ""
-
-#. [groupControl.extraInviteButton.label]
-#. defaultMessage is:
-#. Invite to this {scope}
-#: i18n/src/messages.json
-msgctxt "groupControl.extraInviteButton.label"
-msgid "Invite to this {scope}"
-msgstr ""
+msgstr "Входящий звонок"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -291,31 +170,15 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
-msgstr ""
+msgstr "Присоединиться"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
-#. Join  or create group
+#. Join public group
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "Join  or create group"
-msgstr ""
-
-#. [callView.newPublicGroupDialog.topTitle]
-#. defaultMessage is:
-#. Join or create group
-#: i18n/src/messages.json
-msgctxt "callView.newPublicGroupDialog.topTitle"
-msgid "Join or create group"
-msgstr ""
-
-#. [callView.copiedLinkToClipboard.snack]
-#. defaultMessage is:
-#. Link copied to clipboard.
-#: i18n/src/messages.json
-msgctxt "callView.copiedLinkToClipboard.snack"
-msgid "Link copied to clipboard."
-msgstr ""
+msgid "Join public group"
+msgstr "Присоединиться к публичной группе"
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -323,7 +186,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
+msgstr "Загрузка контактов ..."
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -331,7 +194,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
+msgstr "Ещё"
 
 #. [callView.masterButton.label]
 #. defaultMessage is:
@@ -339,7 +202,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.masterButton.label"
 msgid "New call"
-msgstr ""
+msgstr "Новый звонок"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -347,7 +210,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr ""
+msgstr "Новый звонок"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -355,7 +218,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr ""
+msgstr "Нет соединения - проверьте ваше интернет подключение."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -363,7 +226,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr ""
+msgstr "Нет контактов соответствующих критериям."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -371,7 +234,23 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
-msgstr ""
+msgstr "Нет прав на доступ к серверу"
+
+#. [callView.newPublicGroupDialog.topTitle]
+#. defaultMessage is:
+#. Public group
+#: i18n/src/messages.json
+msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Public group"
+msgstr "Публичная группа"
+
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Public group name
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Public group name"
+msgstr "Имя публичной группы"
 
 #. [recents.subheaderLabel]
 #. defaultMessage is:
@@ -379,7 +258,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.subheaderLabel"
 msgid "Recent"
-msgstr ""
+msgstr "Недавние"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -387,7 +266,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
-msgstr ""
+msgstr "Отклонить"
 
 #. [contactSearch.failedToLoad.retryButton.text]
 #. defaultMessage is:
@@ -395,7 +274,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
+msgstr "Попробовать снова"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -403,7 +282,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
-msgstr ""
+msgstr "Поиск контактов ..."
 
 #. [callView.settingsList.label]
 #. defaultMessage is:
@@ -411,15 +290,15 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsList.label"
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
-#. [groupControl.extraShareLinkButton.label]
+#. [groupControl.share.label]
 #. defaultMessage is:
-#. Share {scope} link
+#. Share {scope}
 #: i18n/src/messages.json
-msgctxt "groupControl.extraShareLinkButton.label"
-msgid "Share {scope} link"
-msgstr ""
+msgctxt "groupControl.share.label"
+msgid "Share {scope}"
+msgstr "Поделиться {scope}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -427,7 +306,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr ""
+msgstr "Приостановленный"
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -435,7 +314,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejectedBusy.snack"
 msgid "The target is busy."
-msgstr ""
+msgstr "Занято."
 
 #. [kwmProvider.rejected.snack]
 #. defaultMessage is:
@@ -443,7 +322,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr ""
+msgstr "Ваш звонок отклонён."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -451,23 +330,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
-msgstr ""
-
-#. [invite.groupIsPublic.text]
-#. defaultMessage is:
-#. This group is protected - a user account is required to join.
-#: i18n/src/messages.json
-msgctxt "invite.groupIsPublic.text"
-msgid "This group is protected - a user account is required to join."
-msgstr ""
-
-#. [invite.groupIsProtected.text]
-#. defaultMessage is:
-#. This group is public - guests are allowed to join.
-#: i18n/src/messages.json
-msgctxt "invite.groupIsProtected.text"
-msgid "This group is public - guests are allowed to join."
-msgstr ""
+msgstr "В данный момент нет никакой активности."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -475,7 +338,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr ""
+msgstr "Невозможно принять звонок"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -483,7 +346,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr ""
+msgstr "Невозможно позвонить"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -491,7 +354,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr ""
+msgstr "Невозможно присоединиться"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -499,7 +362,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.unknownUser.text"
 msgid "Unknown user"
-msgstr ""
+msgstr "Неизвестный пользователь"
 
 #. [displayNameLabel.userWithIndex.text]
 #. defaultMessage is:
@@ -507,7 +370,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
-msgstr ""
+msgstr "Пользователь {idx}"
 
 #. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -515,7 +378,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Видеозвонок"
 
 #. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -523,7 +386,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Видеозвонок"
 
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -531,7 +394,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Видеозвонок"
 
 #. [groupControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -539,15 +402,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
-
-#. [callView.inviteByShareLink.text.template]
-#. defaultMessage is:
-#. You can join this meeting from your computer, tablet or smartphone.
-#: i18n/src/messages.json
-msgctxt "callView.inviteByShareLink.text.template"
-msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr ""
+msgstr "Видеозвонок"
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -555,7 +410,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
-msgstr ""
+msgstr "У вас недостаточно прав."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -563,15 +418,15 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
+msgstr "Ваша история звонков пуста."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
-#. Your microphone is muted.
+#. Your microphone is muted
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
-msgid "Your microphone is muted."
-msgstr ""
+msgid "Your microphone is muted"
+msgstr "Ваш микрофон выключен"
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -579,7 +434,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.fabButton.aria"
 msgid "add"
-msgstr ""
+msgstr "добавить"
 
 #. [scopeLabel.call.label]
 #. defaultMessage is:
@@ -587,7 +442,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.call.label"
 msgid "call"
-msgstr ""
+msgstr "звонок"
 
 #. [scopeLabel.conference.label]
 #. defaultMessage is:
@@ -595,7 +450,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.conference.label"
 msgid "conference"
-msgstr ""
+msgstr "конференция"
 
 #. [recents.deleteSwipeButton.text]
 #. defaultMessage is:
@@ -603,7 +458,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr ""
+msgstr "удалить"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -611,7 +466,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.group.label"
 msgid "group"
-msgstr ""
+msgstr "группа"
 
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
@@ -619,7 +474,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
-msgstr ""
+msgstr "неизвестно"
 
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
@@ -627,4 +482,4 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr ""
+msgstr "включить звук"
