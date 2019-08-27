@@ -167,7 +167,7 @@ class IncomingCallDialog extends React.PureComponent {
             user={user}
             className={classes.avatar} />
           <Typography variant="h6"><ContactLabel contact={contact} id={record.id}/></Typography>
-          <Typography variant="body2">{contact.jobTitle}</Typography>
+          <Typography variant="body2">{contact && contact.jobTitle ? contact.jobTitle : ''}</Typography>
         </DialogContent>
         <DialogActions className={classes.specialActions}>
           <Button
