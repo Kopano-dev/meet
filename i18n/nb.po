@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
-"PO-Revision-Date: 2019-08-26 15:54+0000\n"
-"Last-Translator: Klaus <klaus@linuxavdelingen.no>\n"
+"PO-Revision-Date: 2019-08-28 19:46+0000\n"
+"Last-Translator: Felix <f.bartels@kopano.com>\n"
 "Language-Team: Norwegian Bokmål <http://translate.kopano.io/projects/kopano/meet/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -298,7 +298,6 @@ msgstr "Bli med"
 #. defaultMessage is:
 #. Join  or create group
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
 msgstr "Bli med i offentlig gruppe"
