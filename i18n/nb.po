@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
-"PO-Revision-Date: 2019-08-28 19:46+0000\n"
-"Last-Translator: Felix <f.bartels@kopano.com>\n"
+"PO-Revision-Date: 2019-08-28 20:51+0000\n"
+"Last-Translator: Klaus <klaus@linuxavdelingen.no>\n"
 "Language-Team: Norwegian Bokmål <http://translate.kopano.io/projects/kopano/meet/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,14 @@ msgid ""
 "\n"
 "----------------------------------------------------------------------"
 msgstr ""
+"----------------------------------------------------------------------\n"
+"\n"
+"Du kan bli med i møtet via din datamaskin, ditt nettbrett eller din mobiltelefon.\n"
+"{url}\n"
+"\n"
+"Les mer om Kopano Meet på https://meet-app.io\n"
+"\n"
+"----------------------------------------------------------------------"
 
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
@@ -55,6 +63,8 @@ msgid ""
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
 msgstr ""
+"Legg til e-.post adresser ved å bruke tekstfeltet ovenfor for å inviterer til Meet. Når du er ferdig trykk på\n"
+"             inviter, så vil instruksjoner for hvordan man kobler seg på bli sendt med ditt e-post program."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -62,7 +72,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
+msgstr "Gi offentlig gjestetilgang"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -182,7 +192,7 @@ msgstr "Slett"
 #: i18n/src/messages.json
 msgctxt "invite.emailTextField.placeholder"
 msgid "Email addresses"
-msgstr ""
+msgstr "E-post adresser"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
@@ -196,6 +206,9 @@ msgid ""
 "                 name. A new group will created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr ""
+"Skriv inn et navn for gruppen. Du kan velge hvilket som helst \n"
+"                 navn.  Om gruppen ikke allerede eksisterer, så vil den bli opprettet automatisk.\n"
+"                 Alle som kjenner til navnet på gruppen kan delta i gruppen."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -217,10 +230,9 @@ msgstr "Søk etter kontakter"
 #. defaultMessage is:
 #. Group name
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
-msgstr "Offentlig gruppenavn"
+msgstr "Gruppenavn"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -244,7 +256,7 @@ msgstr "Innkommende anrop"
 #: i18n/src/messages.json
 msgctxt "callView.inviteByMailTo.snack"
 msgid "Invitation email created, opening your mail program now."
-msgstr ""
+msgstr "E-postinvitasjon ble lagd, åpner ditt e-post program."
 
 #. [callView.inviteByShareLink.subject.template]
 #. defaultMessage is:
@@ -252,7 +264,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Invitasjon til \"{id}\""
 
 #. [invite.email.subject.template]
 #. defaultMessage is:
@@ -260,7 +272,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.email.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Invitasjon til \"{id}\""
 
 #. [invite.inviteButton.label]
 #. defaultMessage is:
@@ -268,7 +280,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.inviteButton.label"
 msgid "Invite"
-msgstr ""
+msgstr "Inviter"
 
 #. [callView.inviteDialog.topTitle]
 #. defaultMessage is:
@@ -276,7 +288,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteDialog.topTitle"
 msgid "Invite to \"{id}\""
-msgstr ""
+msgstr "Inviter til \"{id}\""
 
 #. [groupControl.extraInviteButton.label]
 #. defaultMessage is:
@@ -284,7 +296,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraInviteButton.label"
 msgid "Invite to this {scope}"
-msgstr ""
+msgstr "Inviter til {scope}"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -306,10 +318,9 @@ msgstr "Bli med i offentlig gruppe"
 #. defaultMessage is:
 #. Join or create group
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
-msgstr "Bli med i offentlig gruppe"
+msgstr "Bli med i eller opprett en gruppe"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -317,7 +328,7 @@ msgstr "Bli med i offentlig gruppe"
 #: i18n/src/messages.json
 msgctxt "callView.copiedLinkToClipboard.snack"
 msgid "Link copied to clipboard."
-msgstr ""
+msgstr "Kopierte lenke til utklippstavle."
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -419,10 +430,9 @@ msgstr "Innstillinger"
 #. defaultMessage is:
 #. Share {scope} link
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
-msgstr "{scope} dele"
+msgstr "Del {scope} lenke"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -462,7 +472,7 @@ msgstr "Det er ikke noen aktivitet her akkurat nå."
 #: i18n/src/messages.json
 msgctxt "invite.groupIsPublic.text"
 msgid "This group is protected - a user account is required to join."
-msgstr ""
+msgstr "Denne gruppen er sperret - en brukerkonto trengs for å delta."
 
 #. [invite.groupIsProtected.text]
 #. defaultMessage is:
@@ -470,7 +480,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
-msgstr ""
+msgstr "Denne gruppen er offentlig - gjester kan delta."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -550,7 +560,7 @@ msgstr "Lydsamtale"
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.text.template"
 msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr ""
+msgstr "Du kan bli med i møtet via din datamaskin, ditt nettbrett eller din mobiltelefon."
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -572,10 +582,9 @@ msgstr "Din anropslogg er tom."
 #. defaultMessage is:
 #. Your microphone is muted.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted."
-msgstr "Mikrofonen din er dempet"
+msgstr "Mikrofonen din er dempet."
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
