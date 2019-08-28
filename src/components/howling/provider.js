@@ -8,13 +8,13 @@ import { howlingShape } from './types';
 export const HowlingContext = React.createContext({});
 
 export function withHowling(Component) {
-  return function ComponentWithHowling(props) {
+  return React.forwardRef(function WithHowling(props, ref) {
     return (
       <HowlingContext.Consumer>
-        {howling => <Component {...props} howling={howling}/>}
+        {howling => <Component {...props} howling={howling} ref={ref}/>}
       </HowlingContext.Consumer>
     );
-  };
+  });
 }
 
 class HowlingProvider extends React.PureComponent {
