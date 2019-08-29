@@ -19,7 +19,7 @@ import debounce from 'kpop/es/utils/debounce';
 import AudioVideo from './AudioVideo';
 import VolumeMeter from './VolumeMeter';
 import { Howling, withHowling, howlingShape } from './howling';
-import { enumerateDevices, requestUserMedia, stopUserMedia, updateDeviceIds, globalSettings } from '../actions/media';
+import { enumerateDevices, requestUserMedia, stopUserMedia, updateDeviceIds, globalSettings, supportedConstraints } from '../actions/media';
 import { Typography } from '@material-ui/core';
 
 const deviceCache = {
@@ -244,7 +244,7 @@ class DeviceSettings extends React.PureComponent {
       } else {
         result.outputSelectDisabled = !globalSettings.withAudioSetSinkId;
       }
-      result.inputSelectDisabled = !globalSettings.withAudioSetSinkId;
+      result.inputSelectDisabled = !supportedConstraints.deviceId;
 
 
       // Auto select first, if none selected.
