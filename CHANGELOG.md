@@ -2,6 +2,51 @@
 
 ## Unreleased
 
+- Update translations
+- Make media settings persistent
+- Add device settings
+- Fix invalid profile access for mail attribute
+- Add forwardRef support to howling provider
+- Modernize howling with stable Rect context implementation
+- Add support to set audio/video options and constraints
+- Avoid unhandled exception if there is no contact for incoming call
+- Translated using Weblate (Russian)
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (Russian)
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (French)
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Russian)
+- Translated using Weblate (French)
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (French)
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Portuguese (Portugal))
+- Correctly use setError from props
+- Detect all Androids as mobile devices
+- Update invitation text
+- Increase mobile drawer width, so stuff fits
+- Decode URL paths for guest access
+- Use semicolon in mailto to field
+- Update translations and translate to German
+- Build public group ui guest enabled configuration
+- Update kpop to 0.20.3
+- Reset meet URL hash before sign out to avoid retaining guest logon
+- Improve ui to create public groups
+- Set some properties to input fields on mobile
+- Properly open mailto links on mobile
+- Improve controls position in mobile view
+- Update translations and translate to German
+- Use translated scope label
+- Adapt styles so that things fit and wrap properly
+- Use same styles for all dialogs
+- Improve dialogs
+- Use share API for sharing Meet links if its available
+- Update kwmjs to 0.20.0
+- Add invite by email for groups
+- Update webrtc-adapter to 7.3.0
 
 
 ## v0.22.1 (2019-07-31)
