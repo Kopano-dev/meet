@@ -23,10 +23,22 @@ export default () => {
     storage: storage,
   };
 
+  const mediaPersistConfig = {
+    key: 'kopano-meet-redux-media',
+    version: 1,
+    storage: storage,
+    whitelist: [
+      'videoSourceId',
+      'audioSourceId',
+      'audioSinkId',
+    ],
+  }
+
   const store = createStore(
     combineReducers({
       ...reducers,
       recents: persistReducer(recentsPersistConfig, reducers.recents),
+      media: persistReducer(mediaPersistConfig, reducers.media),
 
       grapi: grapiReducer,
       pwa: pwaReducer,
