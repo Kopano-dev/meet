@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
-"PO-Revision-Date: 2019-08-26 15:10+0200\n"
-"Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
-"Language-Team: German\n"
+"PO-Revision-Date: 2019-08-28 19:45+0000\n"
+"Last-Translator: Felix <f.bartels@kopano.com>\n"
+"Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.4\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -62,7 +62,7 @@ msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
-msgstr "Fügen Sie die E-Mail-Adressen mit dem Eingabefeld hinzu die Sie zu diesem Meet einladen möchten. Wenn Sie fertig sind wird bei einem klick auf Einladen eine E-Mail-Einladung für diese Meet erzeugt und Ihr E-Mail-Programm damit geöffnet. "
+msgstr "Fügen Sie die E-Mail-Adressen mit dem Eingabefeld hinzu die Sie zu diesem Meet einladen möchten. Wenn Sie fertig sind wird bei einem klick auf Einladen eine E-Mail-Einladung für diese Meet erzeugt und Ihr E-Mail-Programm damit geöffnet."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
