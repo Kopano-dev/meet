@@ -15,14 +15,6 @@ export default () => {
 
   const storage = localForage;
 
-  // TODO(longsleep): Make the storage key user specific, so the persistency
-  // data is user specific.
-  const recentsPersistConfig = {
-    key: 'kopano-meet-redux-recents',
-    version: 1,
-    storage: storage,
-  };
-
   const mediaPersistConfig = {
     key: 'kopano-meet-redux-media',
     version: 1,
@@ -32,12 +24,11 @@ export default () => {
       'audioSourceId',
       'audioSinkId',
     ],
-  }
+  };
 
   const store = createStore(
     combineReducers({
       ...reducers,
-      recents: persistReducer(recentsPersistConfig, reducers.recents),
       media: persistReducer(mediaPersistConfig, reducers.media),
 
       grapi: grapiReducer,
