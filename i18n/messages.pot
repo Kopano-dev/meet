@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-08-26T13:06:39.406Z\n"
+"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,14 @@ msgstr ""
 #. Accept
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [deviceSettings.accessFailedMessage.text]
+#. defaultMessage is:
+#. Access to camera/microphone failed. Please check permissions.
+msgctxt "deviceSettings.accessFailedMessage.text"
+msgid "Access to camera/microphone failed. Please check permissions."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -121,6 +129,22 @@ msgid "Calls"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [deviceSettings.cameraSelect.label]
+#. defaultMessage is:
+#. Camera
+msgctxt "deviceSettings.cameraSelect.label"
+msgid "Camera"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [deviceSettings.unknownVideoInput.label]
+#. defaultMessage is:
+#. Camera {number}
+msgctxt "deviceSettings.unknownVideoInput.label"
+msgid "Camera {number}"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
 #. Cancel
@@ -153,11 +177,27 @@ msgid "Contacts"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [deviceSettings.defaultSpeaker.label]
+#. defaultMessage is:
+#. Default speaker
+msgctxt "deviceSettings.defaultSpeaker.label"
+msgid "Default speaker"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
 #. Delete
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [settingDialog.doneButton.label]
+#. defaultMessage is:
+#. Done
+msgctxt "settingDialog.doneButton.label"
+msgid "Done"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -307,6 +347,22 @@ msgid "Loading contacts ..."
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [deviceSettings.microphoneSelect.label]
+#. defaultMessage is:
+#. Microphone
+msgctxt "deviceSettings.microphoneSelect.label"
+msgid "Microphone"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [deviceSettings.unknownAudioInput.label]
+#. defaultMessage is:
+#. Microphone {number}
+msgctxt "deviceSettings.unknownAudioInput.label"
+msgid "Microphone {number}"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [recents.moreButton.aria]
 #. defaultMessage is:
 #. More
@@ -379,6 +435,14 @@ msgid "Retry"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [deviceSettings.retryAccessButton.label]
+#. defaultMessage is:
+#. Retry
+msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
 #. Searching for contacts ...
@@ -403,11 +467,35 @@ msgid "Share {scope} link"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [deviceSettings.speakerSelect.label]
+#. defaultMessage is:
+#. Speaker
+msgctxt "deviceSettings.speakerSelect.label"
+msgid "Speaker"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [deviceSettings.unknownAudioOutput.label]
+#. defaultMessage is:
+#. Speaker {number}
+msgctxt "deviceSettings.unknownAudioOutput.label"
+msgid "Speaker {number}"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
 #. Suspended
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [deviceSettings.speakerTestButton.label]
+#. defaultMessage is:
+#. Test
+msgctxt "deviceSettings.speakerTestButton.label"
+msgid "Test"
 msgstr ""
 
 #: ./i18n/src/messages.json
