@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Enable more translations
+- Auto stop to screen share after hang up
+- Show all peers when in audio only mode conference
+- Disable name on remote video streams when receiving a screen
+- Pass along device settings properly on mute/unmute
+- Remove global redux persistency for recents data
+- Reformat translation files
+- Update dutch
+- Add Hindi
+- Translated using Weblate (Dutch)
+- Translated using Weblate (Russian)
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (German)
+- Translated using Weblate (French)
+- Translated using Weblate (Dutch)
+- rename language
+- Use deviceId constraint as detector wether its possible to set devices
 - Update translations
 - Make media settings persistent
 - Add device settings
