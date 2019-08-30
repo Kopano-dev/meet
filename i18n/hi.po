@@ -1,0 +1,726 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
+"PO-Revision-Date: 2019-08-30 13:45+0000\n"
+"Last-Translator: Mayank <m.dabhi@kopano.com>\n"
+"Language-Team: Hindi <http://translate.kopano.io/projects/kopano/meet/hi/>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.4\n"
+
+#. [invite.email.body.template]
+#. defaultMessage is:
+#. ----------------------------------------------------------------------
+#.
+#. You can join this meeting from your computer, tablet or smartphone.
+#. {url}
+#.
+#. Learn more about Kopano Meet at https://meet-app.io
+#.
+#. ----------------------------------------------------------------------
+#: i18n/src/messages.json
+msgctxt "invite.email.body.template"
+msgid ""
+"----------------------------------------------------------------------\n"
+"\n"
+"You can join this meeting from your computer, tablet or smartphone.\n"
+"{url}\n"
+"\n"
+"Learn more about Kopano Meet at https://meet-app.io\n"
+"\n"
+"----------------------------------------------------------------------"
+msgstr ""
+"----------------------------------------------------------------------\n"
+"\n"
+"आप अपने कंप्यूटर, टैबलेट या स्मार्टफोन से इस मीटिंग में शामिल हो सकते हैं.\n"
+"{url}\n"
+"\n"
+" Kopano Meet के बारे में अधिक जानें  https://meet-app.io\n"
+"\n"
+"----------------------------------------------------------------------"
+
+#. [incomingCallDialog.acceptVideoCallButton.text]
+#. defaultMessage is:
+#. Accept
+#: i18n/src/messages.json
+msgctxt "incomingCallDialog.acceptVideoCallButton.text"
+msgid "Accept"
+msgstr "स्वीकारिये"
+
+#. [deviceSettings.accessFailedMessage.text]
+#. defaultMessage is:
+#. Access to camera/microphone failed. Please check permissions.
+#: i18n/src/messages.json
+msgctxt "deviceSettings.accessFailedMessage.text"
+msgid "Access to camera/microphone failed. Please check permissions."
+msgstr "कैमरा / माइक्रोफ़ोन तक पहुंच असफल रही। कृपया अनुमतियां जांचें."
+
+#. [invite.addEmailAddressesHelper.text]
+#. defaultMessage is:
+#. Add email addresses using the text field above to invite to this Meet. To finish, click
+#.                  invite and email message with instructions how to join this Meet will be created in your email program
+#.                  for review and to send the invitation message.
+#: i18n/src/messages.json
+msgctxt "invite.addEmailAddressesHelper.text"
+msgid ""
+"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
+"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
+"                 for review and to send the invitation message."
+msgstr ""
+
+#. [newPublicGroup.allowExternalGuests.toggleLabel]
+#. defaultMessage is:
+#. Allow public guest access
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
+msgid "Allow public guest access"
+msgstr ""
+
+#. [callView.settingsAudioOnly.label]
+#. defaultMessage is:
+#. Audio only
+#: i18n/src/messages.json
+msgctxt "callView.settingsAudioOnly.label"
+msgid "Audio only"
+msgstr ""
+
+#. [contactControl.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+msgctxt "contactControl.backButton.aria"
+msgid "Back"
+msgstr ""
+
+#. [groupControl.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+msgctxt "groupControl.backButton.aria"
+msgid "Back"
+msgstr ""
+
+#. [contactControl.callButton.label]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "contactControl.callButton.label"
+msgid "Call"
+msgstr ""
+
+#. [contactSearch.callButton.aria]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "contactSearch.callButton.aria"
+msgid "Call"
+msgstr ""
+
+#. [groupControl.callButton.label]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "groupControl.callButton.label"
+msgid "Call"
+msgstr ""
+
+#. [recents.callButton.aria]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "recents.callButton.aria"
+msgid "Call"
+msgstr ""
+
+#. [recents.callButton.text]
+#. defaultMessage is:
+#. Call
+#: i18n/src/messages.json
+msgctxt "recents.callButton.text"
+msgid "Call"
+msgstr ""
+
+#. [callView.tabCalls.label]
+#. defaultMessage is:
+#. Calls
+#: i18n/src/messages.json
+msgctxt "callView.tabCalls.label"
+msgid "Calls"
+msgstr ""
+
+#. [deviceSettings.cameraSelect.label]
+#. defaultMessage is:
+#. Camera
+#: i18n/src/messages.json
+msgctxt "deviceSettings.cameraSelect.label"
+msgid "Camera"
+msgstr ""
+
+#. [deviceSettings.unknownVideoInput.label]
+#. defaultMessage is:
+#. Camera {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownVideoInput.label"
+msgid "Camera {number}"
+msgstr ""
+
+#. [fullscreenDialog.cancelButton.text]
+#. defaultMessage is:
+#. Cancel
+#: i18n/src/messages.json
+msgctxt "fullscreenDialog.cancelButton.text"
+msgid "Cancel"
+msgstr ""
+
+#. [fullscreenDialog.closeButton.aria]
+#. defaultMessage is:
+#. Close
+#: i18n/src/messages.json
+msgctxt "fullscreenDialog.closeButton.aria"
+msgid "Close"
+msgstr ""
+
+#. [incomingCallDialog.closeButton.aria]
+#. defaultMessage is:
+#. Close
+#: i18n/src/messages.json
+msgctxt "incomingCallDialog.closeButton.aria"
+msgid "Close"
+msgstr ""
+
+#. [callView.tabContacts.label]
+#. defaultMessage is:
+#. Contacts
+#: i18n/src/messages.json
+msgctxt "callView.tabContacts.label"
+msgid "Contacts"
+msgstr ""
+
+#. [deviceSettings.defaultSpeaker.label]
+#. defaultMessage is:
+#. Default speaker
+#: i18n/src/messages.json
+msgctxt "deviceSettings.defaultSpeaker.label"
+msgid "Default speaker"
+msgstr ""
+
+#. [recents.deleteMoreMenuItem.label]
+#. defaultMessage is:
+#. Delete
+#: i18n/src/messages.json
+msgctxt "recents.deleteMoreMenuItem.label"
+msgid "Delete"
+msgstr ""
+
+#. [settingDialog.doneButton.label]
+#. defaultMessage is:
+#. Done
+#: i18n/src/messages.json
+msgctxt "settingDialog.doneButton.label"
+msgid "Done"
+msgstr ""
+
+#. [invite.emailTextField.placeholder]
+#. defaultMessage is:
+#. Email addresses
+#: i18n/src/messages.json
+msgctxt "invite.emailTextField.placeholder"
+msgid "Email addresses"
+msgstr ""
+
+#. [newPublicGroup.helper.text]
+#. defaultMessage is:
+#. Enter a name of the group in the field above. You can use any
+#.                  name. A new group will created automatically if it does not exist already. The
+#.                  group can be joined by anyone who knows its exact name.
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.helper.text"
+msgid ""
+"Enter a name of the group in the field above. You can use any\n"
+"                 name. A new group will created automatically if it does not exist already. The\n"
+"                 group can be joined by anyone who knows its exact name."
+msgstr ""
+
+#. [contactSearch.failedToLoad.message]
+#. defaultMessage is:
+#. Failed to load contacts.
+#: i18n/src/messages.json
+msgctxt "contactSearch.failedToLoad.message"
+msgid "Failed to load contacts."
+msgstr ""
+
+#. [contactSearch.searchByNameTextField.placeholder]
+#. defaultMessage is:
+#. Find contact
+#: i18n/src/messages.json
+msgctxt "contactSearch.searchByNameTextField.placeholder"
+msgid "Find contact"
+msgstr ""
+
+#. [newPublicGroup.enterPublicGroup.inputLabel]
+#. defaultMessage is:
+#. Group name
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
+msgid "Group name"
+msgstr ""
+
+#. [fullscreenDialog.ignoreButton.text]
+#. defaultMessage is:
+#. Ignore
+#: i18n/src/messages.json
+msgctxt "fullscreenDialog.ignoreButton.text"
+msgid "Ignore"
+msgstr ""
+
+#. [incomingCallDialog.incomingCall.title]
+#. defaultMessage is:
+#. Incoming call
+#: i18n/src/messages.json
+msgctxt "incomingCallDialog.incomingCall.title"
+msgid "Incoming call"
+msgstr ""
+
+#. [callView.inviteByMailTo.snack]
+#. defaultMessage is:
+#. Invitation email created, opening your mail program now.
+#: i18n/src/messages.json
+msgctxt "callView.inviteByMailTo.snack"
+msgid "Invitation email created, opening your mail program now."
+msgstr ""
+
+#. [callView.inviteByShareLink.subject.template]
+#. defaultMessage is:
+#. Invitation to "{id}"
+#: i18n/src/messages.json
+msgctxt "callView.inviteByShareLink.subject.template"
+msgid "Invitation to \"{id}\""
+msgstr ""
+
+#. [invite.email.subject.template]
+#. defaultMessage is:
+#. Invitation to "{id}"
+#: i18n/src/messages.json
+msgctxt "invite.email.subject.template"
+msgid "Invitation to \"{id}\""
+msgstr ""
+
+#. [invite.inviteButton.label]
+#. defaultMessage is:
+#. Invite
+#: i18n/src/messages.json
+msgctxt "invite.inviteButton.label"
+msgid "Invite"
+msgstr ""
+
+#. [callView.inviteDialog.topTitle]
+#. defaultMessage is:
+#. Invite to "{id}"
+#: i18n/src/messages.json
+msgctxt "callView.inviteDialog.topTitle"
+msgid "Invite to \"{id}\""
+msgstr ""
+
+#. [groupControl.extraInviteButton.label]
+#. defaultMessage is:
+#. Invite to this {scope}
+#: i18n/src/messages.json
+msgctxt "groupControl.extraInviteButton.label"
+msgid "Invite to this {scope}"
+msgstr ""
+
+#. [newPublicGroup.createButton.text]
+#. defaultMessage is:
+#. Join
+#: i18n/src/messages.json
+msgctxt "newPublicGroup.createButton.text"
+msgid "Join"
+msgstr ""
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join  or create group
+#: i18n/src/messages.json
+msgctxt "contactSearch.newPublicGroup.button.text"
+msgid "Join  or create group"
+msgstr ""
+
+#. [callView.newPublicGroupDialog.topTitle]
+#. defaultMessage is:
+#. Join or create group
+#: i18n/src/messages.json
+msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Join or create group"
+msgstr ""
+
+#. [callView.copiedLinkToClipboard.snack]
+#. defaultMessage is:
+#. Link copied to clipboard.
+#: i18n/src/messages.json
+msgctxt "callView.copiedLinkToClipboard.snack"
+msgid "Link copied to clipboard."
+msgstr ""
+
+#. [contactSearch.messageLoadingContacts]
+#. defaultMessage is:
+#. Loading contacts ...
+#: i18n/src/messages.json
+msgctxt "contactSearch.messageLoadingContacts"
+msgid "Loading contacts ..."
+msgstr ""
+
+#. [deviceSettings.microphoneSelect.label]
+#. defaultMessage is:
+#. Microphone
+#: i18n/src/messages.json
+msgctxt "deviceSettings.microphoneSelect.label"
+msgid "Microphone"
+msgstr ""
+
+#. [deviceSettings.unknownAudioInput.label]
+#. defaultMessage is:
+#. Microphone {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownAudioInput.label"
+msgid "Microphone {number}"
+msgstr ""
+
+#. [recents.moreButton.aria]
+#. defaultMessage is:
+#. More
+#: i18n/src/messages.json
+msgctxt "recents.moreButton.aria"
+msgid "More"
+msgstr ""
+
+#. [callView.masterButton.label]
+#. defaultMessage is:
+#. New call
+#: i18n/src/messages.json
+msgctxt "callView.masterButton.label"
+msgid "New call"
+msgstr ""
+
+#. [callView.newCallDialog.topTitle]
+#. defaultMessage is:
+#. New call
+#: i18n/src/messages.json
+msgctxt "callView.newCallDialog.topTitle"
+msgid "New call"
+msgstr ""
+
+#. [callView.noConnectionTooltip.title]
+#. defaultMessage is:
+#. No connection - check your internet connection.
+#: i18n/src/messages.json
+msgctxt "callView.noConnectionTooltip.title"
+msgid "No connection - check your internet connection."
+msgstr ""
+
+#. [contactSearch.noMatches.message]
+#. defaultMessage is:
+#. No contacts match the selected criteria.
+#: i18n/src/messages.json
+msgctxt "contactSearch.noMatches.message"
+msgid "No contacts match the selected criteria."
+msgstr ""
+
+#. [meet.kwm.no_permission]
+#. defaultMessage is:
+#. No permission to access server
+#: i18n/src/messages.json
+msgctxt "meet.kwm.no_permission"
+msgid "No permission to access server"
+msgstr ""
+
+#. [recents.subheaderLabel]
+#. defaultMessage is:
+#. Recent
+#: i18n/src/messages.json
+msgctxt "recents.subheaderLabel"
+msgid "Recent"
+msgstr ""
+
+#. [incomingCallDialog.rejectButton.text]
+#. defaultMessage is:
+#. Reject
+#: i18n/src/messages.json
+msgctxt "incomingCallDialog.rejectButton.text"
+msgid "Reject"
+msgstr ""
+
+#. [contactSearch.failedToLoad.retryButton.text]
+#. defaultMessage is:
+#. Retry
+#: i18n/src/messages.json
+msgctxt "contactSearch.failedToLoad.retryButton.text"
+msgid "Retry"
+msgstr ""
+
+#. [deviceSettings.retryAccessButton.label]
+#. defaultMessage is:
+#. Retry
+#: i18n/src/messages.json
+msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr ""
+
+#. [contactSearch.messageSearchingForContacts]
+#. defaultMessage is:
+#. Searching for contacts ...
+#: i18n/src/messages.json
+msgctxt "contactSearch.messageSearchingForContacts"
+msgid "Searching for contacts ..."
+msgstr ""
+
+#. [callView.settingsList.label]
+#. defaultMessage is:
+#. Settings
+#: i18n/src/messages.json
+msgctxt "callView.settingsList.label"
+msgid "Settings"
+msgstr ""
+
+#. [groupControl.extraShareLinkButton.label]
+#. defaultMessage is:
+#. Share {scope} link
+#: i18n/src/messages.json
+msgctxt "groupControl.extraShareLinkButton.label"
+msgid "Share {scope} link"
+msgstr ""
+
+#. [deviceSettings.speakerSelect.label]
+#. defaultMessage is:
+#. Speaker
+#: i18n/src/messages.json
+msgctxt "deviceSettings.speakerSelect.label"
+msgid "Speaker"
+msgstr ""
+
+#. [deviceSettings.unknownAudioOutput.label]
+#. defaultMessage is:
+#. Speaker {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownAudioOutput.label"
+msgid "Speaker {number}"
+msgstr ""
+
+#. [callGrid.suspended.headline]
+#. defaultMessage is:
+#. Suspended
+#: i18n/src/messages.json
+msgctxt "callGrid.suspended.headline"
+msgid "Suspended"
+msgstr ""
+
+#. [deviceSettings.speakerTestButton.label]
+#. defaultMessage is:
+#. Test
+#: i18n/src/messages.json
+msgctxt "deviceSettings.speakerTestButton.label"
+msgid "Test"
+msgstr ""
+
+#. [kwmProvider.rejectedBusy.snack]
+#. defaultMessage is:
+#. The target is busy.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejectedBusy.snack"
+msgid "The target is busy."
+msgstr ""
+
+#. [kwmProvider.rejected.snack]
+#. defaultMessage is:
+#. The target rejected your call.
+#: i18n/src/messages.json
+msgctxt "kwmProvider.rejected.snack"
+msgid "The target rejected your call."
+msgstr ""
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. There is currently nothing active here.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "There is currently nothing active here."
+msgstr ""
+
+#. [invite.groupIsPublic.text]
+#. defaultMessage is:
+#. This group is protected - a user account is required to join.
+#: i18n/src/messages.json
+msgctxt "invite.groupIsPublic.text"
+msgid "This group is protected - a user account is required to join."
+msgstr ""
+
+#. [invite.groupIsProtected.text]
+#. defaultMessage is:
+#. This group is public - guests are allowed to join.
+#: i18n/src/messages.json
+msgctxt "invite.groupIsProtected.text"
+msgid "This group is public - guests are allowed to join."
+msgstr ""
+
+#. [meet.kwm.unable_to_accept]
+#. defaultMessage is:
+#. Unable to accept call
+#: i18n/src/messages.json
+msgctxt "meet.kwm.unable_to_accept"
+msgid "Unable to accept call"
+msgstr ""
+
+#. [meet.kwm.unable_to_call]
+#. defaultMessage is:
+#. Unable to call
+#: i18n/src/messages.json
+msgctxt "meet.kwm.unable_to_call"
+msgid "Unable to call"
+msgstr ""
+
+#. [meet.kwm.unable_to_join]
+#. defaultMessage is:
+#. Unable to join
+#: i18n/src/messages.json
+msgctxt "meet.kwm.unable_to_join"
+msgid "Unable to join"
+msgstr ""
+
+#. [displayNameLabel.unknownUser.text]
+#. defaultMessage is:
+#. Unknown user
+#: i18n/src/messages.json
+msgctxt "displayNameLabel.unknownUser.text"
+msgid "Unknown user"
+msgstr ""
+
+#. [displayNameLabel.userWithIndex.text]
+#. defaultMessage is:
+#. User {idx}
+#: i18n/src/messages.json
+msgctxt "displayNameLabel.userWithIndex.text"
+msgid "User {idx}"
+msgstr ""
+
+#. [contactControl.videoCallButton.aria]
+#. defaultMessage is:
+#. Video call
+#: i18n/src/messages.json
+msgctxt "contactControl.videoCallButton.aria"
+msgid "Video call"
+msgstr ""
+
+#. [groupControl.videoCallButton.aria]
+#. defaultMessage is:
+#. Video call
+#: i18n/src/messages.json
+msgctxt "groupControl.videoCallButton.aria"
+msgid "Video call"
+msgstr ""
+
+#. [contactControl.voiceCallButton.aria]
+#. defaultMessage is:
+#. Voice call
+#: i18n/src/messages.json
+msgctxt "contactControl.voiceCallButton.aria"
+msgid "Voice call"
+msgstr ""
+
+#. [groupControl.voiceCallButton.aria]
+#. defaultMessage is:
+#. Voice call
+#: i18n/src/messages.json
+msgctxt "groupControl.voiceCallButton.aria"
+msgid "Voice call"
+msgstr ""
+
+#. [callView.inviteByShareLink.text.template]
+#. defaultMessage is:
+#. You can join this meeting from your computer, tablet or smartphone.
+#: i18n/src/messages.json
+msgctxt "callView.inviteByShareLink.text.template"
+msgid "You can join this meeting from your computer, tablet or smartphone."
+msgstr ""
+
+#. [callView.noAccess.snack]
+#. defaultMessage is:
+#. You do not have access here.
+#: i18n/src/messages.json
+msgctxt "callView.noAccess.snack"
+msgid "You do not have access here."
+msgstr ""
+
+#. [recents.callHistoryEmpty.message]
+#. defaultMessage is:
+#. Your call history is empty.
+#: i18n/src/messages.json
+msgctxt "recents.callHistoryEmpty.message"
+msgid "Your call history is empty."
+msgstr ""
+
+#. [callView.microphoneIsMutedSnack.message]
+#. defaultMessage is:
+#. Your microphone is muted.
+#: i18n/src/messages.json
+msgctxt "callView.microphoneIsMutedSnack.message"
+msgid "Your microphone is muted."
+msgstr ""
+
+#. [callView.fabButton.aria]
+#. defaultMessage is:
+#. add
+#: i18n/src/messages.json
+msgctxt "callView.fabButton.aria"
+msgid "add"
+msgstr ""
+
+#. [scopeLabel.call.label]
+#. defaultMessage is:
+#. call
+#: i18n/src/messages.json
+msgctxt "scopeLabel.call.label"
+msgid "call"
+msgstr ""
+
+#. [scopeLabel.conference.label]
+#. defaultMessage is:
+#. conference
+#: i18n/src/messages.json
+msgctxt "scopeLabel.conference.label"
+msgid "conference"
+msgstr ""
+
+#. [recents.deleteSwipeButton.text]
+#. defaultMessage is:
+#. delete
+#: i18n/src/messages.json
+msgctxt "recents.deleteSwipeButton.text"
+msgid "delete"
+msgstr ""
+
+#. [scopeLabel.group.label]
+#. defaultMessage is:
+#. group
+#: i18n/src/messages.json
+msgctxt "scopeLabel.group.label"
+msgid "group"
+msgstr ""
+
+#. [contactLabel.unknown.text]
+#. defaultMessage is:
+#. unknown
+#: i18n/src/messages.json
+msgctxt "contactLabel.unknown.text"
+msgid "unknown"
+msgstr ""
+
+#. [callView.microphoneIsMutedSnack.button.text]
+#. defaultMessage is:
+#. unmute
+#: i18n/src/messages.json
+msgctxt "callView.microphoneIsMutedSnack.button.text"
+msgid "unmute"
+msgstr ""
