@@ -1,3 +1,18 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"X-Generator: react-intl-po\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2019-08-30 12:00+0200\n"
+"Last-Translator: root <root@transdoc.kopano.io>\n"
+"Language-Team: Croatian\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
 #. [invite.email.body.template]
 #. defaultMessage is:
 #. ----------------------------------------------------------------------
@@ -29,6 +44,14 @@ msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
 msgstr ""
 
+#. [deviceSettings.accessFailedMessage.text]
+#. defaultMessage is:
+#. Access to camera/microphone failed. Please check permissions.
+#: i18n/src/messages.json
+msgctxt "deviceSettings.accessFailedMessage.text"
+msgid "Access to camera/microphone failed. Please check permissions."
+msgstr ""
+
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
 #. Add email addresses using the text field above to invite to this Meet. To finish, click
@@ -37,8 +60,10 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and email message with instructions how to join this "
+"Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
 msgstr ""
 
@@ -122,6 +147,22 @@ msgctxt "callView.tabCalls.label"
 msgid "Calls"
 msgstr ""
 
+#. [deviceSettings.cameraSelect.label]
+#. defaultMessage is:
+#. Camera
+#: i18n/src/messages.json
+msgctxt "deviceSettings.cameraSelect.label"
+msgid "Camera"
+msgstr ""
+
+#. [deviceSettings.unknownVideoInput.label]
+#. defaultMessage is:
+#. Camera {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownVideoInput.label"
+msgid "Camera {number}"
+msgstr ""
+
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
 #. Cancel
@@ -154,12 +195,28 @@ msgctxt "callView.tabContacts.label"
 msgid "Contacts"
 msgstr ""
 
+#. [deviceSettings.defaultSpeaker.label]
+#. defaultMessage is:
+#. Default speaker
+#: i18n/src/messages.json
+msgctxt "deviceSettings.defaultSpeaker.label"
+msgid "Default speaker"
+msgstr ""
+
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
 #. Delete
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
+msgstr ""
+
+#. [settingDialog.doneButton.label]
+#. defaultMessage is:
+#. Done
+#: i18n/src/messages.json
+msgctxt "settingDialog.doneButton.label"
+msgid "Done"
 msgstr ""
 
 #. [invite.emailTextField.placeholder]
@@ -179,7 +236,8 @@ msgstr ""
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name of the group in the field above. You can use any\n"
-"                 name. A new group will created automatically if it does not exist already. The\n"
+"                 name. A new group will created automatically if it does not "
+"exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr ""
 
@@ -311,6 +369,22 @@ msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
 msgstr ""
 
+#. [deviceSettings.microphoneSelect.label]
+#. defaultMessage is:
+#. Microphone
+#: i18n/src/messages.json
+msgctxt "deviceSettings.microphoneSelect.label"
+msgid "Microphone"
+msgstr ""
+
+#. [deviceSettings.unknownAudioInput.label]
+#. defaultMessage is:
+#. Microphone {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownAudioInput.label"
+msgid "Microphone {number}"
+msgstr ""
+
 #. [recents.moreButton.aria]
 #. defaultMessage is:
 #. More
@@ -383,6 +457,14 @@ msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr ""
 
+#. [deviceSettings.retryAccessButton.label]
+#. defaultMessage is:
+#. Retry
+#: i18n/src/messages.json
+msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr ""
+
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
 #. Searching for contacts ...
@@ -407,12 +489,36 @@ msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
 msgstr ""
 
+#. [deviceSettings.speakerSelect.label]
+#. defaultMessage is:
+#. Speaker
+#: i18n/src/messages.json
+msgctxt "deviceSettings.speakerSelect.label"
+msgid "Speaker"
+msgstr ""
+
+#. [deviceSettings.unknownAudioOutput.label]
+#. defaultMessage is:
+#. Speaker {number}
+#: i18n/src/messages.json
+msgctxt "deviceSettings.unknownAudioOutput.label"
+msgid "Speaker {number}"
+msgstr ""
+
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
 #. Suspended
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
+msgstr ""
+
+#. [deviceSettings.speakerTestButton.label]
+#. defaultMessage is:
+#. Test
+#: i18n/src/messages.json
+msgctxt "deviceSettings.speakerTestButton.label"
+msgid "Test"
 msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]

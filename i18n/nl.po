@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-05-09 13:26+0000\n"
+"PO-Revision-Date: 2019-08-30 07:25+0000\n"
 "Last-Translator: Bob <b.huisman@kopano.com>\n"
 "Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
 "Language: nl\n"
@@ -34,15 +34,22 @@ msgid ""
 "\n"
 "----------------------------------------------------------------------"
 msgstr ""
+"----------------------------------------------------------------------\n"
+"\n"
+"U kunt deelnemen aan deze vergadering via computer, tablet of smartphone.\n"
+"{url}\n"
+"\n"
+"Kom meer te weten over Kopano Meet via https://meet-app.io\n"
+"\n"
+"----------------------------------------------------------------------"
 
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
 #. Accept
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
-msgstr "Oproep aannemen"
+msgstr "Aannemen"
 
 #. [deviceSettings.accessFailedMessage.text]
 #. defaultMessage is:
@@ -63,7 +70,7 @@ msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
-msgstr ""
+msgstr "Voeg email adressen toe aan het bovenstaande tekstveld om uit te nodigen voor deze Meet. Klik op uitnodigen om af te ronden. Uw email programma wordt gestart met een nieuw bericht met instructies hoe aan deze Meet kan worden deelgenomen, zodat deze nog kan worden aangepast en de uitnodiging kan worden verzonden."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -71,7 +78,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
+msgstr "Sta toegang voor gasten toe"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -79,7 +86,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
-msgstr ""
+msgstr "Alleen audio"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -87,7 +94,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #. [groupControl.backButton.aria]
 #. defaultMessage is:
