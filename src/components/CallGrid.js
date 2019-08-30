@@ -40,10 +40,18 @@ const styles = theme => ({
     },
   },
   call: {
-    flex: '1',
-    justifyContent: 'center',
+    display: 'grid',
     backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
+    overflow: 'hidden',
+    flex: 1,
+    gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(50%, 1fr) ) ;',
+    },
+    [theme.breakpoints.up('xl')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(30%, 1fr) ) ;',
+    },
   },
   overlay: {
     alignContent: 'start',

@@ -41,6 +41,15 @@ const styles = (theme) => ({
     width: '100%',
     height: '100%',
     backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      top: -1,
+      bottom: 0,
+      left: -1,
+      right: 0,
+      border: `1px solid ${theme.videoBackground.top}`,
+    },
   },
   video: {
     width: '100%',
