@@ -1858,11 +1858,11 @@ const mapDispatchToProps = (dispatch) => {
     doCallGroup: (id, errorCallback) => {
       return dispatch(doGroup(id, errorCallback));
     },
-    muteVideoStream: (stream, mute=true, id='') => {
-      return dispatch(muteVideoStream(stream, mute, id));
+    muteVideoStream: (stream, mute=true, id='', settings={}) => {
+      return dispatch(muteVideoStream(stream, mute, id, settings));
     },
-    muteAudioStream: (stream, mute=true, id='') => {
-      return dispatch(muteAudioStream(stream, mute, id));
+    muteAudioStream: (stream, mute=true, id='', settings={}) => {
+      return dispatch(muteAudioStream(stream, mute, id, settings));
     },
     updateOfferAnswerConstraints: (options) => {
       return dispatch(updateOfferAnswerConstraints(options));
