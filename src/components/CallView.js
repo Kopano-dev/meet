@@ -327,6 +327,21 @@ const styles = theme => ({
     maxWidth: 135,
     height: 'auto',
   },
+  callAsSidebarAudioVideo: {
+    '& > div': { // Good lord - terribe stuff follows!
+      left: 2,
+      right: 2,
+      top: 'auto',
+      bottom: 2,
+      '& > h5': {
+        fontSize: 10,
+        marginBottom: 0,
+        '& > svg': {
+          display: 'none',
+        },
+      },
+    },
+  },
   screenshare: {
     flex: 1,
     background: `linear-gradient(#999, #666 100%)`,
@@ -1284,6 +1299,13 @@ class CallView extends React.PureComponent {
       },
     );
 
+    const callAudioVideoClassName = classNames(
+      classes.callAudioVideo,
+      {
+        [classes.callAsSidebarAudioVideo]: !!screenShareViewer,
+      }
+    );
+
     const rootClassName = classNames(
       classes.root,
       {
@@ -1658,8 +1680,10 @@ class CallView extends React.PureComponent {
               localStream={localStream}
               remoteStreams={remoteAudioVideoStreams}
               variant={screenShareViewer ? 'overlay': 'full'}
-              labels={!screenShareViewer}
               audioSinkId={audioSinkId}
+              AudioVideoProps={{
+                className: callAudioVideoClassName,
+              }}
             />
             <Hidden mdUp>{menu}</Hidden>
           </div>

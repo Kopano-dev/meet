@@ -111,6 +111,7 @@ class CallGrid extends React.PureComponent {
       remoteStreams,
       maxVideoStreams,
       audioSinkId,
+      AudioVideoProps,
       ...other
     } = this.props;
 
@@ -167,7 +168,6 @@ class CallGrid extends React.PureComponent {
                 )}
               >
                 <AudioVideo
-                  className={classes.video}
                   id={stream.id}
                   muted={stream.muted}
                   mirrored={stream.mirrored}
@@ -178,6 +178,8 @@ class CallGrid extends React.PureComponent {
                   user={labels ? stream.user : undefined}
                   calling={stream.calling}
                   audioSinkId={audioSinkId}
+                  {...AudioVideoProps}
+                  className={classNames(classes.video, AudioVideoProps.className)}
                 >
                 </AudioVideo>
               </div>
@@ -230,6 +232,8 @@ CallGrid.defaultProps = {
   variant: 'full',
 
   labels: true,
+
+  AudioVideoProps: {},
 };
 
 CallGrid.propTypes = {
@@ -250,6 +254,8 @@ CallGrid.propTypes = {
   audioSinkId: PropTypes.string,
 
   maxVideoStreams: PropTypes.number.isRequired,
+
+  AudioVideoProps: PropTypes.object,
 };
 
 export default withStyles(styles)(injectIntl(CallGrid));
