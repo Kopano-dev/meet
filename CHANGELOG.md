@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+
+
+## v0.23.0 (2019-08-30)
+
 - Enable more translations
 - Auto stop to screen share after hang up
 - Show all peers when in audio only mode conference
