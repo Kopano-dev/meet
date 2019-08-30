@@ -534,7 +534,7 @@ class CallView extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { mode, previousMode, muteCam, muteMic, rumFailed, withChannel } = this.state;
+    const { mode, previousMode, muteCam, muteMic, rumFailed, withChannel, shareScreen } = this.state;
     const {
       hidden,
       channel,
@@ -634,7 +634,12 @@ class CallView extends React.PureComponent {
       this.setState({
         withChannel: false,
         sidebarOpen: true,
+        shareScreen: false,
       });
+      // Stop screen share.
+      if (shareScreen) {
+        setTimeout(this.stopDisplayMedia, 0); // Delay this, so peer connections have a chance to get cleaned up.
+      }
     }
   }
 
@@ -1083,7 +1088,9 @@ class CallView extends React.PureComponent {
           // has ended.
           tracks[0].onended = () => {
             // TODO(longsleep): This might not detect that the stream is old.
-            setScreenshareStream(id); // clears.
+            setScreenshareStream(id).catch(err => {
+              console.warn('failed to set/clear ended screen share stream', err); // eslint-disable-line no-console
+            }); // clears.
           };
         } else {
           console.warn('requestDisplayMedia stream got stream with no video tracks', stream); // eslint-disable-line no-console
