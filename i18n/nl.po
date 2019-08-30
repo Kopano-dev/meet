@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-08-30 07:25+0000\n"
+"PO-Revision-Date: 2019-08-30 11:38+0000\n"
 "Last-Translator: Bob <b.huisman@kopano.com>\n"
 "Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
 "Language: nl\n"
@@ -102,13 +102,12 @@ msgstr "Terug"
 #: i18n/src/messages.json
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #. [contactControl.callButton.label]
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactControl.callButton.label"
 msgid "Call"
 msgstr "Oproep"
@@ -117,7 +116,6 @@ msgstr "Oproep"
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactSearch.callButton.aria"
 msgid "Call"
 msgstr "Oproep"
@@ -126,7 +124,6 @@ msgstr "Oproep"
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "groupControl.callButton.label"
 msgid "Call"
 msgstr "Oproep"
@@ -135,7 +132,6 @@ msgstr "Oproep"
 #. defaultMessage is:
 #. Call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "recents.callButton.aria"
 msgid "Call"
 msgstr "Oproep"
@@ -152,10 +148,9 @@ msgstr "Oproep"
 #. defaultMessage is:
 #. Calls
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.tabCalls.label"
 msgid "Calls"
-msgstr "Oproep"
+msgstr "Oproepen"
 
 #. [deviceSettings.cameraSelect.label]
 #. defaultMessage is:
@@ -193,7 +188,6 @@ msgstr "Sluiten"
 #. defaultMessage is:
 #. Close
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
 msgstr "Sluiten"
@@ -236,7 +230,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.emailTextField.placeholder"
 msgid "Email addresses"
-msgstr ""
+msgstr "Email adressen"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
@@ -249,7 +243,7 @@ msgid ""
 "Enter a name of the group in the field above. You can use any\n"
 "                 name. A new group will created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr ""
+msgstr "Voer een naam in in het bovenstaande veld. Iedere naam kan worden gebruikt. Een nieuwe groep wordt automatisch aangemaakt wanneer deze nog niet bestaat. Iedereen kan deelnemen aan de groep door de exacte groepsnaam in te voeren."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -263,19 +257,17 @@ msgstr "Contacten laden mislukt."
 #. defaultMessage is:
 #. Find contact
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
-msgstr "Contacten laden ..."
+msgstr "Contact vinden"
 
 #. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
 #. Group name
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
-msgstr "Publieke groep"
+msgstr "Groepsnaam"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -283,7 +275,7 @@ msgstr "Publieke groep"
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.ignoreButton.text"
 msgid "Ignore"
-msgstr ""
+msgstr "Negeren"
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -299,7 +291,7 @@ msgstr "Inkomende oproep"
 #: i18n/src/messages.json
 msgctxt "callView.inviteByMailTo.snack"
 msgid "Invitation email created, opening your mail program now."
-msgstr ""
+msgstr "Email uitnodiging aangemaakt, uw email programma wordt geopend."
 
 #. [callView.inviteByShareLink.subject.template]
 #. defaultMessage is:
@@ -307,7 +299,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Uitnodiging voor \"{id}\""
 
 #. [invite.email.subject.template]
 #. defaultMessage is:
@@ -315,7 +307,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.email.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Uitnodiging voor \"{id}\""
 
 #. [invite.inviteButton.label]
 #. defaultMessage is:
@@ -323,7 +315,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.inviteButton.label"
 msgid "Invite"
-msgstr ""
+msgstr "Uitnodigen"
 
 #. [callView.inviteDialog.topTitle]
 #. defaultMessage is:
@@ -331,7 +323,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteDialog.topTitle"
 msgid "Invite to \"{id}\""
-msgstr ""
+msgstr "Nodig uit voor \"{id}\""
 
 #. [groupControl.extraInviteButton.label]
 #. defaultMessage is:
@@ -339,7 +331,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraInviteButton.label"
 msgid "Invite to this {scope}"
-msgstr ""
+msgstr "Uitnodigen voor deze {scope}"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -347,25 +339,23 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
-msgstr ""
+msgstr "Deelnemen"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
 #. Join  or create group
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
-msgstr "Publieke groep"
+msgstr "Deelnemen  of groep aanmaken"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
 #. Join or create group
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
-msgstr "Publieke groep"
+msgstr "Deelnemen of groep aanmaken"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -373,7 +363,7 @@ msgstr "Publieke groep"
 #: i18n/src/messages.json
 msgctxt "callView.copiedLinkToClipboard.snack"
 msgid "Link copied to clipboard."
-msgstr ""
+msgstr "Link naar klembord gekopieerd."
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -411,7 +401,6 @@ msgstr "Meer"
 #. defaultMessage is:
 #. New call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.masterButton.label"
 msgid "New call"
 msgstr "Nieuwe oproep"
@@ -452,7 +441,6 @@ msgstr "Geen toegang tot de server"
 #. defaultMessage is:
 #. Recent
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "recents.subheaderLabel"
 msgid "Recent"
 msgstr "Recent"
@@ -502,10 +490,9 @@ msgstr "Instellingen"
 #. defaultMessage is:
 #. Share {scope} link
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
-msgstr "Delen {scope}"
+msgstr "Deel {scope} link"
 
 #. [deviceSettings.speakerSelect.label]
 #. defaultMessage is:
@@ -545,7 +532,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejectedBusy.snack"
 msgid "The target is busy."
-msgstr ""
+msgstr "De ontvanger is bezet."
 
 #. [kwmProvider.rejected.snack]
 #. defaultMessage is:
@@ -553,7 +540,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr ""
+msgstr "De ontvanger heeft uw oproep geweigerd."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -561,7 +548,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
-msgstr ""
+msgstr "Er is hier momenteel niets actief."
 
 #. [invite.groupIsPublic.text]
 #. defaultMessage is:
@@ -569,7 +556,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsPublic.text"
 msgid "This group is protected - a user account is required to join."
-msgstr ""
+msgstr "Deze groep is beveiligd - een gebruikersaccount is nodig om deel te nemen."
 
 #. [invite.groupIsProtected.text]
 #. defaultMessage is:
@@ -577,7 +564,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
-msgstr ""
+msgstr "Deze groep is publiek - gasten mogen deelnemen."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -623,25 +610,22 @@ msgstr "Gebruiker {idx}"
 #. defaultMessage is:
 #. Video call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr "Videooproep"
+msgstr "Video oproep"
 
 #. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
 #. Video call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
-msgstr "Videooproep"
+msgstr "Video oproep"
 
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
 #. Voice call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Audio oproep"
@@ -650,7 +634,6 @@ msgstr "Audio oproep"
 #. defaultMessage is:
 #. Voice call
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Audio oproep"
@@ -661,7 +644,7 @@ msgstr "Audio oproep"
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.text.template"
 msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr ""
+msgstr "Deelnemen aan deze vergadering kan via computer, tablet of smartphone."
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -669,7 +652,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
-msgstr ""
+msgstr "U heeft hier geen toegang."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -683,10 +666,9 @@ msgstr "Je oproep historie is leeg."
 #. defaultMessage is:
 #. Your microphone is muted.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted."
-msgstr "Je microfoon is uitgeschakeld"
+msgstr "Je microfoon is uitgeschakeld."
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
