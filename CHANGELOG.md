@@ -4,6 +4,17 @@
 
 
 
+## v0.23.1 (2019-09-02)
+
+- Only set device ids if form is dirty
+- Disable device settings dropdown if it is empty
+- Only mirror video when set and video facing mode is user or unknown
+- Match audio and video source exactly to avoid getting wrong device
+- Only set howler device when actually setting a sink is supported
+- Enable Hindi translations
+- Update to kpop 0.20.4
+
+
 ## v0.23.0 (2019-08-30)
 
 - Enable more translations
