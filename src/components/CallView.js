@@ -184,7 +184,9 @@ const styles = theme => ({
     },
   },
   flexDirectionRow: {
-    flexDirection: 'row',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    },
   },
   topBar: {
   },
@@ -323,9 +325,11 @@ const styles = theme => ({
     },
   },
   callAsSidebar: {
-    flex: 'auto',
-    maxWidth: 135,
-    height: 'auto',
+    [deskopWidthBreakpoint]: {
+      flex: 'auto',
+      maxWidth: 135,
+      height: 'auto',
+    },
   },
   callAsSidebarAudioVideo: {
     '& > div': { // Good lord - terribe stuff follows!
