@@ -148,6 +148,7 @@ class AudioVideo extends React.PureComponent {
       active: false,
       audio: false,
       video: false,
+      videoFacingMode: null,
     };
   }
 
@@ -228,6 +229,7 @@ class AudioVideo extends React.PureComponent {
     if (stream) {
       let audio = false;
       let video = false;
+      let videoFacingMode = null;
       const tracks = stream.getTracks();
       for (let i=0; i<tracks.length; i++) {
         const track = tracks[i];
@@ -241,6 +243,10 @@ class AudioVideo extends React.PureComponent {
           case 'video':
             if (!video && enabled) {
               video = true;
+              if ('getSettings' in track) {
+                const settings = track.getSettings();
+                videoFacingMode = settings.facingMode;
+              }
             }
             break;
         }
@@ -249,6 +255,7 @@ class AudioVideo extends React.PureComponent {
       this.setState({
         audio,
         video,
+        videoFacingMode,
       });
     }
   }
@@ -312,7 +319,7 @@ class AudioVideo extends React.PureComponent {
   }
 
   render() {
-    const { active, video: hasVideo, audio: hasAudio } = this.state;
+    const { active, video: hasVideo, audio: hasAudio, videoFacingMode } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -332,9 +339,14 @@ class AudioVideo extends React.PureComponent {
     delete other.stream;
     delete other.audioSinkId;
 
+    let mirrorVideo = mirrored;
+    if (mirrorVideo && videoFacingMode && videoFacingMode !== 'user') {
+      mirrorVideo = false;
+    }
+
     const elementClassName = classNames(
       {
-        [classes.mirrored]: mirrored,
+        [classes.mirrored]: mirrorVideo,
         [classes.video]: !audio,
         [classes.round]: round,
         [classes.cover]: cover,
