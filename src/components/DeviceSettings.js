@@ -132,6 +132,8 @@ class DeviceSettings extends React.PureComponent {
       outputSelectDisabled: false,
 
       testSpeaker: false,
+
+      dirty: false,
     };
   }
 
@@ -339,7 +341,11 @@ class DeviceSettings extends React.PureComponent {
   }
 
   save = async () => {
-    await this.updateDeviceIds();
+    const { dirty } = this.state;
+
+    if (dirty) {
+      await this.updateDeviceIds();
+    }
   }
 
   appplyAudioSinkId = async () => {
@@ -354,6 +360,7 @@ class DeviceSettings extends React.PureComponent {
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
+      dirty: true,
     });
   }
 
