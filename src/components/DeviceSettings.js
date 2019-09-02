@@ -385,7 +385,7 @@ class DeviceSettings extends React.PureComponent {
                 inputProps={{
                   name: 'camera',
                 }}
-                disabled={inputSelectDisabled}
+                disabled={inputSelectDisabled || videoinputs.length === 0}
                 onChange={this.handleChange('videoSourceId')}
               >
                 {videoinputs.map(device => {
@@ -409,7 +409,7 @@ class DeviceSettings extends React.PureComponent {
                 inputProps={{
                   name: 'microphone',
                 }}
-                disabled={inputSelectDisabled}
+                disabled={inputSelectDisabled || audioinputs.length === 0}
                 onChange={this.handleChange('audioSourceId')}
               >
                 {audioinputs.map(device => {
@@ -434,7 +434,7 @@ class DeviceSettings extends React.PureComponent {
                 inputProps={{
                   name: 'speaker',
                 }}
-                disabled={outputSelectDisabled}
+                disabled={outputSelectDisabled || audiooutputs.length === 0}
                 onChange={this.handleChange('audioSinkId')}
               >
                 {audiooutputs.map(device => {
