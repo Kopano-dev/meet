@@ -329,7 +329,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
         if (supportedConstraints.deviceId && videoSource && currentSettings.videoSourceId === videoSource) {
           // Select camera as requested.
           videoConstraints.deviceId = {
-            ideal: videoSource,
+            exact: videoSource,
           };
         } else {
           if (supportedConstraints.facingMode && currentSettings.video.facingMode) {
@@ -342,7 +342,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       if (audio) {
         if (supportedConstraints.deviceId && audioSource && currentSettings.audioSourceId === audioSource) {
           audioConstraints.deviceId = {
-            ideal: audioSource,
+            exact: audioSource,
           };
         }
         if (supportedConstraints.echoCancellation && currentSettings.audio.echoCancellation !== undefined) {
