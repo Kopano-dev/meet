@@ -144,7 +144,7 @@ class DeviceSettings extends React.PureComponent {
 
     this.enumerateDevices(true);
 
-    if (howling && howling.global && howling.global.usingWebAudio) {
+    if (globalSettings.withAudioSetSinkId && howling && howling.global && howling.global.usingWebAudio) {
       const { ctx, masterGain } = howling.global;
 
       const dest = this.dest = ctx.createMediaStreamDestination();
@@ -344,7 +344,7 @@ class DeviceSettings extends React.PureComponent {
 
   appplyAudioSinkId = async () => {
     const { audioSinkId } = this.state;
-    if (this.audio && 'setSinkId' in this.audio) {
+    if (globalSettings.withAudioSetSinkId) {
       return this.audio.setSinkId(audioSinkId).catch(err => {
         console.warn('failed to set audio sink', err); // eslint-disable-line no-console
       });

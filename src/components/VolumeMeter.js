@@ -8,8 +8,11 @@ const styles = () => ({
   root: {},
 });
 
-let audioContext = null;
+var AudioContext = window.AudioContext // Standard.
+    || window.webkitAudioContext // Safari and old versions of Chrome
+    || false;
 
+let audioContext = null;
 
 class VolumeMeter extends React.PureComponent {
   clipping = false;
