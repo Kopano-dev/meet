@@ -2,14 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-08-30 12:00+0200\n"
-"Last-Translator: root <root@transdoc.kopano.io>\n"
-"Language-Team: Icelandic\n"
+"PO-Revision-Date: 2019-09-03 10:37+0000\n"
+"Last-Translator: Tryggvi Björgvinsson <ME@TRICKVI.IS>\n"
+"Language-Team: Icelandic <http://translate.kopano.io/projects/kopano/meet/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: react-intl-po\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.4\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -33,6 +34,14 @@ msgid ""
 "\n"
 "----------------------------------------------------------------------"
 msgstr ""
+"----------------------------------------------------------------------\n"
+"\n"
+"Þú getur komið á fundinn í gegnum tölvu, spjaldtölvu eða snjallsíma.\n"
+"{url}\n"
+"\n"
+"Lestu meira um Kopano Meet á https://meet-app.io\n"
+"\n"
+"----------------------------------------------------------------------"
 
 #. [incomingCallDialog.acceptVideoCallButton.text]
 #. defaultMessage is:
@@ -40,7 +49,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.acceptVideoCallButton.text"
 msgid "Accept"
-msgstr ""
+msgstr "Samþykkja"
 
 #. [deviceSettings.accessFailedMessage.text]
 #. defaultMessage is:
@@ -48,7 +57,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.accessFailedMessage.text"
 msgid "Access to camera/microphone failed. Please check permissions."
-msgstr ""
+msgstr "Tókst ekki að tengjast myndavél/hljóðnema. Vinsamlegast athugaðu réttindin."
 
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
@@ -62,6 +71,9 @@ msgid ""
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
 msgstr ""
+"Bættu við tölvupóstföngum í textareitinn hér fyrir ofan til að bjóða á þennan fund. Til að klára, smelltu á\n"
+"                 bjóða og tölvupóstur með leiðbeiningum um hvernig á að koma á fundinn verður búinn til í tölvupóstforritinu þínu\n"
+"                 til að rýna og senda fundarboðið."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -69,7 +81,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
+msgstr "Leyfa almennum gestum að taka þátt"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -77,7 +89,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
-msgstr ""
+msgstr "Einungis hljóð"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -85,7 +97,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Til baka"
 
 #. [groupControl.backButton.aria]
 #. defaultMessage is:
@@ -93,7 +105,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "Til baka"
 
 #. [contactControl.callButton.label]
 #. defaultMessage is:
@@ -101,7 +113,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "Hringja"
 
 #. [contactSearch.callButton.aria]
 #. defaultMessage is:
@@ -109,7 +121,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "Hringja"
 
 #. [groupControl.callButton.label]
 #. defaultMessage is:
@@ -117,7 +129,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "Hringja"
 
 #. [recents.callButton.aria]
 #. defaultMessage is:
@@ -125,7 +137,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "Hringja"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -133,7 +145,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr ""
+msgstr "Hringja"
 
 #. [callView.tabCalls.label]
 #. defaultMessage is:
@@ -141,7 +153,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabCalls.label"
 msgid "Calls"
-msgstr ""
+msgstr "Samtöl"
 
 #. [deviceSettings.cameraSelect.label]
 #. defaultMessage is:
@@ -149,7 +161,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.cameraSelect.label"
 msgid "Camera"
-msgstr ""
+msgstr "Myndavél"
 
 #. [deviceSettings.unknownVideoInput.label]
 #. defaultMessage is:
@@ -157,7 +169,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownVideoInput.label"
 msgid "Camera {number}"
-msgstr ""
+msgstr "Myndavél {number}"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -165,7 +177,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
-msgstr ""
+msgstr "Hætta við"
 
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
@@ -173,7 +185,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "Loka"
 
 #. [incomingCallDialog.closeButton.aria]
 #. defaultMessage is:
@@ -181,7 +193,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "Loka"
 
 #. [callView.tabContacts.label]
 #. defaultMessage is:
@@ -189,7 +201,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabContacts.label"
 msgid "Contacts"
-msgstr ""
+msgstr "Tengiliðir"
 
 #. [deviceSettings.defaultSpeaker.label]
 #. defaultMessage is:
@@ -197,7 +209,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.defaultSpeaker.label"
 msgid "Default speaker"
-msgstr ""
+msgstr "Sjálfgefinn mælandi"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -205,7 +217,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr ""
+msgstr "Eyða"
 
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
@@ -213,7 +225,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "settingDialog.doneButton.label"
 msgid "Done"
-msgstr ""
+msgstr "Lokið"
 
 #. [invite.emailTextField.placeholder]
 #. defaultMessage is:
@@ -221,7 +233,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.emailTextField.placeholder"
 msgid "Email addresses"
-msgstr ""
+msgstr "Tölvupóstföng"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
@@ -235,6 +247,9 @@ msgid ""
 "                 name. A new group will created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr ""
+"Sláðu inn nafnið á hópnum í reitinn hér fyrir ofan. Þú getur valið\n"
+"                 hvaða nafn sem er. Nýr hópur verður búinn til ef hann er ekki þegar til.\n"
+"                 Hver sem er getur komið í hópinn ef sá aðili veit nafnið."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -242,7 +257,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr ""
+msgstr "Tókst ekki að hlaða tengiliðum."
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -250,7 +265,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
-msgstr ""
+msgstr "Finna tengilið"
 
 #. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
@@ -258,7 +273,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
-msgstr ""
+msgstr "Nafn hóps"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -266,7 +281,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.ignoreButton.text"
 msgid "Ignore"
-msgstr ""
+msgstr "Hunsa"
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -274,7 +289,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr ""
+msgstr "Innhringing"
 
 #. [callView.inviteByMailTo.snack]
 #. defaultMessage is:
@@ -282,7 +297,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByMailTo.snack"
 msgid "Invitation email created, opening your mail program now."
-msgstr ""
+msgstr "Boðspóstur búinn til, opna tölvupóstforritið þitt núna."
 
 #. [callView.inviteByShareLink.subject.template]
 #. defaultMessage is:
@@ -290,7 +305,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Boð á \"{id}\""
 
 #. [invite.email.subject.template]
 #. defaultMessage is:
@@ -298,7 +313,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.email.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "Boð á \"{id}\""
 
 #. [invite.inviteButton.label]
 #. defaultMessage is:
@@ -306,7 +321,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.inviteButton.label"
 msgid "Invite"
-msgstr ""
+msgstr "Bjóða"
 
 #. [callView.inviteDialog.topTitle]
 #. defaultMessage is:
@@ -314,7 +329,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteDialog.topTitle"
 msgid "Invite to \"{id}\""
-msgstr ""
+msgstr "Bjóða á \"{id}\""
 
 #. [groupControl.extraInviteButton.label]
 #. defaultMessage is:
@@ -322,7 +337,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraInviteButton.label"
 msgid "Invite to this {scope}"
-msgstr ""
+msgstr "Bjóða á {scope}"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -330,7 +345,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
-msgstr ""
+msgstr "Taka þátt"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
@@ -338,7 +353,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
-msgstr ""
+msgstr "Taka þátt  eða búa til hóp"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
@@ -346,7 +361,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
-msgstr ""
+msgstr "Taka þátt eða búa til hóp"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -354,7 +369,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.copiedLinkToClipboard.snack"
 msgid "Link copied to clipboard."
-msgstr ""
+msgstr "Tengill afritaður á klemmuspjald."
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
@@ -362,7 +377,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
+msgstr "Hleð tengiliðum ..."
 
 #. [deviceSettings.microphoneSelect.label]
 #. defaultMessage is:
@@ -370,7 +385,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.microphoneSelect.label"
 msgid "Microphone"
-msgstr ""
+msgstr "Hljóðnemi"
 
 #. [deviceSettings.unknownAudioInput.label]
 #. defaultMessage is:
@@ -378,7 +393,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioInput.label"
 msgid "Microphone {number}"
-msgstr ""
+msgstr "Hljóðnemi {number}"
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -386,7 +401,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
+msgstr "Meira"
 
 #. [callView.masterButton.label]
 #. defaultMessage is:
@@ -394,7 +409,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.masterButton.label"
 msgid "New call"
-msgstr ""
+msgstr "Ný samtal"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -402,7 +417,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr ""
+msgstr "Nýtt samtal"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -410,7 +425,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr ""
+msgstr "Engin tenging - athugaðu nettenginguna þína."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -418,7 +433,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr ""
+msgstr "Engir tengiliðir fundust með völdum skilyrðum."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -426,7 +441,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
-msgstr ""
+msgstr "Ekki heimild til að tengjast netþjóni"
 
 #. [recents.subheaderLabel]
 #. defaultMessage is:
@@ -434,7 +449,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.subheaderLabel"
 msgid "Recent"
-msgstr ""
+msgstr "Nýlegt"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -442,7 +457,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
-msgstr ""
+msgstr "Hafna"
 
 #. [contactSearch.failedToLoad.retryButton.text]
 #. defaultMessage is:
@@ -450,7 +465,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
+msgstr "Reyna aftur"
 
 #. [deviceSettings.retryAccessButton.label]
 #. defaultMessage is:
@@ -458,7 +473,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.retryAccessButton.label"
 msgid "Retry"
-msgstr ""
+msgstr "Reyna aftur"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -466,7 +481,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
-msgstr ""
+msgstr "Leita að tengiliðum ..."
 
 #. [callView.settingsList.label]
 #. defaultMessage is:
@@ -474,7 +489,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsList.label"
 msgid "Settings"
-msgstr ""
+msgstr "Stillingar"
 
 #. [groupControl.extraShareLinkButton.label]
 #. defaultMessage is:
@@ -482,7 +497,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
-msgstr ""
+msgstr "Deila tengli fyrir {scope}"
 
 #. [deviceSettings.speakerSelect.label]
 #. defaultMessage is:
@@ -490,7 +505,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerSelect.label"
 msgid "Speaker"
-msgstr ""
+msgstr "Mælandi"
 
 #. [deviceSettings.unknownAudioOutput.label]
 #. defaultMessage is:
@@ -498,7 +513,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioOutput.label"
 msgid "Speaker {number}"
-msgstr ""
+msgstr "Mælandi {number}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -506,7 +521,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr ""
+msgstr "Í hvíld"
 
 #. [deviceSettings.speakerTestButton.label]
 #. defaultMessage is:
@@ -514,7 +529,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
-msgstr ""
+msgstr "Prófa"
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -522,7 +537,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejectedBusy.snack"
 msgid "The target is busy."
-msgstr ""
+msgstr "Svarandinn er upptekinn."
 
 #. [kwmProvider.rejected.snack]
 #. defaultMessage is:
@@ -530,7 +545,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr ""
+msgstr "Svarandinn hafnaði samtalinu þínu."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -538,7 +553,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
-msgstr ""
+msgstr "Núna er ekkert virkt hér."
 
 #. [invite.groupIsPublic.text]
 #. defaultMessage is:
@@ -546,7 +561,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsPublic.text"
 msgid "This group is protected - a user account is required to join."
-msgstr ""
+msgstr "Þessi hópur er verndaður - notandaaðgang þarf til að taka þátt."
 
 #. [invite.groupIsProtected.text]
 #. defaultMessage is:
@@ -554,7 +569,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
-msgstr ""
+msgstr "Þessi hópur er almennur - gestir mega taka þátt."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -562,7 +577,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr ""
+msgstr "Get ekki tekið á móti hringingu"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -570,7 +585,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr ""
+msgstr "Get ekki hringt"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -578,7 +593,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr ""
+msgstr "Get ekki tekið þátt"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -586,7 +601,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.unknownUser.text"
 msgid "Unknown user"
-msgstr ""
+msgstr "Óþekktur notandi"
 
 #. [displayNameLabel.userWithIndex.text]
 #. defaultMessage is:
@@ -594,7 +609,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
-msgstr ""
+msgstr "Notandi {idx}"
 
 #. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -602,7 +617,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Myndfundur"
 
 #. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -610,7 +625,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "Myndfundur"
 
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -618,7 +633,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Hljóðfundur"
 
 #. [groupControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -626,7 +641,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "Hljóðfundur"
 
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
@@ -634,7 +649,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.text.template"
 msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr ""
+msgstr "Þú getur komið á þennan fund í gegnum tölvu, spjaldtölvu eða snjallsíma."
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -642,7 +657,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
-msgstr ""
+msgstr "Þú hefur ekki aðgang hér."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -650,7 +665,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
+msgstr "Samtalssagan þín er tóm."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -658,7 +673,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted."
-msgstr ""
+msgstr "Þagað niður í hljóðnemanum þínum."
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -666,7 +681,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.fabButton.aria"
 msgid "add"
-msgstr ""
+msgstr "bæta við"
 
 #. [scopeLabel.call.label]
 #. defaultMessage is:
@@ -674,7 +689,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.call.label"
 msgid "call"
-msgstr ""
+msgstr "samtal"
 
 #. [scopeLabel.conference.label]
 #. defaultMessage is:
@@ -682,7 +697,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.conference.label"
 msgid "conference"
-msgstr ""
+msgstr "myndfundur"
 
 #. [recents.deleteSwipeButton.text]
 #. defaultMessage is:
@@ -690,7 +705,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr ""
+msgstr "eyða"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -698,7 +713,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.group.label"
 msgid "group"
-msgstr ""
+msgstr "hópur"
 
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
@@ -706,7 +721,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
-msgstr ""
+msgstr "óþekktur"
 
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
@@ -714,4 +729,4 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr ""
+msgstr "kveikja á"
