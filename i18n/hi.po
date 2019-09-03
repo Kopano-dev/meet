@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-08-30 13:45+0000\n"
+"PO-Revision-Date: 2019-09-03 14:04+0000\n"
 "Last-Translator: Mayank <m.dabhi@kopano.com>\n"
 "Language-Team: Hindi <http://translate.kopano.io/projects/kopano/meet/hi/>\n"
 "Language: hi\n"
@@ -71,6 +71,9 @@ msgid ""
 "                 invite and email message with instructions how to join this Meet will be created in your email program\n"
 "                 for review and to send the invitation message."
 msgstr ""
+"इस मीट में आमंत्रित करने के लिए उपरोक्त टेक्स्ट फ़ील्ड का उपयोग करके इमेल्स जोड़ें. समाप्त करने के लिए, क्लिक करें\n"
+"अपने ईमेल प्रोग्राम में इस मीट को कैसे शामिल किया जाए, इस निर्देश के साथ निमंत्रण और ईमेल संदेश भेजें\n"
+"समीक्षा के लिए और निमंत्रण संदेश भेजने के लिए."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -78,7 +81,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
+msgstr "सार्वजनिक अतिथि की अनुमति दें"
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -86,7 +89,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
-msgstr ""
+msgstr "सिर्फ़ ध्वनि"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -94,7 +97,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "वापस"
 
 #. [groupControl.backButton.aria]
 #. defaultMessage is:
@@ -102,7 +105,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.backButton.aria"
 msgid "Back"
-msgstr ""
+msgstr "वापस"
 
 #. [contactControl.callButton.label]
 #. defaultMessage is:
@@ -110,7 +113,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "कॉल"
 
 #. [contactSearch.callButton.aria]
 #. defaultMessage is:
@@ -118,7 +121,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "कॉल"
 
 #. [groupControl.callButton.label]
 #. defaultMessage is:
@@ -126,7 +129,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.callButton.label"
 msgid "Call"
-msgstr ""
+msgstr "कॉल"
 
 #. [recents.callButton.aria]
 #. defaultMessage is:
@@ -134,7 +137,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.aria"
 msgid "Call"
-msgstr ""
+msgstr "कॉल"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -142,7 +145,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr ""
+msgstr "कॉल"
 
 #. [callView.tabCalls.label]
 #. defaultMessage is:
@@ -150,7 +153,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabCalls.label"
 msgid "Calls"
-msgstr ""
+msgstr "कॉल्स"
 
 #. [deviceSettings.cameraSelect.label]
 #. defaultMessage is:
@@ -158,7 +161,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.cameraSelect.label"
 msgid "Camera"
-msgstr ""
+msgstr "कैमरा"
 
 #. [deviceSettings.unknownVideoInput.label]
 #. defaultMessage is:
@@ -166,7 +169,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownVideoInput.label"
 msgid "Camera {number}"
-msgstr ""
+msgstr "कैमरा {number}"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -174,7 +177,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
-msgstr ""
+msgstr "रद कीजिये"
 
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
@@ -182,7 +185,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "बंध कीजिये"
 
 #. [incomingCallDialog.closeButton.aria]
 #. defaultMessage is:
@@ -190,7 +193,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.closeButton.aria"
 msgid "Close"
-msgstr ""
+msgstr "बंध कीजिये"
 
 #. [callView.tabContacts.label]
 #. defaultMessage is:
@@ -198,7 +201,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.tabContacts.label"
 msgid "Contacts"
-msgstr ""
+msgstr "कॉन्टेक्ट्स"
 
 #. [deviceSettings.defaultSpeaker.label]
 #. defaultMessage is:
@@ -206,7 +209,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.defaultSpeaker.label"
 msgid "Default speaker"
-msgstr ""
+msgstr "डिफ़ॉल्ट स्पीकर"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -214,7 +217,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
-msgstr ""
+msgstr "निकाल दीजिये"
 
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
@@ -222,7 +225,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "settingDialog.doneButton.label"
 msgid "Done"
-msgstr ""
+msgstr "समाप्त"
 
 #. [invite.emailTextField.placeholder]
 #. defaultMessage is:
@@ -230,7 +233,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.emailTextField.placeholder"
 msgid "Email addresses"
-msgstr ""
+msgstr "ईमेल एड्रेसीस"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
@@ -243,7 +246,7 @@ msgid ""
 "Enter a name of the group in the field above. You can use any\n"
 "                 name. A new group will created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr ""
+msgstr "उपरोक्त फ़ील्ड में समूह का नाम दर्ज करें। आप कोई भी नाम का उपयोग कर सकते हैं.यदि पहले से मौजूद नहीं है, तो एक नया समूह अपने आप बनाया जाएगा.समूह में कोई भी शामिल हो सकता है, जो इसका सही नाम जानता हो."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
@@ -251,7 +254,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
-msgstr ""
+msgstr "कॉन्टेक्ट्स खोलने में विफलता."
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -259,7 +262,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.searchByNameTextField.placeholder"
 msgid "Find contact"
-msgstr ""
+msgstr "कांटेक्ट ढूंडे"
 
 #. [newPublicGroup.enterPublicGroup.inputLabel]
 #. defaultMessage is:
@@ -267,7 +270,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
-msgstr ""
+msgstr "समूह का नाम"
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -275,7 +278,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "fullscreenDialog.ignoreButton.text"
 msgid "Ignore"
-msgstr ""
+msgstr "अनदेखा कीजिये"
 
 #. [incomingCallDialog.incomingCall.title]
 #. defaultMessage is:
@@ -283,7 +286,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr ""
+msgstr "कॉल आ रहा है"
 
 #. [callView.inviteByMailTo.snack]
 #. defaultMessage is:
@@ -291,7 +294,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByMailTo.snack"
 msgid "Invitation email created, opening your mail program now."
-msgstr ""
+msgstr "आमंत्रण ईमेल बन गया है, आपका मेल कार्यक्रम खुल रहा है."
 
 #. [callView.inviteByShareLink.subject.template]
 #. defaultMessage is:
@@ -299,7 +302,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "\"{id}\" को आमंत्रण"
 
 #. [invite.email.subject.template]
 #. defaultMessage is:
@@ -307,7 +310,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.email.subject.template"
 msgid "Invitation to \"{id}\""
-msgstr ""
+msgstr "\"{id}\" को आमंत्रण"
 
 #. [invite.inviteButton.label]
 #. defaultMessage is:
@@ -315,7 +318,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.inviteButton.label"
 msgid "Invite"
-msgstr ""
+msgstr "आमंत्रण"
 
 #. [callView.inviteDialog.topTitle]
 #. defaultMessage is:
@@ -323,7 +326,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteDialog.topTitle"
 msgid "Invite to \"{id}\""
-msgstr ""
+msgstr "\"{id}\" को आमंत्रण"
 
 #. [groupControl.extraInviteButton.label]
 #. defaultMessage is:
@@ -331,7 +334,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraInviteButton.label"
 msgid "Invite to this {scope}"
-msgstr ""
+msgstr "इस {scope} के लिए आमंत्रित कीजिये"
 
 #. [newPublicGroup.createButton.text]
 #. defaultMessage is:
@@ -339,7 +342,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
-msgstr ""
+msgstr "जुड़िये"
 
 #. [contactSearch.newPublicGroup.button.text]
 #. defaultMessage is:
@@ -347,7 +350,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
-msgstr ""
+msgstr "समूह में जुड़िये या बनाइए"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
@@ -355,7 +358,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
-msgstr ""
+msgstr "समूह में जुड़िये या बनाइए"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -363,7 +366,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.copiedLinkToClipboard.snack"
 msgid "Link copied to clipboard."
-msgstr ""
+msgstr "लिंक को क्लिपबोर्ड पर कॉपी हो गया है."
 
 #. [contactSearch.messageLoadingContacts]
 #. defaultMessage is:
