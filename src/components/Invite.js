@@ -307,8 +307,8 @@ class Invite extends React.PureComponent {
               <FormattedMessage
                 id="invite.addEmailAddressesHelper.text"
                 defaultMessage="Add email addresses using the text field above to invite to this Meet. To finish, click
-                 invite and email message with instructions how to join this Meet will be created in your email program
-                 for review and to send the invitation message.">
+                 invite and an email draft will be created in your email program with instructions how to join this Meet.
+                 Please review and optionally personalise the message before sending the invitation.">
               </FormattedMessage>
             </Typography>
           </DialogContent>
