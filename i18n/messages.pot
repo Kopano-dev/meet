@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
+"POT-Creation-Date: 2019-09-03T14:29:47.273Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -42,10 +42,10 @@ msgstr ""
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
 #. Add email addresses using the text field above to invite to this Meet. To finish, click
-#.                  invite and email message with instructions how to join this Meet will be created in your email program
-#.                  for review and to send the invitation message.
+#.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
+#.                  Please review and optionally personalise the message before sending the invitation.
 msgctxt "invite.addEmailAddressesHelper.text"
-msgid "Add email addresses using the text field above to invite to this Meet. To finish, click\n                 invite and email message with instructions how to join this Meet will be created in your email program\n                 for review and to send the invitation message."
+msgid "Add email addresses using the text field above to invite to this Meet. To finish, click\n                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n                 Please review and optionally personalise the message before sending the invitation."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -211,11 +211,11 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any
-#.                  name. A new group will created automatically if it does not exist already. The
+#. Enter a name for the group in the field above. You can use any
+#.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 msgctxt "newPublicGroup.helper.text"
-msgid "Enter a name of the group in the field above. You can use any\n                 name. A new group will created automatically if it does not exist already. The\n                 group can be joined by anyone who knows its exact name."
+msgid "Enter a name for the group in the field above. You can use any\n                 name. A new group will be created automatically if it does not exist already. The\n                 group can be joined by anyone who knows its exact name."
 msgstr ""
 
 #: ./i18n/src/messages.json
