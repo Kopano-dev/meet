@@ -673,7 +673,7 @@ msgstr "Samtalssagan þín er tóm."
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted."
-msgstr "Þagað niður í hljóðnemanum þínum."
+msgstr "Slökkt á hljóðnemanum þínum."
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
