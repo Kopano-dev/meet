@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-08-28 19:45+0000\n"
+"PO-Revision-Date: 2019-09-03 10:08+0000\n"
 "Last-Translator: Felix <f.bartels@kopano.com>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -57,7 +57,7 @@ msgstr "Annehmen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.accessFailedMessage.text"
 msgid "Access to camera/microphone failed. Please check permissions."
-msgstr ""
+msgstr "Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie die Berechtigungen."
 
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
@@ -158,7 +158,7 @@ msgstr "Anrufe"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.cameraSelect.label"
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #. [deviceSettings.unknownVideoInput.label]
 #. defaultMessage is:
@@ -166,7 +166,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownVideoInput.label"
 msgid "Camera {number}"
-msgstr ""
+msgstr "Kamera {number}"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -206,7 +206,7 @@ msgstr "Kontakte"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.defaultSpeaker.label"
 msgid "Default speaker"
-msgstr ""
+msgstr "Standard-Lautsprecher"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -222,7 +222,7 @@ msgstr "Löschen"
 #: i18n/src/messages.json
 msgctxt "settingDialog.doneButton.label"
 msgid "Done"
-msgstr ""
+msgstr "Fertig"
 
 #. [invite.emailTextField.placeholder]
 #. defaultMessage is:
@@ -379,7 +379,7 @@ msgstr "Kontakte werden geladen ..."
 #: i18n/src/messages.json
 msgctxt "deviceSettings.microphoneSelect.label"
 msgid "Microphone"
-msgstr ""
+msgstr "Mikrofon"
 
 #. [deviceSettings.unknownAudioInput.label]
 #. defaultMessage is:
@@ -387,7 +387,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioInput.label"
 msgid "Microphone {number}"
-msgstr ""
+msgstr "Mikrofon {number}"
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -465,7 +465,6 @@ msgstr "Erneut versuchen"
 #. defaultMessage is:
 #. Retry
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "deviceSettings.retryAccessButton.label"
 msgid "Retry"
 msgstr "Erneut versuchen"
@@ -500,7 +499,7 @@ msgstr "Link teilen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerSelect.label"
 msgid "Speaker"
-msgstr ""
+msgstr "Lautsprecher"
 
 #. [deviceSettings.unknownAudioOutput.label]
 #. defaultMessage is:
@@ -508,7 +507,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioOutput.label"
 msgid "Speaker {number}"
-msgstr ""
+msgstr "Lautsprecher {number}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -524,7 +523,7 @@ msgstr "Schlafend"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
-msgstr ""
+msgstr "Testen"
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
