@@ -4,6 +4,15 @@
 
 
 
+## v0.23.2 (2019-09-03)
+
+- Update translation catalog
+- Ensure proper imcoming screen sharing visuals on mobile
+- Improve text for "Join or create group"
+- Improve invite to message
+- Translated using Weblate (German)
+
+
 ## v0.23.1 (2019-09-02)
 
 - Only set device ids if form is dirty
