@@ -175,8 +175,8 @@ class NewPublicGroup extends React.PureComponent {
             <Typography>
               <FormattedMessage
                 id="newPublicGroup.helper.text"
-                defaultMessage="Enter a name of the group in the field above. You can use any
-                 name. A new group will created automatically if it does not exist already. The
+                defaultMessage="Enter a name for the group in the field above. You can use any
+                 name. A new group will be created automatically if it does not exist already. The
                  group can be joined by anyone who knows its exact name.">
               </FormattedMessage>
             </Typography>
