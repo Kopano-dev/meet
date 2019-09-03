@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
+"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
 "PO-Revision-Date: 2019-09-03 10:08+0000\n"
 "Last-Translator: Felix <f.bartels@kopano.com>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
@@ -62,14 +62,15 @@ msgstr "Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie d
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
 #. Add email addresses using the text field above to invite to this Meet. To finish, click
-#.                  invite and email message with instructions how to join this Meet will be created in your email program
-#.                  for review and to send the invitation message.
+#.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
+#.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
+#, fuzzy
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
-"                 for review and to send the invitation message."
+"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before sending the invitation."
 msgstr "Fügen Sie die E-Mail-Adressen mit dem Eingabefeld hinzu die Sie zu diesem Meet einladen möchten. Wenn Sie fertig sind wird bei einem klick auf Einladen eine E-Mail-Einladung für diese Meet erzeugt und Ihr E-Mail-Programm damit geöffnet."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
@@ -216,6 +217,14 @@ msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
 msgstr "Löschen"
 
+#. [settingsDialog.devicesTab.label]
+#. defaultMessage is:
+#. Devices
+#: i18n/src/messages.json
+msgctxt "settingsDialog.devicesTab.label"
+msgid "Devices"
+msgstr ""
+
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -234,14 +243,15 @@ msgstr "E-Mail-Adressen"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any
-#.                  name. A new group will created automatically if it does not exist already. The
+#. Enter a name for the group in the field above. You can use any
+#.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
+#, fuzzy
 msgctxt "newPublicGroup.helper.text"
 msgid ""
-"Enter a name of the group in the field above. You can use any\n"
-"                 name. A new group will created automatically if it does not exist already. The\n"
+"Enter a name for the group in the field above. You can use any\n"
+"                 name. A new group will be created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr "Geben Sie den Namen einer Gruppe ein. Sie können beliebige Namen verwende. Existiert noch keine Gruppe mit dem gleiche Namen, wird automatisch eine erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
 
