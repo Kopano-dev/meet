@@ -52,6 +52,7 @@ const locales = enableLocales({
   'en-US',
   'fr',
   'hi',
+  'is',
   'nb',
   'nl',
   'pt-PT',
