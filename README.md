@@ -18,6 +18,10 @@ Meet is a progressive web app. So to get it up and running either build it with
 `make` or get a release tarball from https://download.kopano.io/community/kapp:/kopano-meet-latest.tar.gz
 and put the resulting static files on a webserver and serve them with https.
 
+Kopano also provides packages for various Linux distributions. You can download
+those from https://download.kopano.io/community/meet:/ - Get a subscription from
+https://kopano.com to get access to repositories and support.
+
 ## URL fragment parameters
 
 Meet offers some user controlled behavior via parameters passed in as URL
