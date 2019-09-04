@@ -4,6 +4,24 @@
 
 
 
+## v0.23.3 (2019-09-04)
+
+- Translated using Weblate (German)
+- Translated using Weblate (German)
+- Translated using Weblate (German)
+- Translated using Weblate (French)
+- Translated using Weblate (Dutch)
+- Translated using Weblate (Russian)
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Norwegian Bokmål)
+- Translated using Weblate (Icelandic)
+- Translated using Weblate (Hindi)
+- Make untranslated Devices tab label translateable
+- Update kpop to 0.24.5
+- Enable Icelandic translation
+- Translated using Weblate (Icelandic)
+
+
 ## v0.23.2 (2019-09-03)
 
 - Update translation catalog
