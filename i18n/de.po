@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
-"PO-Revision-Date: 2019-09-04 09:40+0000\n"
-"Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
+"PO-Revision-Date: 2019-09-04 09:55+0000\n"
+"Last-Translator: Felix <f.bartels@kopano.com>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -65,13 +65,12 @@ msgstr "Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie d
 #.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
 #.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
 "                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
 "                 Please review and optionally personalise the message before sending the invitation."
-msgstr "Fügen Sie die E-Mail-Adressen mit dem Eingabefeld hinzu die Sie zu diesem Meet einladen möchten. Wenn Sie fertig sind wird bei einem klick auf Einladen eine E-Mail-Einladung für diese Meet erzeugt und Ihr E-Mail-Programm damit geöffnet."
+msgstr "Nutzen Sie das Eingabefeld um E-Mail Adressen hinzuzufügen, die Sie zu diesem Meet einladen wollen. Mit einem Klick auf Einladen wird ein ein Entwurf in Ihrem E-Mail Programm erstellt. Dieser Entwurf enthält Informationen zum Betreten des Meetings. Bitte prüfen und personalisieren Sie diese Nachricht bevor Sie diese absenden."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -247,13 +246,12 @@ msgstr "E-Mail-Adressen"
 #.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
 "                 name. A new group will be created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr "Geben Sie den Namen einer Gruppe ein. Sie können beliebige Namen verwende. Existiert noch keine Gruppe mit dem gleiche Namen, wird automatisch eine erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
+msgstr "Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen verwenden. Existiert noch keine Gruppe mit dem gleichen Namen, wird diese automatisch erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
 
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
