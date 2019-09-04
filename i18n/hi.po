@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-08-29T17:09:58.220Z\n"
-"PO-Revision-Date: 2019-09-03 14:04+0000\n"
+"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
+"PO-Revision-Date: 2019-09-04 12:17+0000\n"
 "Last-Translator: Mayank <m.dabhi@kopano.com>\n"
 "Language-Team: Hindi <http://translate.kopano.io/projects/kopano/meet/hi/>\n"
 "Language: hi\n"
@@ -62,14 +62,14 @@ msgstr "कैमरा / माइक्रोफ़ोन तक पहुं�
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
 #. Add email addresses using the text field above to invite to this Meet. To finish, click
-#.                  invite and email message with instructions how to join this Meet will be created in your email program
-#.                  for review and to send the invitation message.
+#.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
+#.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and email message with instructions how to join this Meet will be created in your email program\n"
-"                 for review and to send the invitation message."
+"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before sending the invitation."
 msgstr ""
 "इस मीट में आमंत्रित करने के लिए उपरोक्त टेक्स्ट फ़ील्ड का उपयोग करके इमेल्स जोड़ें. समाप्त करने के लिए, क्लिक करें\n"
 "अपने ईमेल प्रोग्राम में इस मीट को कैसे शामिल किया जाए, इस निर्देश के साथ निमंत्रण और ईमेल संदेश भेजें\n"
@@ -219,6 +219,14 @@ msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
 msgstr "निकाल दीजिये"
 
+#. [settingsDialog.devicesTab.label]
+#. defaultMessage is:
+#. Devices
+#: i18n/src/messages.json
+msgctxt "settingsDialog.devicesTab.label"
+msgid "Devices"
+msgstr "उपकरण"
+
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -237,14 +245,14 @@ msgstr "ईमेल एड्रेसीस"
 
 #. [newPublicGroup.helper.text]
 #. defaultMessage is:
-#. Enter a name of the group in the field above. You can use any
-#.                  name. A new group will created automatically if it does not exist already. The
+#. Enter a name for the group in the field above. You can use any
+#.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.helper.text"
 msgid ""
-"Enter a name of the group in the field above. You can use any\n"
-"                 name. A new group will created automatically if it does not exist already. The\n"
+"Enter a name for the group in the field above. You can use any\n"
+"                 name. A new group will be created automatically if it does not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr "उपरोक्त फ़ील्ड में समूह का नाम दर्ज करें। आप कोई भी नाम का उपयोग कर सकते हैं.यदि पहले से मौजूद नहीं है, तो एक नया समूह अपने आप बनाया जाएगा.समूह में कोई भी शामिल हो सकता है, जो इसका सही नाम जानता हो."
 
@@ -374,7 +382,7 @@ msgstr "लिंक को क्लिपबोर्ड पर कॉपी �
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
-msgstr ""
+msgstr "कॉन्टेक्ट्स खुल रहे है..."
 
 #. [deviceSettings.microphoneSelect.label]
 #. defaultMessage is:
@@ -382,7 +390,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.microphoneSelect.label"
 msgid "Microphone"
-msgstr ""
+msgstr "माइक्रोफ़ोन"
 
 #. [deviceSettings.unknownAudioInput.label]
 #. defaultMessage is:
@@ -390,7 +398,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioInput.label"
 msgid "Microphone {number}"
-msgstr ""
+msgstr "माइक्रोफ़ोन {number}"
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -398,7 +406,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.moreButton.aria"
 msgid "More"
-msgstr ""
+msgstr "अधिक"
 
 #. [callView.masterButton.label]
 #. defaultMessage is:
@@ -406,7 +414,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.masterButton.label"
 msgid "New call"
-msgstr ""
+msgstr "नई कॉल"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -414,7 +422,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr ""
+msgstr "नई कॉल"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -422,7 +430,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
 msgid "No connection - check your internet connection."
-msgstr ""
+msgstr "कोई कनेक्शन नहीं है - अपना इंटरनेट कनेक्शन जांचें."
 
 #. [contactSearch.noMatches.message]
 #. defaultMessage is:
@@ -430,7 +438,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.noMatches.message"
 msgid "No contacts match the selected criteria."
-msgstr ""
+msgstr "चयनित मापदंडों से कोई भी संपर्क मेल नहीं खा रहा है."
 
 #. [meet.kwm.no_permission]
 #. defaultMessage is:
@@ -438,7 +446,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
-msgstr ""
+msgstr "सर्वर तक पहुंचने की अनुमति नहीं"
 
 #. [recents.subheaderLabel]
 #. defaultMessage is:
@@ -446,7 +454,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.subheaderLabel"
 msgid "Recent"
-msgstr ""
+msgstr "हाल का"
 
 #. [incomingCallDialog.rejectButton.text]
 #. defaultMessage is:
@@ -454,7 +462,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
-msgstr ""
+msgstr "रद्द करें"
 
 #. [contactSearch.failedToLoad.retryButton.text]
 #. defaultMessage is:
@@ -462,7 +470,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
-msgstr ""
+msgstr "पुन: प्रयास करें"
 
 #. [deviceSettings.retryAccessButton.label]
 #. defaultMessage is:
@@ -470,7 +478,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.retryAccessButton.label"
 msgid "Retry"
-msgstr ""
+msgstr "पुन: प्रयास करें"
 
 #. [contactSearch.messageSearchingForContacts]
 #. defaultMessage is:
@@ -478,7 +486,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
-msgstr ""
+msgstr "संपर्कों की खोज हो रही है..."
 
 #. [callView.settingsList.label]
 #. defaultMessage is:
@@ -486,7 +494,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsList.label"
 msgid "Settings"
-msgstr ""
+msgstr "सेटिंग्स"
 
 #. [groupControl.extraShareLinkButton.label]
 #. defaultMessage is:
@@ -494,7 +502,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
-msgstr ""
+msgstr "{scope} की लिंक बांटे"
 
 #. [deviceSettings.speakerSelect.label]
 #. defaultMessage is:
@@ -502,7 +510,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerSelect.label"
 msgid "Speaker"
-msgstr ""
+msgstr "स्पीकर"
 
 #. [deviceSettings.unknownAudioOutput.label]
 #. defaultMessage is:
@@ -510,7 +518,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioOutput.label"
 msgid "Speaker {number}"
-msgstr ""
+msgstr "स्पीकर {number}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -518,7 +526,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callGrid.suspended.headline"
 msgid "Suspended"
-msgstr ""
+msgstr "निलंबित"
 
 #. [deviceSettings.speakerTestButton.label]
 #. defaultMessage is:
@@ -526,7 +534,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
-msgstr ""
+msgstr "जांच करें"
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -534,7 +542,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejectedBusy.snack"
 msgid "The target is busy."
-msgstr ""
+msgstr "लक्ष्य व्यस्त है."
 
 #. [kwmProvider.rejected.snack]
 #. defaultMessage is:
@@ -542,7 +550,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr ""
+msgstr "आपका कॉल अस्वीकार किया गया है."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -550,7 +558,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "There is currently nothing active here."
-msgstr ""
+msgstr "वर्तमान में यहां कुछ भी सक्रिय नहीं है."
 
 #. [invite.groupIsPublic.text]
 #. defaultMessage is:
@@ -558,7 +566,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsPublic.text"
 msgid "This group is protected - a user account is required to join."
-msgstr ""
+msgstr "यह समूह सुरक्षित है - शामिल होने के लिए एक उपयोगकर्ता खाता आवश्यक है."
 
 #. [invite.groupIsProtected.text]
 #. defaultMessage is:
@@ -566,7 +574,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
-msgstr ""
+msgstr "यह समूह सार्वजनिक है - मेहमानों को शामिल होने की अनुमति है."
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -574,7 +582,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr ""
+msgstr "कॉल स्वीकार करने में असमर्थ"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -582,7 +590,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr ""
+msgstr "कॉल करने में असमर्थ"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -590,7 +598,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_join"
 msgid "Unable to join"
-msgstr ""
+msgstr "जुड़ने में असमर्थ"
 
 #. [displayNameLabel.unknownUser.text]
 #. defaultMessage is:
@@ -598,7 +606,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.unknownUser.text"
 msgid "Unknown user"
-msgstr ""
+msgstr "अज्ञात उपयोगकर्ता"
 
 #. [displayNameLabel.userWithIndex.text]
 #. defaultMessage is:
@@ -606,7 +614,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "displayNameLabel.userWithIndex.text"
 msgid "User {idx}"
-msgstr ""
+msgstr "उपयोगकर्ता {idx}"
 
 #. [contactControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -614,7 +622,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "वीडियो कॉल"
 
 #. [groupControl.videoCallButton.aria]
 #. defaultMessage is:
@@ -622,7 +630,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.videoCallButton.aria"
 msgid "Video call"
-msgstr ""
+msgstr "वीडियो कॉल"
 
 #. [contactControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -630,7 +638,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "वॉइस कॉल"
 
 #. [groupControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -638,7 +646,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr ""
+msgstr "वॉइस कॉल"
 
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
@@ -646,7 +654,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.text.template"
 msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr ""
+msgstr "आप अपने कंप्यूटर, टैबलेट या स्मार्टफोन से इस सभा में शामिल हो सकते हैं."
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -654,7 +662,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
-msgstr ""
+msgstr "यहां आपकी पहुंच नहीं है."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -662,7 +670,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr ""
+msgstr "आपका कॉल इतिहास खाली है."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -670,7 +678,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.message"
 msgid "Your microphone is muted."
-msgstr ""
+msgstr "आपका माइक्रोफ़ोन बंध है."
 
 #. [callView.fabButton.aria]
 #. defaultMessage is:
@@ -678,7 +686,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.fabButton.aria"
 msgid "add"
-msgstr ""
+msgstr "ऐड"
 
 #. [scopeLabel.call.label]
 #. defaultMessage is:
@@ -686,7 +694,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.call.label"
 msgid "call"
-msgstr ""
+msgstr "कॉल"
 
 #. [scopeLabel.conference.label]
 #. defaultMessage is:
@@ -694,7 +702,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.conference.label"
 msgid "conference"
-msgstr ""
+msgstr "कॉनफरन्स"
 
 #. [recents.deleteSwipeButton.text]
 #. defaultMessage is:
@@ -702,7 +710,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
-msgstr ""
+msgstr "हटा दीजिये"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -710,7 +718,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "scopeLabel.group.label"
 msgid "group"
-msgstr ""
+msgstr "समूह"
 
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
@@ -718,7 +726,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
@@ -726,4 +734,4 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
-msgstr ""
+msgstr "अनम्यूट"
