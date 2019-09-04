@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-09-03T14:29:47.273Z\n"
+"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -190,6 +190,14 @@ msgstr ""
 #. Delete
 msgctxt "recents.deleteMoreMenuItem.label"
 msgid "Delete"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [settingsDialog.devicesTab.label]
+#. defaultMessage is:
+#. Devices
+msgctxt "settingsDialog.devicesTab.label"
+msgid "Devices"
 msgstr ""
 
 #: ./i18n/src/messages.json

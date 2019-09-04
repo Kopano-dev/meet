@@ -93,7 +93,13 @@ class SettingsDialog extends React.PureComponent {
           value={openTab}
           className={classes.tabs}
         >
-          <Tab label={<React.Fragment><DevicesIcon className={classes.tabIcon}/> Devices</React.Fragment>} value="devices"/>
+          <Tab label={
+            <React.Fragment>
+              <DevicesIcon className={classes.tabIcon}/> <FormattedMessage
+                id="settingsDialog.devicesTab.label" defaultMessage="Devices"></FormattedMessage>
+            </React.Fragment>
+          }
+          value="devices"/>
         </Tabs>
         { openTab === 'devices' ?
           <DeviceSettings component={DialogContent} innerRef={this.devicesRef} />
