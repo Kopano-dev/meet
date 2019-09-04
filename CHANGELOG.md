@@ -4,6 +4,11 @@
 
 
 
+## v1.0.0 (2019-09-04)
+
+- Update README to include information about supported packages
+
+
 ## v0.23.3 (2019-09-04)
 
 - Translated using Weblate (German)
