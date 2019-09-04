@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
-"PO-Revision-Date: 2019-09-03 10:08+0000\n"
-"Last-Translator: Felix <f.bartels@kopano.com>\n"
+"PO-Revision-Date: 2019-09-04 09:40+0000\n"
+"Last-Translator: Simon Eisenmann <s.eisenmann@kopano.com>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "Löschen"
 #: i18n/src/messages.json
 msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
-msgstr ""
+msgstr "Geräte"
 
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
