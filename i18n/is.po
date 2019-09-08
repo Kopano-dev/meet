@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
-"PO-Revision-Date: 2019-09-03 10:37+0000\n"
+"PO-Revision-Date: 2019-09-09 01:20+0000\n"
 "Last-Translator: Tryggvi Björgvinsson <ME@TRICKVI.IS>\n"
 "Language-Team: Icelandic <http://translate.kopano.io/projects/kopano/meet/is/>\n"
 "Language: is\n"
@@ -65,7 +65,6 @@ msgstr "Tókst ekki að tengjast myndavél/hljóðnema. Vinsamlegast athugaðu r
 #.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
 #.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
@@ -73,8 +72,8 @@ msgid ""
 "                 Please review and optionally personalise the message before sending the invitation."
 msgstr ""
 "Bættu við tölvupóstföngum í textareitinn hér fyrir ofan til að bjóða á þennan fund. Til að klára, smelltu á\n"
-"                 bjóða og tölvupóstur með leiðbeiningum um hvernig á að koma á fundinn verður búinn til í tölvupóstforritinu þínu\n"
-"                 til að rýna og senda fundarboðið."
+"                 bjóða og tölvupóstur með leiðbeiningum um hvernig á að koma á fundinn verður búinn til í tölvupóstforritinu þínu.\n"
+"                 Vinsamlegast rýndu hann og gerðu hann mannlegri áður en þú sendir fundarboðið."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -226,7 +225,7 @@ msgstr "Eyða"
 #: i18n/src/messages.json
 msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
-msgstr ""
+msgstr "Tæki"
 
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
@@ -250,7 +249,6 @@ msgstr "Tölvupóstföng"
 #.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
