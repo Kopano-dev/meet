@@ -469,7 +469,7 @@ const translations = defineMessages({
   },
   callCurrentlyNotActiveSnack: {
     id: 'callView.notActive.snack',
-    defaultMessage: 'There is currently nothing active here.',
+    defaultMessage: 'Guests can only join active group meetings.',
   },
   callNoAccessSnack: {
     id: 'callView.noAccess.snack',
