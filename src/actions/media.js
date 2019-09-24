@@ -59,16 +59,21 @@ export const globalSettings = (() => {
 const requestUserMediaStatus = {};
 const requestDisplayMediaStatus = {};
 
-export const enumerateDevices = () => {
-  return navigator.mediaDevices.enumerateDevices();
+export const enumerateDevices = async () => {
+  if (navigator.mediaDevices) {
+    return navigator.mediaDevices.enumerateDevices();
+  }
+  return [];
 };
 
 const getSupportedConstraints = () => {
   const supportedConstraints = {};
-  try {
-    Object.assign(supportedConstraints, navigator.mediaDevices.getSupportedConstraints());
-  } catch(err) {
-    console.debug('supportedConstraints failed with error', err); // eslint-disable-line no-console
+  if (navigator.mediaDevices) {
+    try {
+      Object.assign(supportedConstraints, navigator.mediaDevices.getSupportedConstraints());
+    } catch(err) {
+      console.debug('supportedConstraints failed with error', err); // eslint-disable-line no-console
+    }
   }
 
   // NOTE(longsleep): iOS Safari does not like all video resolutions and frame
