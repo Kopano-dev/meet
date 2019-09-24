@@ -140,9 +140,11 @@ class DeviceSettings extends React.PureComponent {
   componentDidMount() {
     const { howling } = this.props;
 
-    this.handler = navigator.mediaDevices.addEventListener('devicechange', () => {
-      this.enumerateDevices();
-    });
+    if (navigator.mediaDevices) {
+      this.handler = navigator.mediaDevices.addEventListener('devicechange', () => {
+        this.enumerateDevices();
+      });
+    }
 
     this.enumerateDevices(true);
 
