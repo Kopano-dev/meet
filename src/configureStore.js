@@ -1,13 +1,15 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import localForage from "localforage";
 
 import grapiReducer from 'kpop/es/grapi/reducer';
 import pwaReducer from 'kpop/es/pwa/reducer';
 
 import reducers from './reducers';
+
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export default () => {
   const loggerMiddleware = createLogger();
@@ -23,6 +25,23 @@ export default () => {
       'videoSourceId',
       'audioSourceId',
       'audioSinkId',
+    ],
+    transforms: [
+      createTransform(null, (outboundState, key) => {
+        if (isSafari) {
+          // NOTE(longsleep): Safari uses random device IDs which change on
+          // every startup. Thus reading those from the persistent store is
+          // kind of useless.
+          return '';
+        }
+        return outboundState;
+      }, {
+        whitelist: [
+          'videoSourceId',
+          'audioSourceId',
+          'audioSinkId',
+        ],
+      }),
     ],
   };
 
