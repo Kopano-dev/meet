@@ -81,7 +81,7 @@ class VolumeMeter extends React.PureComponent {
       this.mediaStreamSource = null;
     }
 
-    if (stream) {
+    if (stream && stream.active) {
       if (!this.processor) {
         this.createVolumeMeter();
       }
