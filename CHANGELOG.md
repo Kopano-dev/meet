@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Avoid hydrating device IDs when using Safari
+- Do not try to use non-active streams with audio context
+- Add feature detection for navigator.mediaDevices
+- Clarify error message for public rooms
+
+
+## v1.0.1 (2019-09-24)
+
+- Avoid hydrating device IDs when using Safari
+- Do not try to use non-active streams with audio context
+- Add feature detection for navigator.mediaDevices
 
 
 ## v1.0.0 (2019-09-04)
