@@ -2,6 +2,10 @@
 
 Kopano Meet is a progressive web app for video meetings for desktop and mobile.
 
+## Technologies
+
+- React
+
 ## Build Dependencies
 
 Building meet requires the following dependencies:
