@@ -977,7 +977,15 @@ class CallView extends React.PureComponent {
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
       const settings = this.getUserMediaSettings();
-      muteVideoStream(stream, mute, this.localStreamID, settings).then(info => applyLocalStreamTracks(info)).catch(err => {
+      muteVideoStream(stream, mute, this.localStreamID, settings).then(async info => {
+        if (info.newStream) {
+          this.setState({
+            muteCam: info.newStream.getVideoTracks().length === 0,
+            muteMic: info.newStream.getAudioTracks().length === 0,
+          });
+        }
+        await applyLocalStreamTracks(info);
+      }).catch(err => {
         console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
         setError({
           detail: `${err}`,
@@ -1001,7 +1009,15 @@ class CallView extends React.PureComponent {
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
       const settings = this.getUserMediaSettings();
-      muteAudioStream(stream, mute, this.localStreamID, settings).then(info => applyLocalStreamTracks(info)).catch(err => {
+      muteAudioStream(stream, mute, this.localStreamID, settings).then(async info => {
+        if (info.newStream) {
+          this.setState({
+            muteCam: info.newStream.getVideoTracks().length === 0,
+            muteMic: info.newStream.getAudioTracks().length === 0,
+          });
+        }
+        await applyLocalStreamTracks(info);
+      }).catch(err => {
         console.warn('failed to toggle mute for audio stream', err); // eslint-disable-line no-console
         setError({
           detail: `${err}`,
@@ -1179,10 +1195,12 @@ class CallView extends React.PureComponent {
       });
       return null;
     }).then(info => {
-      this.setState({
-        rumFailed: false,
-      });
       if (info && info.stream) {
+        this.setState({
+          muteCam: info.stream.getVideoTracks().length === 0,
+          muteMic: info.stream.getAudioTracks().length === 0,
+          rumFailed: false,
+        });
         const promises = [];
         if (muteCam || !video) {
           promises.push(muteVideoStream(info.stream));
@@ -1192,6 +1210,12 @@ class CallView extends React.PureComponent {
         }
         return Promise.all(promises).then(() => {
           return info.stream;
+        });
+      } else {
+        this.setState({
+          muteCam: true,
+          muteMic: true,
+          rumFailed: false,
         });
       }
       return null;
