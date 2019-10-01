@@ -216,13 +216,17 @@ class AudioVideo extends React.PureComponent {
   }
 
   addStreamEvents(stream) {
-    stream.addEventListener('removetrack', this.handleReset, true);
-    stream.addEventListener('addtrack', this.handleReset, true);
+    // NOTE(longsleep): Use event handler functions, since Firefox does only
+    // trigger the "on" functions for self triggered events.
+    stream.onremovetrack = this.handleReset;
+    stream.onaddtrack = this.handleReset;
   }
 
   removeStreamEvents(stream) {
-    stream.removeEventListener('removetrack', this.handleReset, true);
-    stream.removeEventListener('addtrack', this.handleReset, true);
+    // NOTE(longsleep): Use event handler functions, since Firefox does only
+    // trigger the "on" functions for self triggered events.
+    stream.onremovetrack = undefined;
+    stream.onaddtrack = undefined;
   }
 
   classifyStream(stream) {
