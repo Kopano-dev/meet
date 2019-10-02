@@ -1,10 +1,12 @@
 # Kopano Meet
 
-Kopano Meet is a progressive web app for video meetings for desktop and mobile.
+Kopano Meet is a progressive web app for video meetings for desktop and mobile
+utilizing the Kopano Web Meeting client library (kwmjs).
 
 ## Technologies
 
 - React
+- Kopano Web Mettings Javascript client library
 
 ## Build Dependencies
 
@@ -55,10 +57,10 @@ See the rest of this documentation for more information.
 
 ## Runtime dependencies
 
-To operate Meet, it needs backends. Meet currently uses Konnect for
-authentication, KWM server for signaling and Kapi for groupware and key/value
-storage apis. So those are needed as well. See the links below to find
-instructions how to get those running.
+To operate Meet, it needs backends. Meet uses Konnect for authentication, KWM
+server for signaling and Kapi for groupware and key/value storage apis. So those
+are needed as well. See the links below to find instructions how to get those
+running.
 
 - https://stash.kopano.io/projects/KC/repos/konnect
 - https://stash.kopano.io/projects/KC/repos/kapi
@@ -72,6 +74,9 @@ sources or documentation. Kopano Meet loads the config endpoint on startup from
 `/api/config/v1/kopano/meet/config.json`. So ensure in the web server config,
 that this URL can be found since it is required and provides essential options
 to meet.
+
+Further information about Kopano Web Meetings can be found at the [kwmjs](https://stash.kopano.io/projects/KWM/repos/kwmjs/browse/README.md)
+client library project.
 
 ### Configuration
 
