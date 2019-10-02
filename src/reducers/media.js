@@ -3,6 +3,8 @@ import 'webrtc-adapter';
 import {
   USERMEDIA_AUDIOVIDEO_STREAM,
   USERMEDIA_SET_DEVICEIDS,
+  USERMEDIA_SET_PENDING,
+  DISPLAYMEDIA_SET_PENDING,
 } from '../actions/types';
 
 const defaultState = {
@@ -23,6 +25,10 @@ const defaultState = {
   videoSourceId: '',
   audioSourceId: '',
   audioSinkId: '',
+
+  umAudioPending: false,
+  umVideoPending: false,
+  dmPending: false,
 };
 
 function mediaReducer(state = defaultState, action) {
@@ -55,6 +61,30 @@ function mediaReducer(state = defaultState, action) {
       }
 
       return Object.assign({}, state, updates);
+    }
+
+    case USERMEDIA_SET_PENDING: {
+      const updates = {};
+      const { video, audio } = action;
+      if (video !== undefined) {
+        updates.umVideoPending = video;
+      }
+      if (audio !== undefined) {
+        updates.umAudioPending = audio;
+      }
+
+      return Object.assign({}, state, updates);
+    }
+
+    case DISPLAYMEDIA_SET_PENDING: {
+      const { pending } = action;
+      if (pending !== undefined) {
+        return Object.assign({}, state, {
+          dmPending: pending,
+        });
+      }
+
+      return state;
     }
 
     default:

@@ -32,6 +32,7 @@ import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import renderIf from 'render-if';
 
@@ -195,6 +196,16 @@ const styles = theme => ({
   },
   controls: {
     height: 0,
+  },
+  wrappedButton: {
+    position: 'relative',
+  },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
   },
   controlsMiddle: {
     position: 'absolute',
@@ -596,7 +607,7 @@ class CallView extends React.PureComponent {
         }
       } else {
         if (prevProps.hidden && !hidden) {
-          console.info('Switching to previous mode after no longer hide'); // eslint-disable-line no-console
+          console.info('Switching to previous mode after no longer hide', muteMic, muteCam); // eslint-disable-line no-console
           this.setState({
             mode: previousMode ? previousMode : 'videocall',
           });
@@ -976,15 +987,18 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
+      for (const track of stream.getVideoTracks()) {
+        track.onended = undefined;
+      }
       const settings = this.getUserMediaSettings();
       muteVideoStream(stream, mute, this.localStreamID, settings).then(async info => {
         const videoTracks = info.stream.getVideoTracks();
         const audioTracks = info.stream.getAudioTracks();
-        if (info.newStream) {
-          this.setState({
-            muteCam: videoTracks.length === 0,
-            muteMic: audioTracks.length === 0,
-          });
+        const state = {
+          muteCam: videoTracks.length === 0,
+        };
+        if (info.newStream && !mute) {
+          state.muteMic = audioTracks.length === 0;
         }
         if (videoTracks.length > 0) {
           videoTracks[0].onended = (event) => {
@@ -995,6 +1009,7 @@ class CallView extends React.PureComponent {
             });
           };
         }
+        this.setState(state);
         await applyLocalStreamTracks(info);
       }).catch(err => {
         console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
@@ -1019,15 +1034,18 @@ class CallView extends React.PureComponent {
 
     const stream = localAudioVideoStreams[this.localStreamID];
     if (stream) {
+      for (const track of stream.getAudioTracks()) {
+        track.onended = undefined;
+      }
       const settings = this.getUserMediaSettings();
       muteAudioStream(stream, mute, this.localStreamID, settings).then(async info => {
         const videoTracks = info.stream.getVideoTracks();
         const audioTracks = info.stream.getAudioTracks();
-        if (info.newStream) {
-          this.setState({
-            muteCam: videoTracks.length === 0,
-            muteMic: audioTracks.length === 0,
-          });
+        const state = {
+          muteMic: audioTracks.length === 0,
+        };
+        if (info.newStream && !mute) {
+          state.muteCam = videoTracks.length === 0;
         }
         if (audioTracks.length > 0) {
           audioTracks[0].onended = (event) => {
@@ -1038,6 +1056,7 @@ class CallView extends React.PureComponent {
             });
           };
         }
+        this.setState(state);
         await applyLocalStreamTracks(info);
       }).catch(err => {
         console.warn('failed to toggle mute for audio stream', err); // eslint-disable-line no-console
@@ -1169,6 +1188,7 @@ class CallView extends React.PureComponent {
       muteVideoStream,
       muteAudioStream,
       setError,
+      localAudioVideoStreams,
     } = this.props;
 
     if (this.rum) {
@@ -1197,10 +1217,19 @@ class CallView extends React.PureComponent {
       audio = audio && !muteMic;
     }
 
-    const settings = this.getUserMediaSettings();
-
     // Request user media with reference to allow cancel.
-    const rum = debounce(requestUserMedia, 500)(this.localStreamID, video, audio, settings);
+    const rum = debounce((id, v, a) => {
+      if (!v && !a) {
+        const stream = localAudioVideoStreams[this.localStreamID];
+        if (stream) {
+          for (const track of stream.getTracks()) {
+            track.onended = undefined;
+          }
+        }
+      }
+      const settings = this.getUserMediaSettings();
+      return requestUserMedia(id, v, a, settings);
+    }, 500)(this.localStreamID, video, audio);
     this.rum = rum;
 
     // Response actions.
@@ -1220,11 +1249,10 @@ class CallView extends React.PureComponent {
       if (info && info.stream) {
         const videoTracks = info.stream.getVideoTracks();
         const audioTracks = info.stream.getAudioTracks();
-        this.setState({
-          muteCam: videoTracks.length === 0,
-          muteMic: audioTracks.length === 0,
-          rumFailed: false,
-        });
+        const state = {};
+        if (video && videoTracks.length === 0) {
+          state.muteCam = true;
+        }
         if (videoTracks.length > 0) {
           videoTracks[0].onended = (event) => {
             event.target.onended = undefined;
@@ -1233,6 +1261,9 @@ class CallView extends React.PureComponent {
               muteCam: true,
             });
           };
+        }
+        if (audio && audioTracks.length === 0) {
+          state.muteMic = true;
         }
         if (audioTracks.length > 0) {
           audioTracks[0].onended = (event) => {
@@ -1243,6 +1274,7 @@ class CallView extends React.PureComponent {
             });
           };
         }
+        this.setState(state);
         const promises = [];
         if (muteCam || !video) {
           promises.push(muteVideoStream(info.stream));
@@ -1254,11 +1286,16 @@ class CallView extends React.PureComponent {
           return info.stream;
         });
       } else {
-        this.setState({
-          muteCam: true,
-          muteMic: true,
+        const state = {
           rumFailed: false,
-        });
+        };
+        if (video) {
+          state.muteCam = true;
+        }
+        if (audio) {
+          state.muteMic = true;
+        }
+        this.setState(state);
       }
       return null;
     }).then(async stream => {
@@ -1298,6 +1335,9 @@ class CallView extends React.PureComponent {
       gUMSupported,
       gDMSupported,
       audioSinkId,
+      umVideoPending,
+      umAudioPending,
+      dmPending,
       intl,
       theme,
     } = this.props;
@@ -1331,34 +1371,43 @@ class CallView extends React.PureComponent {
     }
 
     if (mode === 'videocall' || mode === 'standby') {
-      muteCamButton = gUMSupported && (<Fab
-        color="inherit"
-        className={classes.muteCamButton}
-        onClick={this.handleMuteCamClick()}
-      >
-        {muteCamButtonIcon}
-      </Fab>);
-      shareScreenButton = (!isMobile && gDMSupported) && (<Fab
-        color="inherit"
-        className={classNames(
-          classes.shareScreenButton,
-          {
-            [classes.shareScreenButtonActive]: shareScreen,
-          }
-        )}
-        onClick={this.handleShareScreenClick()}
-      >
-        <ScreenShareIcon />
-      </Fab>);
+      muteCamButton = gUMSupported && (<div className={classes.wrappedButton}>
+        <Fab
+          color="inherit"
+          className={classes.muteCamButton}
+          onClick={this.handleMuteCamClick()}
+        >
+          {muteCamButtonIcon}
+        </Fab>
+        {umVideoPending && <CircularProgress size={68} className={classes.fabProgress} />}
+      </div>);
+      shareScreenButton = (!isMobile && gDMSupported) && (<div className={classes.wrappedButton}>
+        <Fab
+          color="inherit"
+          className={classNames(
+            classes.shareScreenButton,
+            {
+              [classes.shareScreenButtonActive]: shareScreen,
+            }
+          )}
+          onClick={this.handleShareScreenClick()}
+        >
+          <ScreenShareIcon />
+          {dmPending && <CircularProgress size={68} className={classes.fabProgress} />}
+        </Fab>
+      </div>);
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
-      muteMicButton = gUMSupported && (<Fab
-        color="inherit"
-        className={classes.muteMicButton}
-        onClick={this.handleMuteMicClick()}
-      >
-        {muteMicButtonIcon}
-      </Fab>);
+      muteMicButton = gUMSupported && (<div className={classes.wrappedButton}>
+        <Fab
+          color="inherit"
+          className={classes.muteMicButton}
+          onClick={this.handleMuteMicClick()}
+        >
+          {muteMicButtonIcon}
+        </Fab>
+        {umAudioPending && <CircularProgress size={68} className={classes.fabProgress} />}
+      </div>);
     }
 
     const containerClassName = classNames(
@@ -1827,6 +1876,10 @@ CallView.propTypes = {
   audioSourceId: PropTypes.string.isRequired,
   videoSourceId: PropTypes.string.isRequired,
   audioSinkId: PropTypes.string.isRequired,
+
+  umAudioPending: PropTypes.bool.isRequired,
+  umVideoPending: PropTypes.bool.isRequired,
+  dmPending: PropTypes.bool.isRequired,
 };
 
 const updateUMSettingsFromURL = (settings) => {
@@ -1876,7 +1929,7 @@ const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
   const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId } = state.media;
+  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId, umAudioPending, umVideoPending, dmPending } = state.media;
 
   const remoteAudioVideoStreams = [];
   const remoteScreenShareStreams = [];
@@ -1912,6 +1965,10 @@ const mapStateToProps = state => {
     videoSourceId,
     audioSourceId,
     audioSinkId,
+
+    umAudioPending,
+    umVideoPending,
+    dmPending,
   };
 };
 

@@ -153,6 +153,12 @@ export function requestDisplayMedia(id='', settings={}) {
   console.info('requestDisplayMedia request', idx, status, settings); // eslint-disable-line no-console
 
   return async dispatch => {
+    await dispatch(displayMediaSetPending());
+    result.then(() => {
+      status.result = undefined;
+      dispatch(displayMediaUnsetPending());
+    });
+
     const videoSettings = {
       ...defaultScreenSettings,
       ...settings.video,
@@ -225,7 +231,6 @@ export function requestDisplayMedia(id='', settings={}) {
         }
       }
       status.stream = info.stream;
-      status.promise = null;
       status.resolve(info);
       await dispatch(displayMediaAudioVideoStream(id, info.stream));
       return info;
@@ -281,6 +286,12 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
   console.info('requestUserMedia request', idx, status, {video, audio}, settings); // eslint-disable-line no-console
 
   return async dispatch => {
+    await dispatch(userMediaSetPending({audio, video}));
+    result.then(() => {
+      status.result = undefined;
+      dispatch(userMediaUnsetPending({audio, video}));
+    });
+
     const currentSettings = {
       ...settings,
       video: {
@@ -481,12 +492,10 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
       }
 
       status.stream = info.stream;
-      status.promise = null;
       status.resolve(info);
       await dispatch(userMediaAudioVideoStream(id, info.stream));
       return info;
     }).catch(async err => {
-      status.promise = null;
       status.resolve(null);
       await dispatch(userMediaAudioVideoStream(id, null));
       throw err;
@@ -581,7 +590,15 @@ export function removeTrackFromStream(stream, track) {
 }
 
 export function muteStreamByType(stream, mute=true, type='video', id='', settings={}) {
+  // NOTE(longsleep): This keeps a status record and promise for gUM to allow
+  // multiple to run at the same time.
   let status = requestUserMediaStatus[id];
+  if (!status) {
+    status = requestUserMediaStatus[id] = {
+      id: id,
+      idx: 0,
+    };
+  }
 
   return async dispatch => {
     const helpers = {
@@ -626,6 +643,10 @@ export function muteStreamByType(stream, mute=true, type='video', id='', setting
       return Promise.resolve().then(() => {
         if (globalSettings.muteWithAddRemoveTracks) {
           return dispatch(requestUserMedia(helpers.id, helpers.video, helpers.audio, settings)).then(async newInfo => {
+            if (status.stream) {
+              // Get stream, in case it has changed.
+              stream = status.stream;
+            }
             if (newInfo && newInfo.stream && newInfo.stream !== stream) {
               const newTracks = helpers.getTracks(newInfo.stream);
               if (stream.active) {
@@ -635,14 +656,13 @@ export function muteStreamByType(stream, mute=true, type='video', id='', setting
                   addTrackToStream(stream, track);
                   removeTrackFromStream(newInfo.stream, track);
                 }
+                info.stream = stream;
               } else {
                 // Old stream is not active, use new stream.
                 info.newStream = info.stream = newInfo.stream;
                 info.newTracks.push(...newTracks);
-                if (status && status.stream) {
-                  // Replace stream.
-                  status.stream = info.newStream;
-                }
+                // Replace stream.
+                status.stream = info.newStream;
                 await dispatch(userMediaAudioVideoStream(id, info.newStream));
               }
               return newTracks;
@@ -681,5 +701,35 @@ export function updateDeviceIds({ audioSourceId, videoSourceId, audioSinkId } = 
       videoSourceId,
       audioSinkId,
     }));
+  };
+}
+
+function userMediaSetPending({ audio, video } = {}) {
+  return {
+    type: types.USERMEDIA_SET_PENDING,
+    audio: audio ? audio : undefined,
+    video: video ? video : undefined,
+  };
+}
+
+function userMediaUnsetPending({ audio, video } = {}) {
+  return {
+    type: types.USERMEDIA_SET_PENDING,
+    audio: audio ? false : undefined,
+    video: video ? false : undefined,
+  };
+}
+
+function displayMediaSetPending() {
+  return {
+    type: types.DISPLAYMEDIA_SET_PENDING,
+    pending: true,
+  };
+}
+
+function displayMediaUnsetPending() {
+  return {
+    type: types.DISPLAYMEDIA_SET_PENDING,
+    pending: false,
   };
 }
