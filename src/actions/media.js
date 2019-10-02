@@ -637,7 +637,8 @@ export function muteStreamByType(stream, mute=true, type='video', id='', setting
                 }
               } else {
                 // Old stream is not active, use new stream.
-                info.newStream = newInfo.stream;
+                info.newStream = info.stream = newInfo.stream;
+                info.newTracks.push(...newTracks);
                 if (status && status.stream) {
                   // Replace stream.
                   status.stream = info.newStream;

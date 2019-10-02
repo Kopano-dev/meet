@@ -978,11 +978,22 @@ class CallView extends React.PureComponent {
     if (stream) {
       const settings = this.getUserMediaSettings();
       muteVideoStream(stream, mute, this.localStreamID, settings).then(async info => {
+        const videoTracks = info.stream.getVideoTracks();
+        const audioTracks = info.stream.getAudioTracks();
         if (info.newStream) {
           this.setState({
-            muteCam: info.newStream.getVideoTracks().length === 0,
-            muteMic: info.newStream.getAudioTracks().length === 0,
+            muteCam: videoTracks.length === 0,
+            muteMic: audioTracks.length === 0,
           });
+        }
+        if (videoTracks.length > 0) {
+          videoTracks[0].onended = (event) => {
+            event.target.onended = undefined;
+            muteVideoStream(info.stream);
+            this.setState({
+              muteCam: true,
+            });
+          };
         }
         await applyLocalStreamTracks(info);
       }).catch(err => {
@@ -1010,11 +1021,22 @@ class CallView extends React.PureComponent {
     if (stream) {
       const settings = this.getUserMediaSettings();
       muteAudioStream(stream, mute, this.localStreamID, settings).then(async info => {
+        const videoTracks = info.stream.getVideoTracks();
+        const audioTracks = info.stream.getAudioTracks();
         if (info.newStream) {
           this.setState({
-            muteCam: info.newStream.getVideoTracks().length === 0,
-            muteMic: info.newStream.getAudioTracks().length === 0,
+            muteCam: videoTracks.length === 0,
+            muteMic: audioTracks.length === 0,
           });
+        }
+        if (audioTracks.length > 0) {
+          audioTracks[0].onended = (event) => {
+            event.target.onended = undefined;
+            muteAudioStream(info.stream);
+            this.setState({
+              muteMic: true,
+            });
+          };
         }
         await applyLocalStreamTracks(info);
       }).catch(err => {
@@ -1196,11 +1218,31 @@ class CallView extends React.PureComponent {
       return null;
     }).then(info => {
       if (info && info.stream) {
+        const videoTracks = info.stream.getVideoTracks();
+        const audioTracks = info.stream.getAudioTracks();
         this.setState({
-          muteCam: info.stream.getVideoTracks().length === 0,
-          muteMic: info.stream.getAudioTracks().length === 0,
+          muteCam: videoTracks.length === 0,
+          muteMic: audioTracks.length === 0,
           rumFailed: false,
         });
+        if (videoTracks.length > 0) {
+          videoTracks[0].onended = (event) => {
+            event.target.onended = undefined;
+            muteVideoStream(info.stream);
+            this.setState({
+              muteCam: true,
+            });
+          };
+        }
+        if (audioTracks.length > 0) {
+          audioTracks[0].onended = (event) => {
+            event.target.onended = undefined;
+            muteAudioStream(info.stream);
+            this.setState({
+              muteMic: true,
+            });
+          };
+        }
         const promises = [];
         if (muteCam || !video) {
           promises.push(muteVideoStream(info.stream));
