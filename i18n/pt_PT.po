@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
-"PO-Revision-Date: 2019-09-26 14:20+0000\n"
+"PO-Revision-Date: 2019-10-03 12:18+0000\n"
 "Last-Translator: Nuno Jerónimo <nuno.jeronimo@valsousa.pt>\n"
 "Language-Team: Portuguese (Portugal) <http://translate.kopano.io/projects/kopano/meet/pt_PT/>\n"
 "Language: pt_PT\n"
@@ -113,7 +113,7 @@ msgstr "Recuar"
 #: i18n/src/messages.json
 msgctxt "contactControl.callButton.label"
 msgid "Call"
-msgstr "Chamada"
+msgstr "Ligar"
 
 #. [contactSearch.callButton.aria]
 #. defaultMessage is:
@@ -121,7 +121,7 @@ msgstr "Chamada"
 #: i18n/src/messages.json
 msgctxt "contactSearch.callButton.aria"
 msgid "Call"
-msgstr "Chamada"
+msgstr "Ligar"
 
 #. [groupControl.callButton.label]
 #. defaultMessage is:
@@ -129,7 +129,7 @@ msgstr "Chamada"
 #: i18n/src/messages.json
 msgctxt "groupControl.callButton.label"
 msgid "Call"
-msgstr "Chamada"
+msgstr "Ligar"
 
 #. [recents.callButton.aria]
 #. defaultMessage is:
@@ -137,7 +137,7 @@ msgstr "Chamada"
 #: i18n/src/messages.json
 msgctxt "recents.callButton.aria"
 msgid "Call"
-msgstr "Chamada"
+msgstr "Ligar"
 
 #. [recents.callButton.text]
 #. defaultMessage is:
@@ -145,7 +145,7 @@ msgstr "Chamada"
 #: i18n/src/messages.json
 msgctxt "recents.callButton.text"
 msgid "Call"
-msgstr "Chamada"
+msgstr "Ligar"
 
 #. [callView.tabCalls.label]
 #. defaultMessage is:
@@ -153,7 +153,7 @@ msgstr "Chamada"
 #: i18n/src/messages.json
 msgctxt "callView.tabCalls.label"
 msgid "Calls"
-msgstr "Chamadas"
+msgstr "Ligações"
 
 #. [deviceSettings.cameraSelect.label]
 #. defaultMessage is:
@@ -297,7 +297,7 @@ msgstr "Ignorar"
 #: i18n/src/messages.json
 msgctxt "incomingCallDialog.incomingCall.title"
 msgid "Incoming call"
-msgstr "A receber chamada"
+msgstr "A receber ligação"
 
 #. [callView.inviteByMailTo.snack]
 #. defaultMessage is:
@@ -361,7 +361,7 @@ msgstr "Entrar"
 #: i18n/src/messages.json
 msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
-msgstr "Entrar ou criar grupo"
+msgstr "Entrar  ou criar grupo"
 
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
@@ -417,7 +417,7 @@ msgstr "Mais"
 #: i18n/src/messages.json
 msgctxt "callView.masterButton.label"
 msgid "New call"
-msgstr "Nova chamada"
+msgstr "Nova ligação"
 
 #. [callView.newCallDialog.topTitle]
 #. defaultMessage is:
@@ -425,7 +425,7 @@ msgstr "Nova chamada"
 #: i18n/src/messages.json
 msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
-msgstr "Nova chamada"
+msgstr "Nova ligação"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
@@ -553,7 +553,7 @@ msgstr "O destino está ocupado."
 #: i18n/src/messages.json
 msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
-msgstr "O destino rejeitou a chamada."
+msgstr "O destino rejeitou a ligação."
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -585,7 +585,7 @@ msgstr "Este grupo é público - todos podem participar."
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_accept"
 msgid "Unable to accept call"
-msgstr "Não foi possível aceitar a chamada"
+msgstr "Não foi possível aceitar a ligação"
 
 #. [meet.kwm.unable_to_call]
 #. defaultMessage is:
@@ -593,7 +593,7 @@ msgstr "Não foi possível aceitar a chamada"
 #: i18n/src/messages.json
 msgctxt "meet.kwm.unable_to_call"
 msgid "Unable to call"
-msgstr "Não foi possível realizar a chamada"
+msgstr "Não foi possível realizar a ligação"
 
 #. [meet.kwm.unable_to_join]
 #. defaultMessage is:
@@ -641,7 +641,7 @@ msgstr "Vídeo chamada"
 #: i18n/src/messages.json
 msgctxt "contactControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr "Chamada de voz"
+msgstr "Ligação de voz"
 
 #. [groupControl.voiceCallButton.aria]
 #. defaultMessage is:
@@ -649,7 +649,7 @@ msgstr "Chamada de voz"
 #: i18n/src/messages.json
 msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
-msgstr "Chamada de voz"
+msgstr "Ligação de voz"
 
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
@@ -673,7 +673,7 @@ msgstr "Não tem acesso aqui."
 #: i18n/src/messages.json
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
-msgstr "O seu histórico de chamadas está vazio."
+msgstr "O seu histórico de ligações está vazio."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
