@@ -217,7 +217,7 @@ export function requestDisplayMedia(id='', settings={}) {
           }
         } else {
           // Ensure to stop old stream.
-          stopMediaStream(status.stream);
+          stopMediaStream(status.stream, false);
         }
       }
       // Optimize track encoding for content. See https://www.w3.org/TR/mst-content-hint/.
@@ -474,7 +474,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
           }
         } else {
           // Ensure to stop old stream.
-          stopMediaStream(status.stream);
+          stopMediaStream(status.stream, false);
         }
       }
       // Optimize track encoding for content.  See https://www.w3.org/TR/mst-content-hint/.
@@ -555,18 +555,20 @@ export function stopUserMedia(id='') {
   };
 }
 
-function stopMediaStream(stream) {
+function stopMediaStream(stream, triggers=true) {
   if (stream.stop) {
     // NOTE(longsleep): Backwards compatibilty. Is this still required?
     stream.stop();
   } else {
     for (const track of stream.getTracks()) {
       track.stop();
-      // Manually trigger event, since this does not trigger when stop is
-      // called directly. See https://w3c.github.io/mediacapture-main/#event-summary
-      // for details.
-      var event = new Event('ended');
-      track.dispatchEvent(event);
+      if (triggers) {
+        // Manually trigger event, since this does not trigger when stop is
+        // called directly. See https://w3c.github.io/mediacapture-main/#event-summary
+        // for details.
+        var event = new Event('ended');
+        track.dispatchEvent(event);
+      }
     }
   }
 }
@@ -646,6 +648,15 @@ export function muteStreamByType(stream, mute=true, type='video', id='', setting
             if (status.stream) {
               // Get stream, in case it has changed.
               stream = status.stream;
+            }
+            if (stream) {
+              // Remove existing old tracks.
+              const oldTracks = helpers.getTracks(stream);
+              for (const track of oldTracks) {
+                info.removedTracks.push(track);
+                track.stop();
+                removeTrackFromStream(stream, track);
+              }
             }
             if (newInfo && newInfo.stream && newInfo.stream !== stream) {
               const newTracks = helpers.getTracks(newInfo.stream);
