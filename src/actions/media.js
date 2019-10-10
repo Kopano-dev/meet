@@ -2,13 +2,14 @@ import adapter from 'webrtc-adapter';
 
 import * as types from './types';
 
-const highDefinition = false;
+const highDefinitionVideo = false;
+const stereoAudio = false;
 
 const defaultAudioSettings = {
   echoCancellation: true,
   autoGainControl: true,
   noiseSuppression: true,
-  channelCount: 1,
+  channelCount: stereoAudio ? 2 : 1,
 };
 
 // Useful framerates are 15 and 8.
@@ -16,8 +17,8 @@ const defaultAudioSettings = {
 const defaultVideoSettings = {
   idealFrameRate: 15,
   maxFrameRate: 15,
-  idealWidth: highDefinition ? 1280 : 640,
-  idealHeight: highDefinition ? 720: 360,
+  idealWidth: highDefinitionVideo ? 1280 : 640,
+  idealHeight: highDefinitionVideo ? 720: 360,
   facingMode: 'user',
 };
 
@@ -377,9 +378,16 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
           };
         }
         if (supportedConstraints.channelCount && currentSettings.audio.channelCount !== undefined) {
-          audioConstraints.channelCount = {
-            ideal: currentSettings.audio.channelCount,
-          };
+          if (currentSettings.audio.channelCount > 1) {
+            audioConstraints.channelCount = {
+              exact: currentSettings.audio.channelCount,
+            };
+          } else {
+            audioConstraints.channelCount = {
+              ideal: currentSettings.audio.channelCount,
+              min: 1,
+            };
+          }
         }
       }
 

@@ -1,5 +1,7 @@
 import 'webrtc-adapter';
 
+import { parseQuery } from 'kpop/es/utils';
+
 import {
   USERMEDIA_AUDIOVIDEO_STREAM,
   USERMEDIA_SET_DEVICEIDS,
@@ -29,6 +31,54 @@ const defaultState = {
   umAudioPending: false,
   umVideoPending: false,
   dmPending: false,
+
+  settings: (() => {
+    const hpr = parseQuery(window.location.hash.substr(1));
+    const settings = {
+      video: {},
+      audio: {},
+    };
+
+    switch (hpr.hd) {
+      case '':
+      case undefined:
+        break;
+
+      case '0':
+      case '360p':
+        settings.video.idealWidth = 640;
+        settings.video.idealHeight = 360;
+        break;
+
+      // 1080p:
+      case '2':
+      case '1080p':
+        settings.video.idealWidth = 1920;
+        settings.video.idealHeight = 1080;
+        break;
+
+      // 4k
+      case '3':
+      case '4k':
+        settings.video.idealWidth = 4096;
+        settings.video.idealHeight = 2160;
+        break;
+
+      // 720p:
+      case '1':
+      case '720p':
+      default:
+        settings.video.idealWidth = 1280;
+        settings.video.idealHeight = 720;
+        break;
+    }
+
+    if ('stereo' in hpr) {
+      settings.audio.channelCount = 2;
+    }
+
+    return settings;
+  })(),
 };
 
 function mediaReducer(state = defaultState, action) {

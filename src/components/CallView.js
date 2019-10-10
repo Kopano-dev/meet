@@ -1088,13 +1088,14 @@ class CallView extends React.PureComponent {
   }
 
   getUserMediaSettings = () => {
-    const { audioSourceId, videoSourceId } = this.props;
+    const { audioSourceId, videoSourceId, mediaSettings } = this.props;
 
-    const settings = updateUMSettingsFromURL({
+    const settings = {
       // TODO(longsleep): Add more settings from store.
       videoSourceId,
       audioSourceId,
-    });
+      ...mediaSettings,
+    };
 
     return settings;
   }
@@ -1876,60 +1877,18 @@ CallView.propTypes = {
   audioSourceId: PropTypes.string.isRequired,
   videoSourceId: PropTypes.string.isRequired,
   audioSinkId: PropTypes.string.isRequired,
+  mediaSettings: PropTypes.object.isRequired,
 
   umAudioPending: PropTypes.bool.isRequired,
   umVideoPending: PropTypes.bool.isRequired,
   dmPending: PropTypes.bool.isRequired,
 };
 
-const updateUMSettingsFromURL = (settings) => {
-  const hpr = parseQuery(window.location.hash.substr(1));
-  Object.assign(settings, {
-    video: {},
-    audio: {},
-  }, settings);
-  switch (hpr.hd) {
-    case '':
-    case undefined:
-      break;
-
-    case '0':
-    case '360p':
-      settings.video.idealWidth = 640;
-      settings.video.idealHeight = 360;
-      break;
-
-    // 1080p:
-    case '2':
-    case '1080p':
-      settings.video.idealWidth = 1920;
-      settings.video.idealHeight = 1080;
-      break;
-
-    // 4k
-    case '3':
-    case '4k':
-      settings.video.idealWidth = 4096;
-      settings.video.idealHeight = 2160;
-      break;
-
-    // 720p:
-    case '1':
-    case '720p':
-    default:
-      settings.video.idealWidth = 1280;
-      settings.video.idealHeight = 720;
-      break;
-  }
-
-  return settings;
-};
-
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
   const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId, umAudioPending, umVideoPending, dmPending } = state.media;
+  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId, umAudioPending, umVideoPending, dmPending, settings: mediaSettings } = state.media;
 
   const remoteAudioVideoStreams = [];
   const remoteScreenShareStreams = [];
@@ -1969,6 +1928,7 @@ const mapStateToProps = state => {
     umAudioPending,
     umVideoPending,
     dmPending,
+    mediaSettings,
   };
 };
 

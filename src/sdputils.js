@@ -61,6 +61,7 @@ export function iceCandidateType(candidateStr) {
 
 export function maybeSetOpusOptions(sdp, {
   opusStereo,
+  opusSpropStereo,
   opusFec,
   opusDtx,
   opusMaxPbr,
@@ -71,6 +72,14 @@ export function maybeSetOpusOptions(sdp, {
     sdp = setCodecParam(sdp, 'opus/48000', 'stereo', '1');
   } else if (opusStereo === false) {
     sdp = removeCodecParam(sdp, 'opus/48000', 'stereo');
+  }
+
+  // Set Opus likely sending stereo. if opusSpropStereo is troue, unset if, if
+  // it is false and do nothing otherwise.
+  if (opusSpropStereo) {
+    sdp = setCodecParam(sdp, 'opus/48000', 'sprop-stereo', '1');
+  } else if (opusSpropStereo === false) {
+    sdp = removeCodecParam(sdp, 'opus/48000', 'sprop-stereo');
   }
 
   // Set Opus FEC, if opusfec is true, unset it, if opusfec is false, and

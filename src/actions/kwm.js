@@ -15,9 +15,15 @@ const defaultAudioVideoSdpParams = {
   videoRecvCodec: 'VP8', // Prefer VP8 since it takes less CPU?
   videoSendBitrate: 1000, // kbps
   videoRecvBitrate: 1000, // kbps
-
-  opusDtx: true,
 };
+
+const defaultAudioVideoLocalParams = {
+  opusDtx: true,
+  opusFec: true,
+  opusMaxPbr: 48000, // nb: 8, mb: 12, wb: 16, swb: 24, fb: 48 (all kHz)
+};
+
+const defaultAudioVideoRemoteParams = {};
 
 const defaultScreenhareSdpParams = {
   videoRecvCodec: 'VP9', // Prefer VP9 since its more modern and gives better results for screen sharing.
@@ -218,6 +224,8 @@ function createKWMManager(eventCallback) {
     k.webrtc.options = {
       ...webrtcOptions,
       localSDPTransform: (sdp, kind='') => {
+        const { settings } = getState().media;
+
         let sdpParams;
         switch (kind) {
           case 'screenshare':
@@ -228,9 +236,14 @@ function createKWMManager(eventCallback) {
             break;
         }
         // Local SDP transform support.
-        const params = Object.assign({}, sdpParams, {
+        const params = Object.assign({
+          ...defaultAudioVideoLocalParams,
+        }, sdpParams, {
           // TODO(longsleep): Add configuration settings here.
+          opusStereo: true, // Tell the receiver to decode stereo.
+          opusSpropStereo: settings.audio.channelCount === 2,
         });
+        sdp = sdputils.maybeSetOpusOptions(sdp, params);
         sdp = sdputils.maybePreferAudioReceiveCodec(sdp, params);
         sdp = sdputils.maybePreferVideoReceiveCodec(sdp, params);
         sdp = sdputils.maybeSetAudioReceiveBitRate(sdp, params);
@@ -249,7 +262,9 @@ function createKWMManager(eventCallback) {
             break;
         }
         // Remote SDP transform support.
-        const params = Object.assign({}, sdpParams, {
+        const params = Object.assign({
+          ...defaultAudioVideoRemoteParams,
+        }, sdpParams, {
           // TODO(longsleep): Add configuration settings here.
         });
         sdp = sdputils.maybeSetOpusOptions(sdp, params);
