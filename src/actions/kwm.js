@@ -54,21 +54,9 @@ const kwmOptions = {
 const kwmConfig = (() => {
   const config ={
     url: '',
-    webrtc: {
-      config: {
-        iceServers: [
-          {urls: 'stun:stun.kopano.com:443'},
-        ],
-      },
-    },
+    webrtc: {},
     sdpParams: {},
   };
-
-  if (adapter.browserDetails.browser === 'chrome') {
-    // For interoperability with Firefox and others, we need to send standard sdp. This sets the plan to unified plan
-    // effectively breaking compatibilty with Chromeium < M69. See https://webrtc.org/web-apis/chrome/unified-plan/.
-    config.webrtc.config.sdpSemantics = 'unified-plan';
-  }
 
   return config;
 })();
@@ -97,6 +85,24 @@ const defaultCommonConstraints = (() => {
   }
 
   return constraints;
+})();
+
+// WebRTC confg.
+const webrtcConfig = (() => {
+  const config = {
+    iceServers: [
+      {urls: 'stun:stun.kopano.com:443'},
+    ],
+    iceTransportPolicy: 'all', // Either 'all' or 'relay' to force going through relay.
+  };
+
+  if (adapter.browserDetails.browser === 'chrome') {
+    // For interoperability with Firefox and others, we need to send standard sdp. This sets the plan to unified plan
+    // effectively breaking compatibilty with Chromeium < M69. See https://webrtc.org/web-apis/chrome/unified-plan/.
+    config.sdpSemantics = 'unified-plan';
+  }
+
+  return config;
 })();
 
 // WebRTC options.
@@ -199,6 +205,7 @@ function createKWMManager(eventCallback) {
 
     // Update defaults from configuration.
     Object.assign(kwmConfig, config.kwm);
+    Object.assign(webrtcConfig, kwmConfig.webrtc.config);
     Object.assign(webrtcOptions, kwmConfig.webrtc.options);
     Object.assign(sdpParamsAudioVideo, kwmConfig.sdpParams);
     Object.assign(sdpParamsScreenshare, kwmConfig.sdpParamsScreenshare);
@@ -206,7 +213,7 @@ function createKWMManager(eventCallback) {
     kwmjs.KWMInit.init({}); // Init with default options.
     const k = new kwmjs.KWM(kwmConfig.url, kwmOptions.options);
     k.webrtc.config = {
-      ...kwmConfig.webrtc.config,
+      ...webrtcConfig,
     };
     k.webrtc.options = {
       ...webrtcOptions,
@@ -255,7 +262,7 @@ function createKWMManager(eventCallback) {
         return sdp;
       },
     };
-    console.info('KWM init', kwmConfig, webrtcOptions, sdpParamsAudioVideo, sdpParamsScreenshare); // eslint-disable-line no-console
+    console.info('KWM init', kwmConfig, webrtcConfig, webrtcOptions, sdpParamsAudioVideo, sdpParamsScreenshare); // eslint-disable-line no-console
 
     k.onstatechanged = event => {
       if (event.target !== kwm) {
