@@ -139,13 +139,15 @@ export function maybeSetVideoReceiveBitRate(sdp, {
 
 // Add a b=AS:bitrate line to the m=mediaType section. This os only supported in
 // Chromium. Firefox implements b=TIAS lines which are not handled by this
-export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS' : 'AS') {
+export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS' : 'AS', start=0) {
   var sdpLines = sdp.split('\r\n');
 
   // Find m line for the given mediaType.
-  var mLineIndex = findLine(sdpLines, 'm=', mediaType);
+  var mLineIndex = findLineInRange(sdpLines, start, -1, 'm=', mediaType);
   if (mLineIndex === null) {
-    trace('Failed to add bandwidth line to sdp, as no m-line found'); // eslint-disable-line i18n-text/no-en
+    if (start === 0) {
+      trace('Failed to add bandwidth line to sdp, as no m-line found'); // eslint-disable-line i18n-text/no-en
+    }
     return sdp;
   }
 
@@ -153,6 +155,9 @@ export function preferBitRate(sdp, bitrate, mediaType, variant=withTIAS ? 'TIAS'
   var nextMLineIndex = findLineInRange(sdpLines, mLineIndex + 1, -1, 'm=');
   if (nextMLineIndex === null) {
     nextMLineIndex = sdpLines.length;
+  } else {
+    sdp = preferBitRate(sdp, bitrate, mediaType, variant, nextMLineIndex);
+    sdpLines = sdp.split('\r\n');
   }
 
   // Find c-line corresponding to the m-line.
