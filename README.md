@@ -36,12 +36,18 @@ when sharing links to a specific Meet group or conference.
 
 `auto=` : Meet will automatically join the group/conference if one is directly
           given by URL if already signed in or signing in as guest. Values are
-		  `1` for auto join with audio only or `2` to auto join with video call.
+          `1` for auto join with audio only or `2` to auto join with video call.
 
 `mute=` : Meet automatically disables camera and/or microphone on startup, based
           on the value of the `mute` parameter. This value is a bitmask which
-		  uses `1` for microphone and `2` for camera. The combined value `3` is
-		  therefore muting both.
+          uses `1` for microphone and `2` for camera. The combined value `3` is
+          therefore muting both.
+
+`hd=`   : Selects the maximum camera resolution based on the value of the `hd`
+          parameter. 0, 1, 2, 3 or repectively 360p, 720p, 1080p, 4k can be
+          selected.
+
+`stereo`: If given, the microphone is openend with 2 channels (stereo).
 
 
 All URL fragment parameters need already be there when the Meet app loads. For
