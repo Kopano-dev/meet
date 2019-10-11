@@ -33,6 +33,7 @@ import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import renderIf from 'render-if';
 
@@ -478,6 +479,10 @@ const translations = defineMessages({
     id: 'callView.settingsAudioOnly.label',
     defaultMessage: 'Audio only',
   },
+  settingsVideoCoverLabel: {
+    id: 'callView.settingsVideoCoverLabel.label',
+    defaultMessage: 'Autofit',
+  },
   callCurrentlyNotActiveSnack: {
     id: 'callView.notActive.snack',
     defaultMessage: 'Guests can only join active group meetings.',
@@ -516,6 +521,7 @@ class CallView extends React.PureComponent {
     const muteState = getMuteStateFromURL();
     this.state = {
       mode: props.hidden ? 'standby' : 'videocall',
+      cover: true,
       wasTouched: false,
       withChannel: false,
       muteCam: !!muteState.cam,
@@ -874,6 +880,13 @@ class CallView extends React.PureComponent {
     const { mode } = this.state;
     this.setState({
       mode: mode === 'call' ? 'videocall' : 'call',
+    });
+  }
+
+  handleAutofitToggle = () => {
+    const { cover } = this.state;
+    this.setState({
+      cover: !cover,
     });
   }
 
@@ -1342,7 +1355,7 @@ class CallView extends React.PureComponent {
       intl,
       theme,
     } = this.props;
-    const { mode, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
+    const { mode, cover, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -1470,6 +1483,19 @@ class CallView extends React.PureComponent {
             color="primary"
             onChange={this.handleVoiceOnlyToggle}
             checked={mode === 'call'}
+          />
+        </ListItemSecondaryAction>
+      </ListItem>
+      <ListItem>
+        <ListItemIcon>
+          <ZoomOutMapIcon />
+        </ListItemIcon>
+        <ListItemText primary={intl.formatMessage(translations.settingsVideoCoverLabel)} />
+        <ListItemSecondaryAction>
+          <ToggleSwitch
+            color="primary"
+            onChange={this.handleAutofitToggle}
+            checked={cover}
           />
         </ListItemSecondaryAction>
       </ListItem>
@@ -1804,6 +1830,7 @@ class CallView extends React.PureComponent {
               onClick={this.handleCallGridClick}
               className={callClassName}
               mode={mode}
+              cover={cover}
               localStream={localStream}
               remoteStreams={remoteAudioVideoStreams}
               variant={screenShareViewer ? 'overlay': 'full'}

@@ -225,7 +225,7 @@ class CallGrid extends React.PureComponent {
           </Grid>
         ))}
         <Slide direction="up" in={remoteStreams.length > 0 && !!localStream} mountOnEnter unmountOnExit>
-          <DragableFloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted/>
+          <DragableFloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted cover={cover}/>
         </Slide>
       </div>
     );

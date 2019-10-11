@@ -54,7 +54,7 @@ const styles = (theme) => ({
   video: {
     width: '100%',
     height: '100%',
-    objectPosition: 'center',
+    objectPosition: 'left top',
     '&::-webkit-media-controls': {
       display: 'none',
     },
@@ -69,6 +69,7 @@ const styles = (theme) => ({
     opacity: 1,
   },
   mirrored: {
+    objectPosition: 'right top',
     transform: 'scale(-1, 1)',
   },
   blurred: {
@@ -94,6 +95,7 @@ const styles = (theme) => ({
   },
   cover: {
     objectFit: 'cover',
+    objectPosition: 'center',
   },
   loader: {
     position: 'absolute',
