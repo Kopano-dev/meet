@@ -8,7 +8,8 @@
     "url": ""
   },
   "guests": {
-	  "enabled": false
+	  "enabled": false,
+	  "default": null
   },
   "disableFullGAB": false
 }

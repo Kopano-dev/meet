@@ -127,7 +127,8 @@ be controlled via the `guests` key in config.json.
 
 ```
 "guests": {
-	"enabled": true
+	"enabled": true,
+	"default": null
 }
 ```
 
@@ -143,6 +144,12 @@ together with optional`name` and `token` parameters.
 Please be aware that values need to be URL encoded and need to be passed in the
 fragment identifier part of the URL. Moreover, these values are only checked
 once while Meet startup.
+
+In addition to the `#guest=` parameter the guest mode can be made the default
+by setting a guest type with the `default` key in the `guests` key value in
+config.json. The value from there will be used if the `#guest=` parameter is
+not set. At the moment, Meet supports guest type `1`. So to enable that by
+default, use `"default": "1"` in config.json within the `guests` key.
 
 Example guest link:
 

@@ -80,9 +80,6 @@ class App extends PureComponent {
 
   initialize = () => {
     const { dispatch } = this.props;
-
-    const guestEnabled = getGuestSettingsFromURL() !== null;
-
     const options = {
       id: 'meet',
       defaults: async config => {
@@ -115,47 +112,49 @@ class App extends PureComponent {
       // other scopes optional. All components which depend on specific access
       // should check if the current user actually has gotten it.
       requiredScopes: [scopeOpenID, scopeProfile, scopeEmail, scopeKwm],
-      args: {
-        onBeforeSignin: async (userManager, args) => {
-          const { config } = this.props;
-          if (!config.guests || !config.guests.enabled) {
-            // Only even try guest logon when enabled in config.
-            return;
-          }
-          // Check if this is a guest request.
-          const guest = getGuestSettingsFromURL();
-          if (!guest) {
-            return;
-          }
-          // Add guest scope to request.
-          const scope = userManager.settings.scope + ' ' + scopeGuestOK;
-          // Logon guest via kwm API to receive extra guest logon values for OIDC.
-          const logon = await dispatch(tryGuestLogon({
-            ...guest,
-            scope,
-            iss: userManager.settings.authority,
-            client_id: userManager.settings.client_id,  // eslint-disable-line camelcase
-          }));
-          if (logon.ok) {
-            // Set extra params for OIDC - this contains a signe OIDC request
-            // object which overrides OIDC settings.
-            userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
-            if (args) {
-              // Never prompt when requesting guests.
-              args.prompt = 'none';
+      args: (config) => {
+        const guestEnabled = getGuestSettings(config) !== null;
+        return {
+          onBeforeSignin: async (userManager, args) => {
+            if (!config.guests || !config.guests.enabled) {
+              // Only even try guest logon when enabled in config.
+              return;
             }
-          }
-        },
-        onBeforeSignout: async (userManager, args) => {
-          if (args.state && args.state.route) {
-            // Remove all hash values from the current route on sign out.
-            const route = new URL(args.state.route, 'http://localhost');
-            route.hash = ''; // Reset hash before signout.
-            args.state.route = route.toString().substr(16);
-          }
-        },
-        noRedirect: !!guestEnabled,
-        removeUser: !!guestEnabled,
+            // Check if this is a guest request.
+            const guest = getGuestSettings(config);
+            if (!guest) {
+              return;
+            }
+            // Add guest scope to request.
+            const scope = userManager.settings.scope + ' ' + scopeGuestOK;
+            // Logon guest via kwm API to receive extra guest logon values for OIDC.
+            const logon = await dispatch(tryGuestLogon({
+              ...guest,
+              scope,
+              iss: userManager.settings.authority,
+              client_id: userManager.settings.client_id,  // eslint-disable-line camelcase
+            }));
+            if (logon.ok) {
+              // Set extra params for OIDC - this contains a signe OIDC request
+              // object which overrides OIDC settings.
+              userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
+              if (args) {
+                // Never prompt when requesting guests.
+                args.prompt = 'none';
+              }
+            }
+          },
+          onBeforeSignout: async (userManager, args) => {
+            if (args.state && args.state.route) {
+              // Remove all hash values from the current route on sign out.
+              const route = new URL(args.state.route, 'http://localhost');
+              route.hash = ''; // Reset hash before signout.
+              args.state.route = route.toString().substr(16);
+            }
+          },
+          noRedirect: !!guestEnabled,
+          removeUser: !!guestEnabled,
+        };
       },
     };
 
@@ -207,20 +206,21 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const getGuestSettingsFromURL = () => {
+const getGuestSettings = (config) => {
   const hpr = parseQuery(window.location.hash.substr(1));
-  if (hpr.guest) {
-    const guest = {
-      guest: hpr.guest,
+  const guest = hpr.guest ? hpr.guest : config.guests ? String(config.guests.default) : null;
+  if (guest) {
+    const g = {
+      guest,
       path: decodeURI(getCurrentAppPath().substr(2)),
     };
     if (hpr.token) {
-      guest.token = hpr.token;
+      g.token = hpr.token;
     }
     if (hpr.name) {
-      guest.name = hpr.name;
+      g.name = hpr.name;
     }
-    return guest;
+    return g;
   }
   return null;
 };
