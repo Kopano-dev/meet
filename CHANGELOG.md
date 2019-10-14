@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Update translation catalog
+- Add setting to use guest mode by default
+- Descripe hd and stereo fragment parameters
+- Update kwmjs to 0.21.0
+- Improve Opus codec send and receive settings
+- Set bitrate preference for all m= lines, not only the first
+- Allow override of webrtc config by config.json
+- Prevent possibility of multiple added streams on parallel unmute
+- More ui for syninc user media state with browser
+- Add detection for browser triggered uM stream end
+- Add after uM sync to audio video mute state
+- Use event handler function for add/remove stream
+- Add reference to kwmjs
+- Add list of uses technologies
 - Avoid hydrating device IDs when using Safari
 - Do not try to use non-active streams with audio context
 - Add feature detection for navigator.mediaDevices
