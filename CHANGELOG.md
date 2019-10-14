@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+
+
+## v1.1.0 (2019-10-14)
+
 - Translated using Weblate (Portuguese (Portugal))
 - Translated using Weblate (Portuguese (Portugal))
 - Translated using Weblate (Portuguese (Portugal))
