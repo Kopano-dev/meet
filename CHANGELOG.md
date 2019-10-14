@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Portuguese (Portugal))
+- Translated using Weblate (Icelandic)
+- Translated using Weblate (Icelandic)
+- Translated using Weblate (Hindi)
+- Update German translation
 - Update translation catalog
 - Add setting to use guest mode by default
 - Descripe hd and stereo fragment parameters
