@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
-"PO-Revision-Date: 2019-09-04 09:55+0000\n"
-"Last-Translator: Felix <f.bartels@kopano.com>\n"
+"POT-Creation-Date: 2019-10-14T13:56:38.151Z\n"
+"PO-Revision-Date: 2019-10-14 16:02+0200\n"
+"Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -276,6 +276,14 @@ msgstr "Kontakt suchen"
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
 msgstr "Name der Gruppe"
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. Guests can only join active group meetings.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "Guests can only join active group meetings."
+msgstr "Dieses Meeting ist nicht aktiv. Als Gast können Sie nur aktive Gruppen-Meetings betreten."
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -549,14 +557,6 @@ msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
 msgstr "Das Ziel hat Ihren Anruf abgelehnt."
 
-#. [callView.notActive.snack]
-#. defaultMessage is:
-#. There is currently nothing active here.
-#: i18n/src/messages.json
-msgctxt "callView.notActive.snack"
-msgid "There is currently nothing active here."
-msgstr "Hier existiert im Moment nichts."
-
 #. [invite.groupIsPublic.text]
 #. defaultMessage is:
 #. This group is protected - a user account is required to join.
@@ -732,6 +732,10 @@ msgstr "unbekannt"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#~ msgctxt "callView.notActive.snack"
+#~ msgid "There is currently nothing active here."
+#~ msgstr "Hier existiert im Moment nichts."
 
 #~ msgctxt "callView.inviteByShareLink.subject.template"
 #~ msgid "Meet \"{id}\" invitation"
