@@ -1091,11 +1091,9 @@ class CallView extends React.PureComponent {
 
     if (mode === 'videocall') {
       updateOfferAnswerConstraints({
-        offerToReceiveVideo: true,
       });
     } else {
       updateOfferAnswerConstraints({
-        offerToReceiveVideo: false,
       });
     }
   }

@@ -117,9 +117,6 @@ const webrtcOptions = {
     ...defaultCommonConstraints,
   },
   offerConstraints: {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true,
-
     ...defaultCommonConstraints,
   },
 };
