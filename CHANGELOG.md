@@ -2,7 +2,14 @@
 
 ## Unreleased
 
+- Remove obsolete RTCPeerConnection constraints
+- Update to kwmjs 1.0.1
 - Add a settings toggle wether videos cover the available space or not
+
+
+## v1.1.1 (2019-10-29)
+
+- Update to kwmjs 1.0.1
 
 
 ## v1.1.0 (2019-10-14)
