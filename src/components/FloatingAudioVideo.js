@@ -22,6 +22,10 @@ const styles = (theme) => ({
     borderRadius: 5,
     overflow: 'hidden',
   },
+  autoHeight: {
+    height: 'auto',
+    minHeight: 'auto !important',
+  },
 });
 
 class FloatingAudioVideo extends React.PureComponent {
@@ -29,6 +33,7 @@ class FloatingAudioVideo extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
+      cover,
       children,
       hostRef,
       ...other
@@ -37,11 +42,17 @@ class FloatingAudioVideo extends React.PureComponent {
     const className = classNames(
       classes.root,
       classNameProp,
+      {
+        [classes.autoHeight]: !cover,
+      },
     );
 
     return (
       <div className={className} ref={hostRef}>
-        <AudioVideo className={classes.audioVideo} round {...other}>
+        <AudioVideo className={classNames(
+          classes.audioVideo, {
+            [classes.autoHeight]: !cover,
+          })} round cover={cover} {...other}>
           {children}
         </AudioVideo>
       </div>
@@ -52,6 +63,8 @@ class FloatingAudioVideo extends React.PureComponent {
 FloatingAudioVideo.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+
+  cover: PropTypes.bool,
 
   children: PropTypes.element,
 
