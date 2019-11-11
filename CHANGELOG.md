@@ -4,6 +4,11 @@
 
 
 
+## v1.1.2 (2019-11-11)
+
+- Avoid triggering undefind guest when guests are configured without default
+
+
 ## v1.1.1 (2019-10-29)
 
 - Update to kwmjs 1.0.1
