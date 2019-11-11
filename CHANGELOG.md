@@ -2,9 +2,17 @@
 
 ## Unreleased
 
+- Avoid triggering undefind guest when guests are configured without default
+- Improve auto fit styles for floating self video
+- Update to kwmjs 1.1.0
 - Remove obsolete RTCPeerConnection constraints
 - Update to kwmjs 1.0.1
 - Add a settings toggle wether videos cover the available space or not
+
+
+## v1.1.2 (2019-11-11)
+
+- Avoid triggering undefind guest when guests are configured without default
 
 
 ## v1.1.1 (2019-10-29)
