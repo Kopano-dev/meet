@@ -427,7 +427,7 @@ const styles = theme => ({
     },
   },
   masterButton: {
-    margin: `${theme.spacing.unit * 2}px 24px 12px 24px`,
+    margin: `${theme.spacing.unit * 2}px 24px`,
   },
   settingsList: {
     minWidth: 230,
