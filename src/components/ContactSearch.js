@@ -45,6 +45,10 @@ const styles = theme => ({
     minHeight: 48,
     paddingBottom: theme.spacing.unit,
   },
+  searchEmbedded: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+  },
   searchField: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
     padding: theme.spacing.unit,
@@ -363,7 +367,12 @@ class ContactSearch extends React.PureComponent {
 
     const header = <React.Fragment>
       <Paper square elevation={0}>
-        <Toolbar className={classes.search} disableGutters={embedded}>
+        <Toolbar className={classNames(
+          classes.search,
+          {
+            [classes.searchEmbedded]: embedded,
+          }
+        )} disableGutters={embedded}>
           <TextField
             fullWidth
             autoFocus={!isMobile}
