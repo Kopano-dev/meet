@@ -9,17 +9,15 @@
 
     gzip
 
-    # Noop service-worker via webpack-dev-server.
-    proxy /meet/service-worker.js 127.0.0.1:3004 {
-        without /meet
-    }
     # Kopano Calendar web app development via webpack-dev-server.
     proxy /meet/ 127.0.0.1:3004 {
         header_downstream Cache-Control "no-cache, max-age=0, public"
         header_downstream Referrer-Policy origin
         header_downstream Content-Security-Policy "object-src 'none'; script-src 'self' 'unsafe-inline'; base-uri 'none'; frame-ancestors 'self';"
     }
-    header /meet/service-worker.js {
+    # Noop service-worker via webpack-dev-server.
+    proxy /service-worker.js 127.0.0.1:3004
+    header /service-worker.js {
         Cache-Control "no-cache, no-store, must-revalidate"
         Pragma "no-cache"
         Expires "0"

@@ -8,6 +8,7 @@
 /test
 /coverage
 /.eslintcache
+/public/sw.js
 
 # production
 /build
