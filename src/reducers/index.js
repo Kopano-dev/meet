@@ -6,6 +6,7 @@ import kwm from './kwm';
 import media from './media';
 import streams from './streams';
 import recents from './recents';
+import glue from './glue';
 
 const reducers = {
   common,
@@ -16,6 +17,7 @@ const reducers = {
   media,
   streams,
   recents,
+  glue,
 };
 
 export default reducers;

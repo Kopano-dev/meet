@@ -966,6 +966,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@longsleep/glue@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@longsleep/glue/-/glue-0.0.8.tgz#4ad3dd14230951517ca769c98a311172aabf0715"
+  integrity sha512-N5sWdmns/iskWdcObz1UK4SkbF0dBF7Z+/JdU+4hPgozGacGW3kfwDXyE4y87aLya+mpQ7jipa4evYwfROqglA==
+
 "@material-ui/core@3.9.3", "@material-ui/core@^3.9.3":
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-3.9.3.tgz#d378c1f4beb18df9a534ca7258c2c33fb8e0e51f"

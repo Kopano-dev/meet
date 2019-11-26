@@ -177,8 +177,10 @@ class App extends PureComponent {
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
     const soundSprite = soundSprite1Json;
 
+    const events = ['channelChanged'];
+
     return (
-      <BaseContainer ready={ready} error={error} config={config} withSnackbar {...other}>
+      <BaseContainer ready={ready} error={error} config={config} events={events} withSnackbar {...other}>
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
