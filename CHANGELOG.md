@@ -4,6 +4,11 @@
 
 
 
+## v1.1.3 (2019-11-28)
+
+- Use correct API prefix default for grapi API
+
+
 ## v1.1.2 (2019-11-11)
 
 - Avoid triggering undefind guest when guests are configured without default
