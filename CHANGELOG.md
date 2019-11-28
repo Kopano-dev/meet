@@ -2,12 +2,20 @@
 
 ## Unreleased
 
+- Use correct API prefix default for grapi API
+- Add padding to ContactSearch search field even when embedded
+- Unify MasterButton top and bottom padding
 - Avoid triggering undefind guest when guests are configured without default
 - Improve auto fit styles for floating self video
 - Update to kwmjs 1.1.0
 - Remove obsolete RTCPeerConnection constraints
 - Update to kwmjs 1.0.1
 - Add a settings toggle wether videos cover the available space or not
+
+
+## v1.1.3 (2019-11-28)
+
+- Use correct API prefix default for grapi API
 
 
 ## v1.1.2 (2019-11-11)
