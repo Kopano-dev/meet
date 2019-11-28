@@ -7,8 +7,6 @@ import BaseContainer from 'kpop/es/BaseContainer';
 import MainContainer from 'kpop/es/MainContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
 import { setError, userRequiredError } from 'kpop/es/common/actions';
-import { initialize as initializeOffline } from 'kpop/es/offline/actions';
-import { initialize as initializeVisibility } from 'kpop/es/visibility/actions';
 import { parseQuery } from 'kpop/es/utils';
 import {
   scopeOpenID,
@@ -41,13 +39,6 @@ const routes = [
 class App extends PureComponent {
   state = {
     initialized: false,
-  }
-
-  componentDidMount() {
-    const { dispatch } = this.props;
-
-    dispatch(initializeVisibility());
-    dispatch(initializeOffline());
   }
 
   componentDidUpdate(prevProps) {
@@ -180,7 +171,7 @@ class App extends PureComponent {
     const events = ['channelChanged'];
 
     return (
-      <BaseContainer ready={ready} error={error} config={config} events={events} withSnackbar {...other}>
+      <BaseContainer ready={ready} error={error} config={config} events={events} withSnackbar withVisibility withOffline {...other}>
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
