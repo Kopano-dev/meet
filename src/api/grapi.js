@@ -3,7 +3,7 @@ import { networkFetch } from 'kpop/es/common/actions';
 
 export const contactsLocalFetchLimit = 100;
 
-const defaultAPIPrefix = '/api/kvs/v1';
+const defaultAPIPrefix = '/api/gc/v1';
 
 function apiURL(config, path) {
   let uri = config.apiPrefix ? config.apiPrefix : defaultAPIPrefix;
