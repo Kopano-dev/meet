@@ -1913,7 +1913,18 @@ const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
   const { guest } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
-  const { umAudioVideoStreams: localAudioVideoStreams, gUMSupported, gDMSupported, videoSourceId, audioSourceId, audioSinkId, umAudioPending, umVideoPending, dmPending, settings: mediaSettings } = state.media;
+  const {
+    umAudioVideoStreams: localAudioVideoStreams,
+    gUMSupported,
+    gDMSupported,
+    videoSourceId,
+    audioSourceId,
+    audioSinkId,
+    umAudioPending,
+    umVideoPending,
+    dmPending,
+    settings: mediaSettings,
+  } = state.media;
 
   const remoteAudioVideoStreams = [];
   const remoteScreenShareStreams = [];

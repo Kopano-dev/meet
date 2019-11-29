@@ -27,7 +27,7 @@ export default () => {
       'audioSinkId',
     ],
     transforms: [
-      createTransform(null, (outboundState, key) => {
+      createTransform(null, (outboundState) => {
         if (isSafari) {
           // NOTE(longsleep): Safari uses random device IDs which change on
           // every startup. Thus reading those from the persistent store is

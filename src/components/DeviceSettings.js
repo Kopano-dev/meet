@@ -453,14 +453,20 @@ class DeviceSettings extends React.PureComponent {
             </FormControl>
             <div className={classes.suffix}>
               <SpeakerIcon/>
-              <Button size="small" color="secondary" onClick={this.handleSpeakerTestClick}><FormattedMessage id="deviceSettings.speakerTestButton.label" defaultMessage="Test"></FormattedMessage></Button>
+              <Button size="small" color="secondary" onClick={this.handleSpeakerTestClick}>
+                <FormattedMessage id="deviceSettings.speakerTestButton.label" defaultMessage="Test"></FormattedMessage>
+              </Button>
               <Howling label="dial1" playing={testSpeaker}/>
             </div>
           </div>
         </form>
 
         { rumFailed && <div className={classes.message}>
-          <Typography color="error" variant="subtitle1"><FormattedMessage id="deviceSettings.accessFailedMessage.text" defaultMessage="Access to camera/microphone failed. Please check permissions."></FormattedMessage></Typography><Button size="small" onClick={this.requestUserMedia}><FormattedMessage id="deviceSettings.retryAccessButton.label" defaultMessage="Retry"></FormattedMessage></Button>
+          <Typography color="error" variant="subtitle1">
+            <FormattedMessage id="deviceSettings.accessFailedMessage.text" defaultMessage="Access to camera/microphone failed. Please check permissions."></FormattedMessage>
+          </Typography><Button size="small" onClick={this.requestUserMedia}>
+            <FormattedMessage id="deviceSettings.retryAccessButton.label" defaultMessage="Retry"></FormattedMessage>
+          </Button>
         </div> }
       </Component>
     );
