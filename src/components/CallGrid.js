@@ -120,6 +120,7 @@ class CallGrid extends React.PureComponent {
       maxVideoStreams,
       audioSinkId,
       AudioVideoProps,
+      intl, // eslint-disable-line no-unused-vars
       ...other
     } = this.props;
 
