@@ -950,13 +950,14 @@ class CallView extends React.PureComponent {
     const { mode, muteCam } = this.state;
     const { unsetLocalStream } = this.props;
 
-    return new Promise(async (resolve) => {
+    return new Promise(resolve => {
       newMode = newMode ? newMode : (muteCam ? 'call' : 'videocall');
       if (newMode !== 'default' && mode !== newMode) {
-        await unsetLocalStream();
-        this.setState({
-          mode: newMode,
-        }, resolve);
+        unsetLocalStream().then(() => {
+          this.setState({
+            mode: newMode,
+          }, resolve);
+        });
       } else {
         setTimeout(resolve, 0);
       }

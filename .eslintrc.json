@@ -10,6 +10,11 @@
 	},
 	"plugins": ["@calm/react-intl", "i18n-text"],
 	"extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
 	"env": {
 		"browser": true,
 		"es6": true

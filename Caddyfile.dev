@@ -9,7 +9,7 @@
 
     gzip
 
-    # Kopano Calendar web app development via webpack-dev-server.
+    # Kopano Meet web app development via webpack-dev-server.
     proxy /meet/ 127.0.0.1:3004 {
         header_downstream Cache-Control "no-cache, max-age=0, public"
         header_downstream Referrer-Policy origin

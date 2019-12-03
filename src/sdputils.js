@@ -481,7 +481,7 @@ function parseFmtpLine(fmtpLine) {
 
 // Generate an fmtp line from an object including 'pt' and 'params'.
 function writeFmtpLine(fmtpObj) {
-  if (!fmtpObj.hasOwnProperty('pt') || !fmtpObj.hasOwnProperty('params')) {
+  if (!fmtpObj.hasOwnProperty('pt') || !fmtpObj.hasOwnProperty('params')) { /* eslint-disable-line no-prototype-builtins */
     return null;
   }
   var pt = fmtpObj.pt;

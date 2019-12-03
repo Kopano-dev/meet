@@ -42,11 +42,13 @@ class RTCStats extends React.PureComponent {
       return null;
     }
 
+    /* eslint-disable @calm/react-intl/missing-formatted-message */
     return <div className={className}>
       <span>{(transportsBytesReceivedPerSecond/125).toFixed(1)} Mbps in, </span>
       <span>{(transportsBytesSendPerSecond/125).toFixed(1)} Mbps out, </span>
       <span>{bytesAll.toFixed(0)} MiB</span>
     </div>;
+    /* eslint-enable @calm/react-intl/missing-formatted-message */
   }
 
   start() {

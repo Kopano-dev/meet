@@ -139,8 +139,8 @@ export function setupKWM(id, idToken, {authorizationType, authorizationValue, au
     }
 
     // Update KWM options by reference.
-    kwmOptions.id = id;
-    kwmOptions.user = idToken;
+    kwmOptions.id = id; // eslint-disable-line require-atomic-updates
+    kwmOptions.user = idToken; // eslint-disable-line require-atomic-updates
     Object.assign(kwmOptions.options, {
       authorizationType,
       authorizationValue,
@@ -160,7 +160,7 @@ export function destroyKWM() {
   return async (dispatch) => {
     if (kwm) {
       await dispatch(disconnectFromKWM());
-      kwm = null;
+      kwm = null; // eslint-disable-line require-atomic-updates
     }
   };
 }
@@ -174,7 +174,7 @@ function connectToKWM(user, eventCallback) {
       throw new Error('no user or options set for KWM connect');
     }
     if (kwm === null) {
-      kwm = await dispatch(createKWMManager(eventCallback));
+      kwm = await dispatch(createKWMManager(eventCallback)); // eslint-disable-line require-atomic-updates
     }
 
     await kwm.connect(user, kwmOptions.userMode);

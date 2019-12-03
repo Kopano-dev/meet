@@ -128,7 +128,7 @@ class App extends PureComponent {
             if (logon.ok) {
               // Set extra params for OIDC - this contains a signe OIDC request
               // object which overrides OIDC settings.
-              userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp);
+              userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp); // eslint-disable-line require-atomic-updates
               if (args) {
                 // Never prompt when requesting guests.
                 args.prompt = 'none';
