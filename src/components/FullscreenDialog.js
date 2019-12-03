@@ -63,7 +63,7 @@ class FullscreenDialog extends React.PureComponent {
             <IconButton color="inherit" className={classes.leftButton} onClick={this.handleClose} aria-label={intl.formatMessage(translations.closeButtonAria)}>
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
               {topTitle}
             </Typography>
             <Button color="primary" onClick={this.handleClose}>
