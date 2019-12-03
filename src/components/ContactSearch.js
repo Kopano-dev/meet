@@ -52,6 +52,7 @@ const styles = theme => ({
   searchField: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
     padding: theme.spacing.unit,
+    borderRadius: theme.shape.borderRadius,
   },
   extraToolbar: {
     minHeight: 48,

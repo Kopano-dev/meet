@@ -388,7 +388,7 @@ const styles = theme => ({
   },
   contactSearchView: {
     background: 'white',
-    paddingTop: 10,
+    paddingTop: 10 + theme.spacing.unit,
     [minimalHeightDownBreakpoint]: {
       paddingTop: 0,
     },
