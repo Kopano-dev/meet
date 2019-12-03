@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/meet",
   "dependencies": {
-    "@longsleep/glue": "^0.0.8",
+    "@longsleep/glue": "^0.2.0",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "babel-loader": "^8.0.4",
@@ -12,7 +12,7 @@
     "cra-append-sw": "^2.6.0",
     "debug": "^3.1.0",
     "howler": "^2.0.9",
-    "kpop": "https://download.kopano.io/community/kapp:/kpop-1.1.0.tgz",
+    "kpop": "https://download.kopano.io/community/kapp:/kpop-1.1.2.tgz",
     "kwmjs": "https://download.kopano.io/community/kapp:/kwmjs-1.1.0.tgz",
     "localforage": "^1.7.1",
     "lodash-es": "^4.17.14",

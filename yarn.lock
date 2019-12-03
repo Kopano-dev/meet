@@ -966,10 +966,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@longsleep/glue@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@longsleep/glue/-/glue-0.0.8.tgz#4ad3dd14230951517ca769c98a311172aabf0715"
-  integrity sha512-N5sWdmns/iskWdcObz1UK4SkbF0dBF7Z+/JdU+4hPgozGacGW3kfwDXyE4y87aLya+mpQ7jipa4evYwfROqglA==
+"@longsleep/glue@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@longsleep/glue/-/glue-0.2.0.tgz#fc99cde00978ba10e65691e7c71acdbaf6081ea8"
+  integrity sha512-mxbxjudEe2DqKCGRxAE5zVefECnq1gBfuUJJdTic5DLOzGwzlC2Pypit0UnNGtL/KcOD4DIZe3vUSe5mpMX9KA==
 
 "@material-ui/core@3.9.3", "@material-ui/core@^3.9.3":
   version "3.9.3"
@@ -6914,9 +6914,9 @@ kleur@^2.0.1:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-2.0.2.tgz#b704f4944d95e255d038f0cb05fb8a602c55a300"
   integrity sha512-77XF9iTllATmG9lSlIv0qdQ2BQ/h9t0bJllHlbvsQ0zUWfU7Yi0S8L5JXzPZgkefIiajLmBJJ4BsMJmqcf7oxQ==
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-1.1.0.tgz":
-  version "1.1.0"
-  resolved "https://download.kopano.io/community/kapp:/kpop-1.1.0.tgz#9c0088fec119cef035af90d7007d7037b79e9510"
+"kpop@https://download.kopano.io/community/kapp:/kpop-1.1.2.tgz":
+  version "1.1.2"
+  resolved "https://download.kopano.io/community/kapp:/kpop-1.1.2.tgz#5ab9660e39c606e6b8c43ed2f8d05792d9352c76"
   dependencies:
     cldr "^5.2.0"
     crc32 "^0.2.2"
