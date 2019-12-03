@@ -50,7 +50,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "licenses": "node ./scripts/js-license-ranger.js",
-    "deduplicate": "yarn-deduplicate -s fewer yarn.lock"
+    "deduplicate": "yarn-deduplicate -s fewer yarn.lock",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
