@@ -1,9 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withStyles } from '@material-ui/core/styles';
+
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-const ContactLabel = ({contact, id}) => {
+const styles = {
+  root: {
+    wordBreak: 'break-word',
+    lineHeight: '1.1em',
+  },
+};
+
+
+const ContactLabel = ({classes, contact, id}) => {
   let label = '';
   if (contact) {
     label = contact.displayName;
@@ -17,13 +27,14 @@ const ContactLabel = ({contact, id}) => {
     </em>;
   }
 
-  return <span>{label}</span>;
+  return <span className={classes.root}>{label}</span>;
 };
 
 ContactLabel.propTypes = {
+  classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   contact: PropTypes.object,
   id: PropTypes.string.isRequired,
 };
 
-export default injectIntl(ContactLabel);
+export default injectIntl(withStyles(styles)(ContactLabel));

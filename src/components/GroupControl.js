@@ -64,6 +64,12 @@ const styles = theme => ({
     paddingTop: 0,
     textAlign: 'center',
   },
+  label: {
+    wordBreak: 'break-word',
+    lineHeight: '1em',
+    paddingTop: 2,
+    paddingBottom: 4,
+  },
   actions: {
     flex: 1,
     justifyContent: 'center',
@@ -189,7 +195,7 @@ class GroupControl extends React.PureComponent {
                 forceIcon
                 icon={<PublicConferenceIcon/>}
                 className={classes.avatar} />
-              <Typography variant="h6">{group.id}</Typography>
+              <Typography variant="h6" className={classes.label}>{group.id}</Typography>
               <Typography variant="body2"><ScopeLabel scope={group.scope} capitalize/></Typography>
             </CardContent>
             {withActions && <CardActions className={classes.actions}>
