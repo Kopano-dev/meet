@@ -4,42 +4,42 @@
 # and hat Kopano API via kapid is running on 127.0.0.1:8039.
 
 0.0.0.0:8096 {
-	errors stderr
-	log stdout
+    errors stderr
+    log stdout
 
-	tls self_signed
+    tls self_signed
 
-	gzip
+    gzip
 
-	# Kopano Meet web app in build folder.
-	redir /meet /meet/r 301
-	rewrite /meet/r {
-		regexp (.*)
-		to /build/
-	}
-	# Avoid redirect for index.html for service worker compatibility.
-	rewrite /meet/index.html {
-		to /build/
-	}
-	rewrite /meet/ {
-		regexp (.*)
-		to /build/{1}
-	}
-	# Never cache the service worker.
-	header /build/service-worker.js {
-		Cache-Control "no-cache, no-store, must-revalidate"
-		Pragma "no-cache"
-		Expires "0"
-	}
-	# Caching for static assets.
-	header /build/static {
-		Cache-Control "max-age=86400"
-	}
+    # Kopano Meet web app in build folder.
+    redir /meet /meet/r 301
+    rewrite /meet/r {
+        regexp (.*)
+        to /build/
+    }
+    # Avoid redirect for index.html for service worker compatibility.
+    rewrite /meet/index.html {
+        to /build/
+    }
+    rewrite /meet/ {
+        regexp (.*)
+        to /build/{1}
+    }
+    # Never cache the service worker.
+    header /build/service-worker.js {
+        Cache-Control "no-cache, no-store, must-revalidate"
+        Pragma "no-cache"
+        Expires "0"
+    }
+    # Caching for static assets.
+    header /build/static {
+        Cache-Control "max-age=86400"
+    }
 
-	# Fake config API.
-	rewrite /api/config/v1/kopano/meet/config.json /config.json
+    # Fake config API.
+    rewrite /api/config/v1/kopano/meet/config.json /config.json
 
-	# Kopano API kapid.
+    # Kopano API kapid.
     proxy /api/gc/ 127.0.0.1:8039 {
         transparent
     }
