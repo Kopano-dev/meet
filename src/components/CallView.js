@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -46,39 +47,34 @@ import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
-import debounce from 'kpop/es/utils/debounce';
-import { parseQuery } from 'kpop/es/utils';
 import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
-import { withSnackbar } from 'kpop/es/BaseContainer';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
-import { fetchRecents, addOrUpdateRecentsFromContact, addOrUpdateRecentsFromGroup } from '../actions/recents';
+import { fetchRecents } from '../actions/recents';
 import {
-  setLocalStream,
-  unsetLocalStream,
-  setScreenshareStream,
-  updateOfferAnswerConstraints,
-  applyLocalStreamTracks,
-  doCall,
-  doHangup,
   doAccept,
+  doHangup,
   doReject,
   doIgnore,
-  doGroup,
-} from '../actions/kwm';
-import {
-  requestDisplayMedia,
+  doCall,
   requestUserMedia,
-  stopDisplayMedia,
   stopUserMedia,
-  muteVideoStream,
-  muteAudioStream,
-  globalSettings as gUMSettings,
-} from '../actions/media';
+  requestDisplayMedia,
+  stopDisplayMedia,
+  wakeFromStandby,
+  doMuteOrUnmute,
+  doViewContact,
+  doViewGroup,
+  updateOfferAnswerConstraints,
+  toggleStandby,
+  setMode,
+  enqueueSnackbar,
+  closeSnackbar,
+  SCREENSHARE_SCREEN_ID,
+} from '../actions/meet';
 import { writeTextToClipboard } from '../clipboard';
-import { pushHistory, isMobile, isTouchDevice } from '../utils';
-import { resolveContactID } from '../utils';
+import { isMobile, isTouchDevice } from '../utils';
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
 import FullscreenDialog from './FullscreenDialog';
@@ -101,25 +97,6 @@ console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
 const drawerWidth = 388;
-
-const screenShareScreenID = 'screen1';
-
-const getMuteStateFromURL = () => {
-  const hpr = parseQuery(window.location.hash.substr(1));
-  const muteState = {
-    mic: false,
-    cam: false,
-  };
-  if (hpr.mute) {
-    if (hpr.mute & 1) {
-      muteState.mic = true;
-    }
-    if (hpr.mute & 2) {
-      muteState.cam = true;
-    }
-  }
-  return muteState;
-};
 
 const styles = theme => ({
   root: {
@@ -483,14 +460,6 @@ const translations = defineMessages({
     id: 'callView.settingsVideoCoverLabel.label',
     defaultMessage: 'Autofit',
   },
-  callCurrentlyNotActiveSnack: {
-    id: 'callView.notActive.snack',
-    defaultMessage: 'Guests can only join active group meetings.',
-  },
-  callNoAccessSnack: {
-    id: 'callView.noAccess.snack',
-    defaultMessage: 'You do not have access here.',
-  },
   copiedLinkToClipboardSnack: {
     id: 'callView.copiedLinkToClipboard.snack',
     defaultMessage: 'Link copied to clipboard.',
@@ -510,26 +479,18 @@ const translations = defineMessages({
 });
 
 class CallView extends React.PureComponent {
-  rum = null;
-  rdm = null;
-  localStreamID = 'callview-main';
-
   constructor(props) {
     super(props);
 
+    const { auto } = props;
+
     // Initialize state.
-    const muteState = getMuteStateFromURL();
     this.state = {
-      mode: props.hidden ? 'standby' : 'videocall',
       cover: true,
       wasTouched: false,
       withChannel: false,
-      muteCam: !!muteState.cam,
-      muteMic: !!muteState.mic,
       shareScreen: false,
-      rumFailed: false,
-      rdmFailed: false,
-      sidebarOpen: true,
+      sidebarOpen: !auto,
       sidebarMobileOpen: false,
       openDialogs: {},
       openTab: 'recents',
@@ -541,82 +502,54 @@ class CallView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { fetchContacts, fetchRecents } = this.props;
+    const { hidden, fetchContacts, fetchRecents, initializeContactsWithRecents, toggleStandby, updateOfferAnswerConstraints } = this.props;
     fetchContacts().catch(err => {
       // Ignore errors here, let global handler do it.
       console.error('failed to fetch contacts', err); // eslint-disable-line no-console
     });
-    fetchRecents().catch(err => {
+    fetchRecents().then(recents => {
+      if (recents !== null) {
+        return initializeContactsWithRecents();
+      }
+    }).catch(err => {
       console.error('failed to fetch recents', err); // eslint-disable-line no-console
     });
 
-    this.updateOfferAnswerConstraints();
-    this.requestUserMedia();
+    updateOfferAnswerConstraints();
+    // TODO(longsleep): The initial rum should ensure, that the selected audioSink
+    // actually has permission. This right now means that the mic of the corresponding
+    // device needs to be requested. See https://w3c.github.io/mediacapture-output/#privacy-considerations
+    toggleStandby(!!hidden);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { mode, previousMode, muteCam, muteMic, rumFailed, withChannel, shareScreen } = this.state;
+  componentDidUpdate(prevProps, /*prevState*/) {
     const {
+      withChannel,
+      shareScreen,
+    } = this.state;
+    const {
+      mode,
+      muteMic,
+      muteCam,
       hidden,
       channel,
-      connected,
-      localAudioVideoStreams,
-      setLocalStream,
-      intl,
-      audioSourceId,
-      videoSourceId,
+      toggleStandby,
+      stopDisplayMedia,
+      enqueueSnackbar,
+      closeSnackbar,
     } = this.props;
-
-    let rum = false;
-
-    if (mode !== prevState.mode) {
-      this.updateOfferAnswerConstraints();
-      this.requestUserMedia();
-      rum = true;
-    } else if (audioSourceId !== prevProps.audioSourceId || videoSourceId !== prevProps.videoSourceId) {
-      this.requestUserMedia();
-      rum = true;
-    }
-
-    if (muteCam !== prevState.muteCam) {
-      if (rumFailed && !rum) {
-        this.requestUserMedia();
-        rum = true;
-      }
-      this.muteVideoStream(muteCam ? muteCam : mode === 'standby');
-    }
-    if (muteMic !== prevState.muteMic) {
-      if (rumFailed && !rum) {
-        this.requestUserMedia();
-        rum = true;
-      }
-      this.muteAudioStream(muteMic ? muteMic : mode === 'standby');
-    }
-
-    if (connected !== prevProps.connected) {
-      const stream = localAudioVideoStreams[this.localStreamID];
-      if (connected && stream) {
-        console.debug('KWM connected changed while having a stream'); // eslint-disable-line no-console
-        setLocalStream(stream);
-      }
-    }
 
     if (hidden !== prevProps.hidden || channel !== prevProps.channel) {
       if (mode !== 'standby') {
         if (hidden && !channel) {
           // Switch to standby.
           console.info('Switching to standby after hide'); // eslint-disable-line no-console
-          this.setState({
-            mode: 'standby',
-            previousMode: mode,
-          });
+          toggleStandby(true);
         }
       } else {
         if (prevProps.hidden && !hidden) {
-          console.info('Switching to previous mode after no longer hide', muteMic, muteCam); // eslint-disable-line no-console
-          this.setState({
-            mode: previousMode ? previousMode : 'videocall',
-          });
+          console.info('Switching from standby after no longer hide', muteMic, muteCam); // eslint-disable-line no-console
+          toggleStandby(false);
         }
       }
     }
@@ -634,19 +567,22 @@ class CallView extends React.PureComponent {
         sidebarOpen: false,
       });
       if (muteMic) {
-        this.notifyBySnack(intl.formatMessage(translations.microphoneIsMutedSnack), {
-          variant: 'info',
-          autoHideDuration: 10000,
-          action: id => {
-            return <Button
-              size="small"
-              onClick={() => {
-                this.closeSnack(id);
-                this.handleMuteMicClick(false)();
-              }}
-            >
-              <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
-            </Button>;
+        enqueueSnackbar({
+          message: translations.microphoneIsMutedSnack,
+          options: {
+            variant: 'info',
+            autoHideDuration: 10000,
+            action: key => {
+              return <Button
+                size="small"
+                onClick={() => {
+                  closeSnackbar(key);
+                  this.handleMuteMicClick(false)();
+                }}
+              >
+                <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
+              </Button>;
+            },
           },
         });
       }
@@ -659,19 +595,19 @@ class CallView extends React.PureComponent {
       });
       // Stop screen share.
       if (shareScreen) {
-        setTimeout(this.stopDisplayMedia, 0); // Delay this, so peer connections have a chance to get cleaned up.
+        Promise.resolve().then(stopDisplayMedia); // Delay this, so peer connections have a chance to get cleaned up.
       }
     }
   }
 
   componentWillUnmount() {
-    const { doHangup } = this.props;
+    const { doHangup, stopUserMedia, stopDisplayMedia } = this.props;
 
     this.closeAllOpenDialogs();
     doHangup();
 
-    this.stopUserMedia();
-    this.stopDisplayMedia();
+    stopUserMedia();
+    stopDisplayMedia();
   }
 
   handleCallGridClick = () => {
@@ -689,34 +625,36 @@ class CallView extends React.PureComponent {
   };
 
   handleMuteCamClick = state => () => {
+    const { muteCam, doMuteOrUnmute } = this.props;
+
     if (state === undefined) {
       // Default is toggle.
-      state = !this.state.muteCam;
+      state = !muteCam;
     }
 
-    this.setState({
-      muteCam: state,
-    });
+    doMuteOrUnmute({muteCam: state});
   }
 
   handleMuteMicClick = state => () => {
+    const { muteMic, doMuteOrUnmute } = this.props;
+
     if (state === undefined) {
       // Default is toggle.
-      state = !this.state.muteMic;
+      state = !muteMic;
     }
 
-    this.setState({
-      muteMic: state,
-    });
+    doMuteOrUnmute({muteMic: state});
   }
 
   handleShareScreenClick = state => () => {
+    const { requestDisplayMedia, stopDisplayMedia } = this.props;
+
     if (state === undefined) {
       state = !this.state.shareScreen;
     }
 
     if (state) {
-      this.requestDisplayMedia().then(stream => {
+      requestDisplayMedia().then(stream => {
         if (stream) {
           stream.addEventListener('inactive', () => {
             // TODO(longsleep): This might not detect that the stream is old.
@@ -731,7 +669,7 @@ class CallView extends React.PureComponent {
         }
       });
     } else {
-      this.stopDisplayMedia();
+      stopDisplayMedia();
     }
     this.setState({
       shareScreen: state,
@@ -739,27 +677,14 @@ class CallView extends React.PureComponent {
   }
 
   handleEntryClick = (entry, kind, mode) => {
+    const { doCall } = this.props;
+
     if (!entry.id) {
       console.warn('invalid entry data', entry); // eslint-disable-line no-console
       return;
     }
 
-    switch (kind) {
-      case 'group':
-        this.doViewGroup(entry);
-        if (mode) {
-          this.doCallGroup(entry, mode);
-        }
-        break;
-
-      default:
-        // Default is contacts.
-        this.doViewContact(entry);
-        if (mode) {
-          this.doCallContact(entry, mode);
-        }
-        break;
-    }
+    doCall(entry, kind, mode);
   };
 
   handleFabClick = () => {
@@ -771,27 +696,9 @@ class CallView extends React.PureComponent {
   }
 
   handleAcceptClick = (id, mode, entry, kind) => {
-    const { doAccept, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
+    const { doAccept } = this.props;
 
-    const localStream = localAudioVideoStreams[this.localStreamID];
-    this.closeAllOpenDialogs();
-    this.wakeFromStandby(mode).then(() => {
-      if (localStream && localStream.active) {
-        return;
-      }
-      return this.requestUserMedia();
-    }).then(() => {
-      if (entry) {
-        switch (kind) {
-          case 'contact':
-            this.doViewContact(entry);
-            addOrUpdateRecentsFromContact(entry);
-            break;
-        }
-      }
-
-      doAccept(id);
-    });
+    doAccept(id, mode, entry, kind);
   }
 
   handleHangupClick = () => {
@@ -820,7 +727,7 @@ class CallView extends React.PureComponent {
   }
 
   handleDialogActionClick = (action, props) => {
-    const { intl } = this.props;
+    const { intl, enqueueSnackbar } = this.props;
 
     switch (action) {
       case 'new-public-group':
@@ -830,10 +737,8 @@ class CallView extends React.PureComponent {
         break;
 
       case 'view-public-group': {
-        this.doViewGroup(props);
-        const { id, scope } = props;
-        const { addOrUpdateRecentsFromGroup } = this.props;
-        addOrUpdateRecentsFromGroup(id, scope);
+        const { doViewGroup } = this.props;
+        doViewGroup(props, { recents: true });
         break;
       }
 
@@ -846,7 +751,10 @@ class CallView extends React.PureComponent {
           }).catch(err => console.warn('Error sharing', err)); // eslint-disable-line no-console
         } else {
           writeTextToClipboard(props.url).then(() => {
-            this.notifyBySnack(intl.formatMessage(translations.copiedLinkToClipboardSnack), { variant: 'info' });
+            enqueueSnackbar({
+              message: translations.copiedLinkToClipboardSnack,
+              options: { variant: 'info' },
+            });
           }).catch(err => console.warn('Failed to copy link to clipboard', err)); // eslint-disable-line no-console
         }
         break;
@@ -858,7 +766,10 @@ class CallView extends React.PureComponent {
         break;
 
       case 'invite-by-mailto':
-        this.notifyBySnack(intl.formatMessage(translations.inviteByMailtoSnack), { variant: 'info' });
+        enqueueSnackbar({
+          message: translations.inviteByMailtoSnack,
+          options: { variant: 'info' },
+        });
         this.openDialog({
           invite: false,
         });
@@ -877,10 +788,8 @@ class CallView extends React.PureComponent {
   }
 
   handleVoiceOnlyToggle = () => {
-    const { mode } = this.state;
-    this.setState({
-      mode: mode === 'call' ? 'videocall' : 'call',
-    });
+    const { mode, setMode } = this.props;
+    setMode(mode === 'call' ? 'videocall' : 'call');
   }
 
   handleAutofitToggle = () => {
@@ -888,93 +797,6 @@ class CallView extends React.PureComponent {
     this.setState({
       cover: !cover,
     });
-  }
-
-  doViewGroup = (group) => {
-    const { history } = this.props;
-
-    pushHistory(history, `/r/${group.scope}/${group.id}`);
-  }
-
-  doViewContact = (contact) => {
-    const { history } = this.props;
-
-    // NOTE(longsleep): Full entry is injected into navigation state. It is left
-    // to the consumer what to do with it.
-    pushHistory(history, `/r/call/${contact.id}`, { entry: contact });
-  }
-
-  doCallContact = (contact, mode) => {
-    const { doCallContact, addOrUpdateRecentsFromContact, localAudioVideoStreams } = this.props;
-
-    const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby(mode).then(() => {
-      if (localStream && localStream.active) {
-        return;
-      }
-      return this.requestUserMedia();
-    }).then(async () => {
-      addOrUpdateRecentsFromContact(contact);
-      await doCallContact(contact);
-    });
-  };
-
-  doCallGroup = (group, mode) => {
-    const { doCallGroup, addOrUpdateRecentsFromGroup, localAudioVideoStreams, intl } = this.props;
-
-    const localStream = localAudioVideoStreams[this.localStreamID];
-    this.wakeFromStandby(mode).then(() => {
-      if (localStream && localStream.active) {
-        return;
-      }
-      return this.requestUserMedia();
-    }).then(async () => {
-      const { id, scope } = group;
-      addOrUpdateRecentsFromGroup(id, scope);
-
-      await doCallGroup(`${scope}/${id}`, err => {
-        switch (err.code) {
-          case 'create_restricted':
-            this.notifyBySnack(intl.formatMessage(translations.callCurrentlyNotActiveSnack), { variant: 'warning' });
-            return;
-          case 'access_restricted':
-            this.notifyBySnack(intl.formatMessage(translations.callNoAccessSnack), { variant: 'warning' });
-            return;
-        }
-        return err;
-      });
-    });
-  }
-
-  wakeFromStandby = (newMode) => {
-    const { mode, muteCam } = this.state;
-    const { unsetLocalStream } = this.props;
-
-    return new Promise(resolve => {
-      newMode = newMode ? newMode : (muteCam ? 'call' : 'videocall');
-      if (newMode !== 'default' && mode !== newMode) {
-        unsetLocalStream().then(() => {
-          this.setState({
-            mode: newMode,
-          }, resolve);
-        });
-      } else {
-        setTimeout(resolve, 0);
-      }
-    });
-  }
-
-  notifyBySnack = (message, options={}) => {
-    const { enqueueSnackbar } = this.props;
-    const { variant, ...other } = options;
-
-    enqueueSnackbar(message, { variant, ...other });
-  }
-
-  closeSnack = (id) => {
-    const { closeSnackbar } = this.props;
-
-    closeSnackbar(id);
   }
 
   openDialog = (updates = {}) => {
@@ -991,357 +813,19 @@ class CallView extends React.PureComponent {
     });
   }
 
-  muteVideoStream = (mute=true) => {
-    const {
-      localAudioVideoStreams,
-      muteVideoStream,
-      applyLocalStreamTracks,
-      setError,
-    } = this.props;
-
-    const stream = localAudioVideoStreams[this.localStreamID];
-    if (stream) {
-      for (const track of stream.getVideoTracks()) {
-        track.onended = undefined;
-      }
-      const settings = this.getUserMediaSettings();
-      muteVideoStream(stream, mute, this.localStreamID, settings).then(async info => {
-        const videoTracks = info.stream.getVideoTracks();
-        const audioTracks = info.stream.getAudioTracks();
-        const state = {
-          muteCam: videoTracks.length === 0,
-        };
-        if (info.newStream && !mute) {
-          state.muteMic = audioTracks.length === 0;
-        }
-        if (videoTracks.length > 0) {
-          videoTracks[0].onended = (event) => {
-            event.target.onended = undefined;
-            muteVideoStream(info.stream);
-            this.setState({
-              muteCam: true,
-            });
-          };
-        }
-        this.setState(state);
-        await applyLocalStreamTracks(info);
-      }).catch(err => {
-        console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
-        setError({
-          detail: `${err}`,
-          message: 'Failed to access camera',
-          fatal: false,
-        });
-        this.setState({
-          muteCam: true,
-        });
-      });
-    }
-  }
-
-  muteAudioStream = (mute=true) => {
-    const {
-      localAudioVideoStreams,
-      muteAudioStream,
-      applyLocalStreamTracks,
-    } = this.props;
-
-    const stream = localAudioVideoStreams[this.localStreamID];
-    if (stream) {
-      for (const track of stream.getAudioTracks()) {
-        track.onended = undefined;
-      }
-      const settings = this.getUserMediaSettings();
-      muteAudioStream(stream, mute, this.localStreamID, settings).then(async info => {
-        const videoTracks = info.stream.getVideoTracks();
-        const audioTracks = info.stream.getAudioTracks();
-        const state = {
-          muteMic: audioTracks.length === 0,
-        };
-        if (info.newStream && !mute) {
-          state.muteCam = videoTracks.length === 0;
-        }
-        if (audioTracks.length > 0) {
-          audioTracks[0].onended = (event) => {
-            event.target.onended = undefined;
-            muteAudioStream(info.stream);
-            this.setState({
-              muteMic: true,
-            });
-          };
-        }
-        this.setState(state);
-        await applyLocalStreamTracks(info);
-      }).catch(err => {
-        console.warn('failed to toggle mute for audio stream', err); // eslint-disable-line no-console
-        setError({
-          detail: `${err}`,
-          message: 'Failed to access microphone',
-          fatal: false,
-        });
-        this.setState({
-          muteMic: true,
-        });
-      });
-    }
-  }
-
-  updateOfferAnswerConstraints = () => {
-    const { mode } = this.state;
-    const { updateOfferAnswerConstraints } = this.props;
-
-    if (mode === 'videocall') {
-      updateOfferAnswerConstraints({
-      });
-    } else {
-      updateOfferAnswerConstraints({
-      });
-    }
-  }
-
-  getUserMediaSettings = () => {
-    const { audioSourceId, videoSourceId, mediaSettings } = this.props;
-
-    const settings = {
-      // TODO(longsleep): Add more settings from store.
-      videoSourceId,
-      audioSourceId,
-      ...mediaSettings,
-    };
-
-    return settings;
-  }
-
-  requestDisplayMedia = () => {
-    const {
-      requestDisplayMedia,
-      setScreenshareStream,
-      setError,
-    } = this.props;
-
-    if (this.rdm) {
-      this.rdm.cancel();
-      this.rdm = null;
-    }
-
-    const id = screenShareScreenID;
-
-    const settings = {
-      // TODO(longsleep): Add settings from store.
-    };
-
-    // Request display media with reference to allow cancel.
-    const rdm = debounce(requestDisplayMedia, 500)(this.localStreamID, settings);
-    this.rdm = rdm;
-
-    return rdm.catch(err => {
-      setError({
-        detail: `${err}`,
-        message: 'Failed to access your screen for sharing',
-        fatal: false,
-      });
-      this.setState({
-        rdmFailed: true,
-      });
-      return null;
-    }).then(async info => {
-      this.setState({
-        rdmFailed: false,
-      });
-      if (info && info.stream) {
-        return info.stream;
-      }
-      return null;
-    }).then(async stream => {
-      console.debug('requestDisplayMedia stream', id, stream); // eslint-disable-line no-console
-      if (stream) {
-        const tracks = stream.getVideoTracks();
-        if (tracks.length > 0) {
-          await setScreenshareStream(id, stream);
-          // Register event to clean up the stream when the first video track
-          // has ended.
-          tracks[0].onended = () => {
-            // TODO(longsleep): This might not detect that the stream is old.
-            setScreenshareStream(id).catch(err => {
-              console.warn('failed to set/clear ended screen share stream', err); // eslint-disable-line no-console
-            }); // clears.
-          };
-        } else {
-          console.warn('requestDisplayMedia stream got stream with no video tracks', stream); // eslint-disable-line no-console
-        }
-      } else {
-        await setScreenshareStream(id); // clears.
-      }
-      return stream;
-    });
-  };
-
-  stopDisplayMedia = async () => {
-    const { stopDisplayMedia } = this.props;
-
-    if (this.rdm) {
-      this.rdm.cancel();
-      this.rdm = null;
-    }
-
-    await stopDisplayMedia(this.localStreamID);
-  }
-
-  requestUserMedia = () => {
-    const {
-      mode,
-      muteCam,
-      muteMic,
-    } = this.state;
-
-    const {
-      requestUserMedia,
-      setLocalStream,
-      unsetLocalStream,
-      muteVideoStream,
-      muteAudioStream,
-      setError,
-      localAudioVideoStreams,
-    } = this.props;
-
-    if (this.rum) {
-      this.rum.cancel();
-      this.rum = null;
-    }
-
-    let video = false;
-    let audio = false;
-    switch (mode) {
-      case 'videocall':
-        video = true; // eslint-disable-line no-fallthrough
-      case 'call':
-        audio = true;
-        break;
-      case 'standby':
-        audio = false;
-        video = false;
-        break;
-      default:
-        throw new Error(`unknown mode: ${mode}`);
-    }
-
-    if (gUMSettings.muteWithAddRemoveTracks) {
-      video = video && !muteCam;
-      audio = audio && !muteMic;
-    }
-
-    // Request user media with reference to allow cancel.
-    const rum = debounce((id, v, a) => {
-      if (!v && !a) {
-        const stream = localAudioVideoStreams[this.localStreamID];
-        if (stream) {
-          for (const track of stream.getTracks()) {
-            track.onended = undefined;
-          }
-        }
-      }
-      const settings = this.getUserMediaSettings();
-      return requestUserMedia(id, v, a, settings);
-    }, 500)(this.localStreamID, video, audio);
-    this.rum = rum;
-
-    // Response actions.
-    return rum.catch(err => {
-      setError({
-        detail: `${err}`,
-        message: 'Failed to access camera and/or microphone',
-        fatal: false,
-      });
-      this.setState({
-        muteCam: true,
-        muteMic: true,
-        rumFailed: true,
-      });
-      return null;
-    }).then(info => {
-      if (info && info.stream) {
-        const videoTracks = info.stream.getVideoTracks();
-        const audioTracks = info.stream.getAudioTracks();
-        const state = {};
-        if (video && videoTracks.length === 0) {
-          state.muteCam = true;
-        }
-        if (videoTracks.length > 0) {
-          videoTracks[0].onended = (event) => {
-            event.target.onended = undefined;
-            muteVideoStream(info.stream);
-            this.setState({
-              muteCam: true,
-            });
-          };
-        }
-        if (audio && audioTracks.length === 0) {
-          state.muteMic = true;
-        }
-        if (audioTracks.length > 0) {
-          audioTracks[0].onended = (event) => {
-            event.target.onended = undefined;
-            muteAudioStream(info.stream);
-            this.setState({
-              muteMic: true,
-            });
-          };
-        }
-        this.setState(state);
-        const promises = [];
-        if (muteCam || !video) {
-          promises.push(muteVideoStream(info.stream));
-        }
-        if (muteMic || !audio) {
-          promises.push(muteAudioStream(info.stream));
-        }
-        return Promise.all(promises).then(() => {
-          return info.stream;
-        });
-      } else {
-        const state = {
-          rumFailed: false,
-        };
-        if (video) {
-          state.muteCam = true;
-        }
-        if (audio) {
-          state.muteMic = true;
-        }
-        this.setState(state);
-      }
-      return null;
-    }).then(async stream => {
-      if (stream) {
-        await setLocalStream(stream);
-      } else {
-        await unsetLocalStream();
-      }
-      return stream;
-    });
-  };
-
-  stopUserMedia = async () => {
-    const { stopUserMedia } = this.props;
-
-    if (this.rum) {
-      this.rum.cancel();
-      this.rum = null;
-    }
-
-    await stopUserMedia(this.localStreamID);
-  }
-
   render() {
     const {
       classes,
       profile,
       config,
       guest,
+      mode,
+      muteCam,
+      muteMic,
       channel,
       ringing,
       calling,
-      localAudioVideoStreams,
+      localStream,
       remoteAudioVideoStreams,
       remoteScreenShareStreams,
       connected,
@@ -1354,7 +838,7 @@ class CallView extends React.PureComponent {
       intl,
       theme,
     } = this.props;
-    const { mode, cover, muteCam, muteMic, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
+    const { cover, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -1375,7 +859,7 @@ class CallView extends React.PureComponent {
         onClick={this.handleCallGridClick}
         className={classes.screenshare}
         remoteStreams={remoteScreenShareStreams}
-        remoteStreamsKey={`stream_screenshare_${screenShareScreenID}`}
+        remoteStreamsKey={`stream_screenshare_${SCREENSHARE_SCREEN_ID}`}
         mode={mode}
         cover={false}
         labels={false}
@@ -1772,7 +1256,6 @@ class CallView extends React.PureComponent {
       </Hidden>
     </React.Fragment>;
 
-    const localStream = localAudioVideoStreams[this.localStreamID];
     return (
       <div className={rootClassName}>
         <TopBar
@@ -1855,7 +1338,6 @@ CallView.propTypes = {
   intl: intlShape.isRequired,
 
   theme: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
 
   enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
@@ -1864,36 +1346,40 @@ CallView.propTypes = {
   profile: userShape.isRequired,
   config: PropTypes.object.isRequired,
   guest: PropTypes.bool.isRequired,
+  auto: PropTypes.bool.isRequired,
 
   connected: PropTypes.bool.isRequired,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
   calling: PropTypes.object.isRequired,
 
+  muteMic: PropTypes.bool.isRequired,
+  muteCam: PropTypes.bool.isRequired,
+
+  mode: PropTypes.string.isRequired,
+
   fetchContacts: PropTypes.func.isRequired,
   fetchRecents: PropTypes.func.isRequired,
+  initializeContactsWithRecents: PropTypes.func.isRequired,
   requestDisplayMedia: PropTypes.func.isRequired,
   requestUserMedia: PropTypes.func.isRequired,
   stopDisplayMedia: PropTypes.func.isRequired,
   stopUserMedia: PropTypes.func.isRequired,
-  doCallContact: PropTypes.func.isRequired,
+  doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
   doReject: PropTypes.func.isRequired,
   doIgnore: PropTypes.func.isRequired,
-  doCallGroup: PropTypes.func.isRequired,
-  muteVideoStream: PropTypes.func.isRequired,
-  muteAudioStream: PropTypes.func.isRequired,
+  doViewContact: PropTypes.func.isRequired,
+  doViewGroup: PropTypes.func.isRequired,
+  doMuteOrUnmute: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
-  applyLocalStreamTracks: PropTypes.func.isRequired,
-  setLocalStream: PropTypes.func.isRequired,
-  unsetLocalStream: PropTypes.func.isRequired,
-  setScreenshareStream: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  addOrUpdateRecentsFromContact: PropTypes.func.isRequired,
-  addOrUpdateRecentsFromGroup: PropTypes.func.isRequired,
+  wakeFromStandby: PropTypes.func.isRequired,
+  toggleStandby: PropTypes.func.isRequired,
+  setMode: PropTypes.func.isRequired,
 
-  localAudioVideoStreams: PropTypes.object.isRequired,
+  localStream: PropTypes.instanceOf(MediaStream),
   remoteAudioVideoStreams: PropTypes.array.isRequired,
   remoteScreenShareStreams: PropTypes.array.isRequired,
 
@@ -1912,10 +1398,9 @@ CallView.propTypes = {
 
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
-  const { guest } = state.meet;
+  const { guest, auto, muteMic, muteCam, mode, localStream } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const {
-    umAudioVideoStreams: localAudioVideoStreams,
     gUMSupported,
     gDMSupported,
     videoSourceId,
@@ -1933,7 +1418,7 @@ const mapStateToProps = state => {
     remoteAudioVideoStreams.push(stream);
     if (stream.announces) {
       for (const announce of Object.values(stream.announces)) {
-        if (announce.kind === 'screenshare' && announce.id === screenShareScreenID) {
+        if (announce.kind === 'screenshare' && announce.id === SCREENSHARE_SCREEN_ID) {
           remoteScreenShareStreams.push(stream);
         }
       }
@@ -1945,13 +1430,19 @@ const mapStateToProps = state => {
     profile,
     config,
     guest,
+    auto: !!auto,
 
     connected,
     channel,
     ringing,
     calling,
 
-    localAudioVideoStreams,
+    muteMic,
+    muteCam,
+
+    mode,
+
+    localStream,
     remoteAudioVideoStreams,
     remoteScreenShareStreams,
 
@@ -1969,81 +1460,29 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchContacts: async () => {
-      return dispatch(fetchAndAddContacts());
-    },
-    fetchRecents: async () => {
-      const recents = await dispatch(fetchRecents());
-      if (recents !== null) {
-        await dispatch(initializeContactsWithRecents());
-      }
-      return recents;
-    },
-    requestDisplayMedia: (id='', settings={}) => {
-      return dispatch(requestDisplayMedia(id, settings));
-    },
-    requestUserMedia: (id='', video=true, audio=true, settings={}) => {
-      return dispatch(requestUserMedia(id, video, audio, settings));
-    },
-    stopDisplayMedia: (id='') => {
-      return dispatch(stopDisplayMedia(id));
-    },
-    stopUserMedia: (id='') => {
-      return dispatch(stopUserMedia(id));
-    },
-    doCallContact: (contact, errorCallback) => dispatch((_, getState) => {
-      const { config } = getState().common;
-      const id = resolveContactID(config, contact);
-      return dispatch(doCall(id, errorCallback));
-    }),
-    doHangup: () => {
-      return dispatch(doHangup());
-    },
-    doAccept: (id) => {
-      return dispatch(doAccept(id));
-    },
-    doReject: (id) => {
-      return dispatch(doReject(id));
-    },
-    doIgnore: (id) => {
-      return dispatch(doIgnore(id));
-    },
-    doCallGroup: (id, errorCallback) => {
-      return dispatch(doGroup(id, errorCallback));
-    },
-    muteVideoStream: (stream, mute=true, id='', settings={}) => {
-      return dispatch(muteVideoStream(stream, mute, id, settings));
-    },
-    muteAudioStream: (stream, mute=true, id='', settings={}) => {
-      return dispatch(muteAudioStream(stream, mute, id, settings));
-    },
-    updateOfferAnswerConstraints: (options) => {
-      return dispatch(updateOfferAnswerConstraints(options));
-    },
-    applyLocalStreamTracks: (info) => {
-      return dispatch(applyLocalStreamTracks(info));
-    },
-    setLocalStream: (stream) => {
-      return dispatch(setLocalStream(stream));
-    },
-    unsetLocalStream: () => {
-      return dispatch(unsetLocalStream());
-    },
-    setScreenshareStream: (id, stream) => {
-      return dispatch(setScreenshareStream(id, stream));
-    },
-    setError: (error) => {
-      return dispatch(setError(error));
-    },
-    addOrUpdateRecentsFromContact: (contact) => {
-      return dispatch(addOrUpdateRecentsFromContact(contact));
-    },
-    addOrUpdateRecentsFromGroup: (id, scope) => {
-      return dispatch(addOrUpdateRecentsFromGroup(id, scope));
-    },
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchContacts: fetchAndAddContacts,
+  fetchRecents,
+  initializeContactsWithRecents,
+  wakeFromStandby,
+  toggleStandby,
+  requestUserMedia,
+  stopUserMedia,
+  requestDisplayMedia,
+  stopDisplayMedia,
+  doCall,
+  doHangup,
+  doAccept,
+  doReject,
+  doIgnore,
+  doViewContact,
+  doViewGroup,
+  doMuteOrUnmute,
+  updateOfferAnswerConstraints,
+  setMode,
+  setError,
+  enqueueSnackbar,
+  closeSnackbar,
+}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(withSnackbar(CallView))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(CallView)));

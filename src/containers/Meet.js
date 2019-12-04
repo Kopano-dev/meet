@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
 import BaseContainer from 'kpop/es/BaseContainer';
 import MainContainer from 'kpop/es/MainContainer';
@@ -23,7 +24,7 @@ import soundSprite1Ogg from '../sounds/sprite1.ogg';
 import soundSprite1Mp3 from '../sounds/sprite1.mp3';
 import soundSprite1Json from '../sounds/sprite1.json';
 
-import { basePath, getCurrentAppPath } from '../base';
+import { getCurrentAppPath } from '../base';
 import Meetscreen  from '../components/Meetscreen';
 import KWMProvider from '../components/KWMProvider';
 import { tryGuestLogon } from '../api/kwm';
@@ -162,7 +163,7 @@ class App extends PureComponent {
 
   render() {
     const { initialized } = this.state;
-    const { config, user, error, ...other } = this.props;
+    const { config, user, error, history, ...other } = this.props;
     const ready = config && user && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
@@ -175,12 +176,12 @@ class App extends PureComponent {
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
-            <Router basename={basePath}>
+            <ConnectedRouter history={history}>
               <Switch>
                 {routes.map((route, i) => <Route key={i} {...route} />)}
                 <Redirect to="/r" />
               </Switch>
-            </Router>
+            </ConnectedRouter>
           </MainContainer>
         </HowlingProvider>
       </BaseContainer>
@@ -196,6 +197,7 @@ App.propTypes = {
   user: PropTypes.object,
   error: PropTypes.object,
 
+  history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

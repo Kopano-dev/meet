@@ -11,6 +11,10 @@ import {
   KWM_PC_CLOSED,
   KWM_CLEAR_CALLING,
 } from '../actions/types';
+import {
+  setLocalStream as meetSetLocalStream,
+  doAutoCall as meetDoAutoCall,
+} from '../actions/meet';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
 // Do not replace reference in state.
@@ -35,6 +39,12 @@ const defaultState = {
 function kwmReducer(state = defaultState, action) {
   switch (action.type) {
     case KWM_STATE_CHANGED:
+      if (action.connected && action.connected !== state.connected) {
+        console.debug('KWM is now connected'); // eslint-disable-line no-console
+        action.queueDispatch(meetSetLocalStream());
+        action.queueDispatch(meetDoAutoCall());
+      }
+
       return Object.assign({}, state, {
         connecting: action.connecting,
         connected: action.connected,

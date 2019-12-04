@@ -19,7 +19,7 @@ import translations from './locales';
 import { registerGlobalDebugger } from './debug';
 import meetTheme from './theme';
 
-const { store } = configureStore();
+const { store, history } = configureStore();
 
 registerServiceWorker(store, {
   env: process.env.NODE_ENV, /*eslint-disable-line no-undef*/
@@ -53,7 +53,7 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
       <MuiThemeProvider theme={meetTheme}>
         <IntlContainer onLocaleChanged={onLocaleChanged} messages={translations}>
-          <LoadableApp />
+          <LoadableApp history={history}/>
         </IntlContainer>
       </MuiThemeProvider>
     </MuiThemeProvider>

@@ -18,29 +18,13 @@ import ShareIcon from '@material-ui/icons/Share';
 import Divider from '@material-ui/core/Divider';
 
 import Persona from 'kpop/es/Persona';
-import { parseQuery } from 'kpop/es/utils';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { getCurrentAppPath } from '../base';
 import { makeGroupLink } from '../utils';
 import { mapGroupEntryToUserShape } from './Recents';
-import { pushHistory } from '../utils';
+import { pushHistory } from '../actions/meet';
 import ScopeLabel from './ScopeLabel';
-
-const getAutoSettingsFromURL = () => {
-  const hpr = parseQuery(window.location.hash.substr(1));
-  if (hpr.auto) {
-    const auto = {
-      auto: hpr.auto,
-      path: getCurrentAppPath().substr(2),
-    };
-    return auto;
-  }
-  return null;
-};
-// Fetch auto settings once, on startup.
-const autoSettings = getAutoSettingsFromURL();
 
 const styles = theme => ({
   root: {
@@ -113,24 +97,6 @@ class GroupControl extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    if (autoSettings && getCurrentAppPath().substr(2) === autoSettings.path) {
-      switch (autoSettings.auto) {
-        case '1':
-          // Auto audio call.
-          setTimeout(this.handleEntryClick('call'), 0);
-          break;
-        case '2':
-          // Auto video call.
-          setTimeout(this.handleEntryClick('videocall'), 0);
-          break;
-      }
-
-      // Only ever auto stuff once.
-      delete autoSettings.auto;
-    }
-  }
-
   handleEntryClick = (mode) => () => {
     const { group, onEntryClick, onActionClick, config } = this.props;
 
@@ -155,9 +121,9 @@ class GroupControl extends React.PureComponent {
   };
 
   handleCloseClick = () => {
-    const { history } = this.props;
+    const { dispatch } = this.props;
 
-    pushHistory(history, '/r/call');
+    dispatch(pushHistory('/r/call'));
   };
 
   render() {
@@ -244,6 +210,8 @@ class GroupControl extends React.PureComponent {
 }
 
 GroupControl.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+
   children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
@@ -251,7 +219,6 @@ GroupControl.propTypes = {
 
   config: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   guest: PropTypes.bool.isRequired,
 
   channel: PropTypes.string,

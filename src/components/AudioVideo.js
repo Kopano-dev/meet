@@ -212,7 +212,7 @@ class AudioVideo extends React.PureComponent {
     if (audioSinkId && 'setSinkId' in element) {
       element.setSinkId(audioSinkId).then(() => {
       }).catch(err => {
-        console.debug('failed to set audio sink: ' + err); // eslint-disable-line no-console
+        console.debug(`failed to set audio sink ${audioSinkId}: ${err}`); // eslint-disable-line no-console
       });
     }
   }

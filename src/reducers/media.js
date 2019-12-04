@@ -8,6 +8,9 @@ import {
   USERMEDIA_SET_PENDING,
   DISPLAYMEDIA_SET_PENDING,
 } from '../actions/types';
+import {
+  requestUserMedia,
+} from '../actions/meet';
 
 const defaultState = {
   gUMSupported: (
@@ -100,14 +103,19 @@ function mediaReducer(state = defaultState, action) {
     case USERMEDIA_SET_DEVICEIDS: {
       const { videoSourceId, audioSourceId, audioSinkId } = action;
       const updates = {};
-      if (videoSourceId !== undefined) {
+      if (videoSourceId !== undefined && videoSourceId !== state.videoSourceId) {
         updates.videoSourceId = videoSourceId;
       }
-      if (audioSourceId !== undefined) {
+      if (audioSourceId !== undefined && audioSourceId !== state.audioSourceId) {
         updates.audioSourceId = audioSourceId;
       }
-      if (audioSinkId !== undefined) {
+      if (audioSinkId !== undefined && audioSinkId !== state.audioSinkId) {
         updates.audioSinkId = audioSinkId;
+      }
+
+      if (updates.videoSourceId !== undefined || updates.audioSourceId !== undefined) {
+        // Whenever video our audio source changes, trigger new rum.
+        action.queueDispatch(requestUserMedia());
       }
 
       return Object.assign({}, state, updates);

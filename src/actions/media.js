@@ -235,6 +235,10 @@ export function requestDisplayMedia(id='', settings={}) {
       status.resolve(info);
       await dispatch(displayMediaAudioVideoStream(id, info.stream));
       return info;
+    }).catch(async err => {
+      status.resolve(null);
+      await dispatch(displayMediaAudioVideoStream(id, null));
+      throw err;
     });
   };
 }

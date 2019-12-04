@@ -49,7 +49,7 @@ export function fetchRecents() {
               console.warn('failed to sync recents entry to server', err);  // eslint-disable-line no-console
             });
           };
-          setTimeout(importer, 0);
+          Promise.resolve().then(importer);
           await dispatch(recentsClaim(guid));
         }
       } else {
@@ -84,7 +84,7 @@ export function fetchRecents() {
               });
             }
           };
-          setTimeout(remover, 0);
+          Promise.resolve().then(remover);
         }
         await dispatch(recentsSet(sorted, table, profile.guid));
       }
@@ -157,12 +157,13 @@ export function addOrUpdateRecentsFromContact(contact) {
   };
 }
 
-export function addOrUpdateRecentsFromGroup(id, scope) {
+export function addOrUpdateRecentsFromGroup(group) {
   return async dispatch => {
+    const { id } = group;
+
     await dispatch(addOrUpdateRecentEntry(id, 'group', {
-      id,
-      scope,
       displayName: id,
+      ...group,
     }));
   };
 }

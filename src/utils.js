@@ -7,11 +7,6 @@ export const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoint
 
 export const PUBLIC_GROUP_PREFIX = 'public/';
 
-export function pushHistory(history, path, state) {
-  // Simple helper to push the history, keeping the current query and hash.
-  history.push(path + window.location.search + window.location.hash, state);
-}
-
 export function resolveContactID(config, contact) {
   const { useIdentifiedUser } = config;
 

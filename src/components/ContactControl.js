@@ -19,7 +19,7 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
-import { pushHistory } from '../utils';
+import { pushHistory } from '../actions/meet';
 
 const styles = (theme) => ({
   root: {
@@ -78,9 +78,9 @@ class ContactControl extends React.PureComponent {
   };
 
   handleCloseClick = () => {
-    const { history } = this.props;
+    const { dispatch } = this.props;
 
-    pushHistory(history, '/r/call');
+    dispatch(pushHistory('/r/call'));
   };
 
   render() {
@@ -135,12 +135,13 @@ class ContactControl extends React.PureComponent {
 }
 
 ContactControl.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   intl: intlShape.isRequired,
 
   entry: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
 
   channel: PropTypes.string,
 

@@ -54,7 +54,9 @@ function recentsReducer(state = defaultState, action) {
 
       if (action.cleanup && superfluous.length > 0) {
         // Allow caller action to trigger cleanup.
-        setTimeout(action.cleanup, 0, superfluous);
+        Promise.resolve().then(() => {
+          action.cleanup(superfluous);
+        });
       }
 
       return Object.assign({}, state, {

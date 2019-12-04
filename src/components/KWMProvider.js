@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
-import { withSnackbar } from 'kpop/es/BaseContainer';
 
 import { setupKWM, destroyKWM } from '../actions/kwm';
+import { enqueueSnackbar } from '../actions/meet';
 
 const translations = defineMessages({
   rejectedBusySnack: {
@@ -133,7 +133,7 @@ class KWMProvider extends React.PureComponent {
   }
 
   handleEvent = event => {
-    const { enqueueSnackbar, intl } = this.props;
+    const { intl, dispatch } = this.props;
 
     // Extra KWM event handler, bridge to UI.
     switch (event.event) {
@@ -145,10 +145,16 @@ class KWMProvider extends React.PureComponent {
       case 'abortcall': {
         switch (event.details) {
           case 'reject_busy':
-            enqueueSnackbar(intl.formatMessage(translations.rejectedBusySnack), { variant: 'info' });
+            dispatch(enqueueSnackbar({
+              message: intl.formatMessage(translations.rejectedBusySnack),
+              options: { variant: 'info' },
+            }));
             break;
           case 'reject':
-            enqueueSnackbar(intl.formatMessage(translations.rejectedSnack), { variant: 'info' });
+            dispatch(enqueueSnackbar({
+              message: intl.formatMessage(translations.rejectedSnack),
+              options: { variant: 'info' },
+            }));
             break;
         }
         break;
@@ -172,9 +178,6 @@ KWMProvider.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 
-  enqueueSnackbar: PropTypes.func.isRequired,
-  closeSnackbar: PropTypes.func.isRequired,
-
   user: PropTypes.object,
 };
 
@@ -186,4 +189,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(withSnackbar(KWMProvider)));
+export default connect(mapStateToProps)(injectIntl(KWMProvider));
