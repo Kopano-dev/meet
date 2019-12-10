@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+
+
+## v1.2.0 (2019-12-10)
+
+- Update kwmjs to 1.1.1
+- Make dev serviceworker actually work in exampe dev Caddyfile
+- Ignore esm modules when creating 3rd party licenses
+- Use spaces for indentation
+- Update kpop to 1.1.4
+- Add bundle size analyze target
+- Update c-r-a
+- Udpate kpop to 1.1.3
+- Imrpove word break for very long room names
+- Improve visual padding of contact search search bar
+- Use correct color for FullscreenDialog title
+- Update kpop and glue build dependencies
+- Make linter happy
+- Move visibility and offline control to BaseContainer
+- Add event support for Glue
+- Use reset service worker in dev mode
+- Update kpop to 1.1.0
+- Avoid adding intl property to dom node
 - Use correct API prefix default for grapi API
 - Add padding to ContactSearch search field even when embedded
 - Unify MasterButton top and bottom padding
