@@ -4,6 +4,11 @@
 
 
 
+## v1.2.1 (2019-12-10)
+
+- Ensure to activate new service worker on update
+
+
 ## v1.2.0 (2019-12-10)
 
 - Update kwmjs to 1.1.1
