@@ -14,6 +14,8 @@ import Button  from '@material-ui/core/Button';
 
 import { injectIntl, FormattedMessage, defineMessages, intlShape } from 'react-intl';
 
+import memoize from 'memoize-one';
+
 import debounce from 'kpop/es/utils/debounce';
 
 import AudioVideo from './AudioVideo';
@@ -350,14 +352,19 @@ class DeviceSettings extends React.PureComponent {
     }
   }
 
-  appplyAudioSinkId = async () => {
+  appplyAudioSinkId = () => {
     const { audioSinkId } = this.state;
+
+    this.doApplyAudioSinkId(this.audio, audioSinkId);
+  }
+
+  doApplyAudioSinkId = memoize((element, audioSinkId) => {
     if (globalSettings.withAudioSetSinkId) {
-      return this.audio.setSinkId(audioSinkId).catch(err => {
+      element.setSinkId(audioSinkId).catch(err => {
         console.warn('failed to set audio sink', err); // eslint-disable-line no-console
       });
     }
-  }
+  });
 
   handleChange = name => event => {
     this.setState({

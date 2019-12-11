@@ -10,7 +10,10 @@ import MicOffIcon from '@material-ui/icons/MicOff';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import memoize from 'memoize-one';
+
 import DisplayNameLabel from './DisplayNameLabel';
+import { globalSettings } from '../actions/media';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
@@ -209,13 +212,16 @@ class AudioVideo extends React.PureComponent {
   updateAudioSink(element) {
     const { audioSinkId } = this.props;
 
-    if (audioSinkId && 'setSinkId' in element) {
-      element.setSinkId(audioSinkId).then(() => {
-      }).catch(err => {
-        console.debug(`failed to set audio sink ${audioSinkId}: ${err}`); // eslint-disable-line no-console
+    this.doUpdateAudioSink(element, audioSinkId);
+  }
+
+  doUpdateAudioSink = memoize((element, audioSinkId) => {
+    if (globalSettings.withAudioSetSinkId) {
+      element.setSinkId(audioSinkId).catch(err => {
+        console.warn(`failed to set audio sink ${audioSinkId}: ${err}`); // eslint-disable-line no-console
       });
     }
-  }
+  })
 
   addStreamEvents(stream) {
     // NOTE(longsleep): Use event handler functions, since Firefox does only
