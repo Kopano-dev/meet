@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import BaseContainer from 'kpop/es/BaseContainer';
 import MainContainer from 'kpop/es/MainContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
-import { setError, userRequiredError } from 'kpop/es/common/actions';
+import { appInitializationError, userRequiredError } from 'kpop/es/common/actions';
 import { parseQuery } from 'kpop/es/utils';
 import {
   scopeOpenID,
@@ -55,11 +55,7 @@ class App extends PureComponent {
       }).catch(err => {
         console.error('app initialization failed - this is fatal', err); // eslint-disable-line no-console
         if (!err.handled) {
-          dispatch(setError({
-            detail: `${err}`,
-            message: 'App start failed with error',
-            fatal: true,
-          }));
+          dispatch(appInitializationError(true, {detail: String(err)}));
         }
       }) ;
     }
@@ -221,7 +217,7 @@ const getGuestSettings = (config) => {
 };
 
 const mapStateToProps = (state) => {
-  const { offline, updateAvailable, config, user, error } = state.common;
+  const { offline, updateAvailable, config, user, error, notifications } = state.common;
   const { available: a2HsAvailable } = state.pwa.a2hs;
 
   return {
@@ -231,6 +227,7 @@ const mapStateToProps = (state) => {
     config,
     user,
     error,
+    notifications,
   };
 };
 

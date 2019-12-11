@@ -40,7 +40,6 @@ import renderIf from 'render-if';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { setError } from 'kpop/es/common/actions';
 import TopBar from 'kpop/es/TopBar';
 import TopBarBound from 'kpop/es/TopBar/TopBarBound';
 import { userShape } from 'kpop/es/shapes';
@@ -49,6 +48,7 @@ import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
+import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
 import { fetchRecents } from '../actions/recents';
@@ -69,8 +69,6 @@ import {
   updateOfferAnswerConstraints,
   toggleStandby,
   setMode,
-  enqueueSnackbar,
-  closeSnackbar,
   SCREENSHARE_SCREEN_ID,
 } from '../actions/meet';
 import { writeTextToClipboard } from '../clipboard';
@@ -1374,7 +1372,6 @@ CallView.propTypes = {
   doViewGroup: PropTypes.func.isRequired,
   doMuteOrUnmute: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
   wakeFromStandby: PropTypes.func.isRequired,
   toggleStandby: PropTypes.func.isRequired,
   setMode: PropTypes.func.isRequired,
@@ -1480,7 +1477,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   doMuteOrUnmute,
   updateOfferAnswerConstraints,
   setMode,
-  setError,
   enqueueSnackbar,
   closeSnackbar,
 }, dispatch);

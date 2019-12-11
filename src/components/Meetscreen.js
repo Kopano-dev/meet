@@ -10,7 +10,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import CallView from './CallView';
-import Notifier from './Notifier';
+
 
 const styles = theme => {
   console.debug('theme', theme); // eslint-disable-line no-console
@@ -37,7 +37,6 @@ class Meetscreen extends React.PureComponent {
         <main
           className={classes.content}
         >
-          <Notifier/>
           <Switch>
             <Route path="/r/(call|conference|group)" component={CallView}/>
             <Redirect to="/r/call"/>

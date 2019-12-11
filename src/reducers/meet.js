@@ -9,9 +9,6 @@ import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
-  SNACKBAR_ENQUEUE,
-  SNACKBAR_REMOVE,
-  SNACKBAR_CLOSE,
 } from '../actions/types';
 
 import {
@@ -34,8 +31,6 @@ const defaultState = (() => {
     previousMode: null,
 
     localStream: null,
-
-    notifications: [],
   };
 
   if (hpr.auto) {
@@ -118,36 +113,6 @@ function meetReducer(state = defaultState, action) {
         };
       }
       break;
-
-    case SNACKBAR_ENQUEUE:
-      return {
-        ...state,
-        notifications: [
-          ...state.notifications,
-          {
-            key: action.key,
-            ...action.notification,
-          },
-        ],
-      };
-
-    case SNACKBAR_REMOVE:
-      return {
-        ...state,
-        notifications: state.notifications.filter(
-          notification => notification.key !== action.key
-        ),
-      };
-
-    case SNACKBAR_CLOSE:
-      return {
-        ...state,
-        notifications: state.notifications.map(notification => (
-          (action.dismissAll || notification.key === action.key)
-            ? { ...notification, dismissed: true }
-            : { ...notification }
-        )),
-      };
   }
 
   return state;

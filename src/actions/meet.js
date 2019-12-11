@@ -2,16 +2,13 @@ import { push } from 'connected-react-router';
 import { defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
-import { setError } from 'kpop/es/common/actions';
+import { setError, enqueueSnackbar } from 'kpop/es/common/actions';
 
 import { resolveContactID } from '../utils';
 import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
-  SNACKBAR_ENQUEUE,
-  SNACKBAR_REMOVE,
-  SNACKBAR_CLOSE,
 } from './types';
 import {
   doAccept as kwmDoAccept,
@@ -355,7 +352,6 @@ const displayMedia = new class DisplayMedia {
                 console.warn('failed to set/clear ended screen share stream', err); // eslint-disable-line no-console
               }); // clears.
             };
-            //await setScreenshareStream(screen, stream);
           } else {
             console.warn('requestDisplayMedia stream got stream with no video tracks', id, screen, stream); // eslint-disable-line no-console
             return null;
@@ -682,32 +678,5 @@ export function muteStream({mute, video, audio}) {
       }));
     });
     return Promise.all(promises);
-  };
-}
-
-export function enqueueSnackbar(notification) {
-  const key = notification.options && notification.options.key;
-
-  return {
-    type: SNACKBAR_ENQUEUE,
-    notification: {
-      ...notification,
-      key: key ? key : String(new Date().getTime() + Math.random()),
-    },
-  };
-}
-
-export function removeSnackbar(key) {
-  return {
-    type: SNACKBAR_REMOVE,
-    key,
-  };
-}
-
-export function closeSnackbar(key) {
-  return {
-    type: SNACKBAR_CLOSE,
-    dismissAll: !key,
-    key,
   };
 }

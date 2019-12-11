@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
+import { enqueueSnackbar } from 'kpop/es/common/actions';
 
 import { setupKWM, destroyKWM } from '../actions/kwm';
-import { enqueueSnackbar } from '../actions/meet';
 
 const translations = defineMessages({
   rejectedBusySnack: {
