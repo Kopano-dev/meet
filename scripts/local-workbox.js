@@ -26,7 +26,7 @@
 
 'use strict';
 
-/* global require, process */
+/* global process */
 
 const fs = require("fs");
 const copyWorkboxLibraries = require('workbox-build').copyWorkboxLibraries;

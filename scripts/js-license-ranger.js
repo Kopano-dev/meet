@@ -23,14 +23,13 @@
 'use strict';
 
 /* eslint-disable no-console */
-/* global require */
 
 const fs = require('fs'),
   glob = require('glob'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20191205-1'; // eslint-disable-line
+const version = '20191212-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
