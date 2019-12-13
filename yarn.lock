@@ -5775,7 +5775,7 @@ hey-listen@^1.0.4, hey-listen@^1.0.5:
   resolved "https://registry.yarnpkg.com/hey-listen/-/hey-listen-1.0.5.tgz#6d0a3a2f60177f65bc4404d571a00025bf5dc20e"
   integrity sha512-O2iCNxBBGb4hOxL9tUdnoPwDYmZhQ29t5xKV74BVZNdvwCDXCpVYTJ4yoaibc1V0I8Yw3K3nwmvDpoyjnCqUaw==
 
-history@^4.9.0:
+history@^4.10.1, history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/history/-/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
   integrity sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==
@@ -7258,9 +7258,9 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-1.1.4.tgz":
-  version "1.1.4"
-  resolved "https://download.kopano.io/community/kapp:/kpop-1.1.4.tgz#1ff3211e200d386470102ec2c6d4756525615e7e"
+"kpop@https://download.kopano.io/community/kapp:/kpop-1.2.0.tgz":
+  version "1.2.0"
+  resolved "https://download.kopano.io/community/kapp:/kpop-1.2.0.tgz#595725019147ee36540a110f7eadf377251abb74"
   dependencies:
     cldr "^5.2.0"
     crc32 "^0.2.2"
