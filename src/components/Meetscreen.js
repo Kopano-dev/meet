@@ -68,7 +68,7 @@ class Meetscreen extends React.PureComponent {
           // https://bugs.webkit.org/show_bug.cgi?id=185448 for further info.
           if (isMobile() && isInStandaloneMode()) {
             setError({
-              message: 'Apple devices do not support camera/mic access when started as App',
+              message: 'Apple devices do not support camera/mic access when started as App.',
               withoutFatalSuffix: true,
               fatal: false,
             });
@@ -81,7 +81,7 @@ class Meetscreen extends React.PureComponent {
 
     if (browserDetails.version === undefined) {
       setError({
-        message: 'Your browser is unknown and thus not supported',
+        message: 'Your browser is unknown and thus not supported.',
         withoutFatalSuffix: true,
         fatal: false,
       });
@@ -93,7 +93,7 @@ class Meetscreen extends React.PureComponent {
         let checkUnsupported = options.checkUnsupported ? options.checkUnsupported(browserDetails) : false;
         if (checkUnsupported) {
           setError({
-            message: 'Your browser is not supported - expect issues',
+            message: 'Your browser is not supported - expect issues.',
             withoutFatalSuffix: true,
             fatal: false,
           });
@@ -103,7 +103,7 @@ class Meetscreen extends React.PureComponent {
         let checkTooOld = options.checkTooOld ? options.checkTooOld(browserDetails) : false;
         if (versionTooOld || checkTooOld) {
           setError({
-            message: 'Your browser too old and not fully supported',
+            message: 'Your browser is too old and thus not supported.',
             withoutFatalSuffix: true,
             fatal: false,
           });

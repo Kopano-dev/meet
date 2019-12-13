@@ -1,4 +1,4 @@
-import { setError } from 'kpop/es/common/actions';
+import { setError, enqueueErrorSnackbar, enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 
 import * as kwmjs from 'kwmjs';
 import adapter from 'webrtc-adapter';
@@ -276,6 +276,7 @@ function createKWMManager(eventCallback) {
     };
     console.info('KWM init', kwmConfig, webrtcConfig, webrtcOptions, sdpParamsAudioVideo, sdpParamsScreenshare); // eslint-disable-line no-console
 
+    let connected = undefined;
     k.onstatechanged = event => {
       if (event.target !== kwm) {
         return;
@@ -289,6 +290,13 @@ function createKWMManager(eventCallback) {
             record.pc._needsNegotiation();
           }
         });
+      }
+      if (connected === undefined) {
+        connected = event.connected;
+        if (!event.connected) {
+          // NOTE(longsleep): Ignore initial unconnected state.
+          return;
+        }
       }
 
       dispatch(stateChanged(event));
@@ -403,6 +411,11 @@ function error(event) {
         dispatch(doHangup());
         await setNonFatalError(errors.ERROR_KWM_NO_PERMISSION, event);
         return;
+      case 'websocket_error':
+        // NOTE(longsleep): We ignore websocket errors here. KWM will automatically
+        // reconnect.
+        console.debug('KWM error ignored', event.code, event); // eslint-disable-line no-console
+        return;
       default:
     }
 
@@ -420,13 +433,41 @@ function error(event) {
 }
 
 function stateChanged(event) {
-  const { connecting, connected, reconnecting } = event;
+  return (dispatch, getState) => {
+    const { connected: oldConnected } = getState().kwm;
+    const { connecting, connected, reconnecting } = event;
 
-  return {
-    type: types.KWM_STATE_CHANGED,
-    connecting,
-    connected,
-    reconnecting,
+    if (oldConnected !== connected) {
+      if (!connected) {
+        const error = {
+          fatal: false,
+          options: {
+            key: 'kwm_statechanged_not_connected',
+            persist: true,
+          },
+        };
+        error.message = oldConnected ? 'Lost connection to server - check your Internet connection.' : 'Failed to connect to server - check your Internet connection.';
+        dispatch(closeSnackbar('kwm_statechanged_connected'));
+        dispatch(enqueueErrorSnackbar(error));
+      } else if (oldConnected === false) {
+        const notification = {
+          message: 'Server connection reestablished.',
+          options: {
+            key: 'kwm_statechanged_connected',
+            variant: 'success',
+          },
+        };
+        dispatch(closeSnackbar('kwm_statechanged_not_connected'));
+        dispatch(enqueueSnackbar(notification));
+      }
+    }
+
+    return dispatch({
+      type: types.KWM_STATE_CHANGED,
+      connecting,
+      connected,
+      reconnecting,
+    });
   };
 }
 

@@ -416,7 +416,7 @@ const translations = defineMessages({
   },
   noConnectionTooltipTitle: {
     id: 'callView.noConnectionTooltip.title',
-    defaultMessage: 'No connection - check your internet connection.',
+    defaultMessage: 'No connection - check your Internet connection.',
   },
   tabLabelCalls: {
     id: 'callView.tabCalls.label',
@@ -1346,7 +1346,7 @@ CallView.propTypes = {
   guest: PropTypes.bool.isRequired,
   auto: PropTypes.bool.isRequired,
 
-  connected: PropTypes.bool.isRequired,
+  connected: PropTypes.bool,
   channel: PropTypes.string,
   ringing: PropTypes.object.isRequired,
   calling: PropTypes.object.isRequired,

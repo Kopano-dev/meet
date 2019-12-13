@@ -1,5 +1,6 @@
 import { requireScope } from 'kpop/es/utils/permissions';
 import { scopeGrapi } from 'kpop/es/oidc/scopes';
+import { enqueueErrorSnackbar } from 'kpop/es/common/actions';
 
 import { fetchUsers, fetchUser, fetchUsersWithParams, contactsLocalFetchLimit } from '../api/grapi';
 import {
@@ -99,7 +100,14 @@ export const updateContacts = (contacts, initialize=false) => ({
   initialize,
 });
 
-export const errorContacts = (error) => ({
-  type: CONTACTS_ERROR,
-  error,
-});
+export const errorContacts = (error) => {
+  return dispatch => {
+    dispatch(enqueueErrorSnackbar({
+      message: 'Failed to fetch contacts: ' + error.message,
+    }));
+    return dispatch({
+      type: CONTACTS_ERROR,
+      error,
+    });
+  };
+};

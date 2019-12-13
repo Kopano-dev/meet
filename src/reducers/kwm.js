@@ -24,7 +24,7 @@ const options = {
 
 const defaultState = {
   connecting: false,
-  connected: false,
+  connected: undefined,
   reconnecting: false,
 
   channel: null,

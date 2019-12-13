@@ -1,5 +1,6 @@
 import { requireScope } from 'kpop/es/utils/permissions';
 import { scopeKvs } from 'kpop/es/oidc/scopes';
+import { enqueueErrorSnackbar } from 'kpop/es/common/actions';
 
 import kvs from '../api/kvs';
 import {
@@ -199,7 +200,14 @@ export const recentsFetch = (loading=true) => ({
   loading,
 });
 
-export const errorRecents = (error) => ({
-  type: RECENTS_ERROR,
-  error,
-});
+export const errorRecents = (error) => {
+  return dispatch => {
+    dispatch(enqueueErrorSnackbar({
+      message: 'Failed to fetch contacts: ' + error.message,
+    }));
+    return dispatch({
+      type: RECENTS_ERROR,
+      error,
+    });
+  };
+};
