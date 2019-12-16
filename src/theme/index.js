@@ -19,6 +19,9 @@ const theme = createMuiTheme({
     // recommends the threshold to be 3 or more. This cannot be helped.
     contrastThreshold: 2.0,
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 const meetTheme = outerTheme => ({
