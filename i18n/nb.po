@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-09-04T09:00:35.273Z\n"
+"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
 "PO-Revision-Date: 2019-08-28 20:51+0000\n"
 "Last-Translator: Klaus <klaus@linuxavdelingen.no>\n"
 "Language-Team: Norwegian Bokmål <http://translate.kopano.io/projects/kopano/meet/nb/>\n"
@@ -83,6 +83,14 @@ msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
 msgstr "Gi offentlig gjestetilgang"
 
+#. [meetscreen.errorMessage.appleStandalone.message]
+#. defaultMessage is:
+#. Apple devices do not support camera/mic access when started as App.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.appleStandalone.message"
+msgid "Apple devices do not support camera/mic access when started as App."
+msgstr ""
+
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
 #. Audio only
@@ -90,6 +98,14 @@ msgstr "Gi offentlig gjestetilgang"
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
 msgstr "Bare lyd"
+
+#. [callView.settingsVideoCoverLabel.label]
+#. defaultMessage is:
+#. Autofit
+#: i18n/src/messages.json
+msgctxt "callView.settingsVideoCoverLabel.label"
+msgid "Autofit"
+msgstr ""
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -260,6 +276,38 @@ msgstr ""
 "                 navn.  Om gruppen ikke allerede eksisterer, så vil den bli opprettet automatisk.\n"
 "                 Alle som kjenner til navnet på gruppen kan delta i gruppen."
 
+#. [kwm.errorMessage.kwmError.message]
+#. defaultMessage is:
+#. Error: KWM error - {msg} {code}
+#: i18n/src/messages.json
+msgctxt "kwm.errorMessage.kwmError.message"
+msgid "Error: KWM error - {msg} {code}"
+msgstr ""
+
+#. [meet.errorMessage.rumFailedCameraMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your camera and microphone!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedCameraMicrophone.message"
+msgid "Failed to access your camera and microphone!"
+msgstr ""
+
+#. [meet.errorMessage.rumFailedCamera.message]
+#. defaultMessage is:
+#. Failed to access your camera!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedCamera.message"
+msgid "Failed to access your camera!"
+msgstr ""
+
+#. [meet.errorMessage.rumFailedMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your microphone!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedMicrophone.message"
+msgid "Failed to access your microphone!"
+msgstr ""
+
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
 #. Failed to load contacts.
@@ -267,6 +315,14 @@ msgstr ""
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
 msgstr "Kan ikke laste inn kontakter."
+
+#. [meet.errorMessage.rdmFailed.message]
+#. defaultMessage is:
+#. Failed to share your screen!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rdmFailed.message"
+msgid "Failed to share your screen!"
+msgstr ""
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -283,6 +339,14 @@ msgstr "Søk etter kontakter"
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
 msgstr "Gruppenavn"
+
+#. [callView.notActive.snack]
+#. defaultMessage is:
+#. Guests can only join active group meetings.
+#: i18n/src/messages.json
+msgctxt "callView.notActive.snack"
+msgid "Guests can only join active group meetings."
+msgstr ""
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -430,10 +494,11 @@ msgstr "Nytt anrop"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
-#. No connection - check your internet connection.
+#. No connection - check your Internet connection.
 #: i18n/src/messages.json
+#, fuzzy
 msgctxt "callView.noConnectionTooltip.title"
-msgid "No connection - check your internet connection."
+msgid "No connection - check your Internet connection."
 msgstr "Ingen tilkobling - Kontroller Internett-forbindelsen."
 
 #. [contactSearch.noMatches.message]
@@ -557,14 +622,6 @@ msgctxt "kwmProvider.rejected.snack"
 msgid "The target rejected your call."
 msgstr "Målet avviste ditt anrop."
 
-#. [callView.notActive.snack]
-#. defaultMessage is:
-#. There is currently nothing active here.
-#: i18n/src/messages.json
-msgctxt "callView.notActive.snack"
-msgid "There is currently nothing active here."
-msgstr "Det er ikke noen aktivitet her akkurat nå."
-
 #. [invite.groupIsPublic.text]
 #. defaultMessage is:
 #. This group is protected - a user account is required to join.
@@ -669,6 +726,30 @@ msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
 msgstr "Du har ikke tilgang her."
 
+#. [meetscreen.errorMessage.browserUnsupported.message]
+#. defaultMessage is:
+#. Your browser is not supported - expect issues.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserUnsupported.message"
+msgid "Your browser is not supported - expect issues."
+msgstr ""
+
+#. [meetscreen.errorMessage.browserTooOld.message]
+#. defaultMessage is:
+#. Your browser is too old and thus not supported.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserTooOld.message"
+msgid "Your browser is too old and thus not supported."
+msgstr ""
+
+#. [meetscreen.errorMessage.browserUnknownUnsupported.message]
+#. defaultMessage is:
+#. Your browser is unknown and thus not supported.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserUnknownUnsupported.message"
+msgid "Your browser is unknown and thus not supported."
+msgstr ""
+
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
 #. Your call history is empty.
@@ -740,6 +821,10 @@ msgstr "ukjent"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "Slå lyd på"
+
+#~ msgctxt "callView.notActive.snack"
+#~ msgid "There is currently nothing active here."
+#~ msgstr "Det er ikke noen aktivitet her akkurat nå."
 
 #~ msgctxt "callView.newPublicGroupDialog.topTitle"
 #~ msgid "Public group"

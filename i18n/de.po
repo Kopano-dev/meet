@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-10-14T13:56:38.151Z\n"
-"PO-Revision-Date: 2019-10-14 16:02+0200\n"
+"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
+"PO-Revision-Date: 2019-12-16 18:45+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -80,6 +80,14 @@ msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
 msgstr "Öffentlichen Zugriff für Gäste gestatten"
 
+#. [meetscreen.errorMessage.appleStandalone.message]
+#. defaultMessage is:
+#. Apple devices do not support camera/mic access when started as App.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.appleStandalone.message"
+msgid "Apple devices do not support camera/mic access when started as App."
+msgstr "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn die App installiert ist."
+
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
 #. Audio only
@@ -87,6 +95,14 @@ msgstr "Öffentlichen Zugriff für Gäste gestatten"
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
 msgstr "Nur Audio"
+
+#. [callView.settingsVideoCoverLabel.label]
+#. defaultMessage is:
+#. Autofit
+#: i18n/src/messages.json
+msgctxt "callView.settingsVideoCoverLabel.label"
+msgid "Autofit"
+msgstr "Einpassen"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -253,6 +269,38 @@ msgid ""
 "                 group can be joined by anyone who knows its exact name."
 msgstr "Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen verwenden. Existiert noch keine Gruppe mit dem gleichen Namen, wird diese automatisch erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
 
+#. [kwm.errorMessage.kwmError.message]
+#. defaultMessage is:
+#. Error: KWM error - {msg} {code}
+#: i18n/src/messages.json
+msgctxt "kwm.errorMessage.kwmError.message"
+msgid "Error: KWM error - {msg} {code}"
+msgstr "Fehler: KWM Fehler - {msg} {code}"
+
+#. [meet.errorMessage.rumFailedCameraMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your camera and microphone!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedCameraMicrophone.message"
+msgid "Failed to access your camera and microphone!"
+msgstr "Zugriff auf Ihre Kamera und Mikrofon fehlgeschlagen!"
+
+#. [meet.errorMessage.rumFailedCamera.message]
+#. defaultMessage is:
+#. Failed to access your camera!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedCamera.message"
+msgid "Failed to access your camera!"
+msgstr "Zugriff auf Ihre Kamera fehlgeschlagen!"
+
+#. [meet.errorMessage.rumFailedMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your microphone!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rumFailedMicrophone.message"
+msgid "Failed to access your microphone!"
+msgstr "Zugriff auf Ihr Mikrofon fehlgeschlagen!"
+
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
 #. Failed to load contacts.
@@ -260,6 +308,14 @@ msgstr "Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
 msgstr "Kontakte konnten nicht geladen werden."
+
+#. [meet.errorMessage.rdmFailed.message]
+#. defaultMessage is:
+#. Failed to share your screen!
+#: i18n/src/messages.json
+msgctxt "meet.errorMessage.rdmFailed.message"
+msgid "Failed to share your screen!"
+msgstr "Bildschirmfreigabe fehlgeschlagen!"
 
 #. [contactSearch.searchByNameTextField.placeholder]
 #. defaultMessage is:
@@ -431,10 +487,10 @@ msgstr "Neuer Anruf"
 
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
-#. No connection - check your internet connection.
+#. No connection - check your Internet connection.
 #: i18n/src/messages.json
 msgctxt "callView.noConnectionTooltip.title"
-msgid "No connection - check your internet connection."
+msgid "No connection - check your Internet connection."
 msgstr "Keine Verbindung - prüfen Sie Ihre Internetverbindung."
 
 #. [contactSearch.noMatches.message]
@@ -660,6 +716,30 @@ msgstr "Sie können dieses Meeting von Ihrem Computer, Tablet oder Smartphone be
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
 msgstr "Sie haben hier keinen Zugriff."
+
+#. [meetscreen.errorMessage.browserUnsupported.message]
+#. defaultMessage is:
+#. Your browser is not supported - expect issues.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserUnsupported.message"
+msgid "Your browser is not supported - expect issues."
+msgstr "Ihr Browser wird nicht unterstützt - es können Probleme auftreten."
+
+#. [meetscreen.errorMessage.browserTooOld.message]
+#. defaultMessage is:
+#. Your browser is too old and thus not supported.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserTooOld.message"
+msgid "Your browser is too old and thus not supported."
+msgstr "Ihr Browser ist zu alt und wird deshalb nicht unterstützt."
+
+#. [meetscreen.errorMessage.browserUnknownUnsupported.message]
+#. defaultMessage is:
+#. Your browser is unknown and thus not supported.
+#: i18n/src/messages.json
+msgctxt "meetscreen.errorMessage.browserUnknownUnsupported.message"
+msgid "Your browser is unknown and thus not supported."
+msgstr "Ihr Browser konnte nicht erkannt werden und wird deshalb nicht unterstützt."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:

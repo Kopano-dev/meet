@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-10-14T13:56:38.151Z\n"
+"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -57,11 +57,27 @@ msgid "Allow public guest access"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [meetscreen.errorMessage.appleStandalone.message]
+#. defaultMessage is:
+#. Apple devices do not support camera/mic access when started as App.
+msgctxt "meetscreen.errorMessage.appleStandalone.message"
+msgid "Apple devices do not support camera/mic access when started as App."
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
 #. Audio only
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.settingsVideoCoverLabel.label]
+#. defaultMessage is:
+#. Autofit
+msgctxt "callView.settingsVideoCoverLabel.label"
+msgid "Autofit"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -227,11 +243,51 @@ msgid "Enter a name for the group in the field above. You can use any\n         
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [kwm.errorMessage.kwmError.message]
+#. defaultMessage is:
+#. Error: KWM error - {msg} {code}
+msgctxt "kwm.errorMessage.kwmError.message"
+msgid "Error: KWM error - {msg} {code}"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meet.errorMessage.rumFailedCameraMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your camera and microphone!
+msgctxt "meet.errorMessage.rumFailedCameraMicrophone.message"
+msgid "Failed to access your camera and microphone!"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meet.errorMessage.rumFailedCamera.message]
+#. defaultMessage is:
+#. Failed to access your camera!
+msgctxt "meet.errorMessage.rumFailedCamera.message"
+msgid "Failed to access your camera!"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meet.errorMessage.rumFailedMicrophone.message]
+#. defaultMessage is:
+#. Failed to access your microphone!
+msgctxt "meet.errorMessage.rumFailedMicrophone.message"
+msgid "Failed to access your microphone!"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [contactSearch.failedToLoad.message]
 #. defaultMessage is:
 #. Failed to load contacts.
 msgctxt "contactSearch.failedToLoad.message"
 msgid "Failed to load contacts."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meet.errorMessage.rdmFailed.message]
+#. defaultMessage is:
+#. Failed to share your screen!
+msgctxt "meet.errorMessage.rdmFailed.message"
+msgid "Failed to share your screen!"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -405,9 +461,9 @@ msgstr ""
 #: ./i18n/src/messages.json
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
-#. No connection - check your internet connection.
+#. No connection - check your Internet connection.
 msgctxt "callView.noConnectionTooltip.title"
-msgid "No connection - check your internet connection."
+msgid "No connection - check your Internet connection."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -632,6 +688,30 @@ msgstr ""
 #. You do not have access here.
 msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meetscreen.errorMessage.browserUnsupported.message]
+#. defaultMessage is:
+#. Your browser is not supported - expect issues.
+msgctxt "meetscreen.errorMessage.browserUnsupported.message"
+msgid "Your browser is not supported - expect issues."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meetscreen.errorMessage.browserTooOld.message]
+#. defaultMessage is:
+#. Your browser is too old and thus not supported.
+msgctxt "meetscreen.errorMessage.browserTooOld.message"
+msgid "Your browser is too old and thus not supported."
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [meetscreen.errorMessage.browserUnknownUnsupported.message]
+#. defaultMessage is:
+#. Your browser is unknown and thus not supported.
+msgctxt "meetscreen.errorMessage.browserUnknownUnsupported.message"
+msgid "Your browser is unknown and thus not supported."
 msgstr ""
 
 #: ./i18n/src/messages.json
