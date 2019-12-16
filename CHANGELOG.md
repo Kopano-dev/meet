@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Update translations and translate to German
+- Add defines for translatable error messages and snacks
+- Update kpop to 1.2.1
+- Use v4 typography variants
+- Allow development service worker to replace production service worker
+- Add snacks related to KWM server connection
+- Add check for browser support with corresponding error messages
+- Fix linter warnings in helper scripts
+- Improve audioSink apply logic
+- Use notifications from kpop
+- Update kpop to 1.2.0 and dependencies
+- Refactor callview actions
 
 
 ## v1.2.1 (2019-12-10)
