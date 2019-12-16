@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 import { setError, enqueueErrorSnackbar, enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 
 import * as kwmjs from 'kwmjs';
@@ -67,6 +69,13 @@ const kwmConfig = (() => {
   return config;
 })();
 
+
+const translations = defineMessages({
+  kwmError: {
+    id: 'kwm.errorMessage.kwmError.message',
+    defaultMessage: 'Error: KWM error - {msg} {code}',
+  },
+});
 
 // Default WebRTC constraints.
 const defaultCommonConstraints = (() => {
@@ -423,8 +432,12 @@ function error(event) {
 
     // TODO(longsleep): Make only fatal if kwm is not reconnecting.
     const error = {
-      message: `Error: KWM error - ${event.msg} (${event.code})`,
+      message: translations.kwmError,
       fatal: fatal,
+      values: {
+        msg: event.msg,
+        code: event.code,
+      },
     };
 
     dispatch(doHangup());

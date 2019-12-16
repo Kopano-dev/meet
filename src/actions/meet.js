@@ -49,6 +49,22 @@ const translations = defineMessages({
     id: 'callView.noAccess.snack',
     defaultMessage: 'You do not have access here.',
   },
+  rdmFailed: {
+    id: 'meet.errorMessage.rdmFailed.message',
+    defaultMessage: 'Failed to share your screen!',
+  },
+  rumFailedCamera: {
+    id: 'meet.errorMessage.rumFailedCamera.message',
+    defaultMessage: 'Failed to access your camera!',
+  },
+  rumFailedMicrophone: {
+    id: 'meet.errorMessage.rumFailedMicrophone.message',
+    defaultMessage: 'Failed to access your microphone!',
+  },
+  rumFailedCameraAndMicrophone: {
+    id: 'meet.errorMessage.rumFailedCameraMicrophone.message',
+    defaultMessage: 'Failed to access your camera and microphone!',
+  },
 });
 
 export function pushHistory(pathname, state, options={}) {
@@ -328,7 +344,7 @@ const displayMedia = new class DisplayMedia {
         this.failed.set(id, true); // Mark error.
         dispatch(setError({
           detail: `${err}`,
-          message: 'Failed to access your screen for sharing',
+          message: translations.rdmFailed,
           fatal: false,
         }));
         return null;
@@ -467,12 +483,13 @@ const userMedia = new class UserMedia {
 
       // Response actions.
       return rum.catch(err => {
-        let message = 'Failed to access'; // eslint-disable-line i18n-text/no-en
-        if (video) {
-          message += ' camera';
-        }
-        if (audio) {
-          message += ' microphone';
+        let message;
+        if (video && audio) {
+          message = translations.rumFailedCameraAndMicrophone;
+        } else if (video) {
+          message = translations.rumFailedCamera;
+        } else if (audio) {
+          message = translations.rumFailedMicrophone;
         }
         this.failed.set(id, true); // Mark error.
         dispatch(setError({
@@ -659,12 +676,13 @@ export function muteStream({mute, video, audio}) {
         dispatch(kwmApplyLocalStreamTracks(info));
       }).catch(err => {
         console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
-        let message = 'Failed to access'; // eslint-disable-line i18n-text/no-en
-        if (video) {
-          message += ' camera';
-        }
-        if (audio) {
-          message += ' microphone';
+        let message;
+        if (video && audio) {
+          message = translations.rumFailedCameraAndMicrophone;
+        } else if (video) {
+          message = translations.rumFailedCamera;
+        } else if (audio) {
+          message = translations.rumFailedMicrophone;
         }
         dispatch(setError({
           detail: `${err}`,
