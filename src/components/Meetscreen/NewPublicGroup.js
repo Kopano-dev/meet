@@ -20,7 +20,7 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { PUBLIC_GROUP_PREFIX, isPublicGroup } from '../utils';
+import { PUBLIC_GROUP_PREFIX, isPublicGroup } from '../../utils';
 
 const styles = theme => ({
   root: {

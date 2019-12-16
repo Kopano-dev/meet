@@ -19,7 +19,8 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 
 import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
-import { pushHistory } from '../actions/meet';
+
+import { pushHistory } from '../../actions/meet';
 
 const styles = (theme) => ({
   root: {

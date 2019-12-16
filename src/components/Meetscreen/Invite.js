@@ -22,7 +22,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { isMobile, makeGroupLink, isPublicGroup } from '../utils';
+import { isMobile, makeGroupLink, isPublicGroup } from '../../utils';
 
 const styles = theme => ({
   root: {

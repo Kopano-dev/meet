@@ -50,8 +50,8 @@ import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 
-import { fetchAndAddContacts, initializeContactsWithRecents } from '../actions/contacts';
-import { fetchRecents } from '../actions/recents';
+import { fetchAndAddContacts, initializeContactsWithRecents } from '../../actions/contacts';
+import { fetchRecents } from '../../actions/recents';
 import {
   doAccept,
   doHangup,
@@ -70,12 +70,16 @@ import {
   toggleStandby,
   setMode,
   SCREENSHARE_SCREEN_ID,
-} from '../actions/meet';
-import { writeTextToClipboard } from '../clipboard';
-import { isMobile, isTouchDevice } from '../utils';
+} from '../../actions/meet';
+import { Howling } from '../howling';
+import { writeTextToClipboard } from '../../clipboard';
+import { isMobile, isTouchDevice } from '../../utils';
+import FullscreenDialog from '../FullscreenDialog';
+import IconButtonWithPopover from '../IconButtonWithPopover';
+import SettingsDialog from '../SettingsDialog';
+
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
-import FullscreenDialog from './FullscreenDialog';
 import Recents from './Recents';
 import ContactSearch from './ContactSearch';
 import Invite from './Invite';
@@ -84,9 +88,6 @@ import GroupControl from './GroupControl';
 import ContactControl from './ContactControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
-import { Howling } from './howling';
-import IconButtonWithPopover from './IconButtonWithPopover';
-import SettingsDialog from './SettingsDialog';
 
 const xsHeightDownBreakpoint = '@media (max-height:450px)';
 const minimalHeightDownBreakpoint = '@media (max-height:275px)';

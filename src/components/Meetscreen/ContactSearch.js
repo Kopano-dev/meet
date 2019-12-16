@@ -29,11 +29,12 @@ import * as lunr from 'lunr';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { fetchAndAddContacts, searchContacts } from '../actions/contacts';
-import { maybeIsABEID, idFromABEID } from '../abeid';
-import { getOwnGrapiUserEntryID } from '../selectors';
+import { fetchAndAddContacts, searchContacts } from '../../actions/contacts';
+import { maybeIsABEID, idFromABEID } from '../../abeid';
+import { getOwnGrapiUserEntryID } from '../../selectors';
+import { isMobile } from '../../utils';
+
 import { mapContactEntryToUserShape } from './Recents';
-import { isMobile } from '../utils';
 
 const styles = theme => ({
   root: {

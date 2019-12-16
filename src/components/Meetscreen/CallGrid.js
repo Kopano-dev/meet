@@ -13,7 +13,8 @@ import posed from 'react-pose';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-import AudioVideo from './AudioVideo';
+import AudioVideo from '../AudioVideo';
+
 import FloatingAudioVideo from './FloatingAudioVideo';
 
 const DragableFloatingAudioVideo = posed(FloatingAudioVideo)({

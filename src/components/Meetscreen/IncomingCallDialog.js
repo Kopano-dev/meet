@@ -23,10 +23,11 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
+import { fetchAndUpdateContactByID } from '../../actions/contacts';
+import { resolveContactIDFromRecord } from '../../utils';
+
 import ContactLabel from './ContactLabel';
 import { mapContactEntryToUserShape } from './Recents';
-import { fetchAndUpdateContactByID } from '../actions/contacts';
-import { resolveContactIDFromRecord } from '../utils';
 
 const styles = theme => ({
   appBar: {

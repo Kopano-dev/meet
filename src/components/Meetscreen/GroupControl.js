@@ -21,9 +21,10 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { makeGroupLink } from '../utils';
+import { makeGroupLink } from '../../utils';
 import { mapGroupEntryToUserShape } from './Recents';
-import { pushHistory } from '../actions/meet';
+import { pushHistory } from '../../actions/meet';
+
 import ScopeLabel from './ScopeLabel';
 
 const styles = theme => ({

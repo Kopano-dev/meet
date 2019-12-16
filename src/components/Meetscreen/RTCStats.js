@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getStatsForAllConnections } from '../actions/kwm';
+import { getStatsForAllConnections } from '../../actions/kwm';
 
 class RTCStats extends React.PureComponent {
   interval = 5000;

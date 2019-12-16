@@ -31,9 +31,10 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
+import { removeRecentEntry } from '../../actions/recents';
+
 import ContactLabel from './ContactLabel';
 import ScopeLabel from './ScopeLabel';
-import { removeRecentEntry } from '../actions/recents';
 
 const styles = theme => ({
   root: {
