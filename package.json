@@ -63,6 +63,7 @@
     "eslint": ">=5",
     "eslint-plugin-i18n-text": "^1.0.0",
     "eslint-plugin-jest": "^22.0.0",
+    "eslint-plugin-react": "^7.17.0",
     "react-intl-cra": "^0.3.3",
     "react-intl-po": "^2.2.1",
     "source-map-explorer": "^1.5.0",
@@ -76,7 +77,8 @@
     "**/@material-ui/core": "4.8.0",
     "**/@material-ui/icons": "4.5.1",
     "**/react-intl": "2.9.0",
-    "**/oidc-client": "1.5.4"
+    "**/oidc-client": "1.5.4",
+    "**/eslint-plugin-react": "7.17.0"
   },
   "jest": {
     "collectCoverageFrom": [
