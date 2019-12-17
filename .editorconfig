@@ -12,7 +12,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 ; HTML, CSS and JavaScript, 4 spaces
-[*.{html,css,js}]
+[*.{html,css,js,json}]
 charset = utf-8
 indent_size = 2
 indent_style = space
