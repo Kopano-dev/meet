@@ -91,7 +91,7 @@ const translations = defineMessages({
   },
 });
 
-const DeviceLabel = ({device}) => {
+const DeviceLabel = React.forwardRef(function DeviceLabel({device}, ref) {
   if (device.label) {
     return device.label;
   }
@@ -100,9 +100,13 @@ const DeviceLabel = ({device}) => {
   const entry = deviceCache.labels[id];
   if (!entry) {
     deviceCache.labels[id] = {label: ''+(++deviceCache.unknown)};
-    return deviceCache.labels[id].label;
+    return <React.Fragment ref={ref}>{deviceCache.labels[id].label}</React.Fragment>;
   }
-  return entry.label;
+  return <React.Fragment ref={ref}>{entry.label}</React.Fragment>;
+});
+
+DeviceLabel.propTypes = {
+  device: PropTypes.object.isRequired,
 };
 
 class DeviceSettings extends React.PureComponent {

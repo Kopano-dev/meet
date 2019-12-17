@@ -27,12 +27,9 @@ export function formatScopeLabel(intl, scope, capitalize=false) {
   return label;
 }
 
-class ScopeLabel extends React.PureComponent {
-  render() {
-    const { intl, scope, capitalize } = this.props;
-    return formatScopeLabel(intl, scope, capitalize);
-  }
-}
+const ScopeLabel = React.forwardRef(function ScopeLabel({intl, scope, capitalize}, ref) {
+  return <React.Fragment ref={ref}>{formatScopeLabel(intl, scope, capitalize)}</React.Fragment>;
+});
 
 ScopeLabel.propTypes = {
   intl: intlShape.isRequired,

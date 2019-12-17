@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -230,7 +231,9 @@ class Recents extends React.PureComponent {
                   className={classes.entry}
                   ContainerProps={{className: classes.entryContainer}}
                 >
-                  <RecentsEntryPersona entry={entry}/>
+                  <ListItemAvatar>
+                    <RecentsEntryPersona entry={entry}/>
+                  </ListItemAvatar>
                   <ListItemText
                     primary={<ContactLabel contact={entry} id={entry.id}/>}
                     secondary={<RecentsEntrySubline entry={entry}/>}
@@ -295,21 +298,21 @@ const mapStateToProps = state => {
   };
 };
 
-const RecentsEntryPersona = ({ entry }) => {
+const RecentsEntryPersona = React.forwardRef(function RecentsEntryPersona({ entry }, ref) {
   switch (entry.kind) {
     case 'group':
-      return <Persona user={mapGroupEntryToUserShape(entry)} forceIcon icon={<PublicConferenceIcon/>}/>;
+      return <Persona ref={ref} user={mapGroupEntryToUserShape(entry)} forceIcon icon={<PublicConferenceIcon/>}/>;
 
     default:
-      return <Persona user={mapContactEntryToUserShape(entry)}/>;
+      return <Persona ref={ref} user={mapContactEntryToUserShape(entry)}/>;
   }
-};
+});
 
 RecentsEntryPersona.propTypes = {
   entry: PropTypes.object.isRequired,
 };
 
-const RecentsEntrySubline = ({ entry }) => {
+const RecentsEntrySubline = React.forwardRef(function RecentsEntrySubline({ entry }, ref) {
   let prefix = null;
   switch (entry.kind) {
     case 'group': {
@@ -318,7 +321,7 @@ const RecentsEntrySubline = ({ entry }) => {
     }
   }
 
-  return <React.Fragment>
+  return <React.Fragment ref={ref}>
     {prefix}<Tooltip
       enterDelay={500}
       placement="bottom"
@@ -327,7 +330,7 @@ const RecentsEntrySubline = ({ entry }) => {
       <Moment fromNow >{entry.date}</Moment>
     </Tooltip>
   </React.Fragment>;
-};
+});
 
 RecentsEntrySubline.propTypes = {
   entry: PropTypes.object.isRequired,

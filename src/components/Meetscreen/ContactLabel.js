@@ -12,8 +12,7 @@ const styles = {
   },
 };
 
-
-const ContactLabel = ({classes, contact, id}) => {
+const ContactLabel = React.forwardRef(function ContactLabel({classes, contact, id}, ref) {
   let label = '';
   if (contact) {
     label = contact.displayName;
@@ -27,8 +26,8 @@ const ContactLabel = ({classes, contact, id}) => {
     </em>;
   }
 
-  return <span className={classes.root}>{label}</span>;
-};
+  return <span className={classes.root} ref={ref}>{label}</span>;
+});
 
 ContactLabel.propTypes = {
   classes: PropTypes.object.isRequired,

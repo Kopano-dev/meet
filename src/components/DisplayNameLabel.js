@@ -1,35 +1,36 @@
 import React from 'react'; // eslint-disable-line no-unused-vars
 import PropTypes from 'prop-types';
 
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage, defineMessages } from 'react-intl';
+
+const translations = defineMessages({
+  userWithIndex: {
+    id: "displayNameLabel.userWithIndex.text",
+    defaultMessage: "User {idx}",
+  },
+});
 
 let count = 0;
-const cache = {
-};
+const cache = new Map();
 
-const DisplayNameLabel = ({user, id}) => {
+const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user, id}, ref) {
   const { displayName } = user;
 
   if (displayName && displayName.trim() !== '') {
     return displayName;
   }
   if (!id) {
-    return <FormattedMessage id="displayNameLabel.unknownUser.text" defaultMessage="Unknown user"></FormattedMessage>;
+    return <FormattedMessage ref={ref} id="displayNameLabel.unknownUser.text" defaultMessage="Unknown user"></FormattedMessage>;
   }
 
-  let label = cache[id];
-  if (!label) {
-    let idx = ++count;
-    label = <FormattedMessage
-      id="displayNameLabel.userWithIndex.text"
-      defaultMessage="User {idx}"
-      values={{idx}}
-    ></FormattedMessage>;
-    cache[id] = label;
+  let idx = cache.get(id);
+  if (idx === undefined) {
+    idx = ++count;
+    cache.set(id, idx);
   }
 
-  return label;
-};
+  return <React.Fragment ref={ref}>{intl.formatMessage(translations.useWithIndex, {idx})}</React.Fragment>;
+});
 
 DisplayNameLabel.propTypes = {
   intl: intlShape.isRequired,

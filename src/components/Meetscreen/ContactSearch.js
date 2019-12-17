@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CallIcon from '@material-ui/icons/Call';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -421,7 +422,9 @@ class ContactSearch extends React.PureComponent {
                 key={contact.id}
                 className={classes.entry}
               >
-                <Persona user={mapContactEntryToUserShape(contact)}/>
+                <ListItemAvatar>
+                  <Persona user={mapContactEntryToUserShape(contact)}/>
+                </ListItemAvatar>
                 <ListItemText primary={contact.displayName} secondary={contact.jobTitle} />
                 <ListItemSecondaryAction className={classes.actions}>
                   <IconButton aria-label={intl.formatMessage(translations.callButtonAria)} data-contact-action="default">
@@ -459,12 +462,12 @@ ContactSearch.propTypes = {
   embedded: PropTypes.bool,
 };
 
-function ContactListItem(props) {
+const ContactListItem = React.forwardRef(function ContactListItem(props, ref) {
   const { idx, search, children, ...other} = props; // eslint-disable-line react/prop-types
 
-  const ref = search ? 's:' + idx : idx;
-  return <li data-contact-ref={ref} {...other}>{children}</li>;
-}
+  const contactRef = search ? 's:' + idx : idx;
+  return <li ref={ref} data-contact-ref={contactRef} {...other}>{children}</li>;
+});
 
 const filterIDFromContacts = (contacts, id, mail) => {
   const isABEID = maybeIsABEID(id);
