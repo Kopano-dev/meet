@@ -56,14 +56,14 @@
 			"always"
 		],
 		"@calm/react-intl/missing-formatted-message": [
-			"error",
+			"warn",
 			{
 				"noTrailingWhitespace": false,
 				"ignoreLinks": false
 			}
 		],
 		"@calm/react-intl/missing-attribute": [
-			"error",
+			"warn",
 			{
 				"noTrailingWhitespace": false,
 				"noSpreadOperator": true
@@ -73,7 +73,7 @@
 			"error"
 		],
 		"i18n-text/no-en": [
-			"error"
+			"warn"
 		]
 	}
 }
