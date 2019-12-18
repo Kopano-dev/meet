@@ -9,6 +9,8 @@ import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
+  MEET_SET_GUEST,
+  MEET_SET_AUTO,
 } from '../actions/types';
 
 import {
@@ -20,10 +22,9 @@ import { getCurrentAppPath } from '../base';
 
 const defaultState = (() => {
   const hpr = parseQuery(window.location.hash.substr(1));
+  const path = getCurrentAppPath();
 
   const s = {
-    guest: false,
-
     muteMic: false,
     muteCam: false,
 
@@ -31,12 +32,17 @@ const defaultState = (() => {
     previousMode: null,
 
     localStream: null,
+
+    guest: {
+      guest: null,
+      user: false,
+    },
   };
 
   if (hpr.auto) {
     s.auto = {
       auto: hpr.auto,
-      path: getCurrentAppPath(),
+      path,
     };
   }
 
@@ -49,6 +55,17 @@ const defaultState = (() => {
     }
   }
 
+  if (hpr.guest) {
+    s.guest.guest = hpr.guest;
+    s.guest.path = decodeURI(path).substr(2);
+    if (hpr.token) {
+      s.guest.token = hpr.token;
+    }
+    if (hpr.name) {
+      s.guest.name = hpr.name;
+    }
+  }
+
   return s;
 })();
 
@@ -57,7 +74,10 @@ function meetReducer(state = defaultState, action) {
     case KPOP_RECEIVE_USER:
       return {
         ...state,
-        guest: action.user && action.user.scope.indexOf(scopeGuestOK) >= 0,
+        guest: {
+          ...state.guest,
+          user: action.user && action.user.scope.indexOf(scopeGuestOK) >= 0,
+        },
       };
 
     case MEET_MUTE_OR_UNMUTE: {
@@ -113,6 +133,25 @@ function meetReducer(state = defaultState, action) {
         };
       }
       break;
+
+    case MEET_SET_GUEST:
+      return {
+        ...state,
+        guest: {
+          ...state.guest,
+          ...action.guest,
+          user: state.guest.user,
+        },
+      };
+
+    case MEET_SET_AUTO:
+      return {
+        ...state,
+        auto: action.auto ? {
+          ...state.auto,
+          ...action.auto,
+        } : undefined,
+      };
   }
 
   return state;

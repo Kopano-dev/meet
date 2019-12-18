@@ -157,7 +157,7 @@ export function setupKWM(id, idToken, {authorizationType, authorizationValue, au
     });
 
     // Auto connect support when requested.
-    if (autoConnect && kwm === null) {
+    if (autoConnect) {
       return dispatch(connectToKWM(idToken, eventCallback));
     }
 
@@ -451,7 +451,7 @@ function stateChanged(event) {
     const { connecting, connected, reconnecting } = event;
 
     if (oldConnected !== connected) {
-      if (!connected) {
+      if (!connected && kwmOptions.id) {
         const error = {
           fatal: false,
           options: {

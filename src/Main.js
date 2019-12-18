@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ConnectedRouter } from 'connected-react-router';
+import Moment from 'react-moment';
 
 import BaseContainer from 'kpop/es/BaseContainer';
 import MainContainer from 'kpop/es/MainContainer';
 import { fetchConfigAndInitializeUser } from 'kpop/es/config/actions';
-import { appInitializationError, userRequiredError } from 'kpop/es/common/actions';
-import { parseQuery } from 'kpop/es/utils';
+import { appInitializationError } from 'kpop/es/common/actions';
 import {
   scopeOpenID,
   scopeEmail,
@@ -23,7 +23,6 @@ import soundSprite1Ogg from './sounds/sprite1.ogg';
 import soundSprite1Mp3 from './sounds/sprite1.mp3';
 import soundSprite1Json from './sounds/sprite1.json';
 
-import { getCurrentAppPath } from './base';
 import KWMProvider from './components/KWMProvider';
 import { tryGuestLogon } from './api/kwm';
 import Routes from './Routes';
@@ -35,7 +34,7 @@ class Main extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { initialized } = this.state;
-    const { offline, dispatch, user } = this.props;
+    const { offline, dispatch } = this.props;
 
     if (!initialized && offline !== prevProps.offline && !offline) {
       this.initialize().then(() => {
@@ -51,17 +50,18 @@ class Main extends PureComponent {
       }) ;
     }
 
-    if (!user && prevProps.user) {
+    /*if (!user && prevProps.user) {
       // Lost the user.
       this.uninitialize();
-    }
+    }*/
   }
 
   initialize = () => {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const options = {
       id: 'meet',
-      lazy: true,
+      history, // Provide history implementation.
+      withUserLazy: true,
       defaults: async config => {
         config = {
           oidc: {},
@@ -92,8 +92,8 @@ class Main extends PureComponent {
       // other scopes optional. All components which depend on specific access
       // should check if the current user actually has gotten it.
       requiredScopes: [scopeOpenID, scopeProfile, scopeEmail, scopeKwm],
-      args: (config) => {
-        const guestEnabled = getGuestSettings(config) !== null;
+      args: (config, overrides={}) => {
+        const guestEnabled = config.guests.default ? true : !!this.props.guest.guest;
         return {
           onBeforeSignin: async (userManager, args) => {
             if (!config.guests || !config.guests.enabled) {
@@ -101,8 +101,9 @@ class Main extends PureComponent {
               return;
             }
             // Check if this is a guest request.
-            const guest = getGuestSettings(config);
-            if (!guest) {
+            const { guest } = this.props;
+            if (!guest.guest) {
+              delete userManager.settings.extraQueryParams.request;
               return;
             }
             // Add guest scope to request.
@@ -113,6 +114,7 @@ class Main extends PureComponent {
               scope,
               iss: userManager.settings.authority,
               client_id: userManager.settings.client_id,  // eslint-disable-line camelcase
+              locale: Moment.globalLocale,
             }));
             if (logon.ok) {
               // Set extra params for OIDC - this contains a signe OIDC request
@@ -134,6 +136,7 @@ class Main extends PureComponent {
           },
           noRedirect: !!guestEnabled,
           removeUser: !!guestEnabled,
+          ...overrides,
         };
       },
     };
@@ -141,13 +144,13 @@ class Main extends PureComponent {
     return dispatch(fetchConfigAndInitializeUser(options));
   }
 
-  uninitialize = () => {
+  /*uninitialize = () => {
     const { dispatch, user} = this.props;
 
     if (!user) {
       return dispatch(userRequiredError());
     }
-  }
+  }*/
 
   render() {
     const { initialized } = this.state;
@@ -165,7 +168,7 @@ class Main extends PureComponent {
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
             <ConnectedRouter history={history}>
-              <Routes authenticated={!!user} config={config}/>
+              <Routes authenticated={!!user}/>
             </ConnectedRouter>
           </MainContainer>
         </HowlingProvider>
@@ -181,33 +184,16 @@ Main.propTypes = {
   config: PropTypes.object,
   user: PropTypes.object,
   error: PropTypes.object,
+  guest: PropTypes.object.isRequired,
 
   history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-const getGuestSettings = (config) => {
-  const hpr = parseQuery(window.location.hash.substr(1));
-  const guest = hpr.guest ? hpr.guest : config.guests ? config.guests.default : null;
-  if (guest) {
-    const g = {
-      guest: String(guest),
-      path: decodeURI(getCurrentAppPath().substr(2)),
-    };
-    if (hpr.token) {
-      g.token = hpr.token;
-    }
-    if (hpr.name) {
-      g.name = hpr.name;
-    }
-    return g;
-  }
-  return null;
-};
-
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error, notifications } = state.common;
   const { available: a2HsAvailable } = state.pwa.a2hs;
+  const { guest } = state.meet;
 
   return {
     offline,
@@ -215,6 +201,7 @@ const mapStateToProps = (state) => {
     a2HsAvailable,
     config,
     user,
+    guest,
     error,
     notifications,
   };

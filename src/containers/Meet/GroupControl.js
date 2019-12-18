@@ -145,7 +145,7 @@ class GroupControl extends React.PureComponent {
     );
 
     const withActions = !channel;
-    const withClose = !guest && withActions;
+    const withClose = !guest.user && withActions;
 
     return (
       <div className={className}>
@@ -220,7 +220,7 @@ GroupControl.propTypes = {
 
   config: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
-  guest: PropTypes.bool.isRequired,
+  guest: PropTypes.object.isRequired,
 
   channel: PropTypes.string,
 

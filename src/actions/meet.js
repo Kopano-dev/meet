@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push as pushRouterHistory, replace as replaceRouterHistory } from 'connected-react-router';
 import { defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
@@ -9,6 +9,8 @@ import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
+  MEET_SET_GUEST,
+  MEET_SET_AUTO,
 } from './types';
 import {
   doAccept as kwmDoAccept,
@@ -68,16 +70,32 @@ const translations = defineMessages({
 });
 
 export function pushHistory(pathname, state, options={}) {
-  return (dispatch, getState) => {
-    const { location } = getState().router;
+  return dispatch => {
+    return dispatch(pushOrReplaceHistory(false, pathname, state, options, true));
+  };
+}
 
-    return dispatch(push({
+export function replaceHistory(pathname, state, options={}) {
+  return dispatch => {
+    return dispatch(pushOrReplaceHistory(true, pathname, state, options, true));
+  };
+}
+
+export function pushOrReplaceHistory(replace, pathname, state, options={}) {
+  return async (dispatch) => {
+    const { location } = window;
+
+    const params = {
       pathname,
       state,
       hash: location.hash,
       search: location.search,
       ...options,
-    }));
+    };
+    await dispatch(replace ?
+      replaceRouterHistory(params) :
+      pushRouterHistory(params)
+    );
   };
 }
 
@@ -152,14 +170,19 @@ const autoSupport = new class AutoSupport {
       const state = getState();
       const { auto } = state.meet;
       const { location } = state.router;
+      const { connected } = state.kwm;
 
-      if (auto && this.triggered !== auto) {
-        this.triggered = auto; // Trigger same auto only once.
+      if (connected && auto && this.triggered !== auto) {
         if (location.pathname.substr(1) === auto.path) {
+          this.triggered = auto; // Trigger same auto only once.
           // Parse auto value.
-          const mode = auto.mode === '1' ? 'call' : 'videocall';
+          const mode = auto.auto === '1' ? 'call' : 'videocall';
           const path = auto.path.substr(2);
-          const [ scope, ...id ] = path.split('/');
+          let [ scope, ...id ] = path.split('/');
+          if (scope === auto.prefix) {
+            // Strip of prefx if any.
+            [ scope, ...id ] = id;
+          }
           // Trigger auto call, based on parsed data.
           switch (scope) {
             case 'conference':
@@ -176,6 +199,11 @@ const autoSupport = new class AutoSupport {
   }
 }();
 export const doAutoCall = autoSupport.doAutoCall;
+
+export const setAuto = (auto) => ({
+  type: MEET_SET_AUTO,
+  auto,
+});
 
 export function doCall(entry, kind, mode) {
   return async dispatch => {
@@ -698,3 +726,8 @@ export function muteStream({mute, video, audio}) {
     return Promise.all(promises);
   };
 }
+
+export const setGuest = (guest) => ({
+  type: MEET_SET_GUEST,
+  guest,
+});

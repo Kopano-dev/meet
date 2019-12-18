@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
@@ -79,6 +78,10 @@ class KWMProvider extends React.PureComponent {
       && authorizationType === prevState.authorizationType
       && authorizationValue === prevState.authorizationValue) {
       // Nothing changed.
+      return;
+    }
+    if (!id && !prevState.id) {
+      // Nothing todo.
       return;
     }
 

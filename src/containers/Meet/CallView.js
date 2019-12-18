@@ -77,6 +77,7 @@ import { isMobile, isTouchDevice } from '../../utils';
 import FullscreenDialog from '../../components/FullscreenDialog';
 import IconButtonWithPopover from '../../components/IconButtonWithPopover';
 import SettingsDialog from '../../components/SettingsDialog';
+import AutoStandby from '../../components/AutoStandby';
 
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -481,7 +482,7 @@ class CallView extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const { auto } = props;
+    const { auto, channel } = props;
 
     // Initialize state.
     this.state = {
@@ -489,7 +490,7 @@ class CallView extends React.PureComponent {
       wasTouched: false,
       withChannel: false,
       shareScreen: false,
-      sidebarOpen: !auto,
+      sidebarOpen: !auto && !channel,
       sidebarMobileOpen: false,
       openDialogs: {},
       openTab: 'recents',
@@ -501,7 +502,7 @@ class CallView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { hidden, fetchContacts, fetchRecents, initializeContactsWithRecents, toggleStandby, updateOfferAnswerConstraints } = this.props;
+    const { fetchContacts, fetchRecents, initializeContactsWithRecents, updateOfferAnswerConstraints } = this.props;
     fetchContacts().catch(err => {
       // Ignore errors here, let global handler do it.
       console.error('failed to fetch contacts', err); // eslint-disable-line no-console
@@ -518,7 +519,6 @@ class CallView extends React.PureComponent {
     // TODO(longsleep): The initial rum should ensure, that the selected audioSink
     // actually has permission. This right now means that the mic of the corresponding
     // device needs to be requested. See https://w3c.github.io/mediacapture-output/#privacy-considerations
-    toggleStandby(!!hidden);
   }
 
   componentDidUpdate(prevProps, /*prevState*/) {
@@ -527,31 +527,12 @@ class CallView extends React.PureComponent {
       shareScreen,
     } = this.state;
     const {
-      mode,
       muteMic,
-      muteCam,
-      hidden,
       channel,
-      toggleStandby,
       stopDisplayMedia,
       enqueueSnackbar,
       closeSnackbar,
     } = this.props;
-
-    if (hidden !== prevProps.hidden || channel !== prevProps.channel) {
-      if (mode !== 'standby') {
-        if (hidden && !channel) {
-          // Switch to standby.
-          console.info('Switching to standby after hide'); // eslint-disable-line no-console
-          toggleStandby(true);
-        }
-      } else {
-        if (prevProps.hidden && !hidden) {
-          console.info('Switching from standby after no longer hide', muteMic, muteCam); // eslint-disable-line no-console
-          toggleStandby(false);
-        }
-      }
-    }
 
     if (channel && !prevProps.channel && !withChannel) {
       // Have a channel now.
@@ -600,12 +581,11 @@ class CallView extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    const { doHangup, stopUserMedia, stopDisplayMedia } = this.props;
+    const { doHangup, stopDisplayMedia } = this.props;
 
     this.closeAllOpenDialogs();
     doHangup();
 
-    stopUserMedia();
     stopDisplayMedia();
   }
 
@@ -1010,7 +990,7 @@ class CallView extends React.PureComponent {
       </Hidden>
     );
 
-    if (!guest) {
+    if (!guest.user) {
       icons.push(
         <Hidden smDown key='kopano-apps'>
           <AppsSwitcherButton/>
@@ -1155,7 +1135,6 @@ class CallView extends React.PureComponent {
                   </GroupControl>;
                 }}
               />
-              <Redirect to="/r/call"/>
             </Switch>
           </div>
         ))}
@@ -1322,11 +1301,12 @@ class CallView extends React.PureComponent {
             />
             <Hidden mdUp>{menu}</Hidden>
           </div>
-          <AsideBar/>
+          {!guest.user && <AsideBar/>}
         </TopBarBound>
         {dialogs}
         <Howling label="ring2" playing={Object.keys(ringing).length > 0} loop/>
         <Howling label="dial1" playing={Object.keys(calling).length > 0} interval={4}/>
+        <AutoStandby wakeLock={!!channel}/>
       </div>
     );
   }
@@ -1344,7 +1324,7 @@ CallView.propTypes = {
   hidden: PropTypes.bool.isRequired,
   profile: userShape.isRequired,
   config: PropTypes.object.isRequired,
-  guest: PropTypes.bool.isRequired,
+  guest: PropTypes.object.isRequired,
   auto: PropTypes.bool.isRequired,
 
   connected: PropTypes.bool,

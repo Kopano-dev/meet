@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import { defineMessages } from 'react-intl';
-import { Route, Redirect, Switch } from 'react-router';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -141,10 +140,7 @@ class Meetscreen extends React.PureComponent {
         <main
           className={classes.content}
         >
-          <Switch>
-            <Route path="/r/(call|conference|group)" component={CallView}/>
-            <Redirect to="/r/call"/>
-          </Switch>
+          <CallView/>
         </main>
       </div>
     );

@@ -45,3 +45,5 @@ export const RECENTS_ERROR = 'RECENTS_ERROR';
 export const MEET_MUTE_OR_UNMUTE = 'MEET_MUTE_OR_UNMUTE';
 export const MEET_SET_MODE = 'MEET_SET_MODE';
 export const MEET_LOCAL_STREAM = 'MEET_LOCAL_STREAM';
+export const MEET_SET_GUEST = 'MEET_SET_GUEST';
+export const MEET_SET_AUTO = 'MEET_SET_AUTO';

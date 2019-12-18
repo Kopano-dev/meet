@@ -3,6 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import kopanoGreen from 'kpop/es/colors/kopanoGreen';
 
 const darkGrey = '#272c2e';
+const middleGrey = '#464646';
 const lightBlue = '#3eb4f3';
 const lightGrey = '#585759';
 
@@ -37,6 +38,10 @@ const meetTheme = outerTheme => ({
   videoBackground: {
     top: lightGrey,
     bottom: darkGrey,
+  },
+  defaultBackground: {
+    top: middleGrey,
+    bottom: middleGrey,
   },
 });
 
