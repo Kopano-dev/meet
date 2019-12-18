@@ -65,11 +65,15 @@ class KWMProvider extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.connect();
+    const { id } = this.state;
+
+    if (id) {
+      this.connect();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let { id, authorizationType, authorizationValue } = this.state;
+    const { id, authorizationType, authorizationValue } = this.state;
 
     if (id === prevState.id
       && authorizationType === prevState.authorizationType
@@ -78,7 +82,7 @@ class KWMProvider extends React.PureComponent {
       return;
     }
 
-    // Trigger kwm connection.
+    // Trigger kwm connection or update existing.
     this.connect();
   }
 
@@ -92,7 +96,7 @@ class KWMProvider extends React.PureComponent {
 
   connect = async () => {
     const { dispatch } = this.props;
-    let { id, idToken, authorizationType, authorizationValue } = this.state;
+    const { id, idToken, authorizationType, authorizationValue } = this.state;
 
     if (this.reconnector) {
       this.reconnector.cancel();

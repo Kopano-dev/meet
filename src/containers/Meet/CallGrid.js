@@ -13,7 +13,7 @@ import posed from 'react-pose';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
-import AudioVideo from '../AudioVideo';
+import AudioVideo from '../../components/AudioVideo';
 
 import FloatingAudioVideo from './FloatingAudioVideo';
 

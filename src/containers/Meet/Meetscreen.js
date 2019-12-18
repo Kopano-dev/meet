@@ -160,7 +160,15 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setError,
 }, dispatch);
 
-export default connect(null, mapDispatchToProps)(
+const mapStateToProps = state => {
+  const { config } = state.common;
+
+  return {
+    config,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles, {withTheme: true})(
     DragDropContext(HTML5Backend)(
       Meetscreen

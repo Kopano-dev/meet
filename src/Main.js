@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
 import BaseContainer from 'kpop/es/BaseContainer';
@@ -19,25 +18,17 @@ import {
   scopeKvs,
 } from 'kpop/es/oidc/scopes';
 
-import { HowlingProvider } from '../components/howling';
-import soundSprite1Ogg from '../sounds/sprite1.ogg';
-import soundSprite1Mp3 from '../sounds/sprite1.mp3';
-import soundSprite1Json from '../sounds/sprite1.json';
+import HowlingProvider from './components/Howling/HowlingProvider';
+import soundSprite1Ogg from './sounds/sprite1.ogg';
+import soundSprite1Mp3 from './sounds/sprite1.mp3';
+import soundSprite1Json from './sounds/sprite1.json';
 
-import { getCurrentAppPath } from '../base';
-import Meetscreen  from '../components/Meetscreen';
-import KWMProvider from '../components/KWMProvider';
-import { tryGuestLogon } from '../api/kwm';
+import { getCurrentAppPath } from './base';
+import KWMProvider from './components/KWMProvider';
+import { tryGuestLogon } from './api/kwm';
+import Routes from './Routes';
 
-const routes = [
-  {
-    path: '/r/:view(call|conference|group)?',
-    exact: false,
-    component: Meetscreen,
-  },
-];
-
-class App extends PureComponent {
+class Main extends PureComponent {
   state = {
     initialized: false,
   }
@@ -70,6 +61,7 @@ class App extends PureComponent {
     const { dispatch } = this.props;
     const options = {
       id: 'meet',
+      lazy: true,
       defaults: async config => {
         config = {
           oidc: {},
@@ -160,7 +152,7 @@ class App extends PureComponent {
   render() {
     const { initialized } = this.state;
     const { config, user, error, history, ...other } = this.props;
-    const ready = config && user && initialized ? true : false;
+    const ready = config && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
     const soundSprite = soundSprite1Json;
@@ -173,10 +165,7 @@ class App extends PureComponent {
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
             <ConnectedRouter history={history}>
-              <Switch>
-                {routes.map((route, i) => <Route key={i} {...route} />)}
-                <Redirect to="/r" />
-              </Switch>
+              <Routes authenticated={!!user} config={config}/>
             </ConnectedRouter>
           </MainContainer>
         </HowlingProvider>
@@ -185,7 +174,7 @@ class App extends PureComponent {
   }
 }
 
-App.propTypes = {
+Main.propTypes = {
   offline: PropTypes.bool.isRequired,
   updateAvailable: PropTypes.bool.isRequired,
   a2HsAvailable: PropTypes.bool.isRequired,
@@ -231,4 +220,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(Main);

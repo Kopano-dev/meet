@@ -15,7 +15,7 @@ initialize(appBaseURL).then(() => {
   console.info(`Kopano Meet build version: ${version.build}`); // eslint-disable-line no-console
   console.info(`Kopano Kpop build version: ${kpop.build}`); // eslint-disable-line no-console
 
-  import(/* webpackChunkName: "meet-app" */ './meet');
+  import(/* webpackChunkName: "meet-app" */ './app');
 }).catch(err => {
   console.error('Early initialize error', err); // eslint-disable-line no-console
 });

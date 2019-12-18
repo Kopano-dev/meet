@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { HowlingContext } from './provider';
+import { HowlingContext } from './HowlingProvider';
 
 
 class Howling extends React.PureComponent {

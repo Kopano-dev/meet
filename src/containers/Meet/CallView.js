@@ -71,12 +71,12 @@ import {
   setMode,
   SCREENSHARE_SCREEN_ID,
 } from '../../actions/meet';
-import { Howling } from '../howling';
+import Howling from '../../components/Howling';
 import { writeTextToClipboard } from '../../clipboard';
 import { isMobile, isTouchDevice } from '../../utils';
-import FullscreenDialog from '../FullscreenDialog';
-import IconButtonWithPopover from '../IconButtonWithPopover';
-import SettingsDialog from '../SettingsDialog';
+import FullscreenDialog from '../../components/FullscreenDialog';
+import IconButtonWithPopover from '../../components/IconButtonWithPopover';
+import SettingsDialog from '../../components/SettingsDialog';
 
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';

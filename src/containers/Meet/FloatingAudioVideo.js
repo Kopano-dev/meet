@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import AudioVideo from '../AudioVideo';
+import AudioVideo from '../../components/AudioVideo';
 
 const styles = (theme) => ({
   root: {
