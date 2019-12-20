@@ -11,6 +11,7 @@ import {
   MEET_LOCAL_STREAM,
   MEET_SET_GUEST,
   MEET_SET_AUTO,
+  MEET_SET_COVER,
 } from './types';
 import {
   doAccept as kwmDoAccept,
@@ -730,4 +731,9 @@ export function muteStream({mute, video, audio}) {
 export const setGuest = (guest) => ({
   type: MEET_SET_GUEST,
   guest,
+});
+
+export const setCover = (cover=true) => ({
+  type: MEET_SET_COVER,
+  cover: !!cover,
 });

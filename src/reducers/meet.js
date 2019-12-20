@@ -11,6 +11,7 @@ import {
   MEET_LOCAL_STREAM,
   MEET_SET_GUEST,
   MEET_SET_AUTO,
+  MEET_SET_COVER,
 } from '../actions/types';
 
 import {
@@ -30,6 +31,8 @@ const defaultState = (() => {
 
     mode: 'standby',
     previousMode: null,
+
+    cover: true,
 
     localStream: null,
 
@@ -151,6 +154,12 @@ function meetReducer(state = defaultState, action) {
           ...state.auto,
           ...action.auto,
         } : undefined,
+      };
+
+    case MEET_SET_COVER:
+      return {
+        ...state,
+        cover: action.cover,
       };
   }
 

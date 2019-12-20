@@ -24,8 +24,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ToggleSwitch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
@@ -34,7 +32,6 @@ import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import renderIf from 'render-if';
 
@@ -78,6 +75,7 @@ import FullscreenDialog from '../../components/FullscreenDialog';
 import IconButtonWithPopover from '../../components/IconButtonWithPopover';
 import SettingsDialog from '../../components/SettingsDialog';
 import AutoStandby from '../../components/AutoStandby';
+import QuickSettingsList from '../../components/QuickSettingsList';
 
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -452,14 +450,6 @@ const translations = defineMessages({
     id: 'callView.settingsList.label',
     defaultMessage: 'Settings',
   },
-  settingsAudioOnlyLabel: {
-    id: 'callView.settingsAudioOnly.label',
-    defaultMessage: 'Audio only',
-  },
-  settingsVideoCoverLabel: {
-    id: 'callView.settingsVideoCoverLabel.label',
-    defaultMessage: 'Autofit',
-  },
   copiedLinkToClipboardSnack: {
     id: 'callView.copiedLinkToClipboard.snack',
     defaultMessage: 'Link copied to clipboard.',
@@ -486,7 +476,6 @@ class CallView extends React.PureComponent {
 
     // Initialize state.
     this.state = {
-      cover: true,
       wasTouched: false,
       withChannel: false,
       shareScreen: false,
@@ -766,18 +755,6 @@ class CallView extends React.PureComponent {
     });
   }
 
-  handleVoiceOnlyToggle = () => {
-    const { mode, setMode } = this.props;
-    setMode(mode === 'call' ? 'videocall' : 'call');
-  }
-
-  handleAutofitToggle = () => {
-    const { cover } = this.state;
-    this.setState({
-      cover: !cover,
-    });
-  }
-
   openDialog = (updates = {}) => {
     const { openDialogs } = this.state;
 
@@ -799,6 +776,7 @@ class CallView extends React.PureComponent {
       config,
       guest,
       mode,
+      cover,
       muteCam,
       muteMic,
       channel,
@@ -817,7 +795,7 @@ class CallView extends React.PureComponent {
       intl,
       theme,
     } = this.props;
-    const { cover, shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
+    const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -934,35 +912,6 @@ class CallView extends React.PureComponent {
       }
     );
 
-    const quickSettingsList = <List className={classes.settingsList}>
-      <ListItem>
-        <ListItemIcon>
-          <CamOffIcon />
-        </ListItemIcon>
-        <ListItemText primary={intl.formatMessage(translations.settingsAudioOnlyLabel)} />
-        <ListItemSecondaryAction>
-          <ToggleSwitch
-            color="primary"
-            onChange={this.handleVoiceOnlyToggle}
-            checked={mode === 'call'}
-          />
-        </ListItemSecondaryAction>
-      </ListItem>
-      <ListItem>
-        <ListItemIcon>
-          <ZoomOutMapIcon />
-        </ListItemIcon>
-        <ListItemText primary={intl.formatMessage(translations.settingsVideoCoverLabel)} />
-        <ListItemSecondaryAction>
-          <ToggleSwitch
-            color="primary"
-            onChange={this.handleAutofitToggle}
-            checked={cover}
-          />
-        </ListItemSecondaryAction>
-      </ListItem>
-    </List>;
-
     controls.push(
       <div key='permanent' className={controlsPermanentClassName}>
         {shareScreenButton}
@@ -985,7 +934,7 @@ class CallView extends React.PureComponent {
             </ListItem>
           </List>
           <Divider/>
-          {quickSettingsList}
+          <QuickSettingsList/>
         </IconButtonWithPopover>
       </Hidden>
     );
@@ -1221,7 +1170,7 @@ class CallView extends React.PureComponent {
         <Divider/>
       </Hidden>
       <Hidden mdUp>
-        {quickSettingsList}
+        <QuickSettingsList/>
         <List>
           <ListItem button onClick={this.handleSettingsClick}>
             <ListItemIcon>
@@ -1336,6 +1285,7 @@ CallView.propTypes = {
   muteCam: PropTypes.bool.isRequired,
 
   mode: PropTypes.string.isRequired,
+  cover: PropTypes.bool.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
   fetchRecents: PropTypes.func.isRequired,
@@ -1376,7 +1326,7 @@ CallView.propTypes = {
 
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
-  const { guest, auto, muteMic, muteCam, mode, localStream } = state.meet;
+  const { guest, auto, muteMic, muteCam, mode, cover, localStream } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const {
     gUMSupported,
@@ -1419,6 +1369,7 @@ const mapStateToProps = state => {
     muteCam,
 
     mode,
+    cover,
 
     localStream,
     remoteAudioVideoStreams,
