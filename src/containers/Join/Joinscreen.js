@@ -48,6 +48,7 @@ const styles = theme => {
       marginTop: 48,
       display: 'flex',
       flexDirection: 'column',
+      minHeight: 200,
     },
     toolbar: {
       zIndex: 5,

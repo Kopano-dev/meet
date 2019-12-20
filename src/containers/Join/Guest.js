@@ -19,9 +19,25 @@ import { removeUser, startSignin } from 'kpop/es/oidc/actions';
 import { updateOIDCState } from 'kpop/es/oidc/state';
 
 import { setGuest } from '../../actions/meet';
+import { JoinBackground } from '../../artwork';
 
 const styles = () => {
   return {
+    top: {
+      minHeight: 48,
+      flex: 1,
+      position: 'relative',
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        left: -345,
+        right: 0,
+        bottom: 0,
+        top: 10,
+        backgroundSize: '100% 100%',
+        backgroundImage: `url("${JoinBackground}#svgView(preserveAspectRatio(none))")`,
+      },
+    },
     header: {
       flex: 1,
       textAlign: 'center',
@@ -148,41 +164,45 @@ class Guest extends React.PureComponent {
 
     const nameError = nameTooLong ? 'Please use a shorter name.' : null;
 
-    return <DialogContent className={classNameProp}>
-      <div className={classes.header}>
-        <Typography gutterBottom variant="h6">Enter your name</Typography>
-        <div className={classes.form}>
-          <TextField
-            autoFocus
-            autoComplete="name"
-            fullWidth
-            margin="dense"
-            className={classes.textField}
-            InputProps={{
-              startAdornment: <InputAdornment position="start"><PersonIcon /></InputAdornment>,
-            }}
-            value={name}
-            onChange={this.handleChangeName}
-            onKeyPress={this.handleKeyPress}
-            variant="outlined"
-            error={!!nameError}
-            helperText={nameError}
-          />
-          <Typography variant="caption" gutterBottom>
-            The name defines how you are visible to others as guest. If you have an account, you can <Link href="#" onClick={this.handleSignInClick}>sign in</Link> too.
-          </Typography>
+    return <React.Fragment>
+      <div className={classes.top}>
+      </div>
+      <DialogContent className={classNameProp}>
+        <div className={classes.header}>
+          <Typography gutterBottom variant="h6">Enter your name</Typography>
+          <div className={classes.form}>
+            <TextField
+              autoFocus
+              autoComplete="name"
+              fullWidth
+              margin="dense"
+              className={classes.textField}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><PersonIcon /></InputAdornment>,
+              }}
+              value={name}
+              onChange={this.handleChangeName}
+              onKeyPress={this.handleKeyPress}
+              variant="outlined"
+              error={!!nameError}
+              helperText={nameError}
+            />
+            <Typography variant="caption" gutterBottom>
+              The name defines how you are visible to others as guest. If you have an account, you can <Link href="#" onClick={this.handleSignInClick}>sign in</Link> too.
+            </Typography>
+          </div>
         </div>
-      </div>
-      <div className={classes.actions}>
-        <Button
-          disabled={loading || !!nameError}
-          variant="contained"
-          color="primary"
-          onClick={this.handleNextClick}>
-            Next
-        </Button>
-      </div>
-    </DialogContent>;
+        <div className={classes.actions}>
+          <Button
+            disabled={loading || !!nameError}
+            variant="contained"
+            color="primary"
+            onClick={this.handleNextClick}>
+              Next
+          </Button>
+        </div>
+      </DialogContent>;
+    </React.Fragment>;
   }
 }
 

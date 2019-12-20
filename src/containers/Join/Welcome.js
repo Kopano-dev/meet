@@ -17,8 +17,25 @@ import { updateOIDCState } from 'kpop/es/oidc/state';
 
 import { isPublicGroup } from '../../utils';
 
+import { JoinBackground } from '../../artwork';
+
 const styles = () => {
   return {
+    top: {
+      minHeight: 48,
+      flex: 1,
+      position: 'relative',
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        left: -20,
+        right: 0,
+        bottom: 0,
+        top: 10,
+        backgroundSize: '100% 100%',
+        backgroundImage: `url("${JoinBackground}#svgView(preserveAspectRatio(none))")`,
+      },
+    },
     header: {
       flex: 1,
     },
@@ -85,40 +102,44 @@ class Welcome extends React.PureComponent {
 
     const guestOK = isPublicGroup(entry, config);
 
-    return <DialogContent className={classNameProp}>
-      <div className={classes.header}>
-        <Typography gutterBottom variant="h6" align="center" display="block">Welcome to <KopanoMeetIcon style={{verticalAlign: 'text-bottom'}}/> Meet</Typography>
-        <Typography gutterBottom align="center">
-          {entry.scope} <em>&quot;<strong>{entry.id}</strong>&quot;</em>
-        </Typography>
+    return <React.Fragment>
+      <div className={classes.top}>
       </div>
-      <div className={classes.actions}>
-        {guestOK ?
-          <Button
-            disabled={loading}
-            variant="contained"
-            color="primary"
-            onClick={this.handleNextClick}
-          >
-            <FormattedMessage
-              id="joinscreen.nextButton.text"
-              defaultMessage="Next">
-            </FormattedMessage>
-          </Button> :
-          <Button
-            disabled={loading}
-            variant="contained"
-            color="primary"
-            onClick={this.handleSignInClick}
-          >
-            <FormattedMessage
-              id="joinscreen.signInButton.text"
-              defaultMessage="Sign in">
-            </FormattedMessage>
-          </Button>
-        }
-      </div>
-    </DialogContent>;
+      <DialogContent className={classNameProp}>
+        <div className={classes.header}>
+          <Typography gutterBottom variant="h6" align="center" display="block">Welcome to <KopanoMeetIcon style={{verticalAlign: 'text-bottom'}}/> Meet</Typography>
+          <Typography gutterBottom align="center">
+            {entry.scope} <em>&quot;<strong>{entry.id}</strong>&quot;</em>
+          </Typography>
+        </div>
+        <div className={classes.actions}>
+          {guestOK ?
+            <Button
+              disabled={loading}
+              variant="contained"
+              color="primary"
+              onClick={this.handleNextClick}
+            >
+              <FormattedMessage
+                id="joinscreen.nextButton.text"
+                defaultMessage="Next">
+              </FormattedMessage>
+            </Button> :
+            <Button
+              disabled={loading}
+              variant="contained"
+              color="primary"
+              onClick={this.handleSignInClick}
+            >
+              <FormattedMessage
+                id="joinscreen.signInButton.text"
+                defaultMessage="Sign in">
+              </FormattedMessage>
+            </Button>
+          }
+        </div>
+      </DialogContent>
+    </React.Fragment>;
   }
 }
 
