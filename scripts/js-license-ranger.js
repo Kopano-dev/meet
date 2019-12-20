@@ -29,7 +29,7 @@ const fs = require('fs'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20191212-1'; // eslint-disable-line
+const version = '20191220-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
@@ -64,7 +64,10 @@ function findModuleViaPackageJSON(mp) {
 
 function findLicense(mp) {
   const json = JSON.parse(fs.readFileSync(mp + '/package.json', 'utf-8'));
-  if (json.type === 'module') {
+  if (json.type === 'module' && Object.keys(json).length === 1) {
+    return;
+  }
+  if (json.module && json.module.indexOf('../') === 0) {
     return;
   }
 
