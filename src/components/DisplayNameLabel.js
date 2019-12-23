@@ -29,7 +29,7 @@ const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user,
     cache.set(id, idx);
   }
 
-  return <React.Fragment ref={ref}>{intl.formatMessage(translations.useWithIndex, {idx})}</React.Fragment>;
+  return <React.Fragment ref={ref}>{intl.formatMessage(translations.userWithIndex, {idx})}</React.Fragment>;
 });
 
 DisplayNameLabel.propTypes = {
