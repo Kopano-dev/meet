@@ -17,7 +17,9 @@ import AudioVideo from '../../components/AudioVideo';
 
 import FloatingAudioVideo from './FloatingAudioVideo';
 
-const DragableFloatingAudioVideo = posed(FloatingAudioVideo)({
+const DragableFloatingAudioVideo = posed(React.forwardRef(function DragableFloatingAudioVideo(props, ref) {
+  return <FloatingAudioVideo {...props} hostRef={ref}/>;
+}))({
   draggable: true,
 });
 
