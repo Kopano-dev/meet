@@ -158,6 +158,9 @@ export function setupKWM(id, idToken, {authorizationType, authorizationValue, au
 
     // Auto connect support when requested.
     if (autoConnect) {
+      if (kwm && kwm.connected) {
+        return kwm;
+      }
       return dispatch(connectToKWM(idToken, eventCallback));
     }
 
