@@ -10,10 +10,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CallIcon from '@material-ui/icons/Call';
 import ContactsIcon from '@material-ui/icons/Contacts';
-import MicIcon from '@material-ui/icons/Mic';
-import MicOffIcon from '@material-ui/icons/MicOff';
-import CamIcon from '@material-ui/icons/Videocam';
-import CamOffIcon from '@material-ui/icons/VideocamOff';
 import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
@@ -31,7 +27,6 @@ import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import renderIf from 'render-if';
 
@@ -55,17 +50,17 @@ import {
   doReject,
   doIgnore,
   doCall,
-  requestUserMedia,
-  stopUserMedia,
+  //requestUserMedia,
+  //stopUserMedia,
   requestDisplayMedia,
   stopDisplayMedia,
-  wakeFromStandby,
+  //wakeFromStandby,
   doMuteOrUnmute,
   doViewContact,
   doViewGroup,
   updateOfferAnswerConstraints,
-  toggleStandby,
-  setMode,
+  //toggleStandby,
+  //setMode,
   SCREENSHARE_SCREEN_ID,
 } from '../../actions/meet';
 import Howling from '../../components/Howling';
@@ -76,6 +71,9 @@ import IconButtonWithPopover from '../../components/IconButtonWithPopover';
 import SettingsDialog from '../../components/SettingsDialog';
 import AutoStandby from '../../components/AutoStandby';
 import QuickSettingsList from '../../components/QuickSettingsList';
+import FabWithProgress from '../../components/FabWithProgress';
+import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
+import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
 
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -546,7 +544,7 @@ class CallView extends React.PureComponent {
                 size="small"
                 onClick={() => {
                   closeSnackbar(key);
-                  this.handleMuteMicClick(false)();
+                  this.handleUnmuteMicClick();
                 }}
               >
                 <FormattedMessage id="callView.microphoneIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
@@ -592,26 +590,10 @@ class CallView extends React.PureComponent {
     });
   };
 
-  handleMuteCamClick = state => () => {
-    const { muteCam, doMuteOrUnmute } = this.props;
+  handleUnmuteMicClick = () => {
+    const { doMuteOrUnmute } = this.props;
 
-    if (state === undefined) {
-      // Default is toggle.
-      state = !muteCam;
-    }
-
-    doMuteOrUnmute({muteCam: state});
-  }
-
-  handleMuteMicClick = state => () => {
-    const { muteMic, doMuteOrUnmute } = this.props;
-
-    if (state === undefined) {
-      // Default is toggle.
-      state = !muteMic;
-    }
-
-    doMuteOrUnmute({muteMic: state});
+    doMuteOrUnmute({muteMic: false});
   }
 
   handleShareScreenClick = state => () => {
@@ -777,8 +759,6 @@ class CallView extends React.PureComponent {
       guest,
       mode,
       cover,
-      muteCam,
-      muteMic,
       channel,
       ringing,
       calling,
@@ -786,11 +766,8 @@ class CallView extends React.PureComponent {
       remoteAudioVideoStreams,
       remoteScreenShareStreams,
       connected,
-      gUMSupported,
       gDMSupported,
       audioSinkId,
-      umVideoPending,
-      umAudioPending,
       dmPending,
       intl,
       theme,
@@ -807,8 +784,6 @@ class CallView extends React.PureComponent {
     let muteCamButton = null;
     let muteMicButton = null;
     let shareScreenButton = null;
-    let muteCamButtonIcon = muteCam ? <CamOffIcon /> : <CamIcon />;
-    let muteMicButtonIcon = muteMic ? <MicOffIcon /> : <MicIcon />;
     let screenShareViewer = null;
 
     if (channel && mode === 'videocall' && remoteScreenShareStreams.length > 0) {
@@ -825,43 +800,23 @@ class CallView extends React.PureComponent {
     }
 
     if (mode === 'videocall' || mode === 'standby') {
-      muteCamButton = gUMSupported && (<div className={classes.wrappedButton}>
-        <Fab
-          color="inherit"
-          className={classes.muteCamButton}
-          onClick={this.handleMuteCamClick()}
-        >
-          {muteCamButtonIcon}
-        </Fab>
-        {umVideoPending && <CircularProgress size={68} className={classes.fabProgress} />}
-      </div>);
-      shareScreenButton = (!isMobile && gDMSupported) && (<div className={classes.wrappedButton}>
-        <Fab
-          color="inherit"
-          className={classNames(
-            classes.shareScreenButton,
-            {
-              [classes.shareScreenButtonActive]: shareScreen,
-            }
-          )}
-          onClick={this.handleShareScreenClick()}
-        >
-          <ScreenShareIcon />
-          {dmPending && <CircularProgress size={68} className={classes.fabProgress} />}
-        </Fab>
-      </div>);
+      muteCamButton = <FloatingCamMuteButton className={classes.muteCamButton}/>;
+      shareScreenButton = (!isMobile && gDMSupported) && <FabWithProgress
+        color="inherit"
+        className={classNames(
+          classes.shareScreenButton,
+          {
+            [classes.shareScreenButtonActive]: shareScreen,
+          }
+        )}
+        onClick={this.handleShareScreenClick()}
+        pending={dmPending}
+      >
+        <ScreenShareIcon />
+      </FabWithProgress>;
     }
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
-      muteMicButton = gUMSupported && (<div className={classes.wrappedButton}>
-        <Fab
-          color="inherit"
-          className={classes.muteMicButton}
-          onClick={this.handleMuteMicClick()}
-        >
-          {muteMicButtonIcon}
-        </Fab>
-        {umAudioPending && <CircularProgress size={68} className={classes.fabProgress} />}
-      </div>);
+      muteMicButton = <FloatingMicMuteButton className={classes.muteMicButton}/>;
     }
 
     const containerClassName = classNames(
@@ -1282,7 +1237,6 @@ CallView.propTypes = {
   calling: PropTypes.object.isRequired,
 
   muteMic: PropTypes.bool.isRequired,
-  muteCam: PropTypes.bool.isRequired,
 
   mode: PropTypes.string.isRequired,
   cover: PropTypes.bool.isRequired,
@@ -1291,9 +1245,7 @@ CallView.propTypes = {
   fetchRecents: PropTypes.func.isRequired,
   initializeContactsWithRecents: PropTypes.func.isRequired,
   requestDisplayMedia: PropTypes.func.isRequired,
-  requestUserMedia: PropTypes.func.isRequired,
   stopDisplayMedia: PropTypes.func.isRequired,
-  stopUserMedia: PropTypes.func.isRequired,
   doCall: PropTypes.func.isRequired,
   doHangup: PropTypes.func.isRequired,
   doAccept: PropTypes.func.isRequired,
@@ -1303,41 +1255,26 @@ CallView.propTypes = {
   doViewGroup: PropTypes.func.isRequired,
   doMuteOrUnmute: PropTypes.func.isRequired,
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
-  wakeFromStandby: PropTypes.func.isRequired,
-  toggleStandby: PropTypes.func.isRequired,
-  setMode: PropTypes.func.isRequired,
 
   localStream: PropTypes.instanceOf(MediaStream),
   remoteAudioVideoStreams: PropTypes.array.isRequired,
   remoteScreenShareStreams: PropTypes.array.isRequired,
 
-  gUMSupported: PropTypes.bool.isRequired,
   gDMSupported: PropTypes.bool.isRequired,
 
-  audioSourceId: PropTypes.string.isRequired,
-  videoSourceId: PropTypes.string.isRequired,
   audioSinkId: PropTypes.string.isRequired,
-  mediaSettings: PropTypes.object.isRequired,
 
-  umAudioPending: PropTypes.bool.isRequired,
-  umVideoPending: PropTypes.bool.isRequired,
   dmPending: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
-  const { guest, auto, muteMic, muteCam, mode, cover, localStream } = state.meet;
+  const { guest, auto, muteMic, mode, cover, localStream } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const {
-    gUMSupported,
     gDMSupported,
-    videoSourceId,
-    audioSourceId,
     audioSinkId,
-    umAudioPending,
-    umVideoPending,
     dmPending,
-    settings: mediaSettings,
   } = state.media;
 
   const remoteAudioVideoStreams = [];
@@ -1366,7 +1303,6 @@ const mapStateToProps = state => {
     calling,
 
     muteMic,
-    muteCam,
 
     mode,
     cover,
@@ -1375,17 +1311,11 @@ const mapStateToProps = state => {
     remoteAudioVideoStreams,
     remoteScreenShareStreams,
 
-    gUMSupported,
     gDMSupported,
 
-    videoSourceId,
-    audioSourceId,
     audioSinkId,
 
-    umAudioPending,
-    umVideoPending,
     dmPending,
-    mediaSettings,
   };
 };
 
@@ -1393,10 +1323,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchContacts: fetchAndAddContacts,
   fetchRecents,
   initializeContactsWithRecents,
-  wakeFromStandby,
-  toggleStandby,
-  requestUserMedia,
-  stopUserMedia,
   requestDisplayMedia,
   stopDisplayMedia,
   doCall,
@@ -1408,7 +1334,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   doViewGroup,
   doMuteOrUnmute,
   updateOfferAnswerConstraints,
-  setMode,
   enqueueSnackbar,
   closeSnackbar,
 }, dispatch);
