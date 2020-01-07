@@ -25,7 +25,8 @@ const styles = theme => {
   return {
     top: {
       minHeight: 48,
-      maxHeight: '25vh',
+      maxHeight: 225,
+      height: '25vh',
       flex: 1,
       position: 'relative',
 

@@ -25,6 +25,7 @@ const styles = () => {
   return {
     top: {
       minHeight: 48,
+      maxHeight: 225,
       height: '25vh',
       flexShrink: 0,
       position: 'relative',
