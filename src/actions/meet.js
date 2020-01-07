@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl';
 
 import debounce from 'kpop/es/utils/debounce';
 import { setError, enqueueSnackbar } from 'kpop/es/common/actions';
+import { getUserManager } from 'kpop/es/oidc/usermanager';
 
 import { resolveContactID } from '../utils';
 import {
@@ -737,3 +738,17 @@ export const setCover = (cover=true) => ({
   type: MEET_SET_COVER,
   cover: !!cover,
 });
+
+export function disableSessionMonitorWhenGuest() {
+  return (dispatch, getState) => {
+    const { guest } = getState().meet;
+    if (guest.guest && guest.user) {
+      const um = getUserManager();
+      // TODO(longsleep): Use a kpop function to disable the session monitor
+      // for guests once one is implemented.
+      if (um && um.usermanager._sessionMonitor) {
+        um.usermanager._sessionMonitor._stop();
+      }
+    }
+  };
+}

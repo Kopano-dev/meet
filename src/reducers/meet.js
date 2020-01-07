@@ -18,6 +18,7 @@ import {
   requestUserMedia,
   muteStream,
   updateOfferAnswerConstraints,
+  disableSessionMonitorWhenGuest,
 } from '../actions/meet';
 import { getCurrentAppPath } from '../base';
 
@@ -75,6 +76,7 @@ const defaultState = (() => {
 function meetReducer(state = defaultState, action) {
   switch (action.type) {
     case KPOP_RECEIVE_USER:
+      action.queueDispatch(disableSessionMonitorWhenGuest());
       return {
         ...state,
         guest: {
