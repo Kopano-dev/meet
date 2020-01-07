@@ -1034,6 +1034,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.1.tgz#e93c13942592cf5ef01aa8297444dc192beee52f"
   integrity sha512-Qv4LTqO11jepd5Qmlp3M1YEjBumoTHcHFdgPTQ+sFlIL5myi/7xu/POwP7IRu6odBdmLXdtIs1D6TuW6kbwbbg==
 
+"@gluejs/glue@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@gluejs/glue/-/glue-0.3.0.tgz#2c3d11250f6c0c570d485ed49206564dcfe45925"
+  integrity sha512-byvFoZCbZW+A3Pg8JUU+8FjoPuF5l1v7mDeLJQP/YSeEcEDiD/YdUKLBUapPrcuyxclrtS8+peX4cxkh6awwTw==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -1213,11 +1218,6 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
-
-"@longsleep/glue@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@longsleep/glue/-/glue-0.2.0.tgz#fc99cde00978ba10e65691e7c71acdbaf6081ea8"
-  integrity sha512-mxbxjudEe2DqKCGRxAE5zVefECnq1gBfuUJJdTic5DLOzGwzlC2Pypit0UnNGtL/KcOD4DIZe3vUSe5mpMX9KA==
 
 "@material-ui/core@4.8.0", "@material-ui/core@^4.8.0":
   version "4.8.0"
@@ -7327,9 +7327,9 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-2.0.0.tgz":
-  version "2.0.0"
-  resolved "https://download.kopano.io/community/kapp:/kpop-2.0.0.tgz#08af2dc44e82177d3205b41b29557efad20a7e9e"
+"kpop@https://download.kopano.io/community/kapp:/kpop-2.1.0.tgz":
+  version "2.1.0"
+  resolved "https://download.kopano.io/community/kapp:/kpop-2.1.0.tgz#39bda443e80092adfbe379f6f729d03b80e5787c"
   dependencies:
     cldr "^5.2.0"
     crc32 "^0.2.2"
