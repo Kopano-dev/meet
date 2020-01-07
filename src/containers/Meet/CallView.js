@@ -50,17 +50,12 @@ import {
   doReject,
   doIgnore,
   doCall,
-  //requestUserMedia,
-  //stopUserMedia,
   requestDisplayMedia,
   stopDisplayMedia,
-  //wakeFromStandby,
   doMuteOrUnmute,
   doViewContact,
   doViewGroup,
   updateOfferAnswerConstraints,
-  //toggleStandby,
-  //setMode,
   SCREENSHARE_SCREEN_ID,
 } from '../../actions/meet';
 import Howling from '../../components/Howling';
@@ -86,9 +81,6 @@ import ContactControl from './ContactControl';
 import NewPublicGroup from './NewPublicGroup';
 import RTCStats from './RTCStats';
 
-const xsHeightDownBreakpoint = '@media (max-height:450px)';
-const minimalHeightDownBreakpoint = '@media (max-height:275px)';
-const deskopWidthBreakpoint = '@media (min-width:1025px)';
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
 
@@ -118,7 +110,7 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'relative',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
-    [deskopWidthBreakpoint]: {
+    [theme.breakpoints.meet.deskopWidth]: {
       flexDirection: 'row',
     },
   },
@@ -193,7 +185,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       transform: 'scale(.8, .8)',
     },
-    [xsHeightDownBreakpoint]: {
+    [theme.breakpoints.meet.xsHeightDown]: {
       transform: 'scale(.8, .8)',
     },
     transition: theme.transitions.create('opacity', {
@@ -221,7 +213,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       transform: 'scale(.8, .8)',
     },
-    [xsHeightDownBreakpoint]: {
+    [theme.breakpoints.meet.xsHeightDown]: {
       transform: 'scale(.8, .8)',
     },
     transition: theme.transitions.create('opacity', {
@@ -240,7 +232,7 @@ const styles = theme => ({
     top: theme.spacing.unit * 2,
     bottom: 'auto',
     opacity: 0.5,
-    [deskopWidthBreakpoint]: {
+    [theme.breakpoints.meet.desktopWidth]: {
       top: 'auto',
       bottom: theme.spacing.unit * 4,
       opacity: 1,
@@ -286,15 +278,15 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    [xsHeightDownBreakpoint]: {
+    [theme.breakpoints.meet.xsHeightDown]: {
       minHeight: 65,
       height: '10vh',
     },
-    [minimalHeightDownBreakpoint]: {
+    [theme.breakpoints.meet.minimalHeightDown]: {
       minHeight: 0,
       height: 0,
     },
-    [deskopWidthBreakpoint]: {
+    [theme.breakpoints.meet.desktopWidth]: {
       height: 'auto',
       flex: 1,
     },
@@ -305,12 +297,12 @@ const styles = theme => ({
   },
   callWithCall: {
     height: '100vh',
-    [deskopWidthBreakpoint]: {
+    [theme.breakpoints.meet.desktopWidth]: {
       height: 'auto',
     },
   },
   callAsSidebar: {
-    [deskopWidthBreakpoint]: {
+    [theme.breakpoints.meet.desktopWidth]: {
       flex: 'auto',
       maxWidth: 135,
       height: 'auto',
@@ -362,7 +354,7 @@ const styles = theme => ({
   contactSearchView: {
     background: 'white',
     paddingTop: 10 + theme.spacing.unit,
-    [minimalHeightDownBreakpoint]: {
+    [theme.breakpoints.meet.minimalHeightDown]: {
       paddingTop: 0,
     },
   },

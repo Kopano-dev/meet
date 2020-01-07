@@ -43,6 +43,14 @@ const meetTheme = outerTheme => ({
     top: middleGrey,
     bottom: middleGrey,
   },
+  breakpoints: {
+    ...outerTheme.breakpoints,
+    meet: {
+      xsHeightDown: '@media (max-height:450px)',
+      minimalHeightDown: '@media (max-height:275px)',
+      desktopWidth: '@media (min-width:1025px)',
+    },
+  },
 });
 
 export default meetTheme;

@@ -18,6 +18,8 @@ import { updateOIDCState } from 'kpop/es/oidc/state';
 import { toggleStandby, setAuto, doAutoCall, setGuest } from '../../actions/meet';
 import AutoStandby from '../../components/AutoStandby';
 import AudioVideo from '../../components/AudioVideo';
+import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
+import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
 
 const styles = theme => {
   return {
@@ -25,6 +27,27 @@ const styles = theme => {
       minHeight: 48,
       maxHeight: '25vh',
       flex: 1,
+      position: 'relative',
+
+    },
+    av: {
+      backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
+      color: theme.palette.primary.contrastText,
+    },
+    controls: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: theme.spacing(1),
+      zIndex: theme.zIndex.appBar + 1,
+      display: 'flex',
+      justifyContent: 'center',
+      opacity: 1,
+      transform: 'scale(.8, .8)',
+      '& > *': {
+        marginLeft: theme.spacing(.5),
+        marginRight: theme.spacing(.5),
+      },
     },
     container: {
       minHeight: 200,
@@ -115,7 +138,11 @@ class Settings extends React.PureComponent {
 
     return <React.Fragment>
       <div className={classes.top}>
-        <AudioVideo stream={localStream} mirrored muted cover></AudioVideo>
+        <AudioVideo stream={localStream} mirrored muted cover className={classes.av}></AudioVideo>
+        <div className={classes.controls}>
+          <FloatingCamMuteButton/>
+          <FloatingMicMuteButton/>
+        </div>
       </div>
       <DialogContent className={classNames(classes.container, classNameProp)}>
         <div className={classes.header}>
