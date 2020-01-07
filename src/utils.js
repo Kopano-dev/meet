@@ -32,24 +32,21 @@ export function resolveContactIDFromRecord(config, record) {
   }
 }
 
-export function makeGroupLink(group, options, config) {
+export function makeGroupLink(group, options, config, prefix='join/') {
   let hst = '';
   if (options) {
     const params = new URLSearchParams();
     Object.keys(options).forEach(key => {
       params.set(key, options[key]);
     });
-    if (options.guest === undefined && isPublicGroup(group, config)) {
-      // Automatically add guest parameter if this is a public group.
-      params.set('guest', '1');
-    }
+
     hst = params.toString();
     if (hst) {
       hst = '#' + hst;
     }
   }
 
-  return qualifyAppURL(`/r/${group.scope}/${group.id}${hst}`);
+  return qualifyAppURL(`/r/${prefix}${group.scope}/${group.id}${hst}`);
 }
 
 export function isPublicGroup(group, config) {
