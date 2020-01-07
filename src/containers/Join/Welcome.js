@@ -23,13 +23,15 @@ const styles = () => {
   return {
     top: {
       minHeight: 48,
-      flex: 1,
+      height: '25vh',
+      flexShrink: 0,
+      overflow: 'hidden',
       position: 'relative',
       '&:before': {
         content: '""',
         position: 'absolute',
-        left: -20,
-        right: 0,
+        left: -180,
+        right: -180,
         bottom: 0,
         top: 10,
         backgroundSize: '100% 100%',

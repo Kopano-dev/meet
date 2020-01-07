@@ -45,7 +45,7 @@ const styles = theme => {
     },
     view: {
       flex: 1,
-      marginTop: 48,
+      marginTop: theme.spacing(1),
       display: 'flex',
       flexDirection: 'column',
       minHeight: 200,

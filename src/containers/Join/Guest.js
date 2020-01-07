@@ -25,12 +25,13 @@ const styles = () => {
   return {
     top: {
       minHeight: 48,
-      flex: 1,
+      height: '25vh',
+      flexShrink: 0,
       position: 'relative',
       '&:before': {
         content: '""',
         position: 'absolute',
-        left: -345,
+        left: -360,
         right: 0,
         bottom: 0,
         top: 10,
@@ -201,7 +202,7 @@ class Guest extends React.PureComponent {
               Next
           </Button>
         </div>
-      </DialogContent>;
+      </DialogContent>
     </React.Fragment>;
   }
 }

@@ -23,15 +23,14 @@ const styles = theme => {
   return {
     top: {
       minHeight: 48,
+      maxHeight: '25vh',
       flex: 1,
     },
     container: {
-      marginTop: '0 !important',
       minHeight: 200,
     },
     header: {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(1),
     },
     user: {
       display: 'flex',
