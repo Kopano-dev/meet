@@ -90,11 +90,6 @@ function meetReducer(state = defaultState, action) {
       muteMic = muteMic === state.muteMic ? undefined : muteMic;
       muteCam = muteCam === state.muteCam ? undefined : muteCam;
 
-      if (muteMic === false || muteCam === false) {
-        // TODO(longsleep): Only queue rum when it has failed before.
-        action.queueDispatch(requestUserMedia());
-      }
-
       if (muteMic !== undefined || muteCam !== undefined) {
         if (muteMic !== undefined) {
           action.queueDispatch(muteStream({

@@ -151,7 +151,7 @@ export function requestDisplayMedia(id='', settings={}) {
   // NOTE(longsleep): Keep an index of gDM requests to make sure multiple can
   // run in a sane fasshion at the same time.
   const idx = ++status.idx;
-  console.info('requestDisplayMedia request', idx, status, settings); // eslint-disable-line no-console
+  console.info('requestDisplayMedia request', idx, id, status, settings); // eslint-disable-line no-console
 
   return async dispatch => {
     await dispatch(displayMediaSetPending());
@@ -288,7 +288,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
   // NOTE(longsleep): Keep an index of gUM requests to make sure multiple can
   // run in a sane fasshion at the same time.
   const idx = ++status.idx;
-  console.info('requestUserMedia request', idx, status, {video, audio}, settings); // eslint-disable-line no-console
+  console.info('requestUserMedia request', idx, id, status, {video, audio}, settings); // eslint-disable-line no-console
 
   return async dispatch => {
     await dispatch(userMediaSetPending({audio, video}));

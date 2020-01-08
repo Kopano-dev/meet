@@ -703,7 +703,11 @@ export function muteStream({mute, video, audio}) {
           }
         }
         dispatch(doMuteOrUnmute(mute));
-        dispatch(kwmApplyLocalStreamTracks(info));
+        if (info.newStream) {
+          dispatch(setLocalStreamWithStream(info.newStream));
+        } else {
+          dispatch(kwmApplyLocalStreamTracks(info));
+        }
       }).catch(err => {
         console.warn('failed to toggle mute for video stream', err); // eslint-disable-line no-console
         let message;
