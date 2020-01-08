@@ -5,6 +5,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import AsyncComponent from 'kpop/es/AsyncComponent';
 import AuthenticatedRoute from 'kpop/es/routes/AuthenticatedRoute';
 
+import UserRequired from './components/UserRequired';
+
 const AsyncMeet = AsyncComponent(() =>
   import(/* webpackChunkName: "containers-meet" */ './containers/Meet'));
 const AsyncJoin = AsyncComponent(() =>
@@ -20,6 +22,7 @@ const Routes = ({ authenticated }) => (
       path="/r/:view(call|conference|group)?"
       component={AsyncMeet}
       authenticated={authenticated}
+      alternative={<UserRequired/>}
     />
     <Redirect to="/r/call"/>
   </Switch>

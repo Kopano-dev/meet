@@ -49,11 +49,6 @@ class Main extends PureComponent {
         }
       }) ;
     }
-
-    /*if (!user && prevProps.user) {
-      // Lost the user.
-      this.uninitialize();
-    }*/
   }
 
   initialize = () => {
@@ -143,14 +138,6 @@ class Main extends PureComponent {
 
     return dispatch(fetchConfigAndInitializeUser(options));
   }
-
-  /*uninitialize = () => {
-    const { dispatch, user} = this.props;
-
-    if (!user) {
-      return dispatch(userRequiredError());
-    }
-  }*/
 
   render() {
     const { initialized } = this.state;
