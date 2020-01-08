@@ -120,19 +120,8 @@ export function doViewContact(contact, { recents } = {}) {
 }
 
 export function doAccept(id, mode, entry, kind) {
-  return async (dispatch, getState) => {
-    const state = getState();
-
-    const {
-      umAudioVideoStreams,
-    } = state.media;
-
-    await dispatch(wakeFromStandby(mode)).then(() => {
-      const stream = umAudioVideoStreams[LOCAL_STREAM_ID];
-      if (!stream || !stream.active) {
-        return dispatch(requestUserMedia(LOCAL_STREAM_ID));
-      }
-    });
+  return async (dispatch) => {
+    await dispatch(wakeFromStandby(mode));
 
     if (entry) {
       switch (kind) {
@@ -298,7 +287,7 @@ export function wakeFromStandby(newMode) {
     }).then(() => {
       const stream = umAudioVideoStreams[LOCAL_STREAM_ID];
       if (!stream || !stream.active) {
-        return dispatch(requestUserMedia(LOCAL_STREAM_ID));
+        dispatch(requestUserMedia(LOCAL_STREAM_ID));
       }
     });
   };
