@@ -110,7 +110,7 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'relative',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
-    [theme.breakpoints.meet.deskopWidth]: {
+    [theme.breakpoints.meet.desktopWidth]: {
       flexDirection: 'row',
     },
   },
