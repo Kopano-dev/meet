@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +15,7 @@ import { injectIntl, intlShape, defineMessages/*, FormattedMessage*/ } from 'rea
 import { setError } from 'kpop/es/common/actions';
 
 import { pushHistory, replaceHistory } from '../../actions/meet';
+import SettingsButton from '../../components/SettingsButton';
 
 import ResponsiveDialog from './ResponsiveDialog';
 import Loading from './Loading';
@@ -56,6 +58,12 @@ const styles = theme => {
       left: 0,
       right: 0,
       top: 0,
+    },
+    white: {
+      color: 'white',
+    },
+    title: {
+      flexGrow: 1,
     },
     stepper: {
       paddingTop: theme.spacing(3),
@@ -278,7 +286,12 @@ class Joinscreen extends React.PureComponent {
             }}
           >
             <div className={classes.dialog}>
-              <Toolbar disableGutters variant="dense" className={classes.toolbar}>
+              <Toolbar
+                disableGutters
+                variant="dense"
+                className={classNames(classes.toolbar, {
+                  [classes.white]: activeStep === 2,
+                })}>
                 {activeStep !== 0 && <React.Fragment>
                   <IconButton
                     color="inherit"
@@ -290,6 +303,8 @@ class Joinscreen extends React.PureComponent {
                     <ArrowBackIcon />
                   </IconButton>
                 </React.Fragment>}
+                <div className={classes.title}></div>
+                {activeStep == 2 && <SettingsButton color="inherit" size="small" className={classes.backButton}/>}
               </Toolbar>
               <View entry={entry} navigate={this.navigate} className={classes.view}/>
               <MobileStepper

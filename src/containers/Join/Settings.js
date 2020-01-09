@@ -134,12 +134,12 @@ class Settings extends React.PureComponent {
   }
 
   render() {
-    const { classes, className: classNameProp, entry, profile, localStream } = this.props;
+    const { classes, className: classNameProp, entry, profile, localStream, cover } = this.props;
     const { loading, calling } = this.state;
 
     return <React.Fragment>
       <div className={classes.top}>
-        <AudioVideo stream={localStream} mirrored muted cover className={classes.av}></AudioVideo>
+        <AudioVideo stream={localStream} mirrored muted cover={cover} className={classes.av}></AudioVideo>
         <div className={classes.controls}>
           <FloatingCamMuteButton/>
           <FloatingMicMuteButton/>
@@ -187,6 +187,7 @@ Settings.propTypes = {
   profile: PropTypes.object,
   auto: PropTypes.object,
   guest: PropTypes.object.isRequired,
+  cover: PropTypes.bool.isRequired,
   connected: PropTypes.bool,
   location: PropTypes.object.isRequired,
 
@@ -204,7 +205,7 @@ Settings.propTypes = {
 
 const mapStateToProps = state => {
   const { config, user, profile } = state.common;
-  const { auto, guest, localStream } = state.meet;
+  const { auto, guest, localStream, cover } = state.meet;
   const { connected } = state.kwm;
   const { location } = state.router;
 
@@ -215,6 +216,7 @@ const mapStateToProps = state => {
     auto,
     guest,
     localStream,
+    cover,
     connected,
     location,
   };
