@@ -292,14 +292,11 @@ const styles = theme => ({
     },
   },
   callWithoutCall: {
-    height: 0,
     minHeight: 0,
+    flex: 0,
   },
   callWithCall: {
-    height: '100vh',
-    [theme.breakpoints.meet.desktopWidth]: {
-      height: 'auto',
-    },
+    flex: 1,
   },
   callAsSidebar: {
     [theme.breakpoints.meet.desktopWidth]: {
@@ -333,6 +330,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
+  },
+  menuWithCall: {
+    flex: 0,
   },
   tabs: {
     borderTop: '1px solid #eee',
@@ -833,6 +833,13 @@ class CallView extends React.PureComponent {
       }
     );
 
+    const menuClassName = classNames(
+      classes.menu,
+      {
+        [classes.menuWithCall]: !!channel,
+      },
+    );
+
     const rootClassName = classNames(
       classes.root,
       {
@@ -921,7 +928,7 @@ class CallView extends React.PureComponent {
     );
 
     menu = (
-      <div className={classes.menu}>
+      <div className={menuClassName}>
         {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
           <div className={classes.menuContainer}>
             <Switch>
