@@ -303,6 +303,11 @@ const styles = theme => ({
       flex: 'auto',
       maxWidth: 135,
       height: 'auto',
+      backgroundColor: theme.videoBackground.bottom,
+      paddingBottom: 130 + theme.spacing(2),
+    },
+    '& ::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
     },
   },
   callAsSidebarAudioVideo: {

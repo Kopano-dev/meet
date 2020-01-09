@@ -119,7 +119,7 @@ const styles = (theme) => ({
     overflow: 'hidden',
     left: theme.spacing.unit * 2,
     top: theme.spacing.unit * 2,
-    zIndex: 10,
+    zIndex: 1,
     userSelect: 'none',
     '& > *': {
       color: 'white',

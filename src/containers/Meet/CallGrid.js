@@ -27,12 +27,18 @@ const styles = theme => ({
   root: {
     position: 'relative',
     display: 'flex',
+    '& ::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+    },
+  },
+  common: {
+    overflowY: 'overlay',
+    overflowX: 'hidden',
   },
   videocall: {
     display: 'grid',
     backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
-    overflow: 'hidden',
     flex: 1,
     gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
     [theme.breakpoints.up('md')]: {
@@ -46,7 +52,6 @@ const styles = theme => ({
     display: 'grid',
     backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
     color: theme.palette.primary.contrastText,
-    overflow: 'hidden',
     flex: 1,
     gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
     [theme.breakpoints.up('md')]: {
@@ -56,15 +61,21 @@ const styles = theme => ({
       gridTemplateColumns: 'repeat(auto-fit, minmax(30%, 1fr) ) ;',
     },
   },
+  cols3: {
+    gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: 'repeat(auto-fit, minmax(30%, 1fr) ) ;',
+    },
+  },
   overlay: {
     alignContent: 'start',
     justifyContent: 'space-evenly',
     gridTemplateColumns: 'unset',
     minHeight: 0,
     minWidth: 0,
-    overflowY: 'auto',
+    overflowY: 'overlay',
     paddingTop: theme.spacing.unit,
-    paddingBottom: 130 + theme.spacing.unit, // Avoids overlap with floating own video.
+    paddingBottom: theme.spacing.unit,
   },
   standby: {
     flex: '1',
@@ -78,6 +89,7 @@ const styles = theme => ({
     maxHeight: '100%',
     overflow: 'hidden',
     boxSizing: 'border-box',
+    minHeight: 68,
   },
   video: {
     width: '100%',
@@ -92,8 +104,8 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit / 2,
     marginBottom: theme.spacing.unit / 2,
-    minWidth: 60,
-    minHeight: 60,
+    minWidth: 100,
+    minHeight: 100,
     maxWidth: '12vh',
     maxHeight: '12vh',
   },
@@ -164,8 +176,10 @@ class CallGrid extends React.PureComponent {
       <div className={className} {...other}>
         {renderIf(renderMode === 'videocall')(() => (
           <div className={classNames(
+            classes.common,
             classes.videocall,
             {
+              [classes.cols3]: !overlay && streams.length > 10,
               [classes.overlay]: overlay,
             }
           )}>
@@ -200,6 +214,7 @@ class CallGrid extends React.PureComponent {
         ))}
         {renderIf(renderMode === 'call')(() => (
           <Grid className={classNames(
+            classes.common,
             classes.call,
           )} container alignItems="center" direction="row" justify="center">
             {streams.map((stream) =>
