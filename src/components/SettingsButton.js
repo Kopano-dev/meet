@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
-import SettingsIcon from '@material-ui/icons/Settings';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 
 import IconButtonWithPopover from './IconButtonWithPopover';
@@ -40,12 +40,13 @@ class SettingsButton extends React.PureComponent {
     return <IconButtonWithPopover
       className={classNames(classes.root, classNameProp)}
       innerRef={this.settingsMenuRef}
-      icon={<SettingsIcon/>}
+      icon={<MoreVertIcon/>}
       {...other}
     >
       <SettingsList
         className={classes.list}
         onClick={this.handleClick}
+        withIcons
       />
       <Divider/>
       <QuickSettingsList/>
