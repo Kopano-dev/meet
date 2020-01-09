@@ -212,7 +212,9 @@ class AudioVideo extends React.PureComponent {
   updateAudioSink(element) {
     const { audioSinkId } = this.props;
 
-    this.doUpdateAudioSink(element, audioSinkId);
+    if (audioSinkId !== undefined) {
+      this.doUpdateAudioSink(element, audioSinkId);
+    }
   }
 
   doUpdateAudioSink = memoize((element, audioSinkId) => {
