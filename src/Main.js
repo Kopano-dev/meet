@@ -22,10 +22,11 @@ import HowlingProvider from './components/Howling/HowlingProvider';
 import soundSprite1Ogg from './sounds/sprite1.ogg';
 import soundSprite1Mp3 from './sounds/sprite1.mp3';
 import soundSprite1Json from './sounds/sprite1.json';
-
+import ManagedDialogProvider from './components/ManagedDialogProvider';
 import KWMProvider from './components/KWMProvider';
 import { tryGuestLogon } from './api/kwm';
 import Routes from './Routes';
+import SettingsDialog from './components/SettingsDialog';
 
 class Main extends PureComponent {
   state = {
@@ -155,7 +156,12 @@ class Main extends PureComponent {
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
             <ConnectedRouter history={history}>
-              <Routes authenticated={!!user}/>
+              <ManagedDialogProvider>
+                <Routes authenticated={!!user}/>
+                <SettingsDialog
+                  disableBackdropClick
+                ></SettingsDialog>
+              </ManagedDialogProvider>
             </ConnectedRouter>
           </MainContainer>
         </HowlingProvider>

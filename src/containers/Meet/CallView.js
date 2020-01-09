@@ -16,12 +16,7 @@ import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
-import SettingsIcon from '@material-ui/icons/Settings';
 import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
@@ -62,13 +57,14 @@ import Howling from '../../components/Howling';
 import { writeTextToClipboard } from '../../clipboard';
 import { isMobile, isTouchDevice } from '../../utils';
 import FullscreenDialog from '../../components/FullscreenDialog';
-import IconButtonWithPopover from '../../components/IconButtonWithPopover';
-import SettingsDialog from '../../components/SettingsDialog';
+//import SettingsDialog from '../../components/SettingsDialog';
 import AutoStandby from '../../components/AutoStandby';
 import QuickSettingsList from '../../components/QuickSettingsList';
 import FabWithProgress from '../../components/FabWithProgress';
 import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
 import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
+import SettingsButton from '../../components/SettingsButton';
+import SettingsList from '../../components/SettingsList';
 
 import CallGrid from './CallGrid';
 import IncomingCallDialog from './IncomingCallDialog';
@@ -399,9 +395,6 @@ const styles = theme => ({
   masterButton: {
     margin: `${theme.spacing.unit * 2}px 24px`,
   },
-  settingsList: {
-    minWidth: 230,
-  },
 });
 
 const translations = defineMessages({
@@ -440,10 +433,6 @@ const translations = defineMessages({
   inviteDialogTopTitle: {
     id: 'callView.inviteDialog.topTitle',
     defaultMessage: 'Invite to "{id}"',
-  },
-  settingsListLabel: {
-    id: 'callView.settingsList.label',
-    defaultMessage: 'Settings',
   },
   copiedLinkToClipboardSnack: {
     id: 'callView.copiedLinkToClipboard.snack',
@@ -637,10 +626,6 @@ class CallView extends React.PureComponent {
   handleFabClick = () => {
     this.openDialog({ newCall: true});
   };
-
-  handleSettingsClick = () => {
-    this.openDialog({ settings: true});
-  }
 
   handleAcceptClick = (id, mode, entry, kind) => {
     const { doAccept } = this.props;
@@ -879,22 +864,7 @@ class CallView extends React.PureComponent {
 
     icons.push(
       <Hidden smDown key='settings'>
-        <IconButtonWithPopover
-          className={classes.settingsButton}
-          innerRef={this.settingsMenuRef}
-          icon={<SettingsIcon/>}
-        >
-          <List className={classes.settingsList}>
-            <ListItem button onClick={() => {
-              this.handleSettingsClick();
-              this.settingsMenuRef.current.close();
-            }}>
-              <ListItemText primary={intl.formatMessage(translations.settingsListLabel)}/>
-            </ListItem>
-          </List>
-          <Divider/>
-          <QuickSettingsList/>
-        </IconButtonWithPopover>
+        <SettingsButton/>
       </Hidden>
     );
 
@@ -1111,18 +1081,6 @@ class CallView extends React.PureComponent {
       </FullscreenDialog>
     );
 
-    dialogs.push(
-      <SettingsDialog
-        key="settings"
-        PaperProps={{
-          className: classes.dialog,
-        }}
-        open={openDialogs.settings || false}
-        disableBackdropClick
-        onClose={() => { this.openDialog({settings: false}); }}
-      ></SettingsDialog>
-    );
-
     const drawer = <React.Fragment>
       <Hidden smDown>
         {menu}
@@ -1130,15 +1088,9 @@ class CallView extends React.PureComponent {
       </Hidden>
       <Hidden mdUp>
         <QuickSettingsList/>
-        <List>
-          <ListItem button onClick={this.handleSettingsClick}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary={intl.formatMessage(translations.settingsListLabel)}/>
-          </ListItem>
+        <SettingsList withIcons>
           <AppsSwitcherListItem/>
-        </List>
+        </SettingsList>
       </Hidden>
     </React.Fragment>;
 

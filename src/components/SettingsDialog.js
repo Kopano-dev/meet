@@ -12,6 +12,7 @@ import DevicesIcon from '@material-ui/icons/Devices';
 
 import { injectIntl, FormattedMessage, intlShape } from 'react-intl';
 
+import { withManagedDialog } from './ManagedDialogProvider';
 import DeviceSettings from './DeviceSettings';
 
 const styles = theme => {
@@ -21,6 +22,13 @@ const styles = theme => {
     paper: {
       maxHeight: 450,
       height: '80vh',
+      width: '80vw',
+      [theme.breakpoints.up('md')]: {
+        height: '60%',
+        maxHeight: 600,
+        minHeight: 340,
+        minWidth: 480,
+      },
     },
     tabs: {
       marginBottom: theme.spacing.unit * 2,
@@ -123,4 +131,4 @@ SettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
-export default withStyles(styles)(injectIntl(SettingsDialog));
+export default withStyles(styles)(injectIntl(withManagedDialog('settings')(SettingsDialog)));
