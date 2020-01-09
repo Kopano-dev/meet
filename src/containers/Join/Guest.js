@@ -93,16 +93,30 @@ class Guest extends React.PureComponent {
       navigate('join:settings');
     } else {
       // Update guest data.
+      const mode = guest.guest ? guest.guest : GUEST_TYPE_SIMPLE;
       await setGuest({
         ...guest,
-        guest: guest.guest ? guest.guest : GUEST_TYPE_SIMPLE,
+        guest: mode,
         path: `${entry.scope}/${entry.id}`,
         name,
       });
       initializeUserWithConfig(config, {dispatchError: false, removeUser: true, noRedirect: true})
         .then(user => {
           if (user) {
-            navigate('join:settings');
+            // Navigate and add guest mode to URL hash until a better way was
+            // made to retain guest mode settings accross reloads.
+            const options = {};
+            let hash = window.location.hash;
+            if (hash.indexOf('guest=') === -1) {
+              if (hash === '') {
+                hash += '#';
+              } else if (hash.length > 1) {
+                hash += '&';
+              }
+              hash += 'guest=' + mode;
+              options.hash = hash;
+            }
+            navigate('join:settings', false, options);
           } else {
             this.setState({
               loading: false,

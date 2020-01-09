@@ -166,11 +166,11 @@ class Joinscreen extends React.PureComponent {
     history.goBack();
   }
 
-  navigate = (target, replace=false) => {
+  navigate = (target, replace=false, options={}) => {
     const { pushHistory, replaceHistory } = this.props;
 
     return Promise.resolve().then(() => {
-      replace ? replaceHistory('', target) : pushHistory('', target);
+      replace ? replaceHistory('', target, options) : pushHistory('', target, options);
     });
   }
 
