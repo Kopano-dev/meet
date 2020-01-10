@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
+"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -78,6 +78,14 @@ msgstr ""
 #. Autofit
 msgctxt "callView.settingsVideoCoverLabel.label"
 msgid "Autofit"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.backButton.aria]
+#. defaultMessage is:
+#. Back
+msgctxt "joinscreen.backButton.aria"
+msgid "Back"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -243,6 +251,14 @@ msgid "Enter a name for the group in the field above. You can use any\n         
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [joinscreen.guest.header]
+#. defaultMessage is:
+#. Enter your name
+msgctxt "joinscreen.guest.header"
+msgid "Enter your name"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [kwm.errorMessage.kwmError.message]
 #. defaultMessage is:
 #. Error: KWM error - {msg} {code}
@@ -395,11 +411,27 @@ msgid "Join  or create group"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [joinscreen.joinCallButton.text]
+#. defaultMessage is:
+#. Join call
+msgctxt "joinscreen.joinCallButton.text"
+msgid "Join call"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
 #. Join or create group
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.settings.joiningAs]
+#. defaultMessage is:
+#. Joining as: {displayName}
+msgctxt "joinscreen.settings.joiningAs"
+msgid "Joining as: {displayName}"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -459,6 +491,18 @@ msgid "New call"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+#: ./i18n/src/messages.json
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+msgctxt "joinscreen.nextButton.text"
+msgid "Next"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
 #. No connection - check your Internet connection.
@@ -499,18 +543,18 @@ msgid "Reject"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [contactSearch.failedToLoad.retryButton.text]
-#. defaultMessage is:
-#. Retry
-msgctxt "contactSearch.failedToLoad.retryButton.text"
-msgid "Retry"
-msgstr ""
-
-#: ./i18n/src/messages.json
 #. [deviceSettings.retryAccessButton.label]
 #. defaultMessage is:
 #. Retry
 msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [contactSearch.failedToLoad.retryButton.text]
+#. defaultMessage is:
+#. Retry
+msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr ""
 
@@ -536,6 +580,22 @@ msgstr ""
 #. Share {scope} link
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.signInButton.text]
+#. defaultMessage is:
+#. Sign in
+msgctxt "joinscreen.signInButton.text"
+msgid "Sign in"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.singOutButton.text]
+#. defaultMessage is:
+#. Sign out
+msgctxt "joinscreen.singOutButton.text"
+msgid "Sign out"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -568,6 +628,14 @@ msgstr ""
 #. Test
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.guest.suffixText]
+#. defaultMessage is:
+#. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
+msgctxt "joinscreen.guest.suffixText"
+msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -675,6 +743,14 @@ msgid "Voice call"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [joinscreen.welcome.header]
+#. defaultMessage is:
+#. Welcome to {icon} Meet
+msgctxt "joinscreen.welcome.header"
+msgid "Welcome to {icon} Meet"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
 #. You can join this meeting from your computer, tablet or smartphone.
@@ -771,6 +847,14 @@ msgid "group"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [joinscreen.guest.suffixText.signInLink]
+#. defaultMessage is:
+#. sign in
+msgctxt "joinscreen.guest.suffixText.signInLink"
+msgid "sign in"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
 #. unknown
@@ -784,4 +868,20 @@ msgstr ""
 #. unmute
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.settings.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+msgctxt "joinscreen.settings.scope"
+msgid "{scope} \"{id}\""
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [joinscreen.welcome.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+msgctxt "joinscreen.welcome.scope"
+msgid "{scope} \"{id}\""
 msgstr ""

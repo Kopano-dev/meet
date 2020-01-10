@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
+"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
 "PO-Revision-Date: 2019-10-03 12:18+0000\n"
 "Last-Translator: Nuno Jerónimo <nuno.jeronimo@valsousa.pt>\n"
 "Language-Team: Portuguese (Portugal) <http://translate.kopano.io/projects/kopano/meet/pt_PT/>\n"
@@ -106,6 +106,15 @@ msgstr "Só áudio"
 msgctxt "callView.settingsVideoCoverLabel.label"
 msgid "Autofit"
 msgstr ""
+
+#. [joinscreen.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "joinscreen.backButton.aria"
+msgid "Back"
+msgstr "Recuar"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -275,6 +284,15 @@ msgstr ""
 "                 Nome. Um grupo nove será criado automaticamente se ainda não existir. O\n"
 "                 grupo pode ser acedido por qualquer um que saiba o seu nome exato."
 
+#. [joinscreen.guest.header]
+#. defaultMessage is:
+#. Enter your name
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "joinscreen.guest.header"
+msgid "Enter your name"
+msgstr "Nome do grupo"
+
 #. [kwm.errorMessage.kwmError.message]
 #. defaultMessage is:
 #. Error: KWM error - {msg} {code}
@@ -427,6 +445,15 @@ msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
 msgstr "Entrar  ou criar grupo"
 
+#. [joinscreen.joinCallButton.text]
+#. defaultMessage is:
+#. Join call
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "joinscreen.joinCallButton.text"
+msgid "Join call"
+msgstr "Ligação de voz"
+
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
 #. Join or create group
@@ -434,6 +461,14 @@ msgstr "Entrar  ou criar grupo"
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
 msgstr "Entrar ou criar grupo"
+
+#. [joinscreen.settings.joiningAs]
+#. defaultMessage is:
+#. Joining as: {displayName}
+#: i18n/src/messages.json
+msgctxt "joinscreen.settings.joiningAs"
+msgid "Joining as: {displayName}"
+msgstr ""
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -491,6 +526,17 @@ msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
 msgstr "Nova ligação"
 
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+#: i18n/src/messages.json
+msgctxt "joinscreen.nextButton.text"
+msgid "Next"
+msgstr ""
+
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
 #. No connection - check your Internet connection.
@@ -532,19 +578,19 @@ msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
 msgstr "Rejeitar"
 
-#. [contactSearch.failedToLoad.retryButton.text]
-#. defaultMessage is:
-#. Retry
-#: i18n/src/messages.json
-msgctxt "contactSearch.failedToLoad.retryButton.text"
-msgid "Retry"
-msgstr "Tentar novamente"
-
 #. [deviceSettings.retryAccessButton.label]
 #. defaultMessage is:
 #. Retry
 #: i18n/src/messages.json
 msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr "Tentar novamente"
+
+#. [contactSearch.failedToLoad.retryButton.text]
+#. defaultMessage is:
+#. Retry
+#: i18n/src/messages.json
+msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr "Tentar novamente"
 
@@ -571,6 +617,22 @@ msgstr "Definições"
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
 msgstr "Partilhar endereço {scope}"
+
+#. [joinscreen.signInButton.text]
+#. defaultMessage is:
+#. Sign in
+#: i18n/src/messages.json
+msgctxt "joinscreen.signInButton.text"
+msgid "Sign in"
+msgstr ""
+
+#. [joinscreen.singOutButton.text]
+#. defaultMessage is:
+#. Sign out
+#: i18n/src/messages.json
+msgctxt "joinscreen.singOutButton.text"
+msgid "Sign out"
+msgstr ""
 
 #. [deviceSettings.speakerSelect.label]
 #. defaultMessage is:
@@ -603,6 +665,14 @@ msgstr "Suspensa"
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
 msgstr "Testar"
+
+#. [joinscreen.guest.suffixText]
+#. defaultMessage is:
+#. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
+#: i18n/src/messages.json
+msgctxt "joinscreen.guest.suffixText"
+msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -708,6 +778,14 @@ msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Ligação de voz"
 
+#. [joinscreen.welcome.header]
+#. defaultMessage is:
+#. Welcome to {icon} Meet
+#: i18n/src/messages.json
+msgctxt "joinscreen.welcome.header"
+msgid "Welcome to {icon} Meet"
+msgstr ""
+
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
 #. You can join this meeting from your computer, tablet or smartphone.
@@ -804,6 +882,14 @@ msgctxt "scopeLabel.group.label"
 msgid "group"
 msgstr "grupo"
 
+#. [joinscreen.guest.suffixText.signInLink]
+#. defaultMessage is:
+#. sign in
+#: i18n/src/messages.json
+msgctxt "joinscreen.guest.suffixText.signInLink"
+msgid "sign in"
+msgstr ""
+
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
 #. unknown
@@ -819,6 +905,22 @@ msgstr "desconhecido"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "ativar"
+
+#. [joinscreen.settings.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+#: i18n/src/messages.json
+msgctxt "joinscreen.settings.scope"
+msgid "{scope} \"{id}\""
+msgstr ""
+
+#. [joinscreen.welcome.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+#: i18n/src/messages.json
+msgctxt "joinscreen.welcome.scope"
+msgid "{scope} \"{id}\""
+msgstr ""
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."

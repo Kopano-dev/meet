@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-12-16T17:41:23.024Z\n"
-"PO-Revision-Date: 2019-12-16 18:45+0100\n"
+"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
+"PO-Revision-Date: 2020-01-10 11:36+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -103,6 +103,14 @@ msgstr "Nur Audio"
 msgctxt "callView.settingsVideoCoverLabel.label"
 msgid "Autofit"
 msgstr "Einpassen"
+
+#. [joinscreen.backButton.aria]
+#. defaultMessage is:
+#. Back
+#: i18n/src/messages.json
+msgctxt "joinscreen.backButton.aria"
+msgid "Back"
+msgstr "Zurück"
 
 #. [contactControl.backButton.aria]
 #. defaultMessage is:
@@ -269,6 +277,14 @@ msgid ""
 "                 group can be joined by anyone who knows its exact name."
 msgstr "Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen verwenden. Existiert noch keine Gruppe mit dem gleichen Namen, wird diese automatisch erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
 
+#. [joinscreen.guest.header]
+#. defaultMessage is:
+#. Enter your name
+#: i18n/src/messages.json
+msgctxt "joinscreen.guest.header"
+msgid "Enter your name"
+msgstr "Geben Sie Ihren Namen ein"
+
 #. [kwm.errorMessage.kwmError.message]
 #. defaultMessage is:
 #. Error: KWM error - {msg} {code}
@@ -421,6 +437,14 @@ msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join  or create group"
 msgstr "Gruppe betreten oder erstellen"
 
+#. [joinscreen.joinCallButton.text]
+#. defaultMessage is:
+#. Join call
+#: i18n/src/messages.json
+msgctxt "joinscreen.joinCallButton.text"
+msgid "Join call"
+msgstr "Los geht's"
+
 #. [callView.newPublicGroupDialog.topTitle]
 #. defaultMessage is:
 #. Join or create group
@@ -428,6 +452,14 @@ msgstr "Gruppe betreten oder erstellen"
 msgctxt "callView.newPublicGroupDialog.topTitle"
 msgid "Join or create group"
 msgstr "Gruppe betreten oder erstellen"
+
+#. [joinscreen.settings.joiningAs]
+#. defaultMessage is:
+#. Joining as: {displayName}
+#: i18n/src/messages.json
+msgctxt "joinscreen.settings.joiningAs"
+msgid "Joining as: {displayName}"
+msgstr "Teilnehmen als: {displayName}"
 
 #. [callView.copiedLinkToClipboard.snack]
 #. defaultMessage is:
@@ -485,6 +517,17 @@ msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
 msgstr "Neuer Anruf"
 
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+#. [joinscreen.nextButton.text]
+#. defaultMessage is:
+#. Next
+#: i18n/src/messages.json
+msgctxt "joinscreen.nextButton.text"
+msgid "Next"
+msgstr "Weiter"
+
 #. [callView.noConnectionTooltip.title]
 #. defaultMessage is:
 #. No connection - check your Internet connection.
@@ -525,19 +568,19 @@ msgctxt "incomingCallDialog.rejectButton.text"
 msgid "Reject"
 msgstr "Abweisen"
 
-#. [contactSearch.failedToLoad.retryButton.text]
-#. defaultMessage is:
-#. Retry
-#: i18n/src/messages.json
-msgctxt "contactSearch.failedToLoad.retryButton.text"
-msgid "Retry"
-msgstr "Erneut versuchen"
-
 #. [deviceSettings.retryAccessButton.label]
 #. defaultMessage is:
 #. Retry
 #: i18n/src/messages.json
 msgctxt "deviceSettings.retryAccessButton.label"
+msgid "Retry"
+msgstr "Erneut versuchen"
+
+#. [contactSearch.failedToLoad.retryButton.text]
+#. defaultMessage is:
+#. Retry
+#: i18n/src/messages.json
+msgctxt "contactSearch.failedToLoad.retryButton.text"
 msgid "Retry"
 msgstr "Erneut versuchen"
 
@@ -564,6 +607,22 @@ msgstr "Einstellungen"
 msgctxt "groupControl.extraShareLinkButton.label"
 msgid "Share {scope} link"
 msgstr "Link teilen"
+
+#. [joinscreen.signInButton.text]
+#. defaultMessage is:
+#. Sign in
+#: i18n/src/messages.json
+msgctxt "joinscreen.signInButton.text"
+msgid "Sign in"
+msgstr "Einloggen"
+
+#. [joinscreen.singOutButton.text]
+#. defaultMessage is:
+#. Sign out
+#: i18n/src/messages.json
+msgctxt "joinscreen.singOutButton.text"
+msgid "Sign out"
+msgstr "Ausloggen"
 
 #. [deviceSettings.speakerSelect.label]
 #. defaultMessage is:
@@ -596,6 +655,14 @@ msgstr "Schlafend"
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
 msgstr "Testen"
+
+#. [joinscreen.guest.suffixText]
+#. defaultMessage is:
+#. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
+#: i18n/src/messages.json
+msgctxt "joinscreen.guest.suffixText"
+msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgstr "Sie sind unter diesem Namen für andere Teilnehmer als Gast sichtbar. Wenn Sie ein Konto haben, können Sie sich auch {signInLink}."
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -701,6 +768,14 @@ msgctxt "groupControl.voiceCallButton.aria"
 msgid "Voice call"
 msgstr "Sprachanruf"
 
+#. [joinscreen.welcome.header]
+#. defaultMessage is:
+#. Welcome to {icon} Meet
+#: i18n/src/messages.json
+msgctxt "joinscreen.welcome.header"
+msgid "Welcome to {icon} Meet"
+msgstr "Willkommen zu {icon} Meet"
+
 #. [callView.inviteByShareLink.text.template]
 #. defaultMessage is:
 #. You can join this meeting from your computer, tablet or smartphone.
@@ -797,6 +872,14 @@ msgctxt "scopeLabel.group.label"
 msgid "group"
 msgstr "Gruppe"
 
+#. [joinscreen.guest.suffixText.signInLink]
+#. defaultMessage is:
+#. sign in
+#: i18n/src/messages.json
+msgctxt "joinscreen.guest.suffixText.signInLink"
+msgid "sign in"
+msgstr "einloggen"
+
 #. [contactLabel.unknown.text]
 #. defaultMessage is:
 #. unknown
@@ -812,6 +895,22 @@ msgstr "unbekannt"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#. [joinscreen.settings.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+#: i18n/src/messages.json
+msgctxt "joinscreen.settings.scope"
+msgid "{scope} \"{id}\""
+msgstr ""
+
+#. [joinscreen.welcome.scope]
+#. defaultMessage is:
+#. {scope} "{id}"
+#: i18n/src/messages.json
+msgctxt "joinscreen.welcome.scope"
+msgid "{scope} \"{id}\""
+msgstr ""
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."
