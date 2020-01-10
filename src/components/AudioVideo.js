@@ -179,10 +179,10 @@ class AudioVideo extends React.PureComponent {
       this.removeStreamEvents(stream);
     }
     if (this.element) {
-      this.element.src = '';
+      this.clearStream(this.element);
     }
     if (this.extra) {
-      this.extra.src = '';
+      this.clearStream(this.extra);
     }
   }
 
@@ -195,16 +195,16 @@ class AudioVideo extends React.PureComponent {
       // Add interesting event handlers.
       this.addStreamEvents(stream);
       if (stream.active) {
-        this.element.srcObject = stream;
+        this.setStreamAndPlay(this.element, stream);
         if (this.extra) {
-          this.extra.srcObject = stream;
+          this.setStreamAndPlay(this.extra, stream);
         }
       }
       this.classifyStream(stream);
     } else {
-      this.element.src = '';
+      this.clearStream(this.element);
       if (this.extra) {
-        this.extra.src = '';
+        this.clearStream(this.extra);
       }
     }
   }
@@ -224,6 +224,35 @@ class AudioVideo extends React.PureComponent {
       });
     }
   })
+
+  setStreamAndPlay(element, stream) {
+    this.doSetOrUnsetStream(element, stream);
+  }
+
+  clearStream(element) {
+    this.doSetOrUnsetStream(element, null);
+  }
+
+  doSetOrUnsetStream(element, stream) {
+    if (!stream) {
+      element.src = '';
+      return;
+    }
+    element.srcObject = stream;
+
+    // Autoplay is not guaranteed, so trigger play manually.
+    try {
+      element.play().then(() => {
+        /* noop */
+      }).catch(reason => {
+        // Play might fail for various reasons, most of the time it is
+        // interrupted when a new src is set before it could start to play.
+        console.debug(`failed to play: ${reason}`, element); // eslint-disable-line no-console
+      });
+    } catch(err) {
+      console.warn(`failed to play: ${err}`, element); // eslint-disable-line no-console
+    }
+  }
 
   addStreamEvents(stream) {
     // NOTE(longsleep): Use event handler functions, since Firefox does only
@@ -277,15 +306,15 @@ class AudioVideo extends React.PureComponent {
   handleReset = () => {
     if (this.element) {
       const { stream } = this.props;
-      this.element.src = '';
+      this.clearStream(this.element);
       if (this.extra) {
-        this.extra.src = '';
+        this.clearStream(this.extra);
       }
       if (stream) {
         if (stream.active) {
-          this.element.srcObject = stream;
+          this.setStreamAndPlay(this.element, stream);
           if (this.extra) {
-            this.extra.srcObject = stream;
+            this.setStreamAndPlay(this.extra, stream);
           }
         }
         this.classifyStream(stream);
@@ -316,8 +345,9 @@ class AudioVideo extends React.PureComponent {
     }
     this.element = element;
     if (element) {
+      this.element.autoplay = true;
       this.element.addEventListener('loadedmetadata', this.handleMetadata, true);
-      this.updateAudioSink(element);
+      this.updateAudioSink(this.element);
     }
   }
 
@@ -328,7 +358,8 @@ class AudioVideo extends React.PureComponent {
 
     this.extra = extra;
     if (extra) {
-      this.updateAudioSink(extra);
+      this.extra.autoplay = true;
+      this.updateAudioSink(this.extra);
     }
   }
 
@@ -415,7 +446,6 @@ class AudioVideo extends React.PureComponent {
       const extra = withExtra ? <audio
         className={classes.extra}
         ref={this.handleExtra.bind()}
-        autoPlay
         playsInline
         muted={muted}
       /> : null;
@@ -461,8 +491,6 @@ AudioVideo.defaultProps = {
   stream: null,
 
   muted: false,
-  autoPlay: true,
-  playsInline: true,
   calling: false,
 };
 
@@ -481,8 +509,6 @@ AudioVideo.propTypes = {
   audioSinkId: PropTypes.string,
 
   muted: PropTypes.bool,
-  autoPlay: PropTypes.bool,
-  playsInline: PropTypes.bool,
   calling: PropTypes.bool,
 
   conference: PropTypes.bool,
