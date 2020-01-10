@@ -2,6 +2,45 @@
 
 ## Unreleased
 
+- Improve settings menu
+- Allow buttons with popover use active style when popover is open
+- Update translations and translate to German
+- Add i18n for join screen
+- Use more-vert icon for settings menu
+- Add settings to join flow
+- Allow opening of settings dialog when not in call view
+- Improve video grid css for better video visibility
+- Update kwmjs to 1.1.2
+- Pin guest mode in URL when using join flow
+- Avoid setting audioSink when none is available
+- Ensure screen sharing is visible on iOS
+- Fix refactoring typo
+- Allow auto join to work even if gum gets cancelled
+- Improve mute/unmute stream handling
+- Ensure to trigger user required error when user is required
+- Avoid vertical scroll in join flow on large screens
+- Update kpop to 2.1.0
+- Create links to group meetings with join flow prefix
+- Add cam/mic mute toggle to join flow
+- Move floating cam and mic mute buttons to own components
+- Disable session monitor for guest users
+- Improve join flow dialog height and button consistency
+- Avoid kwm reconnect when credentials changed and already connected
+- Properly forward ref for posed component
+- Fix translation typo
+- Ignore esm modules which are sub modules of others
+- Add join background header artwork
+- Update kpop to 2.0.0
+- Move cover flag into redux to prepare for global dialogs
+- Implement Join flow and its UI
+- Reorganize app structure with routes
+- Format JSON files like Javascript
+- Update to latest react linter, to support forwardRef properly
+- Properly forward ref for all functional components
+- Update to Material-UI 4
+- Log some errors as warning to avoid to fail build in develop mode
+- Reorganize main component into sub folder
+- Add basic text that is picked when parsing Meet for plain text
 - Update translations and translate to German
 - Add defines for translatable error messages and snacks
 - Update kpop to 1.2.1
