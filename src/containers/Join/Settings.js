@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
+import { FormattedMessage } from 'react-intl';
+
 import { setError } from 'kpop/es/common/actions';
 import { startSignout } from 'kpop/es/oidc/actions';
 import { updateOIDCState } from 'kpop/es/oidc/state';
@@ -20,6 +22,7 @@ import AutoStandby from '../../components/AutoStandby';
 import AudioVideo from '../../components/AudioVideo';
 import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
 import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
+import ScopeLabel from '../../components/ScopeLabel';
 
 const styles = theme => {
   return {
@@ -148,15 +151,33 @@ class Settings extends React.PureComponent {
       <DialogContent className={classNames(classes.container, classNameProp)}>
         <div className={classes.header}>
           <Typography gutterBottom variant="h6" align="center">
-            {entry.scope} <em>&quot;<strong>{entry.id}</strong>&quot;</em>
+            <FormattedMessage
+              id="joinscreen.settings.scope"
+              defaultMessage="{scope} &quot;{id}&quot;"
+              values={{
+                scope: <ScopeLabel scope={entry.scope} capitalize/>,
+                id: <em><strong>{entry.id}</strong></em>,
+              }}
+            ></FormattedMessage>
           </Typography>
         </div>
         <Divider/>
         <div className={classes.user}>
           <Typography className={classes.displayName}>
-            Joining as: <strong>{profile.displayName}</strong>
+            <FormattedMessage
+              id="joinscreen.settings.joiningAs"
+              defaultMessage="Joining as: {displayName}"
+              values={{
+                displayName: <strong>{profile.displayName}</strong>,
+              }}
+            ></FormattedMessage>
           </Typography>
-          <Button size="small" onClick={this.handleSignOutClick} color="secondary">Sign out</Button>
+          <Button size="small" onClick={this.handleSignOutClick} color="secondary">
+            <FormattedMessage
+              id="joinscreen.singOutButton.text"
+              defaultMessage="Sign out"
+            ></FormattedMessage>
+          </Button>
         </div>
         <Divider/>
         <div className={classes.main}>
@@ -169,7 +190,10 @@ class Settings extends React.PureComponent {
             color="primary"
             onClick={this.handleNextClick}
           >
-              Join call
+            <FormattedMessage
+              id="joinscreen.joinCallButton.text"
+              defaultMessage="Join call">
+            </FormattedMessage>
           </Button>
         </div>
       </DialogContent>

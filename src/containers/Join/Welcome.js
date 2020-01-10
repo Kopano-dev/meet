@@ -16,8 +16,9 @@ import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import { updateOIDCState } from 'kpop/es/oidc/state';
 
 import { isPublicGroup } from '../../utils';
-
+import ScopeLabel from '../../components/ScopeLabel';
 import { JoinBackground } from '../../artwork';
+
 
 const styles = () => {
   return {
@@ -110,9 +111,24 @@ class Welcome extends React.PureComponent {
       </div>
       <DialogContent className={classNameProp}>
         <div className={classes.header}>
-          <Typography gutterBottom variant="h6" align="center" display="block">Welcome to <KopanoMeetIcon style={{verticalAlign: 'text-bottom'}}/> Meet</Typography>
+          <Typography gutterBottom variant="h6" align="center" display="block">
+            <FormattedMessage
+              id="joinscreen.welcome.header"
+              defaultMessage="Welcome to {icon} Meet"
+              values={{
+                icon: <KopanoMeetIcon style={{verticalAlign: 'text-bottom'}}/>,
+              }}
+            ></FormattedMessage>
+          </Typography>
           <Typography gutterBottom align="center">
-            {entry.scope} <em>&quot;<strong>{entry.id}</strong>&quot;</em>
+            <FormattedMessage
+              id="joinscreen.welcome.scope"
+              defaultMessage="{scope} &quot;{id}&quot;"
+              values={{
+                scope: <ScopeLabel scope={entry.scope} capitalize/>,
+                id: <em><strong>{entry.id}</strong></em>,
+              }}
+            ></FormattedMessage>
           </Typography>
         </div>
         <div className={classes.actions}>

@@ -13,6 +13,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PersonIcon from '@material-ui/icons/Person';
 import Link from '@material-ui/core/Link';
 
+import { FormattedMessage } from 'react-intl';
+
 import { setError } from 'kpop/es/common/actions';
 import { initializeUserWithConfig } from 'kpop/es/config/actions';
 import { removeUser, startSignin } from 'kpop/es/oidc/actions';
@@ -185,7 +187,7 @@ class Guest extends React.PureComponent {
       </div>
       <DialogContent className={classNameProp}>
         <div className={classes.header}>
-          <Typography gutterBottom variant="h6">Enter your name</Typography>
+          <Typography gutterBottom variant="h6"><FormattedMessage id="joinscreen.guest.header" defaultMessage="Enter your name"></FormattedMessage></Typography>
           <div className={classes.form}>
             <TextField
               autoFocus
@@ -204,7 +206,18 @@ class Guest extends React.PureComponent {
               helperText={nameError}
             />
             <Typography variant="caption" gutterBottom>
-              The name defines how you are visible to others as guest. If you have an account, you can <Link href="#" onClick={this.handleSignInClick}>sign in</Link> too.
+              <FormattedMessage
+                id="joinscreen.guest.suffixText"
+                defaultMessage="The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+                values={{
+                  signInLink: <Link href="#" onClick={this.handleSignInClick}>
+                    <FormattedMessage
+                      id="joinscreen.guest.suffixText.signInLink"
+                      defaultMessage="sign in">
+                    </FormattedMessage>
+                  </Link>,
+                }}
+              ></FormattedMessage>
             </Typography>
           </div>
         </div>
@@ -214,7 +227,10 @@ class Guest extends React.PureComponent {
             variant="contained"
             color="primary"
             onClick={this.handleNextClick}>
-              Next
+            <FormattedMessage
+              id="joinscreen.nextButton.text"
+              defaultMessage="Next">
+            </FormattedMessage>
           </Button>
         </div>
       </DialogContent>

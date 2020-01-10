@@ -24,8 +24,7 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 import { makeGroupLink } from '../../utils';
 import { mapGroupEntryToUserShape } from './Recents';
 import { pushHistory } from '../../actions/meet';
-
-import ScopeLabel from './ScopeLabel';
+import ScopeLabel from '../../components/ScopeLabel';
 
 const styles = theme => ({
   root: {
