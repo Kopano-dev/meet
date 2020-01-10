@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,9 +8,12 @@ import Popover from '@material-ui/core/Popover';
 import uniqueId from 'lodash-es/uniqueId';
 
 
-export const styles = () => {
+export const styles = theme => {
   return {
     root: {
+    },
+    active: {
+      backgroundColor: theme.palette.action.selected,
     },
   };
 };
@@ -45,7 +49,7 @@ class UserProfileButton extends React.PureComponent {
 
   render() {
     const { anchorEl } = this.state;
-    const { children, theme, onClick, icon, ...other  } = this.props;
+    const { children, theme, onClick, icon, classes, className: classNameProp, ...other  } = this.props;
 
     return (
       <React.Fragment>
@@ -53,6 +57,9 @@ class UserProfileButton extends React.PureComponent {
           aria-owns={anchorEl ? this.id : null}
           aria-haspopup="true"
           onClick={this.handleClick(onClick)}
+          className={classNames(classNameProp, {
+            [classes.active]: !!anchorEl,
+          })}
           {...other}
         >
           {icon}
@@ -87,6 +94,10 @@ UserProfileButton.propTypes = {
    * Useful to extend the style applied to components.
    */
   classes: PropTypes.object.isRequired,
+  /**
+   * Class name to use for button.
+   */
+  className: PropTypes.string,
   /**
    * @ignore
    */
