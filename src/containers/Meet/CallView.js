@@ -1087,7 +1087,7 @@ class CallView extends React.PureComponent {
         <Divider/>
       </Hidden>
       <Hidden mdUp>
-        <QuickSettingsList/>
+        <QuickSettingsList withIcons/>
         <SettingsList withIcons>
           <AppsSwitcherListItem/>
         </SettingsList>

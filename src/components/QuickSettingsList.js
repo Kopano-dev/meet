@@ -46,15 +46,15 @@ class QuickSettingsList extends React.PureComponent {
   }
 
   render() {
-    const { classes, intl, mode, cover, ...other } = this.props;
+    const { classes, intl, mode, cover, withIcons, ...other } = this.props;
     delete other.setMode;
     delete other.setCover;
 
     return <List className={classes.root} {...other}>
       <ListItem>
-        <ListItemIcon>
+        {withIcons && <ListItemIcon>
           <CamOffIcon />
-        </ListItemIcon>
+        </ListItemIcon>}
         <ListItemText primary={intl.formatMessage(translations.settingsAudioOnlyLabel)} />
         <ListItemSecondaryAction>
           <ToggleSwitch
@@ -65,9 +65,9 @@ class QuickSettingsList extends React.PureComponent {
         </ListItemSecondaryAction>
       </ListItem>
       <ListItem>
-        <ListItemIcon>
+        {withIcons && <ListItemIcon>
           <ZoomOutMapIcon />
-        </ListItemIcon>
+        </ListItemIcon>}
         <ListItemText primary={intl.formatMessage(translations.settingsVideoCoverLabel)} />
         <ListItemSecondaryAction>
           <ToggleSwitch
@@ -84,6 +84,8 @@ class QuickSettingsList extends React.PureComponent {
 QuickSettingsList.propTypes = {
   classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+
+  withIcons: PropTypes.bool,
 
   mode: PropTypes.string.isRequired,
   cover: PropTypes.bool.isRequired,
