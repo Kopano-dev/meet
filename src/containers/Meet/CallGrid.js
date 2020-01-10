@@ -118,6 +118,13 @@ const styles = theme => ({
     minWidth: 100,
     boxShadow: theme.shadows[6],
   },
+  floatingOverlay: {
+    maxWidth: 112,
+    maxHeight: 112,
+    right: 0,
+    left: 0,
+    margin: '0 auto',
+  },
 });
 
 class CallGrid extends React.PureComponent {
@@ -244,7 +251,15 @@ class CallGrid extends React.PureComponent {
           </Grid>
         ))}
         <Slide direction="up" in={remoteStreams.length > 0 && !!localStream} mountOnEnter unmountOnExit>
-          <DragableFloatingAudioVideo className={classes.floatingLocal} stream={localStream} mirrored muted cover={cover}/>
+          <DragableFloatingAudioVideo
+            className={classNames(classes.floatingLocal, {
+              [classes.floatingOverlay]: overlay,
+            })}
+            stream={localStream}
+            mirrored
+            muted
+            cover={cover}
+          />
         </Slide>
       </div>
     );

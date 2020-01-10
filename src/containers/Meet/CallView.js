@@ -305,6 +305,10 @@ const styles = theme => ({
     '& ::-webkit-scrollbar-track': {
       backgroundColor: 'transparent',
     },
+    '& > div > div': {
+      maxWidth: 112,
+      maxHeight: 112,
+    },
   },
   callAsSidebarAudioVideo: {
     '& > div': { // Good lord - terribe stuff follows!
