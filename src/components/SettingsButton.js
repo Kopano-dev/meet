@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
-import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import IconButtonWithPopover from './IconButtonWithPopover';
 import SettingsList from './SettingsList';
