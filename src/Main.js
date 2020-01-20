@@ -61,6 +61,7 @@ class Main extends PureComponent {
       defaults: async config => {
         config = {
           oidc: {},
+          guests: {},
           disableFullGAB: false,  // When true, does not count contacts on load, and searches on server always.
           useIdentifiedUser: false,  // When true, authenticates with kwm as identified user name instead of user ID.
           ...config,
