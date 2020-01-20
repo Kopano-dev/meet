@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Use filled settins icon instead of outlined one
+- Bring back proper working catch all route
+- Make guests key optional in config
+- Use dedicated audio extra element for remote streams on mobile Safari
+- Further improve overlay video ui sizing
+- Ensure streams are always getting started
 - Improve settings menu
 - Allow buttons with popover use active style when popover is open
 - Update translations and translate to German
