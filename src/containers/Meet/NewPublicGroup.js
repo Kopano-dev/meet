@@ -113,7 +113,7 @@ class NewPublicGroup extends React.PureComponent {
     const { query, isPublic } = this.state;
     const { onActionClick } = this.props;
 
-    let id = query;
+    let id = query.trim();
     if (isPublic && query.indexOf(PUBLIC_GROUP_PREFIX) !== 0) {
       id = `${PUBLIC_GROUP_PREFIX}${query}`;
     }
