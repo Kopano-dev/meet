@@ -15,11 +15,16 @@ const AsyncJoin = AsyncComponent(() =>
 const Routes = ({ authenticated }) => (
   <Switch>
     <Route
-      path="/r/join/:view(conference|group)/:id(.*)"
+      path={[
+        '/r/join/:view(conference|group)/:id(.*)',
+      ]}
       component={AsyncJoin}
     />
     <AuthenticatedRoute /* Keep this route last, its kind of a catch all. */
-      path="/r/:view(call|conference|group)?"
+      path={[
+        '/r/:view(call|conference|group)/:id(.*)',
+        '/r/call',
+      ]}
       component={AsyncMeet}
       authenticated={authenticated}
       alternative={<UserRequired/>}
