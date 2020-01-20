@@ -176,7 +176,6 @@ class CallGrid extends React.PureComponent {
       renderMode = 'call';
     }
 
-    const conference = remoteStreams.length > 1;
     const overlay = variant === 'overlay';
 
     return (
@@ -206,7 +205,6 @@ class CallGrid extends React.PureComponent {
                   mirrored={stream.mirrored}
                   cover={cover}
                   stream={stream.stream}
-                  conference={conference}
                   round={!!overlay}
                   user={labels ? stream.user : undefined}
                   calling={stream.calling}
@@ -232,7 +230,6 @@ class CallGrid extends React.PureComponent {
                 muted={stream.muted}
                 cover={cover}
                 stream={stream.stream}
-                conference={conference}
                 user={stream.user}
                 calling={stream.calling}
                 audioSinkId={audioSinkId}

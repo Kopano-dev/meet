@@ -376,7 +376,6 @@ class AudioVideo extends React.PureComponent {
       cover,
       muted,
       calling,
-      conference,
       id,
       user,
       ...other
@@ -430,7 +429,7 @@ class AudioVideo extends React.PureComponent {
         <React.Fragment>
           <audio
             className={elementClassName}
-            ref={this.handleElement.bind()}
+            ref={this.handleElement}
             muted={muted}
             playsInline
             {...other}
@@ -441,11 +440,11 @@ class AudioVideo extends React.PureComponent {
         </React.Fragment>
       );
     } else {
-      const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo && !muted && conference;
+      const withExtra = bugs.cannotPlayMoreThanOneUnmutedVideo;
 
       const extra = withExtra ? <audio
         className={classes.extra}
-        ref={this.handleExtra.bind()}
+        ref={this.handleExtra}
         playsInline
         muted={muted}
       /> : null;
@@ -454,7 +453,7 @@ class AudioVideo extends React.PureComponent {
         <React.Fragment>
           <video
             className={elementClassName}
-            ref={this.handleElement.bind()}
+            ref={this.handleElement}
             muted={extra ? true : muted}
             playsInline
             {...other}
@@ -510,8 +509,6 @@ AudioVideo.propTypes = {
 
   muted: PropTypes.bool,
   calling: PropTypes.bool,
-
-  conference: PropTypes.bool,
 
   id: PropTypes.string,
   user: PropTypes.object,
