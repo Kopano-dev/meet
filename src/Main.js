@@ -28,6 +28,15 @@ import { tryGuestLogon } from './api/kwm';
 import Routes from './Routes';
 import SettingsDialog from './components/SettingsDialog';
 
+// Version to indicate app compatibility. Increment whenever an old running
+// app should be forced to update on next load. Use a numeric date in the form
+// of YYYYMMDD.
+// Set `minimumVersion` in config.json to this value to enforce automatic app
+// update to this or later version. Most of the time this is only required when
+// a fundamental change in the apps behavior is introduced and the old version
+// cannot properly render the app updated snack.
+const currentVersion = 20200121;
+
 class Main extends PureComponent {
   state = {
     initialized: false,
@@ -152,7 +161,17 @@ class Main extends PureComponent {
     const events = ['channelChanged'];
 
     return (
-      <BaseContainer ready={ready} error={error} config={config} events={events} withSnackbar withVisibility withOffline {...other}>
+      <BaseContainer
+        ready={ready}
+        error={error}
+        config={config}
+        events={events}
+        withSnackbar
+        withVisibility
+        withOffline
+        currentVersion={currentVersion}
+        {...other}
+      >
         <KWMProvider/>
         <HowlingProvider src={soundSrc} sprite={soundSprite}>
           <MainContainer>
