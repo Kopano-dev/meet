@@ -7327,9 +7327,9 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-"kpop@https://download.kopano.io/community/kapp:/kpop-2.1.0.tgz":
-  version "2.1.0"
-  resolved "https://download.kopano.io/community/kapp:/kpop-2.1.0.tgz#39bda443e80092adfbe379f6f729d03b80e5787c"
+"kpop@https://download.kopano.io/community/kapp:/kpop-2.2.0.tgz":
+  version "2.2.0"
+  resolved "https://download.kopano.io/community/kapp:/kpop-2.2.0.tgz#8c0cb759f67e22062c756eb97c43325a2ffb5228"
   dependencies:
     cldr "^5.2.0"
     crc32 "^0.2.2"
