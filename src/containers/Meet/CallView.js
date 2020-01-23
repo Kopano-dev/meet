@@ -402,6 +402,10 @@ const styles = theme => ({
 });
 
 const translations = defineMessages({
+  audioIsMutedSnack: {
+    id: 'callView.audioIsMutedSnack.message',
+    defaultMessage: 'Audio playback is muted.',
+  },
   microphoneIsMutedSnack: {
     id: 'callView.microphoneIsMutedSnack.message',
     defaultMessage: 'Your microphone is muted.',
@@ -479,7 +483,15 @@ class CallView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { fetchContacts, fetchRecents, initializeContactsWithRecents, updateOfferAnswerConstraints } = this.props;
+    const {
+      fetchContacts,
+      fetchRecents,
+      initializeContactsWithRecents,
+      updateOfferAnswerConstraints,
+      muted,
+      enqueueSnackbar,
+      closeSnackbar,
+    } = this.props;
     fetchContacts().catch(err => {
       // Ignore errors here, let global handler do it.
       console.error('failed to fetch contacts', err); // eslint-disable-line no-console
@@ -493,9 +505,32 @@ class CallView extends React.PureComponent {
     });
 
     updateOfferAnswerConstraints();
+
     // TODO(longsleep): The initial rum should ensure, that the selected audioSink
     // actually has permission. This right now means that the mic of the corresponding
     // device needs to be requested. See https://w3c.github.io/mediacapture-output/#privacy-considerations
+
+    if (muted) {
+      enqueueSnackbar({
+        message: translations.audioIsMutedSnack,
+        options: {
+          variant: 'info',
+          key: 'callview_global_muted',
+          persist: true,
+          action: key => {
+            return <Button
+              size="small"
+              onClick={() => {
+                closeSnackbar(key);
+                this.handleUnmuteClick();
+              }}
+            >
+              <FormattedMessage id="callView.audioIsMutedSnack.button.text" defaultMessage="unmute"></FormattedMessage>
+            </Button>;
+          },
+        },
+      });
+    }
   }
 
   componentDidUpdate(prevProps, /*prevState*/) {
@@ -584,6 +619,12 @@ class CallView extends React.PureComponent {
     const { doMuteOrUnmute } = this.props;
 
     doMuteOrUnmute({muteMic: false});
+  }
+
+  handleUnmuteClick = () => {
+    const { doMuteOrUnmute } = this.props;
+
+    doMuteOrUnmute({muteAudio: false});
   }
 
   handleShareScreenClick = state => () => {
@@ -744,6 +785,7 @@ class CallView extends React.PureComponent {
       config,
       guest,
       mode,
+      muted,
       cover,
       channel,
       ringing,
@@ -778,6 +820,7 @@ class CallView extends React.PureComponent {
         className={classes.screenshare}
         remoteStreams={remoteScreenShareStreams}
         remoteStreamsKey={`stream_screenshare_${SCREENSHARE_SCREEN_ID}`}
+        muted
         mode={mode}
         cover={false}
         labels={false}
@@ -1154,6 +1197,7 @@ class CallView extends React.PureComponent {
               onClick={this.handleCallGridClick}
               className={callClassName}
               mode={mode}
+              muted={muted}
               cover={cover}
               localStream={localStream}
               remoteStreams={remoteAudioVideoStreams}
@@ -1200,6 +1244,7 @@ CallView.propTypes = {
 
   mode: PropTypes.string.isRequired,
   cover: PropTypes.bool.isRequired,
+  muted: PropTypes.bool.isRequired,
 
   fetchContacts: PropTypes.func.isRequired,
   fetchRecents: PropTypes.func.isRequired,
@@ -1229,7 +1274,7 @@ CallView.propTypes = {
 
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
-  const { guest, auto, muteMic, mode, cover, localStream } = state.meet;
+  const { guest, auto, muteMic, mode, muted, cover, localStream } = state.meet;
   const { connected, channel, ringing, calling } = state.kwm;
   const {
     gDMSupported,
@@ -1265,6 +1310,7 @@ const mapStateToProps = state => {
     muteMic,
 
     mode,
+    muted,
     cover,
 
     localStream,

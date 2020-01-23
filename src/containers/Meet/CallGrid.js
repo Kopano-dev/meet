@@ -134,6 +134,7 @@ class CallGrid extends React.PureComponent {
       className: classNameProp,
       mode,
       variant,
+      muted,
       cover,
       labels,
       localStream,
@@ -201,7 +202,7 @@ class CallGrid extends React.PureComponent {
               >
                 <AudioVideo
                   id={stream.id}
-                  muted={stream.muted}
+                  muted={muted || stream.muted}
                   mirrored={stream.mirrored}
                   cover={cover}
                   stream={stream.stream}
@@ -227,7 +228,7 @@ class CallGrid extends React.PureComponent {
                 key={stream.id}
                 audio
                 id={stream.id}
-                muted={stream.muted}
+                muted={muted || stream.muted}
                 cover={cover}
                 stream={stream.stream}
                 user={stream.user}
@@ -284,6 +285,7 @@ CallGrid.propTypes = {
   variant: PropTypes.oneOf(['full', 'overlay']).isRequired,
 
   cover: PropTypes.bool,
+  muted: PropTypes.bool,
   labels: PropTypes.bool,
 
   localStream: PropTypes.object,

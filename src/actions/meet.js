@@ -308,10 +308,11 @@ export function toggleStandby(standby) {
   };
 }
 
-export const doMuteOrUnmute = ({muteMic, muteCam} = {}) => ({
+export const doMuteOrUnmute = ({muteMic, muteCam, muteAudio} = {}) => ({
   type: MEET_MUTE_OR_UNMUTE,
   muteMic,
   muteCam,
+  muteAudio,
 });
 
 export const setMode = (mode) => ({

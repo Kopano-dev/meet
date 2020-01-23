@@ -26,6 +26,13 @@ const defaultState = (() => {
   const hpr = parseQuery(window.location.hash.substr(1));
   const path = getCurrentAppPath();
 
+  // NOTE(longsleep): Use web audio to figure out if we can auto play audio.
+  // See https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+  // for details. If we cannot auto play audio when the app loads, we set a
+  // global muted state, essentially disabling audio playback until the user
+  // enables it manually.
+  const ctx = 'AudioContext' in window ? new AudioContext() : null;
+
   const s = {
     muteMic: false,
     muteCam: false,
@@ -34,6 +41,7 @@ const defaultState = (() => {
     previousMode: null,
 
     cover: true,
+    muted: ctx && ctx.state && ctx.state !== 'running',
 
     localStream: null,
 
@@ -86,9 +94,10 @@ function meetReducer(state = defaultState, action) {
       };
 
     case MEET_MUTE_OR_UNMUTE: {
-      let { muteMic, muteCam } = action;
+      let { muteMic, muteCam, muteAudio } = action;
       muteMic = muteMic === state.muteMic ? undefined : muteMic;
       muteCam = muteCam === state.muteCam ? undefined : muteCam;
+      muteAudio = muteAudio === state.mute ? undefined : muteAudio;
 
       if (muteMic !== undefined || muteCam !== undefined) {
         if (muteMic !== undefined) {
@@ -107,6 +116,11 @@ function meetReducer(state = defaultState, action) {
           ...state,
           muteMic: muteMic !== undefined ? muteMic : state.muteMic,
           muteCam: muteCam !== undefined ? muteCam : state.muteCam,
+        };
+      } else if (muteAudio !== undefined) {
+        return {
+          ...state,
+          muted: muteAudio,
         };
       }
       break;
