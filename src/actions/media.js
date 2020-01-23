@@ -27,6 +27,10 @@ const defaultScreenSettings = {
   logicalSurface: false,
 };
 
+const isAndroid = (userAgent = window.navigator.userAgent) => {
+  return /android/i.test(userAgent);
+};
+
 const isMediaElementSetSinkIdSupported = (() => {
   const audio = document.createElement('audio');
   // Check support for https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId.
@@ -34,6 +38,8 @@ const isMediaElementSetSinkIdSupported = (() => {
 })();
 
 export const globalSettings = (() => {
+  const android = isAndroid();
+
   const s = {
     // NOTE(longsleep): muteWithAddRemoveTracks enables removing/adding of
     // tracks in established RTC connections.
@@ -50,7 +56,8 @@ export const globalSettings = (() => {
     // NOTE(longsleep): keeping old streamsn and just replacing tracks does not
     // work in Firefox. Disable for now. Maybe be removed completely?
     keepOldStreamAndReplaceTracks: false,
-    withAudioSetSinkId: isMediaElementSetSinkIdSupported,
+    withAudioSetSinkId: isMediaElementSetSinkIdSupported && !android,
+    alwaysUseDefaultAudioSource: android,
   };
 
   console.info('media global settings', s, adapter.browserDetails); // eslint-disable-line no-console
@@ -119,6 +126,10 @@ const enumerateDeviceSupport = async (settings={}) => {
       // Found all, stop here.
       break;
     }
+  }
+
+  if (globalSettings.alwaysUseDefaultAudioSource) {
+    audioSource = '';
   }
 
   return {

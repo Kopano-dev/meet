@@ -135,6 +135,7 @@ class DeviceSettings extends React.PureComponent {
       rumFailed: false,
 
       inputSelectDisabled: false,
+      audioInputSelectDisabled: globalSettings.alwaysUseDefaultAudioSource,
       outputSelectDisabled: false,
 
       testSpeaker: false,
@@ -292,9 +293,9 @@ class DeviceSettings extends React.PureComponent {
       },
       videoSourceId,
       audio: {
-        echoCancellation: false,
-        autoGainControl: false,
-        noiseSuppression: false,
+        echoCancellation: true,
+        autoGainControl: true,
+        noiseSuppression: true,
         channelCount: 1,
       },
       audioSourceId,
@@ -392,7 +393,7 @@ class DeviceSettings extends React.PureComponent {
 
   render() {
     const { classes, component: Component, className: classNameProp } = this.props;
-    const { stream, videoinputs, audioinputs, audiooutputs, videoSourceId, audioSourceId, audioSinkId, testSpeaker, inputSelectDisabled, outputSelectDisabled, rumFailed } = this.state;
+    const { stream, videoinputs, audioinputs, audiooutputs, videoSourceId, audioSourceId, audioSinkId, testSpeaker, inputSelectDisabled, audioInputSelectDisabled, outputSelectDisabled, rumFailed } = this.state;
 
     return (
       <Component className={classNames(classes.root, classNameProp)}>
@@ -429,7 +430,7 @@ class DeviceSettings extends React.PureComponent {
                 inputProps={{
                   name: 'microphone',
                 }}
-                disabled={inputSelectDisabled || audioinputs.length === 0}
+                disabled={inputSelectDisabled || audioInputSelectDisabled || audioinputs.length === 0}
                 onChange={this.handleChange('audioSourceId')}
               >
                 {audioinputs.map(device => {

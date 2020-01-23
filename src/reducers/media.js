@@ -39,7 +39,11 @@ const defaultState = {
     const hpr = parseQuery(window.location.hash.substr(1));
     const settings = {
       video: {},
-      audio: {},
+      audio: {
+        echoCancellation: true,
+        autoGainControl: true,
+        noiseSuppression: true,
+      },
     };
 
     switch (hpr.hd) {
@@ -78,6 +82,8 @@ const defaultState = {
 
     if ('stereo' in hpr) {
       settings.audio.channelCount = 2;
+    } else {
+      settings.audio.channelCount = 1;
     }
 
     return settings;
