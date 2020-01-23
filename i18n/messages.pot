@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
+"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -70,6 +70,14 @@ msgstr ""
 #. Audio only
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.audioIsMutedSnack.message]
+#. defaultMessage is:
+#. Audio playback is muted.
+msgctxt "callView.audioIsMutedSnack.message"
+msgid "Audio playback is muted."
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -860,6 +868,14 @@ msgstr ""
 #. unknown
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callView.audioIsMutedSnack.button.text]
+#. defaultMessage is:
+#. unmute
+msgctxt "callView.audioIsMutedSnack.button.text"
+msgid "unmute"
 msgstr ""
 
 #: ./i18n/src/messages.json

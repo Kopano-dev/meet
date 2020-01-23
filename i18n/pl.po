@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
+"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
 "PO-Revision-Date: 2019-08-30 12:01+0200\n"
 "Last-Translator: root <root@transdoc.kopano.io>\n"
 "Language-Team: Polish\n"
@@ -86,6 +86,14 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
+msgstr ""
+
+#. [callView.audioIsMutedSnack.message]
+#. defaultMessage is:
+#. Audio playback is muted.
+#: i18n/src/messages.json
+msgctxt "callView.audioIsMutedSnack.message"
+msgid "Audio playback is muted."
 msgstr ""
 
 #. [callView.settingsVideoCoverLabel.label]
@@ -878,6 +886,14 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "contactLabel.unknown.text"
 msgid "unknown"
+msgstr ""
+
+#. [callView.audioIsMutedSnack.button.text]
+#. defaultMessage is:
+#. unmute
+#: i18n/src/messages.json
+msgctxt "callView.audioIsMutedSnack.button.text"
+msgid "unmute"
 msgstr ""
 
 #. [callView.microphoneIsMutedSnack.button.text]

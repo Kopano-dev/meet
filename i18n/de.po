@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-10T10:39:39.699Z\n"
-"PO-Revision-Date: 2020-01-10 11:36+0100\n"
+"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
+"PO-Revision-Date: 2020-01-23 17:10+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -95,6 +95,14 @@ msgstr "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn d
 msgctxt "callView.settingsAudioOnly.label"
 msgid "Audio only"
 msgstr "Nur Audio"
+
+#. [callView.audioIsMutedSnack.message]
+#. defaultMessage is:
+#. Audio playback is muted.
+#: i18n/src/messages.json
+msgctxt "callView.audioIsMutedSnack.message"
+msgid "Audio playback is muted."
+msgstr "Audiowiedergabe ist stumm geschaltet."
 
 #. [callView.settingsVideoCoverLabel.label]
 #. defaultMessage is:
@@ -888,6 +896,14 @@ msgctxt "contactLabel.unknown.text"
 msgid "unknown"
 msgstr "unbekannt"
 
+#. [callView.audioIsMutedSnack.button.text]
+#. defaultMessage is:
+#. unmute
+#: i18n/src/messages.json
+msgctxt "callView.audioIsMutedSnack.button.text"
+msgid "unmute"
+msgstr "lautschalten"
+
 #. [callView.microphoneIsMutedSnack.button.text]
 #. defaultMessage is:
 #. unmute
@@ -902,7 +918,7 @@ msgstr "lautschalten"
 #: i18n/src/messages.json
 msgctxt "joinscreen.settings.scope"
 msgid "{scope} \"{id}\""
-msgstr ""
+msgstr "{scope} \"{id}\""
 
 #. [joinscreen.welcome.scope]
 #. defaultMessage is:
@@ -910,7 +926,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "joinscreen.welcome.scope"
 msgid "{scope} \"{id}\""
-msgstr ""
+msgstr "{scope} \"{id}\""
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."
