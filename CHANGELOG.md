@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+
+
+## v2.0.0 (2020-01-24)
+
 - Avoid accidential remove of public prefix
 - Update translations and translate to German
 - Disable microphone input selection on Android
