@@ -76,10 +76,17 @@ class NewPublicGroup extends React.PureComponent {
     };
 
     if (name === 'query') {
+      const { query } = this.state;
+
       let isPublic = false;
       if (isPublicGroup({id: event.target.value}, config)) {
         isPublic = true;
+      } else if (event.target.value && isPublicGroup({id: query}, config)) {
+        // Prevent to remove public selection by accident, only allow complete
+        // removal.
+        return;
       }
+
       state.isPublic = isPublic;
     }
 
