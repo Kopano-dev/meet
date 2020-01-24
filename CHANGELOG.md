@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Avoid accidential remove of public prefix
+- Update translations and translate to German
+- Disable microphone input selection on Android
+- Offer audio unmute when auto play policy prevents play
+- Update kpop to 2.2.0
+- Provide version to allow future forced app updates
+- Trim whitespace of group name before creating ID
 - Use filled settins icon instead of outlined one
 - Bring back proper working catch all route
 - Make guests key optional in config
