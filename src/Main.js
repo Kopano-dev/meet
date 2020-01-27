@@ -37,6 +37,8 @@ import SettingsDialog from './components/SettingsDialog';
 // cannot properly render the app updated snack.
 const currentVersion = 20200121;
 
+const cache = {};
+
 class Main extends PureComponent {
   state = {
     initialized: false,
@@ -106,6 +108,14 @@ class Main extends PureComponent {
               // Only even try guest logon when enabled in config.
               return;
             }
+
+            if (cache.responseType) {
+              // Restore response type from cache if set. This happens when
+              // previously a guest user signed in successfully.
+              userManager.settings._response_type = cache.responseType; // eslint-disable-line camelcase
+              delete cache.responseType;
+            }
+
             // Check if this is a guest request.
             const { guest } = this.props;
             if (!guest.guest) {
@@ -126,6 +136,13 @@ class Main extends PureComponent {
               // Set extra params for OIDC - this contains a signe OIDC request
               // object which overrides OIDC settings.
               userManager.settings.extraQueryParams = Object.assign(userManager.settings.extraQueryParams, logon.eqp); // eslint-disable-line require-atomic-updates
+              // NOTE(longsleep): Guest users have to use implicit mode due to
+              // limitations of the Konnect guest implementation.
+              if (!cache.responseType) {
+                // Remember default response type, so it can be restored.
+                cache.responseType = userManager.settings._response_type; // eslint-disable-line camelcase, require-atomic-updates
+              }
+              userManager.settings._response_type = 'id_token token'; // eslint-disable-line camelcase, require-atomic-updates
               if (args) {
                 // Never prompt when requesting guests.
                 args.prompt = 'none';
