@@ -4,6 +4,11 @@
 
 
 
+## v2.0.1 (2020-01-27)
+
+- Force guest users to oidc implicit flow
+
+
 ## v2.0.0 (2020-01-24)
 
 - Avoid accidential remove of public prefix
