@@ -102,14 +102,24 @@ class Settings extends React.PureComponent {
       calling: true,
     }, async () => {
       // TODO(longsleep): Add toggle to change auto mode.
-      await setAuto({
-        auto: '2', // Default to videocall.
-        ...auto,
-        path: location.pathname.substr(1),
-        prefix: 'join',
-      });
+      let channel;
       if (connected) {
-        doAutoCall();
+        await setAuto({
+          auto: '2', // Default to videocall.
+          ...auto,
+          path: location.pathname.substr(1),
+          prefix: 'join',
+          options: {
+            onlyViewWithChannel: true,
+          },
+        });
+        channel = await doAutoCall();
+      }
+      if (!channel) {
+        this.setState({
+          loading: false,
+          calling: false,
+        });
       }
     });
   }

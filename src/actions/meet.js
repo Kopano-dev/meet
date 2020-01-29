@@ -157,12 +157,13 @@ const autoSupport = new class AutoSupport {
   triggered = null;
 
   doAutoCall = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
       const state = getState();
       const { auto } = state.meet;
       const { location } = state.router;
       const { connected } = state.kwm;
 
+      let channel;
       if (connected && auto && this.triggered !== auto) {
         if (location.pathname.substr(1) === auto.path) {
           this.triggered = auto; // Trigger same auto only once.
@@ -178,14 +179,17 @@ const autoSupport = new class AutoSupport {
           switch (scope) {
             case 'conference':
             case 'group':
-              dispatch(doCall({
+              channel = await dispatch(doCall({
                 scope,
                 id: id.join('/'),
-              }, 'group', mode));
+              }, 'group', mode, {
+                ...auto.options,
+              }));
               break;
           }
         }
       }
+      return channel;
     };
   }
 }();
@@ -196,24 +200,32 @@ export const setAuto = (auto) => ({
   auto,
 });
 
-export function doCall(entry, kind, mode) {
+export function doCall(entry, kind, mode, options={}) {
   return async dispatch => {
+    const { onlyViewWithChannel } = options;
+
+    let channel;
     switch (kind) {
       case 'group':
-        dispatch(doViewGroup(entry));
         if (mode) {
-          dispatch(doCallGroup(entry, mode));
+          channel = await dispatch(doCallGroup(entry, mode));
+        }
+        if (!onlyViewWithChannel || channel) {
+          dispatch(doViewGroup(entry));
         }
         break;
 
       default:
         // Default is contacts.
-        dispatch(doViewContact(entry));
         if (mode) {
-          dispatch(doCallContact(entry, mode));
+          channel = await dispatch(doCallContact(entry, mode));
+        }
+        if (!onlyViewWithChannel || channel) {
+          dispatch(doViewContact(entry));
         }
         break;
     }
+    return channel;
   };
 }
 
@@ -227,7 +239,7 @@ export function doCallContact(contact, mode) {
 
     await dispatch(wakeFromStandby(mode));
 
-    await dispatch(kwmDoCall(resolveContactID(config, contact), () => {
+    return dispatch(kwmDoCall(resolveContactID(config, contact), () => {
       /* No error handling here is probably not good!? */
     }));
   };
@@ -240,7 +252,7 @@ export function doCallGroup(group, mode) {
     await dispatch(wakeFromStandby(mode));
 
     const { id, scope } = group;
-    await dispatch(kwmDoGroup(`${scope}/${id}`, err => {
+    return dispatch(kwmDoGroup(`${scope}/${id}`, err => {
       switch (err.code) {
         case 'create_restricted':
           dispatch(enqueueSnackbar({
