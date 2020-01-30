@@ -758,3 +758,24 @@ export function disableSessionMonitorWhenGuest() {
     }
   };
 }
+
+export function unmuteAudioIfAutoplayAllowed() {
+  return (dispatch, getState) => {
+    const { muted } = getState().meet;
+    if (muted) {
+      // NOTE(longsleep): Use web audio to figure out if we can auto play audio.
+      // See https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+      // for details. If we cannot auto play audio when the app loads, we set a
+      // global muted state, essentially disabling audio playback until the user
+      // enables it manually.
+      const ctx = 'AudioContext' in window ? new AudioContext() : null;
+      if (ctx) {
+        if (ctx.state && ctx.state === 'running') {
+          // Auto play possible.
+          dispatch(doMuteOrUnmute({muteAudio: false}));
+        }
+        ctx.close();
+      }
+    }
+  };
+}

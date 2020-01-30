@@ -27,6 +27,7 @@ import KWMProvider from './components/KWMProvider';
 import { tryGuestLogon } from './api/kwm';
 import Routes from './Routes';
 import SettingsDialog from './components/SettingsDialog';
+import { unmuteAudioIfAutoplayAllowed } from './actions/meet';
 
 // Version to indicate app compatibility. Increment whenever an old running
 // app should be forced to update on next load. Use a numeric date in the form
@@ -49,7 +50,8 @@ class Main extends PureComponent {
     const { offline, dispatch } = this.props;
 
     if (!initialized && offline !== prevProps.offline && !offline) {
-      this.initialize().then(() => {
+      this.initialize().then(async () => {
+        await dispatch(unmuteAudioIfAutoplayAllowed());
         console.info('app initialized'); // eslint-disable-line no-console
         this.setState({
           initialized: true,

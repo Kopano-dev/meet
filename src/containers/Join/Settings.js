@@ -17,7 +17,7 @@ import { setError } from 'kpop/es/common/actions';
 import { startSignout } from 'kpop/es/oidc/actions';
 import { updateOIDCState } from 'kpop/es/oidc/state';
 
-import { toggleStandby, setAuto, doAutoCall, setGuest } from '../../actions/meet';
+import { toggleStandby, setAuto, doAutoCall, setGuest, unmuteAudioIfAutoplayAllowed } from '../../actions/meet';
 import AutoStandby from '../../components/AutoStandby';
 import AudioVideo from '../../components/AudioVideo';
 import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
@@ -95,7 +95,7 @@ class Settings extends React.PureComponent {
   }
 
   handleNextClick = () => {
-    const { auto, connected, location, setAuto, doAutoCall } = this.props;
+    const { auto, connected, location, setAuto, doAutoCall, unmuteAudioIfAutoplayAllowed } = this.props;
 
     this.setState({
       loading: true,
@@ -104,6 +104,7 @@ class Settings extends React.PureComponent {
       // TODO(longsleep): Add toggle to change auto mode.
       let channel;
       if (connected) {
+        await unmuteAudioIfAutoplayAllowed();
         await setAuto({
           auto: '2', // Default to videocall.
           ...auto,
@@ -233,6 +234,7 @@ Settings.propTypes = {
   toggleStandby: PropTypes.func.isRequired,
   setGuest: PropTypes.func.isRequired,
   startSignout: PropTypes.func.isRequired,
+  unmuteAudioIfAutoplayAllowed: PropTypes.func.isRequired,
 
   entry: PropTypes.object.isRequired,
 };
@@ -263,6 +265,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   toggleStandby,
   setGuest,
   startSignout,
+  unmuteAudioIfAutoplayAllowed,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Settings));
