@@ -24,9 +24,9 @@ import soundSprite1Mp3 from './sounds/sprite1.mp3';
 import soundSprite1Json from './sounds/sprite1.json';
 import ManagedDialogProvider from './components/ManagedDialogProvider';
 import KWMProvider from './components/KWMProvider';
-import { tryGuestLogon } from './api/kwm';
 import Routes from './Routes';
 import SettingsDialog from './components/SettingsDialog';
+import { tryGuestLogon } from './actions/kwm';
 import { unmuteAudioIfAutoplayAllowed } from './actions/meet';
 
 // Version to indicate app compatibility. Increment whenever an old running

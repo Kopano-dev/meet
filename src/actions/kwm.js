@@ -10,6 +10,7 @@ import * as errors from '../errors';
 import * as sdputils from '../sdputils';
 import { fetchAndUpdateContactByID } from './contacts';
 import { resolveContactIDFromRecord } from '../utils';
+import { guestLogon } from '../api/kwm';
 
 console.info(`Kopano KWM js version: ${kwmjs.version}`); // eslint-disable-line no-console
 
@@ -904,5 +905,16 @@ export function getStatsForAllConnections() {
     });
 
     return result;
+  };
+}
+
+export function tryGuestLogon(settings) {
+  return dispatch => {
+    return dispatch(guestLogon(settings)).catch(err => {
+      console.debug('try guest logon failed', err); // eslint-disable-line no-console
+      return {
+        ok: false,
+      };
+    });
   };
 }

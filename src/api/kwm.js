@@ -36,14 +36,3 @@ export function guestLogon(settings) {
     ));
   };
 }
-
-export function tryGuestLogon(settings) {
-  return dispatch => {
-    return dispatch(guestLogon(settings)).catch(err => {
-      console.debug('try guest logon failed', err); // eslint-disable-line no-console
-      return {
-        ok: false,
-      };
-    });
-  };
-}
