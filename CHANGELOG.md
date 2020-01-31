@@ -4,6 +4,14 @@
 
 
 
+## v2.0.2 (2020-01-30)
+
+- Move action to its proper place
+- Auto unmute audio playback when possible
+- Exist join screen only when with channel
+- Update join background to new artwork
+
+
 ## v2.0.1 (2020-01-27)
 
 - Force guest users to oidc implicit flow
