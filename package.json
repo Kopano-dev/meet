@@ -49,7 +49,7 @@
   "scripts": {
     "start": "cra-append-sw --mode dev ./src/sw/sw.js && react-scripts start",
     "build": "react-scripts build && cra-append-sw ./src/sw/sw.js && node ./scripts/local-workbox.js && rm -f build/sw.js",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=./scripts/jestMeetEnvironment.js",
     "eject": "react-scripts eject",
     "licenses": "node ./scripts/js-license-ranger.js",
     "deduplicate": "yarn-deduplicate -s fewer yarn.lock",
@@ -83,6 +83,9 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
+    ],
+    "transformIgnorePatterns": [
+        "node_modules/?!(kpop)"
     ]
   },
   "browserslist": [
