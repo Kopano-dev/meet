@@ -107,6 +107,9 @@ const enumerateDeviceSupport = async (settings={}) => {
 
   let videoSource = settings.videoSourceId || null;
   let audioSource = settings.audioSourceId || null;
+  let videoSourceFound = false;
+  let audioSourceFound = false;
+  let hasAudioSource = false;
   for (let device of devices) {
     if (videoSource === null && device.kind === 'videoinput')  {
       if (settings.video && settings.video.deviceId && settings.video.deviceId !== device.deviceId) {
@@ -114,27 +117,39 @@ const enumerateDeviceSupport = async (settings={}) => {
         continue;
       }
       videoSource = device.deviceId;
+      videoSourceFound = true;
     } else if (audioSource === null && device.kind === 'audioinput') {
+      hasAudioSource = true;
       if (settings.audio && settings.audio.deviceId && settings.audio.deviceId !== device.deviceId) {
         // Ignore devices with different device id if device id is given.
         continue;
       }
       audioSource = device.deviceId;
+      audioSourceFound = true;
+    } else if (!audioSourceFound && audioSource !== null && device.kind === 'audioinput' && device.deviceId === audioSource) {
+      audioSourceFound = true;
+      hasAudioSource = true;
+    } else if (!videoSourceFound && videoSource !== null && device.kind === 'videoinput' && device.deviceId === videoSource) {
+      videoSourceFound = true;
     }
 
-    if (videoSource && audioSource) {
+    if (videoSourceFound && audioSourceFound) {
       // Found all, stop here.
       break;
     }
   }
 
   if (globalSettings.alwaysUseDefaultAudioSource) {
-    audioSource = '';
+    if (hasAudioSource) {
+      audioSource = '';
+    } else {
+      audioSource = null;
+    }
   }
 
   return {
-    videoSource,
-    audioSource,
+    videoSource: videoSourceFound ? videoSource : null,
+    audioSource: audioSourceFound ? audioSource : null,
   };
 };
 
