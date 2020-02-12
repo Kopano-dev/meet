@@ -86,8 +86,12 @@ class VolumeMeter extends React.PureComponent {
         this.createVolumeMeter();
       }
 
-      this.mediaStreamSource = audioContext.createMediaStreamSource(stream);
-      this.mediaStreamSource.connect(this.processor);
+      try {
+        this.mediaStreamSource = audioContext.createMediaStreamSource(stream);
+        this.mediaStreamSource.connect(this.processor);
+      } catch(err) {
+        console.error('failed to attach stream to volume meter: ' + err);
+      }
 
       this.draw();
     }
