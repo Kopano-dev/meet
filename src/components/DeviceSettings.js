@@ -393,7 +393,20 @@ class DeviceSettings extends React.PureComponent {
 
   render() {
     const { classes, component: Component, className: classNameProp } = this.props;
-    const { stream, videoinputs, audioinputs, audiooutputs, videoSourceId, audioSourceId, audioSinkId, testSpeaker, inputSelectDisabled, audioInputSelectDisabled, outputSelectDisabled, rumFailed } = this.state;
+    const {
+      stream,
+      videoinputs,
+      audioinputs,
+      audiooutputs,
+      videoSourceId,
+      audioSourceId,
+      audioSinkId,
+      testSpeaker,
+      inputSelectDisabled,
+      audioInputSelectDisabled,
+      outputSelectDisabled,
+      rumFailed,
+    } = this.state;
 
     return (
       <Component className={classNames(classes.root, classNameProp)}>
