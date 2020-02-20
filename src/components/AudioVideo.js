@@ -117,8 +117,8 @@ const styles = (theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    left: theme.spacing.unit * 2,
-    top: theme.spacing.unit * 2,
+    left: theme.spacing(2),
+    top: theme.spacing(2),
     zIndex: 1,
     userSelect: 'none',
     '& > *': {

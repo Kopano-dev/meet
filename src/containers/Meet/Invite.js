@@ -34,17 +34,17 @@ const styles = theme => ({
   chips: {
     maxWidth: 550,
     paddingBottom: 0,
-    marginLeft: -1 * theme.spacing.unit / 2,
+    marginLeft: -1 * theme.spacing(0.5),
   },
   chip: {
-    margin: theme.spacing.unit / 2,
+    margin: theme.spacing(0.5),
   },
   search: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   searchField: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
   },
   searchFieldIcon: {
     color: '#ddd',
@@ -67,8 +67,8 @@ const styles = theme => ({
     padding: 4,
   },
   actions: {
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
   },
   textIcon: {
     verticalAlign: 'middle',

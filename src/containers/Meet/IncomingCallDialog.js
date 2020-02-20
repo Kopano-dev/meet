@@ -43,13 +43,13 @@ const styles = theme => ({
   },
   header: {
     padding: 0,
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
     textAlign: 'center',
   },
   specialActions: {
     justifyContent: 'center',
-    margin: `${theme.spacing.unit * 2}px 0`,
-    padding: theme.spacing.unit,
+    margin: `${theme.spacing(2)}px 0`,
+    padding: theme.spacing(1),
   },
   flex: {
     flex: 1,
@@ -62,7 +62,7 @@ const styles = theme => ({
     },
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
 });
 

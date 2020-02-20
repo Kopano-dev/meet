@@ -31,19 +31,19 @@ const styles = theme => {
       },
     },
     tabs: {
-      marginBottom: theme.spacing.unit * 2,
+      marginBottom: theme.spacing(2),
     },
     tabIcon: {
       verticalAlign: 'bottom',
-      marginRight: theme.spacing.unit / 2,
+      marginRight: theme.spacing(0.5),
     },
     formControl: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       width: '50vw',
       minWidth: 200,
       maxWidth: 320,
       verticalAlign: 'baseline',
-      marginRight: theme.spacing.unit * 2,
+      marginRight: theme.spacing(2),
     },
     suffix: {
       verticalAlign: 'baseline',

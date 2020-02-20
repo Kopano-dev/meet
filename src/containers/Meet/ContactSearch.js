@@ -45,15 +45,15 @@ const styles = theme => ({
   },
   search: {
     minHeight: 48,
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: theme.spacing(1),
   },
   searchEmbedded: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   searchField: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
   },
   extraToolbar: {
@@ -104,7 +104,7 @@ const styles = theme => ({
   },
   spinner: {
     position: 'absolute',
-    left: theme.spacing.unit * 2,
+    left: theme.spacing(2),
     right: 2,
     top: 0,
     height: 2,
@@ -113,7 +113,7 @@ const styles = theme => ({
     height: 2,
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
 });
 

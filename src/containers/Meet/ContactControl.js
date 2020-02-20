@@ -47,7 +47,7 @@ const styles = (theme) => ({
   actions: {
     flex: 1,
     justifyContent: 'center',
-    paddingBottom: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing(2),
   },
   fabIcon: {
   },

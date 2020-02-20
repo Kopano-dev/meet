@@ -41,11 +41,11 @@ const styles = theme => {
     },
     message: {
       display: 'flex',
-      marginTop: theme.spacing.unit * 4,
+      marginTop: theme.spacing(4),
     },
     formControl: {
       flex: 1,
-      marginRight: theme.spacing.unit * 2,
+      marginRight: theme.spacing(2),
     },
     suffix: {
       width: 100,
@@ -64,7 +64,7 @@ const styles = theme => {
     },
     audioMeter: {
       borderBottom: '1px dotted #ddd',
-      marginLeft: theme.spacing.unit / 2,
+      marginLeft: theme.spacing(0.5),
     },
   };
 };

@@ -173,7 +173,7 @@ const styles = theme => ({
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: theme.spacing.unit * 4,
+    bottom: theme.spacing(4),
     zIndex: theme.zIndex.appBar + 1,
     display: 'flex',
     justifyContent: 'center',
@@ -188,8 +188,8 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
     }),
     '& > *': {
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit,
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
   },
   controlsMiddleHidden: {
@@ -197,13 +197,13 @@ const styles = theme => ({
   },
   controlsPermanent: {
     position: 'absolute',
-    left: theme.spacing.unit * 2,
-    bottom: theme.spacing.unit * 4,
+    left: theme.spacing(2),
+    bottom: theme.spacing(4),
     zIndex: theme.zIndex.drawer - 1,
     display: 'flex',
     flexDirection: 'column',
     '& > *': {
-      marginTop: theme.spacing.unit * 2,
+      marginTop: theme.spacing(2),
     },
     opacity: 1,
     [theme.breakpoints.down('xs')]: {
@@ -225,12 +225,12 @@ const styles = theme => ({
     opacity: 0,
   },
   controlsOffset: {
-    top: theme.spacing.unit * 2,
+    top: theme.spacing(2),
     bottom: 'auto',
     opacity: 0.5,
     [theme.breakpoints.meet.desktopWidth]: {
       top: 'auto',
-      bottom: theme.spacing.unit * 4,
+      bottom: theme.spacing(4),
       opacity: 1,
     },
   },
@@ -358,7 +358,7 @@ const styles = theme => ({
   },
   contactSearchView: {
     background: 'white',
-    paddingTop: 10 + theme.spacing.unit,
+    paddingTop: 10 + theme.spacing(1),
     [theme.breakpoints.meet.minimalHeightDown]: {
       paddingTop: 0,
     },
@@ -366,8 +366,8 @@ const styles = theme => ({
   fab: {
     position: 'absolute',
     zIndex: theme.zIndex.drawer - 1,
-    bottom: theme.spacing.unit * 4,
-    right: theme.spacing.unit * 3,
+    bottom: theme.spacing(4),
+    right: theme.spacing(3),
   },
   searchButton: {
     display: 'none',
@@ -397,7 +397,7 @@ const styles = theme => ({
     },
   },
   masterButton: {
-    margin: `${theme.spacing.unit * 2}px 24px`,
+    margin: `${theme.spacing(2)}px 24px`,
   },
 });
 

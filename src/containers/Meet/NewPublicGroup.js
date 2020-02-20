@@ -30,12 +30,12 @@ const styles = theme => ({
   },
   search: {
     minHeight: 48,
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   inputField: {
     backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
-    padding: theme.spacing.unit,
-    marginRight: theme.spacing.unit * 2,
+    padding: theme.spacing(1),
+    marginRight: theme.spacing(2),
   },
   inputFieldIcon: {
     color: '#ddd',
@@ -47,8 +47,8 @@ const styles = theme => ({
     color: 'green',
   },
   actions: {
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
   },
 });
 
