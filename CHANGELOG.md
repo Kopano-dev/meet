@@ -4,7 +4,16 @@
 
 
 
-## v2.0.2 (2020-01-30)
+## v2.0.3 (2020-02-20)
+
+- Migrate meet to newly introduced theme.spacing api
+- Handle the case when selected media device is not available
+- Handle error when volume meter receives no audio stream
+- Fix linter warnings
+- Add unit test for main component
+
+
+## v2.0.2 (2020-01-31)
 
 - Move action to its proper place
 - Auto unmute audio playback when possible
