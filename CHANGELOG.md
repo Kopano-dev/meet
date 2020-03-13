@@ -4,7 +4,12 @@
 
 
 
-## v2.0.3 (2020-02-20)
+## v2.1.0 (2020-03-13)
+
+- Bump version to 2.1.0, no software changes
+
+
+## v2.0.3 (2020-03-12)
 
 - Migrate meet to newly introduced theme.spacing api
 - Handle the case when selected media device is not available
