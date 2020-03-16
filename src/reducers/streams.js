@@ -102,6 +102,11 @@ function streamsReducer(state = defaultState, action) {
     }
 
     case KWM_STREAM_RECEIVED: {
+      if (action.record.cid) {
+        // Do nothing here for records which have cid set (they are special, for example used with mcu.
+        return state;
+      }
+
       const entry = state[action.record.user];
 
       let streamKey = defaultStreamKey;
@@ -129,6 +134,10 @@ function streamsReducer(state = defaultState, action) {
     }
 
     case KWM_PC_CONNECT: {
+      if (action.record.cid) {
+        // Do nothing here for records which have cid set (they are special, for example used with mcu.
+        return state;
+      }
       const entry = Object.assign({}, state[action.record.user], {
         calling: false,
       });
