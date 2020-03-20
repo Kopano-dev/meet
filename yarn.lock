@@ -7336,9 +7336,9 @@ kleur@^3.0.3:
     hsv-rgb "^1.0.0"
     iso-639-1 "^2.0.5"
 
-"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-1.1.3.tgz":
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-1.1.4.tgz":
   version "1.0.0"
-  resolved "https://download.kopano.io/community/kapp:/kwmjs-1.1.3.tgz#781e9417b3f12ba6e175e2d4ef0ca07153f9eee5"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-1.1.4.tgz#f5801d35d39877fd0a1863cb11f083ed7e0ff50d"
 
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
