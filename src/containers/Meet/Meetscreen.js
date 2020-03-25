@@ -12,7 +12,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import adapter from 'webrtc-adapter';
 
 import { setError } from 'kpop/es/common/actions';
-import { isMobile, isInStandaloneMode } from 'kpop/es/utils';
 
 import CallView from './CallView';
 
@@ -34,10 +33,6 @@ const styles = theme => {
 };
 
 const translations = defineMessages({
-  appleNoSupportStandalone: {
-    id: 'meetscreen.errorMessage.appleStandalone.message',
-    defaultMessage: 'Apple devices do not support camera/mic access when started as App.',
-  },
   browserUnknownUnsupported: {
     id: 'meetscreen.errorMessage.browserUnknownUnsupported.message',
     defaultMessage: 'Your browser is unknown and thus not supported.',
@@ -81,16 +76,11 @@ class Meetscreen extends React.PureComponent {
           return browserDetails.supportsUnifiedPlan !== undefined ? !browserDetails.supportsUnifiedPlan : false;
         },
         checkUnsupported: () => {
-          // TODO(longsleep): Check if running in standalone mode since it still is
-          // not possible to access getUserMedia when running in standalone mode on iOS. See
-          // https://bugs.webkit.org/show_bug.cgi?id=185448 for further info.
-          if (isMobile() && isInStandaloneMode()) {
-            setError({
-              message: translations.appleNoSupportStandalone,
-              withoutFatalSuffix: true,
-              fatal: false,
-            });
-          }
+          // NOTE(longsleep): Check if running in standalone mode. For iOS < 13.4
+          // it is not possible to access user media when running in standalone
+          // mode. See https://bugs.webkit.org/show_bug.cgi?id=185448 for further
+          // info. For now we do assume the user has updated to latest and thus
+          // we show no warning.
         },
       },
     };

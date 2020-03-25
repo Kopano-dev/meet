@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
+"POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -54,14 +54,6 @@ msgstr ""
 #. Allow public guest access
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
-
-#: ./i18n/src/messages.json
-#. [meetscreen.errorMessage.appleStandalone.message]
-#. defaultMessage is:
-#. Apple devices do not support camera/mic access when started as App.
-msgctxt "meetscreen.errorMessage.appleStandalone.message"
-msgid "Apple devices do not support camera/mic access when started as App."
 msgstr ""
 
 #: ./i18n/src/messages.json

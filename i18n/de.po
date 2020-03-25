@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
+"POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
 "PO-Revision-Date: 2020-01-23 17:10+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
@@ -79,14 +79,6 @@ msgstr "Nutzen Sie das Eingabefeld um E-Mail Adressen hinzuzufügen, die Sie zu 
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
 msgstr "Öffentlichen Zugriff für Gäste gestatten"
-
-#. [meetscreen.errorMessage.appleStandalone.message]
-#. defaultMessage is:
-#. Apple devices do not support camera/mic access when started as App.
-#: i18n/src/messages.json
-msgctxt "meetscreen.errorMessage.appleStandalone.message"
-msgid "Apple devices do not support camera/mic access when started as App."
-msgstr "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn die App installiert ist."
 
 #. [callView.settingsAudioOnly.label]
 #. defaultMessage is:
@@ -927,6 +919,10 @@ msgstr "{scope} \"{id}\""
 msgctxt "joinscreen.welcome.scope"
 msgid "{scope} \"{id}\""
 msgstr "{scope} \"{id}\""
+
+#~ msgctxt "meetscreen.errorMessage.appleStandalone.message"
+#~ msgid "Apple devices do not support camera/mic access when started as App."
+#~ msgstr "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn die App installiert ist."
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."

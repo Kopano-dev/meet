@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-01-23T16:09:12.614Z\n"
+"POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
 "PO-Revision-Date: 2019-08-30 12:01+0200\n"
 "Last-Translator: root <root@transdoc.kopano.io>\n"
 "Language-Team: Polish\n"
@@ -70,14 +70,6 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "newPublicGroup.allowExternalGuests.toggleLabel"
 msgid "Allow public guest access"
-msgstr ""
-
-#. [meetscreen.errorMessage.appleStandalone.message]
-#. defaultMessage is:
-#. Apple devices do not support camera/mic access when started as App.
-#: i18n/src/messages.json
-msgctxt "meetscreen.errorMessage.appleStandalone.message"
-msgid "Apple devices do not support camera/mic access when started as App."
 msgstr ""
 
 #. [callView.settingsAudioOnly.label]
