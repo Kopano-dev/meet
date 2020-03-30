@@ -71,6 +71,15 @@ class MeetDebug {
       setLogLevel();
     }
   }
+
+  destroyForAllPeerConnections = () => {
+    const { connections } = this.getState().kwm;
+
+    Object.values(connections).forEach(connection => {
+      console.debug('trigger destro for', connection); // eslint-disable-line no-console
+      connection.destroy(new Error('destroy via debug'));
+    });
+  }
 }
 
 export function registerGlobalDebugger(store) {
