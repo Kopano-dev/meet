@@ -4,9 +4,18 @@
 
 
 
+## v2.1.1 (2020-03-30)
+
+- Add debug helper to destroy all peer connections
+- Update kwmjs to v1.1.4
+- Update kwmks to v1.1.3
+- Ignore special peer connections in stream reducer
+- Remove iOS standalone gUM access warning
+
+
 ## v2.1.0 (2020-03-13)
 
-- Bump version to 2.1.0, no software changes
+- Bump version to v2.1.0, no software changes
 
 
 ## v2.0.3 (2020-03-12)
