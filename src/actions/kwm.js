@@ -214,6 +214,7 @@ function disconnectFromKWM() {
 function createKWMManager(eventCallback) {
   return async (dispatch, getState) => {
     const { config } = getState().common;
+    const { mode } = getState().meet;
 
     if (!config.kwm) {
       throw new Error('config is missing KWM configuration data');
@@ -285,6 +286,36 @@ function createKWMManager(eventCallback) {
         sdp = sdputils.maybeSetVideoSendInitialBitRate(sdp, params);
         sdp = sdputils.maybeRemoveVideoFec(sdp, params);
         return sdp;
+      },
+      transceiverRequestTransform: (transceiverRequest) => {
+        if (transceiverRequest && transceiverRequest.kind === 'video') {
+          const { mode } = getState().meet;
+          if (mode === 'call') {
+            // Do not create receiver for video track if in call mode. This
+            // is the way how receiving of unwanted streams is prevented if we
+            // are the offerer.
+            return null;
+          }
+        }
+        return transceiverRequest;
+      },
+      onRemoteDescriptionSet: (owner, pc) => {
+        if (pc.remoteDescription.type === 'offer') {
+          // If remote is the offerer, we can further control incoming transceivers
+          // base based on our local state, before we send back the answer.
+          const { mode } = getState().meet;
+          // Do not accept video receiversx if in call mode.
+          pc.getTransceivers().forEach(transceiver => {
+            if (transceiver.receiver && transceiver.receiver.track && transceiver.receiver.track.kind === 'video') {
+              if (mode === 'call') {
+                transceiver.direction = 'inactive';
+              } else if (transceiver.direction === 'inactive') {
+                // Resurrect, to be able to receive again.
+                transceiver.direction = 'sendrecv';
+              }
+            }
+          });
+        }
       },
     };
     console.info('KWM init', kwmConfig, webrtcConfig, webrtcOptions, sdpParamsAudioVideo, sdpParamsScreenshare); // eslint-disable-line no-console
@@ -402,6 +433,8 @@ function createKWMManager(eventCallback) {
 
       dispatch(streamReceived(event));
     };
+
+    k.webrtc.setMode(mode);
 
     return k;
   };
@@ -810,6 +843,14 @@ export function setScreenshareStream(id, stream) {
       kwm.webrtc.setScreenshareStream(id, stream);
     }
     return stream;
+  };
+}
+
+export function setMode(mode) {
+  return async () => {
+    if (kwm && kwm.webrtc) {
+      kwm.webrtc.setMode(mode);
+    }
   };
 }
 

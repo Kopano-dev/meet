@@ -24,6 +24,7 @@ import {
   setLocalStream as kwmSetLocalStream,
   unsetLocalStream as kwmUnsetLocalStream,
   setScreenshareStream as kwmSetScreenshareStream,
+  setMode as kwmSetMode,
   updateOfferAnswerConstraints as kwmUpdateOfferAnswerConstraints,
   applyLocalStreamTracks as kwmApplyLocalStreamTracks,
 } from './kwm';
@@ -327,10 +328,15 @@ export const doMuteOrUnmute = ({muteMic, muteCam, muteAudio} = {}) => ({
   muteAudio,
 });
 
-export const setMode = (mode) => ({
-  type: MEET_SET_MODE,
-  mode,
-});
+export function setMode(mode) {
+  return (dispatch) => {
+    dispatch(kwmSetMode(mode));
+    return dispatch({
+      type: MEET_SET_MODE,
+      mode,
+    });
+  };
+}
 
 const displayMedia = new class DisplayMedia {
   constructor() {
