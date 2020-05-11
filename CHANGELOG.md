@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Update kwmjs to 1.2.0
+- Add first class transceiver control based on mode
 
 
 ## v2.1.1 (2020-03-30)
