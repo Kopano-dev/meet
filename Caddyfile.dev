@@ -23,7 +23,7 @@
         Expires "0"
     }
     rewrite /meet/service-worker.js /service-worker.js
-    proxy /sockjs-node/ 127.0.0.1:3004 {
+    proxy /sockjs-node 127.0.0.1:3004 {
         websocket
     }
     proxy /static 127.0.0.1:3004
