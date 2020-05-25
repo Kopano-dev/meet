@@ -134,8 +134,9 @@ function streamsReducer(state = defaultState, action) {
     }
 
     case KWM_PC_CONNECT: {
-      if (action.record.cid) {
+      if (action.record.cid || action.record.cid === undefined) {
         // Do nothing here for records which have cid set (they are special, for example used with mcu.
+        // Do nothing here for records which have undefined cid (like p2p records).
         return state;
       }
       const entry = Object.assign({}, state[action.record.user], {
