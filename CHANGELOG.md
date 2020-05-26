@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+
+
+## v2.2.0 (2020-05-26)
+
+- Ignore incoming screen sharing streams for main user stream reduce
+- Update kwmjs to 1.2.1
+- Fix dev example web server sockjs-node location
+- Update 3rd party depdencies
 - Update kwmjs to 1.2.0
 - Add first class transceiver control based on mode
 
