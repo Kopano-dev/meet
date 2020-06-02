@@ -28,6 +28,7 @@ import Routes from './Routes';
 import SettingsDialog from './components/SettingsDialog';
 import { tryGuestLogon } from './actions/kwm';
 import { unmuteAudioIfAutoplayAllowed } from './actions/meet';
+import { getCurrentAppPath } from './base';
 
 // Version to indicate app compatibility. Increment whenever an old running
 // app should be forced to update on next load. Use a numeric date in the form
@@ -119,7 +120,14 @@ class Main extends PureComponent {
             }
 
             // Check if this is a guest request.
-            const { guest } = this.props;
+            const guest = {
+              ...this.props.guest,
+            };
+            if (guest.guest === null && config.guests.default !== undefined) {
+              // Apply default guest mode if set.
+              guest.guest = String(config.guests.default);
+              guest.path = decodeURI(getCurrentAppPath()).substr(2);
+            }
             if (!guest.guest) {
               delete userManager.settings.extraQueryParams.request;
               return;
