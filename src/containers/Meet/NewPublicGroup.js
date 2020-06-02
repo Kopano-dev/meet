@@ -20,7 +20,7 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { PUBLIC_GROUP_PREFIX, isPublicGroup } from '../../utils';
+import { isValidGroup, isPublicGroup, makePublicGroupID, makeNonPublicGroupID } from '../../utils';
 
 const styles = theme => ({
   root: {
@@ -95,18 +95,21 @@ class NewPublicGroup extends React.PureComponent {
 
   handleCheckboxChange = name => event => {
     const { query } = this.state;
-
+    const { config } = this.props;
     const state = {
       [name]: event.target.checked,
     };
 
     if (name === 'isPublic') {
       let newQuery = '';
-      if (event.target.checked && query.indexOf(PUBLIC_GROUP_PREFIX) !== 0) {
-        newQuery = `${PUBLIC_GROUP_PREFIX}${query}`;
-      }
-      else if (!event.target.checked && query.indexOf(PUBLIC_GROUP_PREFIX) === 0) {
-        newQuery = query.substr(PUBLIC_GROUP_PREFIX.length);
+      if (event.target.checked) {
+        if (!isPublicGroup({id: query}, config)) {
+          newQuery = makePublicGroupID({id: query}, undefined, config);
+        }
+      } else {
+        if (isPublicGroup({id: query}, config)) {
+          newQuery = makeNonPublicGroupID({id: query}, undefined, config);
+        }
       }
       if (newQuery !== query) {
         state.query = newQuery;
@@ -118,11 +121,11 @@ class NewPublicGroup extends React.PureComponent {
 
   handleActionClick = () => {
     const { query, isPublic } = this.state;
-    const { onActionClick } = this.props;
+    const { onActionClick, config } = this.props;
 
     let id = query.trim();
-    if (isPublic && query.indexOf(PUBLIC_GROUP_PREFIX) !== 0) {
-      id = `${PUBLIC_GROUP_PREFIX}${query}`;
+    if (isPublic && !isPublicGroup({id: query}, config)) {
+      id = makePublicGroupID({id: query}, undefined, config);
     }
 
     onActionClick('view-public-group', {id, scope: 'group'});
@@ -142,7 +145,7 @@ class NewPublicGroup extends React.PureComponent {
       classNameProp,
     );
 
-    const valid = query.trim().length > 0 && query.trim() !== PUBLIC_GROUP_PREFIX;
+    const valid = isValidGroup({id: query}, config);
     const withPublic = config && config.guests && config.guests.enabled;
 
     return (

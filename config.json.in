@@ -8,8 +8,10 @@
     "url": ""
   },
   "guests": {
-	  "enabled": false,
-	  "default": null
+      "enabled": false,
+      "default": null,
+      "defaultPublicGroupPrefix": "public/",
+      "publicGroupRegexp": "^(group|conference)/public/.*"
   },
   "disableFullGAB": false
 }
