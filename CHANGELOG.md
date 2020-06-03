@@ -4,6 +4,13 @@
 
 
 
+## v2.2.1 (2020-06-03)
+
+- Update third party dependencies
+- Add configuration for public group prefix and regexp
+- Improve default guest behavior
+
+
 ## v2.2.0 (2020-05-26)
 
 - Ignore incoming screen sharing streams for main user stream reduce
