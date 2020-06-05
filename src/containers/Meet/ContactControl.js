@@ -21,6 +21,7 @@ import { mapContactEntryToUserShape } from './Recents';
 import ContactLabel from './ContactLabel';
 
 import { pushHistory } from '../../actions/meet';
+import ChannelDuration from '../../components/ChannelDuration';
 
 const styles = (theme) => ({
   root: {
@@ -49,10 +50,19 @@ const styles = (theme) => ({
     justifyContent: 'center',
     paddingBottom: theme.spacing(2),
   },
+  bar: {
+    paddingBottom: 0,
+  },
   fabIcon: {
   },
-  close: {
+  rightButton: {
     marginLeft: 'auto',
+    visibility: 'hidden',
+  },
+  channelDuration: {
+    ...theme.typography.button,
+    fontWeight: 400,
+    padding: '6px 16px',
   },
 });
 
@@ -92,6 +102,7 @@ class ContactControl extends React.PureComponent {
 
       entry,
       channel,
+      ts,
     } = this.props;
 
     const className = classNames(
@@ -99,17 +110,20 @@ class ContactControl extends React.PureComponent {
       classNameProp,
     );
 
-    const withActions = !channel;
-    const withClose = withActions;
+    const withChannel = !!channel;
+    const withClose = !channel;
 
     return (
       <div className={className}>
         <div className={classes.base}>
           <Card elevation={0} className={classes.card}>
-            <CardActions>
+            <CardActions disableSpacing className={classes.bar}>
               {withClose && <IconButton aria-label={intl.formatMessage(translations.backAria)} onClick={this.handleCloseClick}>
                 <ArrowBackIcon />
               </IconButton>}
+              <IconButton className={classes.rightButton}>
+                <ArrowBackIcon />
+              </IconButton>
             </CardActions>
             <CardContent className={classes.header}>
               <Persona
@@ -118,16 +132,16 @@ class ContactControl extends React.PureComponent {
               <Typography variant="h6"><ContactLabel contact={entry} id={entry.id}/></Typography>
               <Typography variant="body2">{entry.jobTitle}</Typography>
             </CardContent>
-            {withActions && <CardActions className={classes.actions}>
-              <Button
+            <CardActions className={classes.actions}>
+              {withChannel ? <ChannelDuration start={ts}/> : <Button
                 variant="contained"
                 color="primary"
                 onClick={this.handleEntryClick('default')}
               >
                 <CallIcon />
                 <FormattedMessage id="contactControl.callButton.label" defaultMessage="Call"/>
-              </Button>
-            </CardActions>}
+              </Button>}
+            </CardActions>
           </Card>
         </div>
       </div>
@@ -145,6 +159,7 @@ ContactControl.propTypes = {
   entry: PropTypes.object.isRequired,
 
   channel: PropTypes.string,
+  ts: PropTypes.object,
 
   onEntryClick: PropTypes.func,
 };

@@ -790,6 +790,7 @@ class CallView extends React.PureComponent {
       muted,
       cover,
       channel,
+      ts,
       ringing,
       calling,
       localStream,
@@ -1017,6 +1018,7 @@ class CallView extends React.PureComponent {
                     onEntryClick={this.handleEntryClick}
                     entry={entry}
                     channel={channel}
+                    ts={ts}
                     {...other}
                   />;
                 }}
@@ -1036,6 +1038,7 @@ class CallView extends React.PureComponent {
                       this.handleDialogActionClick(action, props);
                     }}
                     channel={channel}
+                    ts={ts}
                     group={group}
                     config={config}
                     {...other}
@@ -1239,6 +1242,7 @@ CallView.propTypes = {
 
   connected: PropTypes.bool,
   channel: PropTypes.string,
+  ts: PropTypes.object,
   ringing: PropTypes.object.isRequired,
   calling: PropTypes.object.isRequired,
 
@@ -1277,7 +1281,7 @@ CallView.propTypes = {
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
   const { guest, auto, muteMic, mode, muted, cover, localStream } = state.meet;
-  const { connected, channel, ringing, calling } = state.kwm;
+  const { connected, channel, ts, ringing, calling } = state.kwm;
   const {
     gDMSupported,
     audioSinkId,
@@ -1306,6 +1310,7 @@ const mapStateToProps = state => {
 
     connected,
     channel,
+    ts,
     ringing,
     calling,
 

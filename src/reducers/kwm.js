@@ -15,6 +15,7 @@ import {
   setLocalStream as meetSetLocalStream,
   doAutoCall as meetDoAutoCall,
 } from '../actions/meet';
+import moment from '../moment';
 
 // HACK(longsleep): special case, this object is used by reference in kwmjs.
 // Do not replace reference in state.
@@ -28,6 +29,7 @@ const defaultState = {
   reconnecting: false,
 
   channel: null,
+  ts: null,
   calling: {},
   ringing: {},
 
@@ -79,6 +81,7 @@ function kwmReducer(state = defaultState, action) {
     case KWM_CHANNEL_CHANGED:
       return Object.assign({}, state, {
         channel: action.channel,
+        ts: moment(),
       });
 
     case KWM_CALL_INCOMING: {

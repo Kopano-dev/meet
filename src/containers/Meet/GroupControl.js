@@ -25,6 +25,7 @@ import { makeGroupLink } from '../../utils';
 import { mapGroupEntryToUserShape } from './Recents';
 import { pushHistory } from '../../actions/meet';
 import ScopeLabel from '../../components/ScopeLabel';
+import ChannelDuration from '../../components/ChannelDuration';
 
 const styles = theme => ({
   root: {
@@ -54,6 +55,9 @@ const styles = theme => ({
     paddingTop: 2,
     paddingBottom: 4,
   },
+  bar: {
+    paddingBottom: 0,
+  },
   actions: {
     flex: 1,
     justifyContent: 'center',
@@ -67,12 +71,19 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing(1),
   },
+  rightButton: {
+    marginLeft: 'auto',
+  },
 });
 
 const translations = defineMessages({
   backAria: {
     id: 'groupControl.backButton.aria',
     defaultMessage: 'Back',
+  },
+  shareLinkAria: {
+    id: 'groupControl.shareLinkButton.aria',
+    defaultMessage: 'Share {scope} link',
   },
   videocallAria: {
     id: 'groupControl.videoCallButton.aria',
@@ -136,6 +147,7 @@ class GroupControl extends React.PureComponent {
       guest,
       group,
       channel,
+      ts,
     } = this.props;
 
     const className = classNames(
@@ -143,17 +155,22 @@ class GroupControl extends React.PureComponent {
       classNameProp,
     );
 
-    const withActions = !channel;
-    const withClose = !guest.user && withActions;
+    const withChannel = !!channel;
+    const withClose = !guest.user && !channel;
 
     return (
       <div className={className}>
         <div className={classes.base}>
           <Card elevation={0} className={classes.card}>
-            <CardActions>
+            <CardActions disableSpacing className={classes.bar}>
               {withClose && <IconButton aria-label={intl.formatMessage(translations.backAria)} onClick={this.handleCloseClick}>
                 <ArrowBackIcon />
               </IconButton>}
+              <IconButton className={classes.rightButton} aria-label={intl.formatMessage(translations.shareLinkAria, {
+                scope: <ScopeLabel scope={group.scope} capitalize/>,
+              })} onClick={this.handleEntryClick('share-link-click')}>
+                <ShareIcon />
+              </IconButton>
             </CardActions>
             <CardContent className={classes.header}>
               <Persona
@@ -162,18 +179,17 @@ class GroupControl extends React.PureComponent {
                 icon={<PublicConferenceIcon/>}
                 className={classes.avatar} />
               <Typography variant="h6" className={classes.label}>{group.id}</Typography>
-              <Typography variant="body2"><ScopeLabel scope={group.scope} capitalize/></Typography>
             </CardContent>
-            {withActions && <CardActions className={classes.actions}>
-              <Button
+            <CardActions className={classes.actions}>
+              {withChannel ? <ChannelDuration start={ts}/> : <Button
                 variant="contained"
                 color="primary"
                 onClick={this.handleEntryClick('default')}
               >
                 <CallIcon />
                 <FormattedMessage id="groupControl.callButton.label" defaultMessage="Call"/>
-              </Button>
-            </CardActions>}
+              </Button>}
+            </CardActions>
             <CardContent>
               <Divider />
               <div className={classes.extra}>
@@ -183,17 +199,6 @@ class GroupControl extends React.PureComponent {
                   <FormattedMessage
                     id="groupControl.extraInviteButton.label"
                     defaultMessage="Invite to this {scope}"
-                    values={{
-                      scope: <ScopeLabel scope={group.scope} capitalize/>,
-                    }}
-                  ></FormattedMessage>
-                </Button>
-                <Button color="primary"
-                  onClick={this.handleEntryClick('share-link-click')}>
-                  <ShareIcon className={classes.leftIcon}/>
-                  <FormattedMessage
-                    id="groupControl.extraShareLinkButton.label"
-                    defaultMessage="Share {scope} link"
                     values={{
                       scope: <ScopeLabel scope={group.scope} capitalize/>,
                     }}
@@ -222,6 +227,7 @@ GroupControl.propTypes = {
   guest: PropTypes.object.isRequired,
 
   channel: PropTypes.string,
+  ts: PropTypes.object,
 
   onEntryClick: PropTypes.func.isRequired,
   onActionClick: PropTypes.func.isRequired,
