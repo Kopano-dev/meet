@@ -37,6 +37,7 @@ import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 
+import { isGroupChannel } from '../../utils';
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../../actions/contacts';
 import { fetchRecents } from '../../actions/recents';
 import {
@@ -471,7 +472,7 @@ class CallView extends React.PureComponent {
       wasTouched: false,
       withChannel: false,
       shareScreen: false,
-      sidebarOpen: !auto && !channel,
+      sidebarOpen: isGroupChannel(channel) || (!auto && !channel),
       sidebarMobileOpen: false,
       openDialogs: {},
       openTab: 'recents',
@@ -555,8 +556,9 @@ class CallView extends React.PureComponent {
           });
         }
       }, 5000);
+
       this.setState({
-        sidebarOpen: false,
+        sidebarOpen: isGroupChannel(channel),
       });
       if (muteMic) {
         enqueueSnackbar({

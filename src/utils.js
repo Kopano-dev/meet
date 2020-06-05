@@ -142,3 +142,11 @@ export function isValidGroup(group, config) {
     id,
   }, config);
 }
+
+export function isGroupChannel(channel) {
+  if (!channel) {
+    return false;
+  }
+
+  return channel[0] !== '*'; // All channels other t han 1 on 1 are groups.
+}
