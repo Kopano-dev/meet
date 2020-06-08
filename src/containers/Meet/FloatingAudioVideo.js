@@ -34,7 +34,6 @@ class FloatingAudioVideo extends React.PureComponent {
       classes,
       className: classNameProp,
       cover,
-      children,
       hostRef,
       ...other
     } = this.props;
@@ -53,7 +52,6 @@ class FloatingAudioVideo extends React.PureComponent {
           classes.audioVideo, {
             [classes.autoHeight]: !cover,
           })} round cover={cover} {...other}>
-          {children}
         </AudioVideo>
       </div>
     );
@@ -65,8 +63,6 @@ FloatingAudioVideo.propTypes = {
   className: PropTypes.string,
 
   cover: PropTypes.bool,
-
-  children: PropTypes.element,
 
   hostRef: PropTypes.func,
 };

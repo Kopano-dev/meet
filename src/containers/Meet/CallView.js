@@ -271,7 +271,9 @@ const styles = theme => ({
     minHeight: 100,
     overflow: 'hidden',
     boxSizing: 'border-box',
-    transition: theme.transitions.create('height', {
+    perspective: 1000,
+    transform: 'rotateY(360deg)',
+    transition: theme.transitions.create('height, transform', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -288,12 +290,9 @@ const styles = theme => ({
       flex: 1,
     },
   },
-  callWithoutCall: {
-    minHeight: 0,
-    flex: 0,
-  },
   callWithCall: {
     flex: 1,
+    transform: 'rotateY(0deg)',
   },
   callAsSidebar: {
     [theme.breakpoints.meet.desktopWidth]: {

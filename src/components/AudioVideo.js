@@ -368,7 +368,6 @@ class AudioVideo extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
-      children,
       audio,
       mirrored,
       blurred,
@@ -434,7 +433,6 @@ class AudioVideo extends React.PureComponent {
             playsInline
             {...other}
           >
-            {children}
           </audio>
           {!calling && <CallIcon className={classes.callIcon} />}
         </React.Fragment>
@@ -458,7 +456,6 @@ class AudioVideo extends React.PureComponent {
             playsInline
             {...other}
           >
-            {children}
           </video>
           {extra}
         </React.Fragment>
@@ -502,7 +499,6 @@ AudioVideo.propTypes = {
   blurred: PropTypes.bool,
   round: PropTypes.bool,
   cover: PropTypes.bool,
-  children: PropTypes.element,
   stream: PropTypes.object,
 
   audioSinkId: PropTypes.string,

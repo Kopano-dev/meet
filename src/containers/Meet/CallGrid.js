@@ -90,10 +90,10 @@ const styles = theme => ({
     overflow: 'hidden',
     boxSizing: 'border-box',
     minHeight: 68,
+    display: 'flex',
   },
   video: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
   },
   rounded: {
     width: '12vh',
@@ -234,6 +234,8 @@ class CallGrid extends React.PureComponent {
                 user={stream.user}
                 calling={stream.calling}
                 audioSinkId={audioSinkId}
+                {...AudioVideoProps}
+                className={classNames(classes.video, AudioVideoProps.className)}
               >
               </AudioVideo>
             )}
