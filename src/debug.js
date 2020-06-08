@@ -15,8 +15,16 @@ class MeetDebug {
     this.getState = store.getState.bind(store);
   }
 
-  addFakeStream = ({ withScreenshare } = {}) => {
-    const { dispatch } = this;
+  addFakeStream = ({ withScreenshare, id } = {}) => {
+    const { dispatch, getState } = this;
+    const { umAudioVideoStreams } = getState().media;
+
+    if (!id) {
+      id = 'callview-main';
+    }
+
+    console.log('xxx um', umAudioVideoStreams);
+    const stream = umAudioVideoStreams[id] ? umAudioVideoStreams[id] : new MediaStream();
 
     const record = {
       user: `fake-user-${++this.counter}`,
@@ -32,7 +40,7 @@ class MeetDebug {
     dispatch({
       type: types.KWM_STREAM_RECEIVED,
       record,
-      stream: new MediaStream(),
+      stream,
     });
 
     if (withScreenshare) {
@@ -50,7 +58,7 @@ class MeetDebug {
       dispatch({
         type: types.KWM_STREAM_RECEIVED,
         record,
-        stream: new MediaStream(),
+        stream,
         token,
       });
     }
