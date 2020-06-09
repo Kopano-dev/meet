@@ -34,12 +34,14 @@ export const getCurrentParticipants = createSelector(
       const guid = user.displayName + ',' + id;
       return {
         guid,
+        id,
         ...user,
       };
     });
     participants.push({
       ...profile,
       isSelf: true,
+      id: profile.guid,
     });
     participants.sort(sorter);
 

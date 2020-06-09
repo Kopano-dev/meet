@@ -377,10 +377,13 @@ class AudioVideo extends React.PureComponent {
       calling,
       id,
       user,
+      ContainerComponent,
+      ContainerProps,
       ...other
     } = this.props;
     delete other.stream;
     delete other.audioSinkId;
+    delete other.videoOnly;
 
     let mirrorVideo = mirrored;
     if (mirrorVideo && videoFacingMode && videoFacingMode !== 'user') {
@@ -462,17 +465,24 @@ class AudioVideo extends React.PureComponent {
       );
     }
 
+    const ActiveContainer = ContainerComponent ? ContainerComponent : React.Fragment;
+    const ActiveContainerProps = ContainerProps;
+
     return (
-      <div className={classNames(classes.root, {
-        [classes.blurred]: blurred,
-      },
-      classNameProp)}
-      >
-        {loader}
-        {overlay}
-        {element}
-        {icon}
-      </div>
+      <ActiveContainer {...{
+        ...ActiveContainerProps,
+      }}>
+        <div className={classNames(classes.root, {
+          [classes.blurred]: blurred,
+        },
+        classNameProp)}
+        >
+          {loader}
+          {overlay}
+          {element}
+          {icon}
+        </div>
+      </ActiveContainer>
     );
   }
 }
@@ -483,11 +493,12 @@ AudioVideo.defaultProps = {
   blurred: false,
   round: false,
   cover: true,
-  children: null,
   stream: null,
 
   muted: false,
   calling: false,
+
+  ContainerProps: {},
 };
 
 AudioVideo.propTypes = {
@@ -499,6 +510,7 @@ AudioVideo.propTypes = {
   blurred: PropTypes.bool,
   round: PropTypes.bool,
   cover: PropTypes.bool,
+  videoOnly: PropTypes.bool,
   stream: PropTypes.object,
 
   audioSinkId: PropTypes.string,
@@ -508,6 +520,9 @@ AudioVideo.propTypes = {
 
   id: PropTypes.string,
   user: PropTypes.object,
+
+  ContainerComponent: PropTypes.node,
+  ContainerProps: PropTypes.object,
 };
 
 export default withStyles(styles)(AudioVideo);

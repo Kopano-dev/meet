@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CallIcon from '@material-ui/icons/Call';
@@ -22,6 +22,7 @@ import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import renderIf from 'render-if';
 
@@ -700,10 +701,18 @@ class CallView extends React.PureComponent {
   }
 
   handleSidebarToggle = () => {
-    this.setState({
-      sidebarOpen: !this.state.sidebarOpen,
-      sidebarMobileOpen: !this.state.sidebarMobileOpen,
-    });
+    const { isMobile } = this.props;
+    const { sidebarOpen, sidebarMobileOpen } = this.state;
+
+    const update = {};
+    if (isMobile) {
+      // Mobile sid bar.
+      update.sidebarMobileOpen = !sidebarMobileOpen;
+    } else {
+      // Desktop side bar.
+      update.sidebarOpen = !sidebarOpen;
+    }
+    this.setState(update);
   }
 
   handleDialogActionClick = (action, props) => {
@@ -1170,7 +1179,7 @@ class CallView extends React.PureComponent {
           >
             {drawer}
           </Drawer>
-          <BackdropOverlay open={sidebarMobileOpen} onClick={this.handleMenuAnchorClick}></BackdropOverlay>
+          <BackdropOverlay open={sidebarMobileOpen}></BackdropOverlay>
         </Hidden>
         <Hidden smDown>
           <Drawer
@@ -1231,6 +1240,7 @@ CallView.propTypes = {
   intl: intlShape.isRequired,
 
   theme: PropTypes.object.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 
   enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
@@ -1352,4 +1362,13 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   closeSnackbar,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(injectIntl(CallView)));
+const withMobile = Component => {
+  return function withMobile(props) {
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+    return <Component theme={theme} isMobile={!isDesktop} {...props}></Component>;
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withMobile(injectIntl(CallView))));

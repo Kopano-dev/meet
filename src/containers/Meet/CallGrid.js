@@ -191,30 +191,31 @@ class CallGrid extends React.PureComponent {
             }
           )}>
             {streams.map((stream) =>
-              <div
+              <AudioVideo
                 key={stream.id}
-                className={classNames(
-                  classes.container,
-                  {
-                    [classes.rounded]: overlay,
-                  }
-                )}
+                ContainerComponent="div"
+                ContainerProps={{
+                  className: classNames(
+                    classes.container,
+                    {
+                      [classes.rounded]: overlay,
+                    }
+                  ),
+                }}
+                id={stream.id}
+                muted={muted || stream.muted}
+                mirrored={stream.mirrored}
+                cover={cover}
+                stream={stream.stream}
+                round={!!overlay}
+                user={labels ? stream.user : undefined}
+                calling={stream.calling}
+                audioSinkId={audioSinkId}
+                videoOnly={remoteStreams.length > 1}
+                {...AudioVideoProps}
+                className={classNames(classes.video, AudioVideoProps.className)}
               >
-                <AudioVideo
-                  id={stream.id}
-                  muted={muted || stream.muted}
-                  mirrored={stream.mirrored}
-                  cover={cover}
-                  stream={stream.stream}
-                  round={!!overlay}
-                  user={labels ? stream.user : undefined}
-                  calling={stream.calling}
-                  audioSinkId={audioSinkId}
-                  {...AudioVideoProps}
-                  className={classNames(classes.video, AudioVideoProps.className)}
-                >
-                </AudioVideo>
-              </div>
+              </AudioVideo>
             )}
           </div>
         ))}

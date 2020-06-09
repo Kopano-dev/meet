@@ -20,7 +20,7 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 import { pushHistory } from '../../actions/meet';
 import ChannelDuration from '../../components/ChannelDuration';
 
-import { mapContactEntryToUserShape } from './utils';
+import { mapContactEntryToUserShape } from '../../utils';
 import ContactLabel from './ContactLabel';
 
 
