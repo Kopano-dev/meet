@@ -11,21 +11,21 @@ import PublicConferenceIcon from '@material-ui/icons/Group';
 import CallIcon from '@material-ui/icons/Call';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import MailIcon from '@material-ui/icons/Mail';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
-import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
 
 import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { makeGroupLink } from '../../utils';
-import { mapGroupEntryToUserShape } from './Recents';
+import { makeGroupLink, mapGroupEntryToUserShape } from '../../utils';
 import { pushHistory } from '../../actions/meet';
 import ScopeLabel from '../../components/ScopeLabel';
 import ChannelDuration from '../../components/ChannelDuration';
+
+import ChannelControl from './ChannelControl';
 
 const styles = theme => ({
   root: {
@@ -36,7 +36,7 @@ const styles = theme => ({
     background: theme.palette.background.default,
   },
   base: {
-    flex: 1,
+    flex: 0,
   },
   card: {
     background: theme.palette.background.default,
@@ -63,16 +63,14 @@ const styles = theme => ({
     justifyContent: 'center',
     paddingBottom: theme.spacing(2),
   },
-  extra: {
-    marginTop: theme.spacing(3),
-  },
   fabIcon: {
-  },
-  leftIcon: {
-    marginRight: theme.spacing(1),
   },
   rightButton: {
     marginLeft: 'auto',
+  },
+  control: {
+    background: 'white',
+    flex: 1,
   },
 });
 
@@ -121,10 +119,6 @@ class GroupControl extends React.PureComponent {
         return;
       }
 
-      case 'invite-group':
-        onActionClick(mode, group);
-        break;
-
       default:
         onEntryClick(group, 'group', mode);
         return;
@@ -148,6 +142,9 @@ class GroupControl extends React.PureComponent {
       group,
       channel,
       ts,
+      config,
+
+      onActionClick,
     } = this.props;
 
     const className = classNames(
@@ -190,24 +187,16 @@ class GroupControl extends React.PureComponent {
                 <FormattedMessage id="groupControl.callButton.label" defaultMessage="Call"/>
               </Button>}
             </CardActions>
-            <CardContent>
-              <Divider />
-              <div className={classes.extra}>
-                <Button color="primary"
-                  onClick={this.handleEntryClick('invite-group')}>
-                  <MailIcon className={classes.leftIcon}/>
-                  <FormattedMessage
-                    id="groupControl.extraInviteButton.label"
-                    defaultMessage="Invite to this {scope}"
-                    values={{
-                      scope: <ScopeLabel scope={group.scope} capitalize/>,
-                    }}
-                  ></FormattedMessage>
-                </Button>
-              </div>
-            </CardContent>
           </Card>
         </div>
+        <Hidden smDown>
+          <ChannelControl
+            channel={channel}
+            config={config}
+            className={classes.control}
+            onActionClick={onActionClick}
+          />
+        </Hidden>
         {children}
       </div>
     );

@@ -34,6 +34,7 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 
 import { removeRecentEntry } from '../../actions/recents';
 import ScopeLabel from '../../components/ScopeLabel';
+import { mapContactEntryToUserShape, mapGroupEntryToUserShape } from '../../utils';
 
 import ContactLabel from './ContactLabel';
 
@@ -334,20 +335,6 @@ const RecentsEntrySubline = React.forwardRef(function RecentsEntrySubline({ entr
 
 RecentsEntrySubline.propTypes = {
   entry: PropTypes.object.isRequired,
-};
-
-export const mapContactEntryToUserShape = entry => {
-  return {
-    guid: entry.mail ? entry.mail : entry.id,
-    ...entry,
-  };
-};
-
-export const mapGroupEntryToUserShape = entry => {
-  return {
-    guid: `${entry.id}-${entry.scope}-meet-group`,
-    displayName: entry.id,
-  };
 };
 
 const mapDispatchToProps = (dispatch) => {

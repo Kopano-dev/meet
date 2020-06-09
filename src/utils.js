@@ -150,3 +150,17 @@ export function isGroupChannel(channel) {
 
   return channel[0] !== '*'; // All channels other t han 1 on 1 are groups.
 }
+
+export const mapContactEntryToUserShape = entry => {
+  return {
+    guid: entry.mail ? entry.mail : entry.id,
+    ...entry,
+  };
+};
+
+export const mapGroupEntryToUserShape = entry => {
+  return {
+    guid: `${entry.id}-${entry.scope}-meet-group`,
+    displayName: entry.id,
+  };
+};

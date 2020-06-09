@@ -17,11 +17,12 @@ import Persona from 'kpop/es/Persona';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-import { mapContactEntryToUserShape } from './Recents';
-import ContactLabel from './ContactLabel';
-
 import { pushHistory } from '../../actions/meet';
 import ChannelDuration from '../../components/ChannelDuration';
+
+import { mapContactEntryToUserShape } from './utils';
+import ContactLabel from './ContactLabel';
+
 
 const styles = (theme) => ({
   root: {
@@ -32,7 +33,7 @@ const styles = (theme) => ({
     background: theme.palette.background.default,
   },
   base: {
-    flex: 1,
+    flex: 0,
   },
   card: {
     background: theme.palette.background.default,

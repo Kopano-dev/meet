@@ -43,6 +43,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.2.0",
     "render-if": "^0.1.1",
+    "reselect": "^4.0.0",
     "typeface-roboto": "^0.0.54",
     "webrtc-adapter": "^7.6.1"
   },

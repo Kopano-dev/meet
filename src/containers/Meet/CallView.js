@@ -337,7 +337,9 @@ const styles = theme => ({
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   menuWithCall: {
-    flex: 0,
+    [theme.breakpoints.down('md')]: {
+      flex: 0,
+    },
   },
   tabs: {
     borderTop: '1px solid #eee',

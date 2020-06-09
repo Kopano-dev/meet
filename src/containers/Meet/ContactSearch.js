@@ -32,10 +32,8 @@ import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-i
 
 import { fetchAndAddContacts, searchContacts } from '../../actions/contacts';
 import { maybeIsABEID, idFromABEID } from '../../abeid';
-import { getOwnGrapiUserEntryID } from '../../selectors';
-import { isMobile } from '../../utils';
-
-import { mapContactEntryToUserShape } from './Recents';
+import { getOwnGrapiUserEntryID } from '../../selectors/grapi';
+import { isMobile, mapContactEntryToUserShape } from '../../utils';
 
 const styles = theme => ({
   root: {
