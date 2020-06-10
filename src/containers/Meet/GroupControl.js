@@ -15,6 +15,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
 import Hidden from '@material-ui/core/Hidden';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import Persona from 'kpop/es/Persona';
 
@@ -72,6 +73,13 @@ const styles = theme => ({
     background: 'white',
     flex: 1,
   },
+  leftIcon: {
+    marginRight: theme.spacing(1),
+  },
+  extra: {
+    borderTop: '1px solid #eee',
+    paddingTop: theme.spacing(1),
+  },
 });
 
 const translations = defineMessages({
@@ -118,6 +126,10 @@ class GroupControl extends React.PureComponent {
         });
         return;
       }
+
+      case 'invite-group':
+        onActionClick(mode, group);
+        break;
 
       default:
         onEntryClick(group, 'group', mode);
@@ -187,6 +199,22 @@ class GroupControl extends React.PureComponent {
                 <FormattedMessage id="groupControl.callButton.label" defaultMessage="Call"/>
               </Button>}
             </CardActions>
+            {!withChannel && <div className={classes.extra}>
+              <CardContent>
+                <Button color="primary"
+                  size="small"
+                  onClick={this.handleEntryClick('invite-group')}>
+                  <PersonAddIcon className={classes.leftIcon}/>
+                  <FormattedMessage
+                    id="groupControl.extraInviteButton.label"
+                    defaultMessage="Invite to this {scope}"
+                    values={{
+                      scope: <ScopeLabel scope={group.scope} capitalize/>,
+                    }}
+                  ></FormattedMessage>
+                </Button>
+              </CardContent>
+            </div>}
           </Card>
         </div>
         <Hidden smDown>

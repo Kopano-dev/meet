@@ -113,18 +113,19 @@ class Participants extends React.PureComponent {
             subheader={
               <ListSubheader component="div" className={classes.subHeader}>
                 <div className={classes.subHeaderLabel}>{intl.formatMessage(translations.subheaderLabel, {participants: items.length})}</div>
-                <Button
-                  color="primary"
-                  size="small"
-                  className={classes.inviteButton}
-                  onClick={this.handleActionClick('invite-group')}
-                >
-                  <PersonAddIcon className={classes.leftIcon}/>
-                  <FormattedMessage
-                    id="participants.inviteButton.label"
-                    defaultMessage="invite"
-                  ></FormattedMessage>
-                </Button>
+                <div>
+                  <Button
+                    color="primary"
+                    size="small"
+                    onClick={this.handleActionClick('invite-group')}
+                  >
+                    <PersonAddIcon className={classes.leftIcon}/>
+                    <FormattedMessage
+                      id="participants.inviteButton.label"
+                      defaultMessage="invite"
+                    ></FormattedMessage>
+                  </Button>
+                </div>
               </ListSubheader>
             }
           >
