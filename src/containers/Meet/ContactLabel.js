@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-
-const isSelfDisplayNamePrefix = '(Me)';
+import DisplayNameLabel from '../../components/DisplayNameLabel';
 
 const styles = {
   root: {
@@ -27,9 +26,7 @@ const ContactLabel = React.forwardRef(function ContactLabel({classes, contact, i
       <FormattedMessage id="contactLabel.unknown.text" defaultMessage="unknown"></FormattedMessage>
     </em>;
   } else {
-    if (isSelf) {
-      label = isSelfDisplayNamePrefix + label;
-    }
+    label = <DisplayNameLabel user={{displayName: label}} id={id} isSelf={isSelf}></DisplayNameLabel>;
   }
 
   return <span className={classes.root} ref={ref}>{label}</span>;

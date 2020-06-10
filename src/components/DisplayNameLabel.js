@@ -3,21 +3,38 @@ import PropTypes from 'prop-types';
 
 import { injectIntl, intlShape, FormattedMessage, defineMessages } from 'react-intl';
 
+import { guestDisplayNamePrefixMatcher } from '../selectors/participants';
+
 const translations = defineMessages({
   userWithIndex: {
     id: "displayNameLabel.userWithIndex.text",
     defaultMessage: "User {idx}",
+  },
+  isSelfPrefix: {
+    id: "displayNameLabel.isSelf.prefix",
+    defaultMessage: "(Me)",
+  },
+  guestPrefix: {
+    id: "displayNameLabel.guest.prefix",
+    defaultMessage: "(Guest)",
   },
 });
 
 let count = 0;
 const cache = new Map();
 
-const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user, id}, ref) {
-  const { displayName } = user;
+const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user, id, isSelf}, ref) {
+  let { displayName } = user;
 
   if (displayName && displayName.trim() !== '') {
-    return displayName;
+    const rawDisplayName = displayName.replace(guestDisplayNamePrefixMatcher, '');
+    if (rawDisplayName !== displayName) {
+      displayName = intl.formatMessage(translations.guestPrefix) + rawDisplayName;
+    }
+    if (isSelf) {
+      displayName = intl.formatMessage(translations.isSelfPrefix) + displayName;
+    }
+    return <React.Fragment ref={ref}>{displayName}</React.Fragment>;
   }
   if (!id) {
     return <FormattedMessage ref={ref} id="displayNameLabel.unknownUser.text" defaultMessage="Unknown user"></FormattedMessage>;
@@ -37,6 +54,7 @@ DisplayNameLabel.propTypes = {
 
   user: PropTypes.object,
   id: PropTypes.string.isRequired,
+  isSelf: PropTypes.bool,
 };
 
 export default injectIntl(DisplayNameLabel);

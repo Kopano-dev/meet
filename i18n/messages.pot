@@ -1,11 +1,27 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
+"POT-Creation-Date: 2020-06-10T14:27:03.392Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
 "X-Generator: react-intl-po\n"
 
+
+#: ./i18n/src/messages.json
+#. [displayNameLabel.guest.prefix]
+#. defaultMessage is:
+#. (Guest)
+msgctxt "displayNameLabel.guest.prefix"
+msgid "(Guest)"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [displayNameLabel.isSelf.prefix]
+#. defaultMessage is:
+#. (Me)
+msgctxt "displayNameLabel.isSelf.prefix"
+msgid "(Me)"
+msgstr ""
 
 #: ./i18n/src/messages.json
 #. [invite.email.body.template]
@@ -174,6 +190,14 @@ msgstr ""
 #. Cancel
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [channelControl.tabChat.label]
+#. defaultMessage is:
+#. Chat
+msgctxt "channelControl.tabChat.label"
+msgid "Chat"
 msgstr ""
 
 #: ./i18n/src/messages.json
@@ -527,6 +551,14 @@ msgid "No permission to access server"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [channelControl.tabParticipants.label]
+#. defaultMessage is:
+#. Participants
+msgctxt "channelControl.tabParticipants.label"
+msgid "Participants"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -575,10 +607,10 @@ msgid "Settings"
 msgstr ""
 
 #: ./i18n/src/messages.json
-#. [groupControl.extraShareLinkButton.label]
+#. [groupControl.shareLinkButton.aria]
 #. defaultMessage is:
 #. Share {scope} link
-msgctxt "groupControl.extraShareLinkButton.label"
+msgctxt "groupControl.shareLinkButton.aria"
 msgid "Share {scope} link"
 msgstr ""
 
@@ -847,6 +879,14 @@ msgid "group"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [participants.inviteButton.label]
+#. defaultMessage is:
+#. invite
+msgctxt "participants.inviteButton.label"
+msgid "invite"
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [joinscreen.guest.suffixText.signInLink]
 #. defaultMessage is:
 #. sign in
@@ -876,6 +916,14 @@ msgstr ""
 #. unmute
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [participants.subheaderLabel]
+#. defaultMessage is:
+#. {participants, number} {participants, plural, one {participant} other {participants}}
+msgctxt "participants.subheaderLabel"
+msgid "{participants, number} {participants, plural, one {participant} other {participants}}"
 msgstr ""
 
 #: ./i18n/src/messages.json

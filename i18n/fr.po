@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
+"POT-Creation-Date: 2020-06-10T14:27:03.392Z\n"
 "PO-Revision-Date: 2019-08-26 15:17+0000\n"
 "Last-Translator: Dominique <dperessoni@alternatiq.com>\n"
 "Language-Team: French <http://translate.kopano.io/projects/kopano/meet/fr/>\n"
@@ -11,6 +11,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.4\n"
+
+#. [displayNameLabel.guest.prefix]
+#. defaultMessage is:
+#. (Guest)
+#: i18n/src/messages.json
+msgctxt "displayNameLabel.guest.prefix"
+msgid "(Guest)"
+msgstr ""
+
+#. [displayNameLabel.isSelf.prefix]
+#. defaultMessage is:
+#. (Me)
+#: i18n/src/messages.json
+msgctxt "displayNameLabel.isSelf.prefix"
+msgid "(Me)"
+msgstr ""
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -192,6 +208,14 @@ msgstr ""
 msgctxt "fullscreenDialog.cancelButton.text"
 msgid "Cancel"
 msgstr "Annuler"
+
+#. [channelControl.tabChat.label]
+#. defaultMessage is:
+#. Chat
+#: i18n/src/messages.json
+msgctxt "channelControl.tabChat.label"
+msgid "Chat"
+msgstr ""
 
 #. [fullscreenDialog.closeButton.aria]
 #. defaultMessage is:
@@ -551,6 +575,14 @@ msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
 msgstr "Droits insuffisants, connexion au serveur impossible"
 
+#. [channelControl.tabParticipants.label]
+#. defaultMessage is:
+#. Participants
+#: i18n/src/messages.json
+msgctxt "channelControl.tabParticipants.label"
+msgid "Participants"
+msgstr ""
+
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -600,12 +632,12 @@ msgctxt "callView.settingsList.label"
 msgid "Settings"
 msgstr "Paramètres"
 
-#. [groupControl.extraShareLinkButton.label]
+#. [groupControl.shareLinkButton.aria]
 #. defaultMessage is:
 #. Share {scope} link
 #: i18n/src/messages.json
 #, fuzzy
-msgctxt "groupControl.extraShareLinkButton.label"
+msgctxt "groupControl.shareLinkButton.aria"
 msgid "Share {scope} link"
 msgstr "Partager"
 
@@ -874,6 +906,14 @@ msgctxt "scopeLabel.group.label"
 msgid "group"
 msgstr "Groupe"
 
+#. [participants.inviteButton.label]
+#. defaultMessage is:
+#. invite
+#: i18n/src/messages.json
+msgctxt "participants.inviteButton.label"
+msgid "invite"
+msgstr ""
+
 #. [joinscreen.guest.suffixText.signInLink]
 #. defaultMessage is:
 #. sign in
@@ -906,6 +946,14 @@ msgstr "Remettre le son"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "Remettre le son"
+
+#. [participants.subheaderLabel]
+#. defaultMessage is:
+#. {participants, number} {participants, plural, one {participant} other {participants}}
+#: i18n/src/messages.json
+msgctxt "participants.subheaderLabel"
+msgid "{participants, number} {participants, plural, one {participant} other {participants}}"
+msgstr ""
 
 #. [joinscreen.settings.scope]
 #. defaultMessage is:
