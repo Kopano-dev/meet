@@ -55,11 +55,11 @@ import {
   updateOfferAnswerConstraints,
   SCREENSHARE_SCREEN_ID,
 } from '../../actions/meet';
+import { getStreamsByType } from '../../selectors/streams';
 import Howling from '../../components/Howling';
 import { writeTextToClipboard } from '../../clipboard';
 import { isMobile, isTouchDevice } from '../../utils';
 import FullscreenDialog from '../../components/FullscreenDialog';
-//import SettingsDialog from '../../components/SettingsDialog';
 import AutoStandby from '../../components/AutoStandby';
 import QuickSettingsList from '../../components/QuickSettingsList';
 import FabWithProgress from '../../components/FabWithProgress';
@@ -805,7 +805,7 @@ class CallView extends React.PureComponent {
       calling,
       localStream,
       remoteAudioVideoStreams,
-      remoteScreenShareStreams,
+      remoteScreenshareStreams,
       connected,
       gDMSupported,
       audioSinkId,
@@ -827,11 +827,11 @@ class CallView extends React.PureComponent {
     let shareScreenButton = null;
     let screenShareViewer = null;
 
-    if (channel && mode === 'videocall' && remoteScreenShareStreams.length > 0) {
+    if (channel && mode === 'videocall' && remoteScreenshareStreams.length > 0) {
       screenShareViewer = <CallGrid
         onClick={this.handleCallGridClick}
         className={classes.screenshare}
-        remoteStreams={remoteScreenShareStreams}
+        remoteStreams={remoteScreenshareStreams}
         remoteStreamsKey={`stream_screenshare_${SCREENSHARE_SCREEN_ID}`}
         muted
         mode={mode}
@@ -1212,6 +1212,8 @@ class CallView extends React.PureComponent {
               onClick={this.handleCallGridClick}
               className={callClassName}
               mode={mode}
+              videoOnly={isGroupChannel(channel)}
+              localStreamIsRemoteFallback={!channel}
               muted={muted}
               cover={cover}
               localStream={localStream}
@@ -1280,7 +1282,7 @@ CallView.propTypes = {
 
   localStream: PropTypes.instanceOf(MediaStream),
   remoteAudioVideoStreams: PropTypes.array.isRequired,
-  remoteScreenShareStreams: PropTypes.array.isRequired,
+  remoteScreenshareStreams: PropTypes.array.isRequired,
 
   gDMSupported: PropTypes.bool.isRequired,
 
@@ -1299,18 +1301,7 @@ const mapStateToProps = state => {
     dmPending,
   } = state.media;
 
-  const remoteAudioVideoStreams = [];
-  const remoteScreenShareStreams = [];
-  for (const stream of Object.values(state.streams)) {
-    remoteAudioVideoStreams.push(stream);
-    if (stream.announces) {
-      for (const announce of Object.values(stream.announces)) {
-        if (announce.kind === 'screenshare' && announce.id === SCREENSHARE_SCREEN_ID) {
-          remoteScreenShareStreams.push(stream);
-        }
-      }
-    }
-  }
+  const { remoteAudioVideoStreams, remoteScreenshareStreams } = getStreamsByType(state);
 
   return {
     hidden,
@@ -1333,7 +1324,7 @@ const mapStateToProps = state => {
 
     localStream,
     remoteAudioVideoStreams,
-    remoteScreenShareStreams,
+    remoteScreenshareStreams,
 
     gDMSupported,
 

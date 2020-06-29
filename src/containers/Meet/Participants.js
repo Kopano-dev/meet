@@ -9,8 +9,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Avatar from '@material-ui/core/Avatar';
+//import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import MicOffIcon from '@material-ui/icons/MicOff';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 import Persona from 'kpop/es/Persona';
 
@@ -136,11 +141,20 @@ class Participants extends React.PureComponent {
                 ContainerProps={{className: classes.entryContainer}}
               >
                 <ListItemAvatar>
-                  <ParticipantsEntryPersona entry={entry}/>
+                  {entry.calling ?
+                    <Avatar>
+                      <HourglassEmptyIcon />
+                    </Avatar>
+                    :
+                    <ParticipantsEntryPersona entry={entry}/>
+                  }
                 </ListItemAvatar>
                 <ListItemText
                   primary={<ContactLabel contact={entry} id={entry.id} isSelf={!!entry.isSelf}/>}
                 />
+                <ListItemSecondaryAction>
+                  {entry.calling && <MicOffIcon />}
+                </ListItemSecondaryAction>
               </ListItem>
             )}
           </List>

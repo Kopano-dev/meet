@@ -11,6 +11,8 @@ import renderIf from 'render-if';
 
 import posed from 'react-pose';
 
+import memoize from 'memoize-one';
+
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import AudioVideo from '../../components/AudioVideo';
@@ -66,6 +68,10 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       gridTemplateColumns: 'repeat(auto-fit, minmax(30%, 1fr) ) ;',
     },
+  },
+  audio: {
+    position: 'absolute',
+    zIndex: -1,
   },
   overlay: {
     alignContent: 'start',
@@ -128,69 +134,155 @@ const styles = theme => ({
 });
 
 class CallGrid extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      remoteStreamMarker: null,
+    };
+
+    this.boundStreams = new Map();
+  }
+
+  splitStreams = memoize((remoteStreams, remoteStreamsKey, renderMode, videoOnly, remoteStreamMarker, localStream, localStreamIsRemoteFallback) => {
+    const videoStreams = [];
+    const audioStreams = [];
+    let isFallback = false;
+
+    if (remoteStreams.length === 0) {
+      if (localStreamIsRemoteFallback && localStream) {
+        videoStreams.push({
+          id: '',
+          stream: localStream,
+          muted: true,
+          mirrored: true,
+        });
+        isFallback = true;
+      }
+      return {
+        videoStreams,
+        audioStreams,
+        isFallback,
+      };
+    }
+
+    const streams = new Map();
+    const boundStreams = this.boundStreams;
+    remoteStreams.map(stream => {
+      const s = stream[remoteStreamsKey];
+      const r = {
+        ...stream,
+        stream: s, // Use as stream whatever the key says.
+      };
+      if (!videoOnly || renderMode !== 'videocall') {
+        videoStreams.push(r);
+      } else {
+        if (s.getVideoTracks().length === 0) {
+          audioStreams.push(r);
+        } else {
+          videoStreams.push(r);
+        }
+        if (s) {
+          streams[s] = true;
+          if (!boundStreams.has(s)) {
+            s.addEventListener('addtrack', this.handleStreamAddRemoveTrack);
+            s.addEventListener('removetrack', this.handleStreamAddRemoveTrack);
+            boundStreams[s] = true;
+          }
+        }
+      }
+
+      return true;
+    });
+
+    for (const stream of boundStreams.keys()) {
+      if (!streams.has(stream)) {
+        boundStreams.delete(stream);
+        stream.removeEventListener('addtrack', this.handleStreamAddRemoveTrack);
+        stream.removeEventListener('removetrack', this.handleStreamAddRemoveTrack);
+      }
+    }
+
+    return {
+      videoStreams,
+      audioStreams,
+      isFallback,
+    };
+  })
+
+  handleStreamAddRemoveTrack = () => {
+    this.setState({
+      remoteStreamMarker: {/* always new */},
+    });
+  }
+
+  componentWillUnmount() {
+    for (const stream of this.boundStreams.keys()) {
+      stream.removeEventListener('addtrack', this.handleStreamAddRemoveTrack);
+      stream.removeEventListener('removetrack', this.handleStreamAddRemoveTrack);
+    }
+    this.boundStreams.clear();
+  }
+
   render() {
     const {
       classes,
       className: classNameProp,
       mode,
       variant,
+      videoOnly,
+      localStreamIsRemoteFallback,
       muted,
       cover,
       labels,
       localStream,
       remoteStreamsKey,
       remoteStreams,
-      maxVideoStreams,
       audioSinkId,
       AudioVideoProps,
       intl, // eslint-disable-line no-unused-vars
       ...other
     } = this.props;
+    const {
+      remoteStreamMarker,
+    } = this.state;
 
     const className = classNames(
       classes.root,
       classNameProp,
     );
 
-    const streams = [];
-    if (remoteStreams.length === 0 && localStream) {
-      streams.push({
-        id: '',
-        stream: localStream,
-        muted: true,
-        mirrored: true,
-      });
-    } else {
-      remoteStreams.map(stream => {
-        const s = stream[remoteStreamsKey];
-        streams.push({
-          ...stream,
-          stream: s, // Use as stream whatever the key says.
-        });
-        return true;
-      });
-    }
-
-    let renderMode = mode;
-    if (remoteStreams.length > maxVideoStreams) {
-      // Force audio mode when too many streams.
-      renderMode = 'call';
-    }
-
+    const renderMode = mode;
     const overlay = variant === 'overlay';
+
+    const { videoStreams, audioStreams, isFallback } = this.splitStreams(remoteStreams, remoteStreamsKey, renderMode, videoOnly, remoteStreamMarker, localStream, localStreamIsRemoteFallback);
 
     return (
       <div className={className} {...other}>
+        <div className={classes.audio}>
+          {audioStreams.map((stream) =>
+            <AudioVideo
+              key={stream.id}
+              id={stream.id}
+              muted={muted || stream.muted}
+              stream={stream.stream}
+              audioSinkId={audioSinkId}
+              user={stream.user}
+              calling={stream.calling}
+              audio
+            ></AudioVideo>
+          )}
+        </div>
         {renderIf(renderMode === 'videocall')(() => (
           <div className={classNames(
             classes.common,
             classes.videocall,
             {
-              [classes.cols3]: !overlay && streams.length > 10,
+              [classes.cols3]: !overlay && videoStreams.length > 10,
               [classes.overlay]: overlay,
             }
           )}>
-            {streams.map((stream) =>
+            {videoStreams.map((stream) =>
               <AudioVideo
                 key={stream.id}
                 ContainerComponent="div"
@@ -211,7 +303,6 @@ class CallGrid extends React.PureComponent {
                 user={labels ? stream.user : undefined}
                 calling={stream.calling}
                 audioSinkId={audioSinkId}
-                videoOnly={remoteStreams.length > 1}
                 {...AudioVideoProps}
                 className={classNames(classes.video, AudioVideoProps.className)}
               >
@@ -224,7 +315,7 @@ class CallGrid extends React.PureComponent {
             classes.common,
             classes.call,
           )} container alignItems="center" direction="row" justify="center">
-            {streams.map((stream) =>
+            {videoStreams.map((stream) =>
               <AudioVideo
                 key={stream.id}
                 audio
@@ -251,7 +342,7 @@ class CallGrid extends React.PureComponent {
             </Grid>
           </Grid>
         ))}
-        <Slide direction="up" in={remoteStreams.length > 0 && !!localStream} mountOnEnter unmountOnExit>
+        <Slide direction="up" in={(remoteStreams.length > 0 || !isFallback) && !!localStream} mountOnEnter unmountOnExit>
           <DragableFloatingAudioVideo
             className={classNames(classes.floatingLocal, {
               [classes.floatingOverlay]: overlay,
@@ -271,7 +362,6 @@ CallGrid.defaultProps = {
   localStream: null,
 
   remoteStreamsKey: 'stream',
-  maxVideoStreams: 20,
   variant: 'full',
 
   labels: true,
@@ -286,6 +376,8 @@ CallGrid.propTypes = {
 
   mode: PropTypes.oneOf(['videocall', 'call', 'standby']).isRequired,
   variant: PropTypes.oneOf(['full', 'overlay']).isRequired,
+  videoOnly: PropTypes.bool,
+  localStreamIsRemoteFallback: PropTypes.bool,
 
   cover: PropTypes.bool,
   muted: PropTypes.bool,
@@ -296,8 +388,6 @@ CallGrid.propTypes = {
   remoteStreams: PropTypes.array.isRequired,
 
   audioSinkId: PropTypes.string,
-
-  maxVideoStreams: PropTypes.number.isRequired,
 
   AudioVideoProps: PropTypes.object,
 };

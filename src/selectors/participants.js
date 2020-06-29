@@ -2,10 +2,11 @@ import { createSelector } from 'reselect';
 
 import { mapContactEntryToUserShape } from '../utils';
 
+import { getStreams } from './streams';
+
 // NOTE(longsleep): The guest name prefix is currently hardcoded in kwm server. Keep synced.
 export const guestDisplayNamePrefixMatcher = new RegExp('^\\(Guest\\)');
 
-const getStreams = (state) => state.streams;
 const getContactsTable = (state) => state.contacts.table;
 const getProfile = (state) => state.common.profile;
 
@@ -24,17 +25,22 @@ const sorter = (a, b) => {
 export const getCurrentParticipants = createSelector(
   [ getStreams, getContactsTable, getProfile ],
   (streams, table, profile) => {
-    const participants = Object.keys(streams).map(id => {
+    const participants = Object.entries(streams).map(([id, stream]) => {
+
       const contact = table[id];
       if (contact) {
-        return mapContactEntryToUserShape(contact);
+        return {
+          calling: stream.calling,
+          ...mapContactEntryToUserShape(contact),
+        };
       }
 
-      const user = streams[id].user;
+      const user = stream.user;
       const guid = user.displayName + ',' + id;
       return {
         guid,
         id,
+        calling: stream.calling,
         ...user,
       };
     });

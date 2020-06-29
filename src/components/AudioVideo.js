@@ -170,6 +170,8 @@ class AudioVideo extends React.PureComponent {
         this.removeStreamEvents(oldProps.stream);
       }
       this.updateStream();
+    } else if (stream) {
+      this.doPlayIfPaused();
     }
   }
 
@@ -241,8 +243,22 @@ class AudioVideo extends React.PureComponent {
     element.srcObject = stream;
 
     // Autoplay is not guaranteed, so trigger play manually.
+    this.doPlayIfPaused(element);
+  }
+
+  async doPlayIfPaused(element=null) {
+    if (!element) {
+      element = this.element;
+      if (!element) {
+        return;
+      }
+    }
+    if (element.paused === false) {
+      return;
+    }
+
     try {
-      element.play().then(() => {
+      return element.play().then(() => {
         /* noop */
       }).catch(reason => {
         // Play might fail for various reasons, most of the time it is
@@ -250,7 +266,7 @@ class AudioVideo extends React.PureComponent {
         console.debug(`failed to play: ${reason}`, element); // eslint-disable-line no-console
       });
     } catch(err) {
-      console.warn(`failed to play: ${err}`, element); // eslint-disable-line no-console
+      throw new Error(`failed to play: ${err}`);
     }
   }
 
@@ -383,7 +399,6 @@ class AudioVideo extends React.PureComponent {
     } = this.props;
     delete other.stream;
     delete other.audioSinkId;
-    delete other.videoOnly;
 
     let mirrorVideo = mirrored;
     if (mirrorVideo && videoFacingMode && videoFacingMode !== 'user') {
@@ -510,7 +525,6 @@ AudioVideo.propTypes = {
   blurred: PropTypes.bool,
   round: PropTypes.bool,
   cover: PropTypes.bool,
-  videoOnly: PropTypes.bool,
   stream: PropTypes.object,
 
   audioSinkId: PropTypes.string,
