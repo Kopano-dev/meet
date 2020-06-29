@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import CallIcon from '@material-ui/icons/Call';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
 import MicOffIcon from '@material-ui/icons/MicOff';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import memoize from 'memoize-one';
 
@@ -102,11 +102,15 @@ const styles = (theme) => ({
   },
   loader: {
     position: 'absolute',
-    bottom: '50%',
-    width: '10%',
-    minWidth: 50,
+    top: 'auto !important',
+    bottom: 'auto !important',
+    left: 'auto',
+    right: 'auto',
     margin: '0 auto',
-    height: 2,
+    minHeight: 42,
+    minWidth: 42,
+    maxHeight: 'min(45%, 200px)',
+    maxWidth: 'min(45%, 200px)',
   },
   extra: {
     display: 'none',
@@ -421,11 +425,11 @@ class AudioVideo extends React.PureComponent {
     let icon;
 
     if (calling) {
-      loader = <LinearProgress color="secondary" variant="query" className={classes.loader}/>;
+      loader = <CircularProgress color="primary" variant="indeterminate" size="22vh" thickness={2.2} disableShrink className={classes.loader}/>;
     }
 
     if (calling) {
-      icon = <HourglassEmptyIcon className={classes.alternativeIcon}/>;
+      icon = <CompareArrowsIcon color="primary" className={classes.alternativeIcon}/>;
     } else if (!hasVideo && !audio) {
       // No video.
       icon = <CamOffIcon className={classes.alternativeIcon}/>;

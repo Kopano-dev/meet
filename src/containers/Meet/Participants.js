@@ -15,7 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import MicOffIcon from '@material-ui/icons/MicOff';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 import Persona from 'kpop/es/Persona';
 
@@ -143,7 +143,7 @@ class Participants extends React.PureComponent {
                 <ListItemAvatar>
                   {entry.calling ?
                     <Avatar>
-                      <HourglassEmptyIcon />
+                      <CompareArrowsIcon />
                     </Avatar>
                     :
                     <ParticipantsEntryPersona entry={entry}/>
