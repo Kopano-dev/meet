@@ -4,6 +4,11 @@
 
 
 
+## v2.2.3 (2020-07-02)
+
+- Update kpop to v2.2.4
+
+
 ## v2.2.2 (2020-06-22)
 
 - Cleanup dependencies lock file
