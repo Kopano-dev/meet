@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2020-03-25T10:19:53.516Z\n"
-"PO-Revision-Date: 2019-08-30 11:38+0000\n"
+"PO-Revision-Date: 2019-11-13 07:16+0000\n"
 "Last-Translator: Bob <b.huisman@kopano.com>\n"
 "Language-Team: Dutch <http://translate.kopano.io/projects/kopano/meet/nl/>\n"
 "Language: nl\n"
@@ -57,7 +57,7 @@ msgstr "Aannemen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.accessFailedMessage.text"
 msgid "Access to camera/microphone failed. Please check permissions."
-msgstr ""
+msgstr "Geen toegang tot camera/microfoon. Controleer alstublieft de permissies."
 
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
@@ -65,13 +65,12 @@ msgstr ""
 #.                  invite and an email draft will be created in your email program with instructions how to join this Meet.
 #.                  Please review and optionally personalise the message before sending the invitation.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
 "Add email addresses using the text field above to invite to this Meet. To finish, click\n"
 "                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
 "                 Please review and optionally personalise the message before sending the invitation."
-msgstr "Voeg email adressen toe aan het bovenstaande tekstveld om uit te nodigen voor deze Meet. Klik op uitnodigen om af te ronden. Uw email programma wordt gestart met een nieuw bericht met instructies hoe aan deze Meet kan worden deelgenomen, zodat deze nog kan worden aangepast en de uitnodiging kan worden verzonden."
+msgstr "Voeg email adressen toe aan het bovenstaande tekstveld om uit te nodigen voor deze Meet. Klik op uitnodigen om af te ronden. Uw emailprogramma wordt gestart met een nieuw bericht met instructies hoe aan deze vergadering kan worden deelgenomen, zodat deze nog kan worden aangepast en de uitnodiging kan worden verzonden."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -184,7 +183,7 @@ msgstr "Oproepen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.cameraSelect.label"
 msgid "Camera"
-msgstr ""
+msgstr "Camera"
 
 #. [deviceSettings.unknownVideoInput.label]
 #. defaultMessage is:
@@ -192,7 +191,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownVideoInput.label"
 msgid "Camera {number}"
-msgstr ""
+msgstr "Camera {number}"
 
 #. [fullscreenDialog.cancelButton.text]
 #. defaultMessage is:
@@ -232,7 +231,7 @@ msgstr "Contactpersonen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.defaultSpeaker.label"
 msgid "Default speaker"
-msgstr ""
+msgstr "Standaard speaker"
 
 #. [recents.deleteMoreMenuItem.label]
 #. defaultMessage is:
@@ -248,7 +247,7 @@ msgstr "Verwijderen"
 #: i18n/src/messages.json
 msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
-msgstr ""
+msgstr "Apparaten"
 
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
@@ -256,7 +255,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "settingDialog.doneButton.label"
 msgid "Done"
-msgstr ""
+msgstr "Klaar"
 
 #. [invite.emailTextField.placeholder]
 #. defaultMessage is:
@@ -272,7 +271,6 @@ msgstr "Email adressen"
 #.                  name. A new group will be created automatically if it does not exist already. The
 #.                  group can be joined by anyone who knows its exact name.
 #: i18n/src/messages.json
-#, fuzzy
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
@@ -488,7 +486,7 @@ msgstr "Contacten laden ..."
 #: i18n/src/messages.json
 msgctxt "deviceSettings.microphoneSelect.label"
 msgid "Microphone"
-msgstr ""
+msgstr "Microfoon"
 
 #. [deviceSettings.unknownAudioInput.label]
 #. defaultMessage is:
@@ -496,7 +494,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioInput.label"
 msgid "Microphone {number}"
-msgstr ""
+msgstr "Microfoon {number}"
 
 #. [recents.moreButton.aria]
 #. defaultMessage is:
@@ -637,7 +635,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerSelect.label"
 msgid "Speaker"
-msgstr ""
+msgstr "Speaker"
 
 #. [deviceSettings.unknownAudioOutput.label]
 #. defaultMessage is:
@@ -645,7 +643,7 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "deviceSettings.unknownAudioOutput.label"
 msgid "Speaker {number}"
-msgstr ""
+msgstr "Speaker {number}"
 
 #. [callGrid.suspended.headline]
 #. defaultMessage is:
@@ -661,7 +659,7 @@ msgstr "Opgeschort"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. [joinscreen.guest.suffixText]
 #. defaultMessage is:
