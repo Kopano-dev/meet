@@ -57,7 +57,8 @@ msgstr "Aannemen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.accessFailedMessage.text"
 msgid "Access to camera/microphone failed. Please check permissions."
-msgstr "Geen toegang tot camera/microfoon. Controleer alstublieft de permissies."
+msgstr ""
+"Geen toegang tot camera/microfoon. Controleer alstublieft de permissies."
 
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
@@ -67,10 +68,18 @@ msgstr "Geen toegang tot camera/microfoon. Controleer alstublieft de permissies.
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
-"                 Please review and optionally personalise the message before sending the invitation."
-msgstr "Voeg email adressen toe aan het bovenstaande tekstveld om uit te nodigen voor deze Meet. Klik op uitnodigen om af te ronden. Uw emailprogramma wordt gestart met een nieuw bericht met instructies hoe aan deze vergadering kan worden deelgenomen, zodat deze nog kan worden aangepast en de uitnodiging kan worden verzonden."
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and an email draft will be created in your email "
+"program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before "
+"sending the invitation."
+msgstr ""
+"Voeg email adressen toe aan het bovenstaande tekstveld om uit te nodigen "
+"voor deze Meet. Klik op uitnodigen om af te ronden. Uw emailprogramma wordt "
+"gestart met een nieuw bericht met instructies hoe aan deze vergadering kan "
+"worden deelgenomen, zodat deze nog kan worden aangepast en de uitnodiging "
+"kan worden verzonden."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -274,9 +283,13 @@ msgstr "Email adressen"
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
-"                 name. A new group will be created automatically if it does not exist already. The\n"
+"                 name. A new group will be created automatically if it does "
+"not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr "Voer een naam in in het bovenstaande veld. Iedere naam kan worden gebruikt. Een nieuwe groep wordt automatisch aangemaakt wanneer deze nog niet bestaat. Iedereen kan deelnemen aan de groep door de exacte groepsnaam in te voeren."
+msgstr ""
+"Voer een naam in in het bovenstaande veld. Iedere naam kan worden gebruikt. "
+"Een nieuwe groep wordt automatisch aangemaakt wanneer deze nog niet bestaat. "
+"Iedereen kan deelnemen aan de groep door de exacte groepsnaam in te voeren."
 
 #. [joinscreen.guest.header]
 #. defaultMessage is:
@@ -666,7 +679,9 @@ msgstr "Test"
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
 #: i18n/src/messages.json
 msgctxt "joinscreen.guest.suffixText"
-msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgid ""
+"The name defines how you are visible to others as guest. If you have an "
+"account, you can {signInLink} too"
 msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]
@@ -691,7 +706,8 @@ msgstr "De ontvanger heeft uw oproep geweigerd."
 #: i18n/src/messages.json
 msgctxt "invite.groupIsPublic.text"
 msgid "This group is protected - a user account is required to join."
-msgstr "Deze groep is beveiligd - een gebruikersaccount is nodig om deel te nemen."
+msgstr ""
+"Deze groep is beveiligd - een gebruikersaccount is nodig om deel te nemen."
 
 #. [invite.groupIsProtected.text]
 #. defaultMessage is:

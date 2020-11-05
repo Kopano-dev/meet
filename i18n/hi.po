@@ -67,12 +67,17 @@ msgstr "कैमरा / माइक्रोफ़ोन तक पहुं�
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
-"                 Please review and optionally personalise the message before sending the invitation."
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and an email draft will be created in your email "
+"program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before "
+"sending the invitation."
 msgstr ""
-"इस मीट में आमंत्रित करने के लिए उपरोक्त टेक्स्ट फ़ील्ड का उपयोग करके इमेल्स जोड़ें. समाप्त करने के लिए, क्लिक करें\n"
-"अपने ईमेल प्रोग्राम में इस मीट को कैसे शामिल किया जाए, इस निर्देश के साथ निमंत्रण और ईमेल संदेश भेजें\n"
+"इस मीट में आमंत्रित करने के लिए उपरोक्त टेक्स्ट फ़ील्ड का उपयोग करके इमेल्स जोड़ें. समाप्त करने "
+"के लिए, क्लिक करें\n"
+"अपने ईमेल प्रोग्राम में इस मीट को कैसे शामिल किया जाए, इस निर्देश के साथ निमंत्रण और ईमेल "
+"संदेश भेजें\n"
 "समीक्षा के लिए और निमंत्रण संदेश भेजने के लिए."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
@@ -277,9 +282,13 @@ msgstr "ईमेल एड्रेसीस"
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
-"                 name. A new group will be created automatically if it does not exist already. The\n"
+"                 name. A new group will be created automatically if it does "
+"not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr "उपरोक्त फ़ील्ड में समूह का नाम दर्ज करें। आप कोई भी नाम का उपयोग कर सकते हैं.यदि पहले से मौजूद नहीं है, तो एक नया समूह अपने आप बनाया जाएगा.समूह में कोई भी शामिल हो सकता है, जो इसका सही नाम जानता हो."
+msgstr ""
+"उपरोक्त फ़ील्ड में समूह का नाम दर्ज करें। आप कोई भी नाम का उपयोग कर सकते हैं.यदि पहले से "
+"मौजूद नहीं है, तो एक नया समूह अपने आप बनाया जाएगा.समूह में कोई भी शामिल हो सकता है, "
+"जो इसका सही नाम जानता हो."
 
 #. [joinscreen.guest.header]
 #. defaultMessage is:
@@ -668,7 +677,9 @@ msgstr "जांच करें"
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
 #: i18n/src/messages.json
 msgctxt "joinscreen.guest.suffixText"
-msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgid ""
+"The name defines how you are visible to others as guest. If you have an "
+"account, you can {signInLink} too"
 msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]

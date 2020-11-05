@@ -9,8 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2.4\n"
+"X-Generator: react-intl-po\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -66,9 +67,12 @@ msgstr "Dostęp do kamery / mikrofonu nie powiódł się. Sprawdź uprawnienia."
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
-"                 Please review and optionally personalise the message before sending the invitation."
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and an email draft will be created in your email "
+"program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before "
+"sending the invitation."
 msgstr "Dodaj adresy e-mail, używając pola tekstowego powyżej, aby zaprosić na to spotkanie. Aby zakończyć, kliknij zaproś, a wiadomość e-mail z instrukcjami, jak dołączyć do spotkania, zostanie utworzona w Twoim programie pocztowym do recenzji i wysłania zaproszenia."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
@@ -247,14 +251,6 @@ msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
 msgstr "urządzenie"
 
-#. [settingsDialog.devicesTab.label]
-#. defaultMessage is:
-#. Devices
-#: i18n/src/messages.json
-msgctxt "settingsDialog.devicesTab.label"
-msgid "Devices"
-msgstr ""
-
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -280,7 +276,8 @@ msgstr "Adresy e-mail"
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
-"                 name. A new group will be created automatically if it does not exist already. The\n"
+"                 name. A new group will be created automatically if it does "
+"not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr "Wpisz nazwę grupy w polu powyżej. Możesz użyć dowolnej nazwy. Nowa grupa zostanie utworzona automatycznie, jeśli jeszcze nie istnieje. Do grupy może dołączyć każdy, kto zna jej dokładną nazwę."
 
@@ -355,14 +352,6 @@ msgstr "Znajdź kontakt"
 msgctxt "newPublicGroup.enterPublicGroup.inputLabel"
 msgid "Group name"
 msgstr "Nazwa grupy"
-
-#. [callView.notActive.snack]
-#. defaultMessage is:
-#. Guests can only join active group meetings.
-#: i18n/src/messages.json
-msgctxt "callView.notActive.snack"
-msgid "Guests can only join active group meetings."
-msgstr ""
 
 #. [callView.notActive.snack]
 #. defaultMessage is:
@@ -676,7 +665,9 @@ msgstr "Test"
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
 #: i18n/src/messages.json
 msgctxt "joinscreen.guest.suffixText"
-msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgid ""
+"The name defines how you are visible to others as guest. If you have an "
+"account, you can {signInLink} too"
 msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]

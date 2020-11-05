@@ -36,7 +36,8 @@ msgid ""
 msgstr ""
 "----------------------------------------------------------------------\n"
 "\n"
-"Sie können dieses Meeting von Ihrem Computer, Tablet oder Smartphone betreten.\n"
+"Sie können dieses Meeting von Ihrem Computer, Tablet oder Smartphone "
+"betreten.\n"
 "{url}\n"
 "\n"
 "Erfahren Sie mehr über Kopano Meet unter https://meet-app.io\n"
@@ -57,7 +58,9 @@ msgstr "Annehmen"
 #: i18n/src/messages.json
 msgctxt "deviceSettings.accessFailedMessage.text"
 msgid "Access to camera/microphone failed. Please check permissions."
-msgstr "Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie die Berechtigungen."
+msgstr ""
+"Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie die "
+"Berechtigungen."
 
 #. [invite.addEmailAddressesHelper.text]
 #. defaultMessage is:
@@ -67,10 +70,18 @@ msgstr "Zugriff auf Kamera/Mikrofon ist fehlgeschlagen. Bitte überprüfen Sie d
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
-"                 Please review and optionally personalise the message before sending the invitation."
-msgstr "Nutzen Sie das Eingabefeld um E-Mail Adressen hinzuzufügen, die Sie zu diesem Meet einladen wollen. Mit einem Klick auf Einladen wird ein ein Entwurf in Ihrem E-Mail Programm erstellt. Dieser Entwurf enthält Informationen zum Betreten des Meetings. Bitte prüfen und personalisieren Sie diese Nachricht bevor Sie diese absenden."
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and an email draft will be created in your email "
+"program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before "
+"sending the invitation."
+msgstr ""
+"Nutzen Sie das Eingabefeld um E-Mail Adressen hinzuzufügen, die Sie zu "
+"diesem Meet einladen wollen. Mit einem Klick auf Einladen wird ein ein "
+"Entwurf in Ihrem E-Mail Programm erstellt. Dieser Entwurf enthält "
+"Informationen zum Betreten des Meetings. Bitte prüfen und personalisieren "
+"Sie diese Nachricht bevor Sie diese absenden."
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
 #. defaultMessage is:
@@ -273,9 +284,14 @@ msgstr "E-Mail-Adressen"
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
-"                 name. A new group will be created automatically if it does not exist already. The\n"
+"                 name. A new group will be created automatically if it does "
+"not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
-msgstr "Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen verwenden. Existiert noch keine Gruppe mit dem gleichen Namen, wird diese automatisch erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, der den genauen Namen kennt."
+msgstr ""
+"Geben Sie den Namen einer Gruppe ein. Sie können einen beliebigen Namen "
+"verwenden. Existiert noch keine Gruppe mit dem gleichen Namen, wird diese "
+"automatisch erzeugt. Eine öffentliche Gruppe kann von jedem betreten werden, "
+"der den genauen Namen kennt."
 
 #. [joinscreen.guest.header]
 #. defaultMessage is:
@@ -355,7 +371,9 @@ msgstr "Name der Gruppe"
 #: i18n/src/messages.json
 msgctxt "callView.notActive.snack"
 msgid "Guests can only join active group meetings."
-msgstr "Dieses Meeting ist nicht aktiv. Als Gast können Sie nur aktive Gruppen-Meetings betreten."
+msgstr ""
+"Dieses Meeting ist nicht aktiv. Als Gast können Sie nur aktive Gruppen-"
+"Meetings betreten."
 
 #. [fullscreenDialog.ignoreButton.text]
 #. defaultMessage is:
@@ -661,8 +679,12 @@ msgstr "Testen"
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
 #: i18n/src/messages.json
 msgctxt "joinscreen.guest.suffixText"
-msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
-msgstr "Sie sind unter diesem Namen für andere Teilnehmer als Gast sichtbar. Wenn Sie ein Konto haben, können Sie sich auch {signInLink}."
+msgid ""
+"The name defines how you are visible to others as guest. If you have an "
+"account, you can {signInLink} too"
+msgstr ""
+"Sie sind unter diesem Namen für andere Teilnehmer als Gast sichtbar. Wenn "
+"Sie ein Konto haben, können Sie sich auch {signInLink}."
 
 #. [kwmProvider.rejectedBusy.snack]
 #. defaultMessage is:
@@ -782,7 +804,9 @@ msgstr "Willkommen zu {icon} Meet"
 #: i18n/src/messages.json
 msgctxt "callView.inviteByShareLink.text.template"
 msgid "You can join this meeting from your computer, tablet or smartphone."
-msgstr "Sie können dieses Meeting von Ihrem Computer, Tablet oder Smartphone betreten."
+msgstr ""
+"Sie können dieses Meeting von Ihrem Computer, Tablet oder Smartphone "
+"betreten."
 
 #. [callView.noAccess.snack]
 #. defaultMessage is:
@@ -814,7 +838,8 @@ msgstr "Ihr Browser ist zu alt und wird deshalb nicht unterstützt."
 #: i18n/src/messages.json
 msgctxt "meetscreen.errorMessage.browserUnknownUnsupported.message"
 msgid "Your browser is unknown and thus not supported."
-msgstr "Ihr Browser konnte nicht erkannt werden und wird deshalb nicht unterstützt."
+msgstr ""
+"Ihr Browser konnte nicht erkannt werden und wird deshalb nicht unterstützt."
 
 #. [recents.callHistoryEmpty.message]
 #. defaultMessage is:
@@ -922,7 +947,9 @@ msgstr "{scope} \"{id}\""
 
 #~ msgctxt "meetscreen.errorMessage.appleStandalone.message"
 #~ msgid "Apple devices do not support camera/mic access when started as App."
-#~ msgstr "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn die App installiert ist."
+#~ msgstr ""
+#~ "Apple Geräte unterstützen den Zugriff auf Kamera/Mikrofon nicht wenn die "
+#~ "App installiert ist."
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."

@@ -10,7 +10,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: react-intl-po\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #. [invite.email.body.template]
 #. defaultMessage is:
@@ -59,9 +60,12 @@ msgstr ""
 #: i18n/src/messages.json
 msgctxt "invite.addEmailAddressesHelper.text"
 msgid ""
-"Add email addresses using the text field above to invite to this Meet. To finish, click\n"
-"                 invite and an email draft will be created in your email program with instructions how to join this Meet.\n"
-"                 Please review and optionally personalise the message before sending the invitation."
+"Add email addresses using the text field above to invite to this Meet. To "
+"finish, click\n"
+"                 invite and an email draft will be created in your email "
+"program with instructions how to join this Meet.\n"
+"                 Please review and optionally personalise the message before "
+"sending the invitation."
 msgstr ""
 
 #. [newPublicGroup.allowExternalGuests.toggleLabel]
@@ -265,7 +269,8 @@ msgstr ""
 msgctxt "newPublicGroup.helper.text"
 msgid ""
 "Enter a name for the group in the field above. You can use any\n"
-"                 name. A new group will be created automatically if it does not exist already. The\n"
+"                 name. A new group will be created automatically if it does "
+"not exist already. The\n"
 "                 group can be joined by anyone who knows its exact name."
 msgstr ""
 
@@ -653,7 +658,9 @@ msgstr ""
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
 #: i18n/src/messages.json
 msgctxt "joinscreen.guest.suffixText"
-msgid "The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too"
+msgid ""
+"The name defines how you are visible to others as guest. If you have an "
+"account, you can {signInLink} too"
 msgstr ""
 
 #. [kwmProvider.rejectedBusy.snack]
