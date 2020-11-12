@@ -29,10 +29,10 @@ const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user,
   if (displayName && displayName.trim() !== '') {
     const rawDisplayName = displayName.replace(guestDisplayNamePrefixMatcher, '');
     if (rawDisplayName !== displayName) {
-      displayName = intl.formatMessage(translations.guestPrefix) + rawDisplayName;
+      displayName = intl.formatMessage(translations.guestPrefix) + ' ' + rawDisplayName;
     }
     if (isSelf) {
-      displayName = intl.formatMessage(translations.isSelfPrefix) + displayName;
+      displayName = displayName + ' ' + intl.formatMessage(translations.isSelfPrefix);
     }
     return <React.Fragment ref={ref}>{displayName}</React.Fragment>;
   }
