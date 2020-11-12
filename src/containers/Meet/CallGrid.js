@@ -255,7 +255,19 @@ class CallGrid extends React.PureComponent {
     const renderMode = mode;
     const overlay = variant === 'overlay';
 
-    const { videoStreams, audioStreams, isFallback } = this.splitStreams(remoteStreams, remoteStreamsKey, renderMode, videoOnly, remoteStreamMarker, localStream, localStreamIsRemoteFallback);
+    const {
+      videoStreams,
+      audioStreams,
+      isFallback,
+    } = this.splitStreams(
+      remoteStreams,
+      remoteStreamsKey,
+      renderMode,
+      videoOnly,
+      remoteStreamMarker,
+      localStream,
+      localStreamIsRemoteFallback,
+    );
 
     return (
       <div className={className} {...other}>
