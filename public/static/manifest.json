@@ -5,11 +5,13 @@
     {
       "src": "app-icon-rounded-192x192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     }, {
       "src": "app-icon-rounded-512x512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/meet/?utm_source=homescreen",
