@@ -230,7 +230,7 @@ const styles = theme => ({
     top: theme.spacing(2),
     bottom: 'auto',
     opacity: 0.5,
-    [theme.breakpoints.meet.desktopWidth]: {
+    [theme.breakpoints.up('md')]: {
       top: 'auto',
       bottom: theme.spacing(4),
       opacity: 1,
@@ -286,7 +286,7 @@ const styles = theme => ({
       minHeight: 0,
       height: 0,
     },
-    [theme.breakpoints.meet.desktopWidth]: {
+    [theme.breakpoints.up('md')]: {
       height: 'auto',
       flex: 1,
     },
@@ -338,7 +338,7 @@ const styles = theme => ({
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
   },
   menuWithCall: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       flex: 0,
     },
   },
