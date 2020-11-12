@@ -8,10 +8,10 @@ import { createBrowserHistory } from 'history';
 
 import grapiReducer from 'kpop/es/grapi/reducer';
 import pwaReducer from 'kpop/es/pwa/reducer';
+import queueDispatchMiddleware from 'kpop/es/middleware/queueDispatch';
 
 import reducers from './reducers';
 import { basePath } from './base';
-import meetMiddleWare from './middleware';
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
@@ -64,7 +64,7 @@ export default () => {
     composeEnhancers(applyMiddleware(
       thunkMiddleware,
       routerMiddleware(history),
-      meetMiddleWare,
+      queueDispatchMiddleware,
       loggerMiddleware // must be last middleware in the chain.
     ))
   );

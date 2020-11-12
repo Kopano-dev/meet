@@ -37,6 +37,7 @@ import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
 import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
+import { writeTextToClipboard } from 'kpop/es/clipboard';
 
 import { isGroupChannel } from '../../utils';
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../../actions/contacts';
@@ -57,7 +58,6 @@ import {
 } from '../../actions/meet';
 import { getStreamsByType } from '../../selectors/streams';
 import Howling from '../../components/Howling';
-import { writeTextToClipboard } from '../../clipboard';
 import { isMobile, isTouchDevice } from '../../utils';
 import FullscreenDialog from '../../components/FullscreenDialog';
 import AutoStandby from '../../components/AutoStandby';
