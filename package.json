@@ -79,7 +79,8 @@
     "**/@material-ui/icons": "4.5.1",
     "**/react-intl": "2.9.0",
     "**/oidc-client": "1.9.1",
-    "**/eslint-plugin-react": "7.19.0"
+    "**/eslint-plugin-react": "7.19.0",
+    "**/browserslist": "4.14.7"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -90,7 +91,9 @@
     ]
   },
   "browserslist": [
-    ">0.2%",
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
