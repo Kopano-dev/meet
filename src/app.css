@@ -10,8 +10,8 @@ body {
 
 #bg {
   background-color: white;
-  background-image: url(../src/images/kopano-meet-icon.svg);
-  background-repeat:no-repeat;
+  background-image: url(../src/images/app-icon.svg);
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: auto 30%;
 }

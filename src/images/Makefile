@@ -38,7 +38,7 @@ $(TARGET)/apple-touch-icon-180x180.png: app-icon-whitebox-180x180.png
 	cp -avf $< $@
 
 app-icon.svg: $(ICON)
-	cp -vaf $< $@
+	cp -vafL $< $@
 
 app-icon-16x16.png: app-icon.svg
 	$(INKSCAPE) -z -e $@ -w 16 -h 16 $<
