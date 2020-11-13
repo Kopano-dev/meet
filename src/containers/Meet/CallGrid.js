@@ -19,6 +19,8 @@ import AudioVideo from '../../components/AudioVideo';
 
 import FloatingAudioVideo from './FloatingAudioVideo';
 
+const defaultRemoteStreamsKey = 'stream';
+
 const DragableFloatingAudioVideo = posed(React.forwardRef(function DragableFloatingAudioVideo(props, ref) {
   return <FloatingAudioVideo {...props} hostRef={ref}/>;
 }))({
@@ -254,6 +256,7 @@ class CallGrid extends React.PureComponent {
 
     const renderMode = mode;
     const overlay = variant === 'overlay';
+    const classify = remoteStreamsKey === defaultRemoteStreamsKey;
 
     const {
       videoStreams,
@@ -281,6 +284,7 @@ class CallGrid extends React.PureComponent {
               audioSinkId={audioSinkId}
               user={stream.user}
               calling={stream.calling}
+              classify={classify}
               audio
             ></AudioVideo>
           )}
@@ -314,6 +318,7 @@ class CallGrid extends React.PureComponent {
                 round={!!overlay}
                 user={labels ? stream.user : undefined}
                 calling={stream.calling}
+                classify={classify}
                 audioSinkId={audioSinkId}
                 {...AudioVideoProps}
                 className={classNames(classes.video, AudioVideoProps.className)}
@@ -337,6 +342,7 @@ class CallGrid extends React.PureComponent {
                 stream={stream.stream}
                 user={stream.user}
                 calling={stream.calling}
+                classify={classify}
                 audioSinkId={audioSinkId}
                 {...AudioVideoProps}
                 className={classNames(classes.video, AudioVideoProps.className)}
@@ -373,7 +379,7 @@ class CallGrid extends React.PureComponent {
 CallGrid.defaultProps = {
   localStream: null,
 
-  remoteStreamsKey: 'stream',
+  remoteStreamsKey: defaultRemoteStreamsKey,
   variant: 'full',
 
   labels: true,

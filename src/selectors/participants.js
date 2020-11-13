@@ -9,6 +9,8 @@ export const guestDisplayNamePrefixMatcher = new RegExp('^\\(Guest\\)');
 
 const getContactsTable = (state) => state.contacts.table;
 const getProfile = (state) => state.common.profile;
+const getMuteMic = (state) => state.meet.muteMic;
+const getMuteCam = (state) => state.meet.muteCam;
 
 const sortable = (a) => {
   const displayName = a.displayName ? a.displayName.replace(guestDisplayNamePrefixMatcher, '') : '';
@@ -23,14 +25,19 @@ const sorter = (a, b) => {
 };
 
 export const getCurrentParticipants = createSelector(
-  [ getStreams, getContactsTable, getProfile ],
-  (streams, table, profile) => {
+  [ getStreams, getContactsTable, getProfile, getMuteMic, getMuteCam ],
+  (streams, table, profile, muteMic, muteCam) => {
     const participants = Object.entries(streams).map(([id, stream]) => {
 
+      const props = {
+        calling: stream.calling,
+        audio: stream.audio,
+        video: stream.video,
+      };
       const contact = table[id];
       if (contact) {
         return {
-          calling: stream.calling,
+          ...props,
           ...mapContactEntryToUserShape(contact),
         };
       }
@@ -40,7 +47,7 @@ export const getCurrentParticipants = createSelector(
       return {
         guid,
         id,
-        calling: stream.calling,
+        ...props,
         ...user,
       };
     });
@@ -48,6 +55,8 @@ export const getCurrentParticipants = createSelector(
       ...profile,
       isSelf: true,
       id: profile.guid,
+      audio: !muteMic,
+      video: !muteCam,
     });
     participants.sort(sorter);
 

@@ -9,6 +9,7 @@ import {
   KWM_STREAMS_ANNOUNCE,
   KWM_STREAM_RECEIVED,
   CONTACTS_UPDATE,
+  MEET_STREAM_CLASSIFIED,
 } from '../actions/types';
 
 const defaultMediaStream = new MediaStream();
@@ -30,6 +31,8 @@ function streamsReducer(state = defaultState, action) {
         user: action.user,
         announces: {},
         calling: true,
+        audio: false,
+        video: false,
       };
       return Object.assign({}, state, {
         [action.record.user]: entry,
@@ -144,6 +147,16 @@ function streamsReducer(state = defaultState, action) {
       });
       return Object.assign({}, state, {
         [action.record.user]: entry,
+      });
+    }
+
+    case MEET_STREAM_CLASSIFIED: {
+      const entry = Object.assign({}, state[action.id], {
+        audio: action.classification.audio,
+        video: action.classification.video,
+      });
+      return Object.assign({}, state, {
+        [action.id]: entry,
       });
     }
 

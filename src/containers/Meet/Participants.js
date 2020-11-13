@@ -11,9 +11,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
-//import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import CamOffIcon from '@material-ui/icons/VideocamOff';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
@@ -61,6 +61,14 @@ const styles = theme => ({
         display: 'block',
       },
     },
+  },
+  entryIcon: {
+    color: theme.palette.text.hint,
+    visibility: 'hidden',
+    verticalAlign: 'text-bottom',
+  },
+  entryIconVisible: {
+    visibility: 'inherit',
   },
   actions: {
     '& > *': {
@@ -153,7 +161,16 @@ class Participants extends React.PureComponent {
                   primary={<ContactLabel contact={entry} id={entry.id} isSelf={!!entry.isSelf}/>}
                 />
                 <ListItemSecondaryAction>
-                  {entry.calling && <MicOffIcon />}
+                  <MicOffIcon className={classNames(
+                    classes.entryIcon, {
+                      [classes.entryIconVisible]: entry.calling || !entry.audio,
+                    }
+                  )}/>
+                  <CamOffIcon className={classNames(
+                    classes.entryIcon, {
+                      [classes.entryIconVisible]: entry.calling || !entry.video,
+                    }
+                  )}/>
                 </ListItemSecondaryAction>
               </ListItem>
             )}

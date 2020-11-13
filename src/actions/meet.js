@@ -13,6 +13,7 @@ import {
   MEET_SET_GUEST,
   MEET_SET_AUTO,
   MEET_SET_COVER,
+  MEET_STREAM_CLASSIFIED,
 } from './types';
 import {
   doAccept as kwmDoAccept,
@@ -785,3 +786,9 @@ export function unmuteAudioIfAutoplayAllowed() {
     }
   };
 }
+
+export const setStreamClassification = (id, classification) => ({
+  type: MEET_STREAM_CLASSIFIED,
+  id,
+  classification,
+});

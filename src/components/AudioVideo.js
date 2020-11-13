@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,6 +16,7 @@ import memoize from 'memoize-one';
 
 import DisplayNameLabel from './DisplayNameLabel';
 import { globalSettings } from '../actions/media';
+import { setStreamClassification } from '../actions/meet';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
@@ -289,6 +292,8 @@ class AudioVideo extends React.PureComponent {
   }
 
   classifyStream(stream) {
+    const { id, classify, setStreamClassification } = this.props;
+
     if (stream) {
       let audio = false;
       let video = false;
@@ -312,14 +317,19 @@ class AudioVideo extends React.PureComponent {
               }
             }
             break;
+          default:
         }
       }
-      console.debug('classified stream', this.element, {audio, video}); // eslint-disable-line no-console
-      this.setState({
+      const classification = {
         audio,
         video,
         videoFacingMode,
-      });
+      };
+      console.debug('classified stream', this.element, id, classify, classification); // eslint-disable-line no-console
+      this.setState(classification);
+      if (classify && id) {
+        setStreamClassification(id, classification);
+      }
     }
   }
 
@@ -403,6 +413,8 @@ class AudioVideo extends React.PureComponent {
     } = this.props;
     delete other.stream;
     delete other.audioSinkId;
+    delete other.classify;
+    delete other.setStreamClassification;
 
     let mirrorVideo = mirrored;
     if (mirrorVideo && videoFacingMode && videoFacingMode !== 'user') {
@@ -513,6 +525,7 @@ AudioVideo.defaultProps = {
   round: false,
   cover: true,
   stream: null,
+  classify: false,
 
   muted: false,
   calling: false,
@@ -530,6 +543,7 @@ AudioVideo.propTypes = {
   round: PropTypes.bool,
   cover: PropTypes.bool,
   stream: PropTypes.object,
+  classify: PropTypes.bool,
 
   audioSinkId: PropTypes.string,
 
@@ -541,6 +555,12 @@ AudioVideo.propTypes = {
 
   ContainerComponent: PropTypes.node,
   ContainerProps: PropTypes.object,
+
+  setStreamClassification: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(AudioVideo);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setStreamClassification,
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(AudioVideo));
