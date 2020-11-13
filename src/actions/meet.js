@@ -675,7 +675,7 @@ export function muteStream({mute, video, audio}) {
       actions.push(mediaMuteAudioStream);
     }
     const promises = [];
-    actions.map(action => {
+    actions.forEach(action => {
       promises.push(dispatch(action(stream, mute, LOCAL_STREAM_ID, settings)).then(info => {
         const videoTracks = info.stream.getVideoTracks();
         const audioTracks = info.stream.getAudioTracks();

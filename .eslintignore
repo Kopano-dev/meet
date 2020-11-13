@@ -4,4 +4,3 @@ dist/*
 es/*
 tests/*
 coverage/*
-public/sw.js

@@ -15,7 +15,7 @@ import { basePath } from './base';
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-export default () => {
+const configureStore = () => {
   const loggerMiddleware = createLogger();
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -75,3 +75,5 @@ export default () => {
 
   return { store, storage, persistor, history };
 };
+
+export default configureStore;

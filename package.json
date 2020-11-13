@@ -4,6 +4,9 @@
   "private": true,
   "homepage": "/meet",
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
     "@gluejs/glue": "^0.3.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -37,7 +40,7 @@
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "4.0.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
@@ -45,11 +48,23 @@
     "render-if": "^0.1.1",
     "reselect": "^4.0.0",
     "typeface-roboto": "^0.0.54",
-    "webrtc-adapter": "^7.6.1"
+    "web-vitals": "^0.2.4",
+    "webrtc-adapter": "^7.6.1",
+    "workbox-background-sync": "^5.1.3",
+    "workbox-broadcast-update": "^5.1.3",
+    "workbox-cacheable-response": "^5.1.3",
+    "workbox-core": "^5.1.3",
+    "workbox-expiration": "^5.1.3",
+    "workbox-navigation-preload": "^5.1.3",
+    "workbox-precaching": "^5.1.3",
+    "workbox-range-requests": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-streams": "^5.1.3"
   },
   "scripts": {
-    "start": "cra-append-sw --mode dev ./src/sw/sw.js && react-scripts start",
-    "build": "react-scripts build && cra-append-sw ./src/sw/sw.js && node ./scripts/local-workbox.js && rm -f build/sw.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=./scripts/jestMeetEnvironment.js",
     "eject": "react-scripts eject",
     "licenses": "node ./scripts/js-license-ranger.js",
@@ -57,18 +72,16 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/runtime": "7.0.0-beta.55",
+    "@babel/core": "^7.12.0",
     "@calm/eslint-plugin-react-intl": "^1.3.1",
-    "cra-append-sw": "^2.6.0",
-    "eslint": ">=5",
+    "eslint": ">=7.11",
     "eslint-plugin-i18n-text": "^1.0.0",
-    "eslint-plugin-jest": "^22.0.0",
-    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-react": "^7.21.5",
     "react-intl-cra": "^0.3.3",
     "react-intl-po": "^2.2.1",
     "source-map-explorer": "^1.5.0",
-    "webpack": ">=2",
+    "webpack": ">=4",
     "yarn-deduplicate": "^1.1.1"
   },
   "resolutions": {
@@ -79,7 +92,7 @@
     "**/@material-ui/icons": "4.9.1",
     "**/react-intl": "2.9.0",
     "**/oidc-client": "1.9.1",
-    "**/eslint-plugin-react": "7.19.0",
+    "**/eslint-plugin-react": "7.21.5",
     "**/browserslist": "4.14.7"
   },
   "jest": {
@@ -90,12 +103,19 @@
       "node_modules/?!(kpop)"
     ]
   },
-  "browserslist": [
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      "> 0.5%",
+      "last 2 versions",
+      "Firefox ESR",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

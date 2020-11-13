@@ -304,7 +304,7 @@ class Joinscreen extends React.PureComponent {
                   </IconButton>
                 </React.Fragment>}
                 <div className={classes.title}></div>
-                {activeStep == 2 && <SettingsButton color="inherit" size="small" className={classes.backButton}/>}
+                {activeStep === 2 && <SettingsButton color="inherit" size="small" className={classes.backButton}/>}
               </Toolbar>
               <View entry={entry} navigate={this.navigate} className={classes.view}/>
               <MobileStepper

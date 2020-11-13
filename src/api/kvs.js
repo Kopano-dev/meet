@@ -79,8 +79,9 @@ function del(key, realm = 'user') {
   };
 }
 
-export default {
+const exports = {
   get,
   createOrUpdate,
   del,
 };
+export default exports;

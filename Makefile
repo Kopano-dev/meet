@@ -32,12 +32,12 @@ i18n: vendor
 
 .PHONY: lint
 lint: vendor ; $(info running eslint ...)	@
-	$(YARN) eslint . --cache && echo "eslint: no lint errors"
+	@$(YARN) eslint . --cache && echo "eslint: no lint errors"
 
 .PHONY: lint-checkstyle
 lint-checkstyle: vendor ; $(info running eslint checkstyle ...)	@
 	@mkdir -p ../test
-	$(YARN) eslint -f checkstyle -o ./test/tests.eslint.xml . || true
+	@$(YARN) eslint -f checkstyle -o ./test/tests.eslint.xml . || true
 
 # Tests
 

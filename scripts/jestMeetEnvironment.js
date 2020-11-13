@@ -1,5 +1,3 @@
-/* global module */
-
 const JSDOMEnvironment = require('jest-environment-jsdom');
 
 // Mocks.

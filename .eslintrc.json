@@ -9,7 +9,7 @@
 		}
 	},
 	"plugins": ["@calm/react-intl", "i18n-text"],
-	"extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
+	"extends": ["react-app", "react-app/jest", "plugin:jest/recommended"],
 	"settings": {
 		"react": {
 			"version": "detect"

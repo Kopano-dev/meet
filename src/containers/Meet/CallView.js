@@ -1354,7 +1354,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const withMobile = Component => {
-  return function withMobile(props) {
+  return function useWithMobile(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 

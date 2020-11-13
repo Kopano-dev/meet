@@ -17,7 +17,8 @@ export function getCurrentAppPath() {
   return window.location.href.substr(appBaseURL.length).split('?', 2)[0].split('#', 2)[0];
 }
 
-export default {
+const exports = {
   basePath,
   appBaseURL,
 };
+export default exports;
