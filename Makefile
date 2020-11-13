@@ -62,7 +62,7 @@ vendor: .yarninstall
 
 .PHONY: licenses
 licenses: ; $(info building licenses files ...)
-	@echo "# Kopano Meet 3rd party licenses\n\nCopyright 2019 Kopano and its licensors. See LICENSE.txt for license information. This document contains a list of open source components used in this project.\n\n## Kopano Meet webapp\n" > 3rdparty-LICENSES.md
+	@echo "# Kopano Meet 3rd party licenses\n\nCopyright 2019-2020 Kopano and its licensors. See LICENSE.txt for license information. This document contains a list of open source components used in this project.\n\n## Kopano Meet webapp\n" > 3rdparty-LICENSES.md
 	@$(YARN) run  -s licenses >> 3rdparty-LICENSES.md
 
 3rdparty-LICENSES.md: licenses
