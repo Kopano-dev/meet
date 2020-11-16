@@ -254,6 +254,7 @@ export function requestDisplayMedia(id='', settings={}) {
             case 'video':
               track.contentHint = 'text';
               break;
+            default:
           }
         }
       }
@@ -525,6 +526,7 @@ export function requestUserMedia(id='', video=true, audio=true, settings={}) {
             case 'audio':
               track.contentHint = 'speech';
               break;
+            default:
           }
         }
       }

@@ -163,9 +163,13 @@ class KWMProvider extends React.PureComponent {
               options: { variant: 'info' },
             }));
             break;
+          default:
         }
+
         break;
       }
+
+      default:
     }
   }
 

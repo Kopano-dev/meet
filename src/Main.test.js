@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import { Provider } from 'react-redux';
 
@@ -14,16 +14,16 @@ import App from './Main';
 
 const { store, history } = configureStore();
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <MuiThemeProvider theme={meetTheme}>
-          <IntlContainer>
-            <App history={history}/>
-          </IntlContainer>
-        </MuiThemeProvider>
+test('renders initializing', async() => {
+  render(<Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={meetTheme}>
+        <IntlContainer>
+          <App history={history}/>
+        </IntlContainer>
       </MuiThemeProvider>
-    </Provider>, div);
+    </MuiThemeProvider>
+  </Provider>);
+  await waitFor(() =>
+    expect(screen.getByText('Initializing...')).toBeInTheDocument());
 });

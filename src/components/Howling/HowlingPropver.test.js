@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import HowlingProvider from './HowlingProvider';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <HowlingProvider src="mock.ogg">
-      <span/>
-    </HowlingProvider>, div);
+test('renders without crashing', async () => {
+  render(<HowlingProvider src="mock.ogg">
+    <span  data-testid="loaded-true">1</span>
+  </HowlingProvider>);
+  await waitFor(() =>
+    expect(screen.getByTestId('loaded-true')).toHaveTextContent('1'));
 });

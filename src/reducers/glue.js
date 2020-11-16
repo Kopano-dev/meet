@@ -29,6 +29,7 @@ function glueReducer(state = defaultState, action) {
       }, action.channel);
       break;
 
+    default:
   }
 
   return state;

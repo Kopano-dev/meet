@@ -211,6 +211,8 @@ class Joinscreen extends React.PureComponent {
           }
         }
         break;
+
+      default:
     }
   }
 

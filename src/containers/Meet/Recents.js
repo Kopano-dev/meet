@@ -320,6 +320,7 @@ const RecentsEntrySubline = React.forwardRef(function RecentsEntrySubline({ entr
       prefix=<React.Fragment><ScopeLabel scope={entry.scope} capitalize/> &mdash; </React.Fragment>;
       break;
     }
+    default:
   }
 
   return <React.Fragment ref={ref}>

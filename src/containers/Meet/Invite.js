@@ -137,6 +137,8 @@ class Invite extends React.PureComponent {
         }
         break;
       }
+
+      default:
     }
 
     onActionClick(action);

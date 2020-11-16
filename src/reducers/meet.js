@@ -165,6 +165,8 @@ function meetReducer(state = defaultState, action) {
         ...state,
         cover: action.cover,
       };
+
+    default:
   }
 
   return state;

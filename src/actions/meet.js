@@ -130,6 +130,7 @@ export function doAccept(id, mode, entry, kind) {
         case 'contact':
           dispatch(doViewContact(entry));
           break;
+        default:
       }
     }
 
@@ -188,6 +189,7 @@ const autoSupport = new class AutoSupport {
                 ...auto.options,
               }));
               break;
+            default:
           }
         }
       }

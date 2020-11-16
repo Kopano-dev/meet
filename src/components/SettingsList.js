@@ -34,6 +34,7 @@ class SettingsList extends React.PureComponent {
       case 'settings':
         this.context.open('settings');
         break;
+      default:
     }
 
     if (onClick) {
