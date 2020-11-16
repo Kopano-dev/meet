@@ -12973,10 +12973,10 @@ webpack@4.44.2, webpack@>=4:
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
 
-webrtc-adapter@^7.6.1:
-  version "7.6.1"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-7.6.1.tgz#01e05e1f316de0c351b08a0574e2c58de739cc7d"
-  integrity sha512-orgybuYN6971dRWL/fdvo36Ro8zUvfXovEoaTXuKIuGySOZRCqmtSJ4oEYuNpi4C6NzkJrF1Nwf+N1VyOttkcg==
+webrtc-adapter@^7.7.0:
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-7.7.0.tgz#e56ff25f925177ac553a7c49323ca4108d2b5f4d"
+  integrity sha512-7Bp9OBnx642oJRkom1tNAbeJjUadAq2rh5xLL9YXPw5hVyt2h4hHr5bcoPYDs1stp/mZHSPSQA34YISdnr0DBQ==
   dependencies:
     rtcpeerconnection-shim "^1.2.15"
     sdp "^2.12.0"

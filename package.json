@@ -49,7 +49,7 @@
     "reselect": "^4.0.0",
     "typeface-roboto": "^0.0.54",
     "web-vitals": "^0.2.4",
-    "webrtc-adapter": "^7.6.1",
+    "webrtc-adapter": "^7.7.0",
     "workbox-background-sync": "^5.1.3",
     "workbox-broadcast-update": "^5.1.3",
     "workbox-cacheable-response": "^5.1.3",
