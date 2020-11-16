@@ -1,6 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import localForage from "localforage";
 import { connectRouter, routerMiddleware } from 'connected-react-router';
@@ -16,7 +15,6 @@ import { basePath } from './base';
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 const configureStore = () => {
-  const loggerMiddleware = createLogger();
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   const storage = localForage;
@@ -52,6 +50,17 @@ const configureStore = () => {
     ],
   };
 
+  const middlewares = [
+    thunkMiddleware,
+    routerMiddleware(history),
+    queueDispatchMiddleware,
+  ];
+  // Logger must be last middleware in the chain.
+  if (process.env.NODE_ENV === 'development') {
+    const { createLogger } = require('redux-logger');
+    middlewares.push(createLogger());
+  }
+
   const store = createStore(
     combineReducers({
       ...reducers,
@@ -62,10 +71,7 @@ const configureStore = () => {
       pwa: pwaReducer,
     }),
     composeEnhancers(applyMiddleware(
-      thunkMiddleware,
-      routerMiddleware(history),
-      queueDispatchMiddleware,
-      loggerMiddleware // must be last middleware in the chain.
+      ...middlewares,
     ))
   );
 
