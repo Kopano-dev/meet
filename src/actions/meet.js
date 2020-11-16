@@ -14,6 +14,7 @@ import {
   MEET_SET_AUTO,
   MEET_SET_COVER,
   MEET_STREAM_CLASSIFIED,
+  MEET_STREAM_TALKING,
 } from './types';
 import {
   doAccept as kwmDoAccept,
@@ -793,4 +794,10 @@ export const setStreamClassification = (id, classification) => ({
   type: MEET_STREAM_CLASSIFIED,
   id,
   classification,
+});
+
+export const setStreamTalking = (id, talking) => ({
+  type: MEET_STREAM_TALKING,
+  id,
+  talking,
 });

@@ -33,6 +33,7 @@ export const getCurrentParticipants = createSelector(
         calling: stream.calling,
         audio: stream.audio,
         video: stream.video,
+        talking: stream.talking,
       };
       const contact = table[id];
       if (contact) {
@@ -57,6 +58,7 @@ export const getCurrentParticipants = createSelector(
       id: profile.guid,
       audio: !muteMic,
       video: !muteCam,
+      talking: false, // TODO(longsleep): Get media talking state.
     });
     participants.sort(sorter);
 
