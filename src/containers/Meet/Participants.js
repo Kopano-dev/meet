@@ -14,7 +14,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
-import MicOffIcon from '@material-ui/icons/MicOff';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 import Persona from 'kpop/es/Persona';
@@ -22,6 +21,7 @@ import Persona from 'kpop/es/Persona';
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
 import { getCurrentParticipants } from '../../selectors/participants';
+import TalkingIcon from '../../components/TalkingIcon';
 
 import ContactLabel from './ContactLabel';
 
@@ -62,13 +62,20 @@ const styles = theme => ({
       },
     },
   },
+  entryIcons: {
+    paddingRight: 60 + theme.spacing(),
+  },
   entryIcon: {
     color: theme.palette.text.hint,
-    visibility: 'hidden',
+    opacity: 0,
+    transition: 'opacity 0.2s',
     verticalAlign: 'text-bottom',
   },
   entryIconVisible: {
-    visibility: 'inherit',
+    opacity: 1,
+  },
+  entryIconStrong: {
+    color: theme.palette.grey.A400,
   },
   actions: {
     '& > *': {
@@ -147,6 +154,9 @@ class Participants extends React.PureComponent {
                 key={entry.guid}
                 className={classes.entry}
                 ContainerProps={{className: classes.entryContainer}}
+                classes={{
+                  secondaryAction: classes.entryIcons,
+                }}
               >
                 <ListItemAvatar>
                   {entry.calling ?
@@ -161,11 +171,12 @@ class Participants extends React.PureComponent {
                   primary={<ContactLabel contact={entry} id={entry.id} isSelf={!!entry.isSelf}/>}
                 />
                 <ListItemSecondaryAction>
-                  <MicOffIcon className={classNames(
+                  <TalkingIcon className={classNames(
                     classes.entryIcon, {
-                      [classes.entryIconVisible]: entry.calling || !entry.audio,
+                      [classes.entryIconVisible]: entry.calling || !entry.audio || entry.talking,
+                      [classes.entryIconStrong]: entry.talking,
                     }
-                  )}/>
+                  )} audio={entry.audio} talking={entry.talking}/>
                   <CamOffIcon className={classNames(
                     classes.entryIcon, {
                       [classes.entryIconVisible]: entry.calling || !entry.video,

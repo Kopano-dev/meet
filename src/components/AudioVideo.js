@@ -8,13 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import CallIcon from '@material-ui/icons/Call';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
-import MicOffIcon from '@material-ui/icons/MicOff';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import memoize from 'memoize-one';
 
 import DisplayNameLabel from './DisplayNameLabel';
+import TalkingIcon from './TalkingIcon';
 import { globalSettings } from '../actions/media';
 import { setStreamClassification, setStreamTalking } from '../actions/meet';
 
@@ -143,6 +143,11 @@ const styles = (theme) => ({
     verticalAlign: 'middle',
     display: 'inline-block',
     paddingBottom: 4,
+    opacity: 0,
+    transition: 'opacity 0.2s',
+  },
+  overlayTextIconVisible: {
+    opacity: 1,
   },
   callIcon: {
     flex: 1,
@@ -162,7 +167,6 @@ class AudioVideo extends React.PureComponent {
   source = null;
   analyser = null;
   processor = null;
-  talking = false;
 
   constructor(props) {
     super(props);
@@ -172,6 +176,7 @@ class AudioVideo extends React.PureComponent {
       audio: false,
       video: false,
       videoFacingMode: null,
+      talking: false,
     };
   }
 
@@ -256,6 +261,7 @@ class AudioVideo extends React.PureComponent {
 
   clearProcessor() {
     const { id, setStreamTalking } = this.props;
+    const { talking } = this.state;
 
     if (audioContext && this.source) {
       this.source.disconnect(this.analyser);
@@ -265,9 +271,11 @@ class AudioVideo extends React.PureComponent {
       this.analyser = null;
       this.processor = null;
     }
-    if (this.talking) {
-      this.talking = false;
-      setStreamTalking(id, this.talking);
+    if (talking) {
+      this.setState({
+        talking: false,
+      });
+      setStreamTalking(id, false);
     }
   }
 
@@ -419,8 +427,9 @@ class AudioVideo extends React.PureComponent {
   }
 
   handleAudioProcess = () => {
-    const { analyser, talking } = this;
+    const { analyser } = this;
     const { id, setStreamTalking } = this.props;
+    const { talking } = this.state;
 
     if (analyser === null) {
       return;
@@ -437,7 +446,9 @@ class AudioVideo extends React.PureComponent {
 
     const status = Math.floor(values / length) > 0;
     if (status !== talking) {
-      this.talking = status;
+      this.setState({
+        talking: status,
+      });
       setStreamTalking(id, status);
     }
   }
@@ -470,7 +481,7 @@ class AudioVideo extends React.PureComponent {
   }
 
   render() {
-    const { active, video: hasVideo, audio: hasAudio, videoFacingMode } = this.state;
+    const { active, video: hasVideo, audio: hasAudio, videoFacingMode, talking } = this.state;
     const {
       classes,
       className: classNameProp,
@@ -527,9 +538,11 @@ class AudioVideo extends React.PureComponent {
     if (user) {
       overlay = <div className={classes.overlayText}>
         <Typography variant="h5" gutterBottom>
-          <DisplayNameLabel user={user} id={id}/> {
-            !hasAudio ?  <MicOffIcon className={classes.overlayTextIcon}/> : null
-          }
+          <DisplayNameLabel user={user} id={id}/> <TalkingIcon className={classNames(
+            classes.overlayTextIcon, {
+              [classes.overlayTextIconVisible]: !hasAudio || talking,
+            }
+          )} audio={hasAudio} talking={talking}/>
         </Typography>
       </div>;
     }
