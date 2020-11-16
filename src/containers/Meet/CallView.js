@@ -347,6 +347,7 @@ const styles = theme => ({
     borderBottom: '1px solid #eee',
   },
   tab: {
+    fontSize: '0.7em',
   },
   menuContainer: {
     flex: 1,

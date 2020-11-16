@@ -25,6 +25,7 @@ const styles = () => ({
     borderBottom: '1px solid #eee',
   },
   tab: {
+    fontSize: '.7em',
   },
   container: {
     flex: 1,
