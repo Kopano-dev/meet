@@ -8,6 +8,15 @@ export const basePath = '/meet';
 // routed to us. This URL has a trailing slash.
 export const appBaseURL = window.location.href.split(`${basePath}/`)[0] + `${basePath}/`;
 
+// Make a global AudioContext available.
+let audioContext = null;
+export function getAudioContext() {
+  if (audioContext === null) {
+    audioContext = 'AudioContext' in window ? new AudioContext() : null;
+  }
+  return audioContext;
+}
+
 // Helper function to qualify URLs within the apps basePath.
 export function qualifyAppURL(url) {
   return qualifyURL(`${basePath}${url}`);

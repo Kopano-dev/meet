@@ -13,10 +13,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import memoize from 'memoize-one';
 
-import DisplayNameLabel from './DisplayNameLabel';
-import TalkingIcon from './TalkingIcon';
+import { getAudioContext } from '../base';
 import { globalSettings } from '../actions/media';
 import { setStreamClassification, setStreamTalking } from '../actions/meet';
+
+import DisplayNameLabel from './DisplayNameLabel';
+import TalkingIcon from './TalkingIcon';
 
 const isMobileSafari = (userAgent = window.navigator.userAgent) => {
   return /iP(ad|od|hone)/i.test(userAgent) && /WebKit/i.test(userAgent);
@@ -36,12 +38,6 @@ const getBugs = () => {
   return bugs;
 };
 export const bugs = getBugs();
-
-const AudioContext = window.AudioContext // Standard.
-    || window.webkitAudioContext // Safari and old versions of Chrome
-    || false;
-
-let audioContext = null;
 
 const styles = (theme) => ({
   root: {
@@ -164,9 +160,11 @@ class AudioVideo extends React.PureComponent {
   element = null;
   extra = null;
 
-  source = null;
+  audioContext = null;
   analyser = null;
+  analyserArray = null;
   processor = null;
+  source = null;
 
   constructor(props) {
     super(props);
@@ -263,13 +261,41 @@ class AudioVideo extends React.PureComponent {
     const { id, setStreamTalking } = this.props;
     const { talking } = this.state;
 
-    if (audioContext && this.source) {
-      this.source.disconnect(this.analyser);
-      this.analyser.disconnect(this.processor);
-      this.processor.disconnect(audioContext.destination);
+    if (this.source) {
+      if (this.analyser) {
+        try {
+          this.source.disconnect(this.analyser);
+        } catch(err) {
+          console.error('failed to disconnect source from analyser: ' + err);
+        }
+        try {
+          this.analyser.disconnect(this.processor);
+        } catch(err) {
+          console.error('failed to disconnect analyser from processor: ' + err);
+        }
+        this.analyser = null;
+      } else {
+        try {
+          this.source.disconnect(this.processor);
+        } catch(err) {
+          console.error('failed to disconnect source from processor: ' + err);
+        }
+      }
       this.source = null;
-      this.analyser = null;
-      this.processor = null;
+      if (this.processor) {
+        try {
+          this.processor.disconnect(this.audioContext.destination);
+        } catch(err) {
+          console.error('failed to disconnect processor: ' + err);
+        }
+        if (this.processor.port) {
+          this.processor.port.postMessage({
+            shutdown: true,
+          });
+        }
+        this.processor = null;
+      }
+      this.audioContext = null;
     }
     if (talking) {
       this.setState({
@@ -369,25 +395,56 @@ class AudioVideo extends React.PureComponent {
         setStreamClassification(id, classification);
 
         if (audio) {
-          if (audioContext === null) {
-            audioContext = new AudioContext();
+          if (!this.audioContext) {
+            this.audioContext = getAudioContext();
           }
-          const source = audioContext.createMediaStreamSource(stream);
-
-          const analyser = audioContext.createAnalyser();
-          analyser.minDecibels = -70;
-          analyser.smoothingTimeConstant = 0.8;
-          analyser.fftSize = 256;
-
-          const processor = audioContext.createScriptProcessor(512, 1, 1);
-          processor.onaudioprocess = this.handleAudioProcess;
-
-          this.source = source;
-          this.analyser = analyser;
-          this.processor = processor;
-          source.connect(analyser);
-          analyser.connect(processor);
-          processor.connect(audioContext.destination);
+          if (this.audioContext) {
+            // NOTE(longsleep): Audio worklet support for audio processing in extra thread.
+            // Unfortunately this is not supported in Safari as of now.
+            try {
+              this.audioContext.resume();
+            } catch(err) {};
+            const source = this.audioContext.createMediaStreamSource(stream);
+            if (this.audioContext.audioWorklet) {
+              const node = new AudioWorkletNode(this.audioContext, 'volume-meter-processor');
+              node.port.onmessage = (event) => {
+                // Handling data from the processor.
+                if (event.data.talking !== undefined) {
+                  this.handleTalkingChange(event.data.talking);
+                }
+              };
+              node.port.postMessage({
+                mode: 'talking',
+              });
+              this.source = source;
+              this.processor = node;
+              try {
+                this.source.connect(this.processor);
+                this.processor.connect(this.audioContext.destination);
+              } catch(err) {
+                console.error('failed to connect media stream to processor: ' + err);
+              }
+            } else {
+              // Use deprecated script processor on Safari.
+              const analyser = this.audioContext.createAnalyser();
+              analyser.minDecibels = -46;
+              analyser.smoothingTimeConstant = 0.95;
+              analyser.fftSize = 256;
+              const processor = this.audioContext.createScriptProcessor(512, 1, 1);
+              processor.onaudioprocess = this.handleAudioProcess;
+              this.source = source;
+              this.analyser = analyser;
+              this.analyserArray = new Uint8Array(this.analyser.frequencyBinCount);
+              this.processor = processor;
+              try {
+                this.source.connect(this.analyser);
+                this.analyser.connect(this.processor);
+                this.processor.connect(this.audioContext.destination);
+              } catch(err) {
+                console.error('failed to connect media stream to processor: ' + err);
+              }
+            }
+          }
         }
       }
     }
@@ -426,8 +483,20 @@ class AudioVideo extends React.PureComponent {
     });
   }
 
+  handleTalkingChange = status => {
+    const { id, setStreamTalking } = this.props;
+    const { talking } = this.state;
+
+    if (status !== talking) {
+      this.setState({
+        talking: status,
+      });
+      setStreamTalking(id, status);
+    }
+  }
+
   handleAudioProcess = () => {
-    const { analyser } = this;
+    const { analyser, analyserArray: array } = this;
     const { id, setStreamTalking } = this.props;
     const { talking } = this.state;
 
@@ -435,7 +504,6 @@ class AudioVideo extends React.PureComponent {
       return;
     }
 
-    const array =  new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(array);
 
     let values = 0;

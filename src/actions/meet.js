@@ -6,6 +6,7 @@ import { setError, enqueueSnackbar } from 'kpop/es/common/actions';
 import { getUserManager } from 'kpop/es/oidc/usermanager';
 
 import { resolveContactID } from '../utils';
+import { getAudioContext } from '../base';
 import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
@@ -778,13 +779,12 @@ export function unmuteAudioIfAutoplayAllowed() {
       // for details. If we cannot auto play audio when the app loads, we set a
       // global muted state, essentially disabling audio playback until the user
       // enables it manually.
-      const ctx = 'AudioContext' in window ? new AudioContext() : null;
-      if (ctx) {
-        if (ctx.state && ctx.state === 'running') {
+      const audioContext = getAudioContext();
+      if (audioContext) {
+        if (audioContext.state && audioContext.state === 'running') {
           // Auto play possible.
           dispatch(doMuteOrUnmute({muteAudio: false}));
         }
-        ctx.close();
       }
     }
   };

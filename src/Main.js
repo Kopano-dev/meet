@@ -29,6 +29,7 @@ import SettingsDialog from './components/SettingsDialog';
 import { tryGuestLogon } from './actions/kwm';
 import { unmuteAudioIfAutoplayAllowed } from './actions/meet';
 import { getCurrentAppPath } from './base';
+import registerWorklets from './worklets';
 
 // Version to indicate app compatibility. Increment whenever an old running
 // app should be forced to update on next load. Use a numeric date in the form
@@ -52,6 +53,7 @@ class Main extends PureComponent {
 
     if (!initialized && offline !== prevProps.offline && !offline) {
       this.initialize().then(async () => {
+        await registerWorklets();
         await dispatch(unmuteAudioIfAutoplayAllowed());
         console.info('app initialized'); // eslint-disable-line no-console
         this.setState({

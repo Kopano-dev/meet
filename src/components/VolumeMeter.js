@@ -4,15 +4,11 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { getAudioContext } from '../base';
+
 const styles = () => ({
   root: {},
 });
-
-var AudioContext = window.AudioContext // Standard.
-    || window.webkitAudioContext // Safari and old versions of Chrome
-    || false;
-
-let audioContext = null;
 
 class VolumeMeter extends React.PureComponent {
   clipping = false;
@@ -62,13 +58,15 @@ class VolumeMeter extends React.PureComponent {
   }
 
   createVolumeMeter = () => {
-    if (audioContext === null) {
-      audioContext = new AudioContext();
+    const audioContext = getAudioContext();
+    if (audioContext) {
+      try {
+        audioContext.resume();
+      } catch(err) {};
+      this.processor = audioContext.createScriptProcessor(512);
+      this.processor.onaudioprocess = this.handleAudioProcess;
+      this.processor.connect(audioContext.destination);
     }
-
-    this.processor = audioContext.createScriptProcessor(512);
-    this.processor.onaudioprocess = this.handleAudioProcess;
-    this.processor.connect(audioContext.destination);
   }
 
   connect = (stream=null) => {
@@ -86,11 +84,14 @@ class VolumeMeter extends React.PureComponent {
         this.createVolumeMeter();
       }
 
-      try {
-        this.mediaStreamSource = audioContext.createMediaStreamSource(stream);
-        this.mediaStreamSource.connect(this.processor);
-      } catch(err) {
-        console.error('failed to attach stream to volume meter: ' + err);
+      const audioContext = getAudioContext();
+      if (audioContext) {
+        try {
+          this.mediaStreamSource = audioContext.createMediaStreamSource(stream);
+          this.mediaStreamSource.connect(this.processor);
+        } catch(err) {
+          console.error('failed to attach stream to volume meter: ' + err);
+        }
       }
 
       this.draw();

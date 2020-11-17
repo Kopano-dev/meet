@@ -39,6 +39,7 @@ import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 import { writeTextToClipboard } from 'kpop/es/clipboard';
 
+import { getAudioContext } from '../../base';
 import { isGroupChannel } from '../../utils';
 import { fetchAndAddContacts, initializeContactsWithRecents } from '../../actions/contacts';
 import { fetchRecents } from '../../actions/recents';
@@ -628,6 +629,13 @@ class CallView extends React.PureComponent {
 
   handleUnmuteClick = () => {
     const { doMuteOrUnmute } = this.props;
+
+    const audioContext = getAudioContext();
+    if (audioContext) {
+      try {
+        audioContext.resume();
+      } catch(err) {};
+    }
 
     doMuteOrUnmute({muteAudio: false});
   }
