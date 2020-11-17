@@ -784,6 +784,18 @@ export function unmuteAudioIfAutoplayAllowed() {
         if (audioContext.state && audioContext.state === 'running') {
           // Auto play possible.
           dispatch(doMuteOrUnmute({muteAudio: false}));
+        } else {
+          // Register global click handler to resume audio context on every user interaction.
+          const handler = () => {
+            const ac = getAudioContext();
+            if (ac) {
+              try {
+                ac.resume();
+              } catch(err) {};
+            }
+            document.removeEventListener('click', handler);
+          };
+          document.addEventListener('click', handler);
         }
       }
     }
