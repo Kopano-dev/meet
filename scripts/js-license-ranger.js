@@ -29,7 +29,7 @@ const fs = require('fs'),
   path = require('path'),
   sourcemapExplorer = require('source-map-explorer');
 
-const version = '20201116-1'; // eslint-disable-line
+const version = '20201117-1'; // eslint-disable-line
 
 const licenseFilenames = [
   'LICENSE',
@@ -157,7 +157,7 @@ function printLicensesDocument(modules) {
     const key = keys[i];
     const entry = modules[key];
     if (!entry) {
-      console.error('> skipped: ' + key);
+      console.error('> skipped' + key);
       continue;
     }
 
@@ -196,12 +196,16 @@ if (require.main === module) { // eslint-disable-line no-undef
   console.error('Bundles:', files);
 
   files.forEach((f) => {
-    console.error('> processing', f);
-    const data = sourcemapExplorer.loadSourceMap(f, `${f}.map`);
-    const sizes = sourcemapExplorer.computeGeneratedFileSizes(data.mapConsumer, data.jsData);
+    if (fs.existsSync(`${f}.map`)) {
+      console.error('> processing', f);
+      const data = sourcemapExplorer.loadSourceMap(f, `${f}.map`);
+      const sizes = sourcemapExplorer.computeGeneratedFileSizes(data.mapConsumer, data.jsData);
 
-    const files = sourcemapExplorer.adjustSourcePaths(sizes.files, false);
-    updateThirdPartyModules(modules, files);
+      const files = sourcemapExplorer.adjustSourcePaths(sizes.files, false);
+      updateThirdPartyModules(modules, files);
+    } else {
+      console.warn('> skipped', f, '(no map file)');
+    }
   });
 
   console.error(`Found: ${Object.keys(modules).length} modules`);
