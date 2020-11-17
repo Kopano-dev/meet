@@ -153,21 +153,31 @@ function streamsReducer(state = defaultState, action) {
     }
 
     case MEET_STREAM_CLASSIFIED: {
-      const entry = Object.assign({}, state[action.id], {
-        audio: action.classification.audio,
-        video: action.classification.video,
-      });
+      const entry = state[action.id];
+      if (!entry) {
+        // We no nothing about this user, do nothing.
+        return state;
+      }
       return Object.assign({}, state, {
-        [action.id]: entry,
+        [action.id]: {
+          ...entry,
+          audio: action.classification.audio,
+          video: action.classification.video,
+        },
       });
     }
 
     case MEET_STREAM_TALKING: {
-      const entry = Object.assign({}, state[action.id], {
-        talking: action.talking,
-      });
+      const entry = state[action.id];
+      if (!entry) {
+        // We no nothing about this user, do nothing.
+        return state;
+      }
       return Object.assign({}, state, {
-        [action.id]: entry,
+        [action.id]: {
+          ...entry,
+          talking: action.talking,
+        },
       });
     }
 
