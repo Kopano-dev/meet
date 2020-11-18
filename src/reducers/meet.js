@@ -9,6 +9,7 @@ import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
+  MEET_LOCAL_STREAM_TALKING,
   MEET_SET_GUEST,
   MEET_SET_AUTO,
   MEET_SET_COVER,
@@ -37,6 +38,7 @@ const defaultState = (() => {
     muted: true,
 
     localStream: null,
+    localStreamTalking: false,
 
     guest: {
       guest: null,
@@ -140,6 +142,12 @@ function meetReducer(state = defaultState, action) {
         };
       }
       break;
+
+    case MEET_LOCAL_STREAM_TALKING:
+      return {
+        ...state,
+        localStreamTalking: action.talking,
+      };
 
     case MEET_SET_GUEST:
       return {

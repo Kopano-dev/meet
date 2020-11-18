@@ -7,10 +7,12 @@ import { getUserManager } from 'kpop/es/oidc/usermanager';
 
 import { resolveContactID } from '../utils';
 import { getAudioContext } from '../base';
+import { TalkingMeter } from '../talking';
 import {
   MEET_MUTE_OR_UNMUTE,
   MEET_SET_MODE,
   MEET_LOCAL_STREAM,
+  MEET_LOCAL_STREAM_TALKING,
   MEET_SET_GUEST,
   MEET_SET_AUTO,
   MEET_SET_COVER,
@@ -607,13 +609,22 @@ const userMedia = new class UserMedia {
 export const requestUserMedia = userMedia.requestUserMedia;
 export const stopUserMedia = userMedia.stopUserMedia;
 
+let talkingMeter = null;
 function setLocalStreamWithStream(stream) {
   return (dispatch) => {
+    if (talkingMeter === null) {
+      talkingMeter = new TalkingMeter({
+        onChange: status => {
+          dispatch(setLocalStreamTalking(status));
+        },
+      });
+    }
     if (stream) {
       dispatch(kwmSetLocalStream(stream));
     } else {
       dispatch(kwmUnsetLocalStream());
     }
+    talkingMeter.start(stream);
     return dispatch({
       type: MEET_LOCAL_STREAM,
       stream,
@@ -659,6 +670,9 @@ export function muteStream({mute, video, audio}) {
     const stream = umAudioVideoStreams[LOCAL_STREAM_ID];
     if (!stream) {
       // Do nothing without a stream.
+      if (talkingMeter) {
+        talkingMeter.stop();
+      }
       return Promise.resolve();
     }
 
@@ -742,7 +756,11 @@ export function muteStream({mute, video, audio}) {
         }));
       }));
     });
-    return Promise.all(promises);
+    return Promise.all(promises).then(() => {
+      if (talkingMeter) {
+        talkingMeter.restart(stream);
+      }
+    });
   };
 }
 
@@ -811,5 +829,10 @@ export const setStreamClassification = (id, classification) => ({
 export const setStreamTalking = (id, talking) => ({
   type: MEET_STREAM_TALKING,
   id,
+  talking,
+});
+
+export const setLocalStreamTalking = (talking) => ({
+  type: MEET_LOCAL_STREAM_TALKING,
   talking,
 });

@@ -9,6 +9,7 @@ export class TalkingMeter {
 
   onChange = null;
 
+  stream = null;
   talking = false;
 
   constructor({ onChange }) {
@@ -17,10 +18,28 @@ export class TalkingMeter {
     }
   }
 
-  start(stream) {
-    this.stop();
+  start(stream, classification={}) {
+    let { audio } = classification;
 
     if (stream) {
+      if (audio === undefined) {
+        // Figure out if stream actually has audio.
+        audio = this.classify(stream).audio;
+      }
+
+      if (stream === this.stream) {
+        // Same stream.
+        if (!audio && this.source) {
+          // Same stream but without audio, stop.
+          this.stop();
+        }
+      }
+      this.stream = stream;
+      if (!audio) {
+        // No audio track, do nothing.
+        return;
+      }
+
       if (!this.audioContext) {
         this.audioContext = getAudioContext();
       }
@@ -71,6 +90,14 @@ export class TalkingMeter {
           }
         }
       }
+    } else {
+      this.stop();
+    }
+  }
+
+  restart(stream) {
+    if (stream && stream === this.stream) {
+      this.start(stream);
     }
   }
 
@@ -87,7 +114,6 @@ export class TalkingMeter {
 
   handleAudioProcess = () => {
     const { analyser, analyserArray: array } = this;
-    const { talking, onChange } = this;
 
     if (analyser === null) {
       return;
@@ -102,15 +128,12 @@ export class TalkingMeter {
     }
 
     const status = Math.floor(values / length) > 0;
-    if (status !== talking) {
-      this.talking = status;
-      if (onChange) {
-        this.onChange(status);
-      }
-    }
+    this.handleChange(status);
   }
 
   stop() {
+    this.stream = null;
+
     if (this.source) {
       if (this.analyser) {
         try {
@@ -147,5 +170,46 @@ export class TalkingMeter {
       }
       this.audioContext = null;
     }
+
+    this.handleChange(false);
   }
+
+  classify(stream) {
+    return classifyStream(stream);
+  }
+}
+
+export function classifyStream(stream) {
+  let audio = false;
+  let video = false;
+  let videoFacingMode = null;
+  if (stream) {
+    const tracks = stream.getTracks();
+    for (let i=0; i<tracks.length; i++) {
+      const track = tracks[i];
+      const enabled = track.enabled;
+      switch (track.kind) {
+        case 'audio':
+          if (!audio && enabled) {
+            audio = true;
+          }
+          break;
+        case 'video':
+          if (!video && enabled) {
+            video = true;
+            if ('getSettings' in track) {
+              const settings = track.getSettings();
+              videoFacingMode = settings.facingMode;
+            }
+          }
+          break;
+        default:
+      }
+    }
+  }
+  return {
+    audio,
+    video,
+    videoFacingMode,
+  };
 }

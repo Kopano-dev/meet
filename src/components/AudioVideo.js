@@ -324,43 +324,14 @@ class AudioVideo extends React.PureComponent {
 
     this.clearProcessor();
     if (stream) {
-      let audio = false;
-      let video = false;
-      let videoFacingMode = null;
-      const tracks = stream.getTracks();
-      for (let i=0; i<tracks.length; i++) {
-        const track = tracks[i];
-        const enabled = track.enabled;
-        switch (track.kind) {
-          case 'audio':
-            if (!audio && enabled) {
-              audio = true;
-            }
-            break;
-          case 'video':
-            if (!video && enabled) {
-              video = true;
-              if ('getSettings' in track) {
-                const settings = track.getSettings();
-                videoFacingMode = settings.facingMode;
-              }
-            }
-            break;
-          default:
-        }
-      }
-      const classification = {
-        audio,
-        video,
-        videoFacingMode,
-      };
+      const classification = this.talkingMeter.classify(stream);
       console.debug('classified stream', this.element, id, classify, classification); // eslint-disable-line no-console
       this.setState(classification);
       if (classify && id) {
         setStreamClassification(id, classification);
 
-        if (audio) {
-          this.talkingMeter.start(stream);
+        if (classification.audio) {
+          this.talkingMeter.start(stream, classification);
         } else {
           this.talkingMeter.stop();
         }

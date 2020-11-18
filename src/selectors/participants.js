@@ -11,6 +11,7 @@ const getContactsTable = (state) => state.contacts.table;
 const getProfile = (state) => state.common.profile;
 const getMuteMic = (state) => state.meet.muteMic;
 const getMuteCam = (state) => state.meet.muteCam;
+const getLocalStreamTalking = (state) => state.meet.localStreamTalking;
 
 const sortable = (a) => {
   const displayName = a.displayName ? a.displayName.replace(guestDisplayNamePrefixMatcher, '') : '';
@@ -25,8 +26,8 @@ const sorter = (a, b) => {
 };
 
 export const getCurrentParticipants = createSelector(
-  [ getStreams, getContactsTable, getProfile, getMuteMic, getMuteCam ],
-  (streams, table, profile, muteMic, muteCam) => {
+  [ getStreams, getContactsTable, getProfile, getMuteMic, getMuteCam, getLocalStreamTalking ],
+  (streams, table, profile, muteMic, muteCam, localStreamTalking) => {
     const participants = Object.entries(streams).map(([id, stream]) => {
 
       const props = {
@@ -58,7 +59,7 @@ export const getCurrentParticipants = createSelector(
       id: profile.guid,
       audio: !muteMic,
       video: !muteCam,
-      talking: false, // TODO(longsleep): Get media talking state.
+      talking: localStreamTalking,
     });
     participants.sort(sorter);
 
