@@ -813,6 +813,7 @@ class CallView extends React.PureComponent {
       ringing,
       calling,
       localStream,
+      localStreamTalking,
       remoteAudioVideoStreams,
       remoteScreenshareStreams,
       connected,
@@ -1226,6 +1227,7 @@ class CallView extends React.PureComponent {
               muted={muted}
               cover={cover}
               localStream={localStream}
+              localStreamTalking={localStreamTalking}
               remoteStreams={remoteAudioVideoStreams}
               variant={screenShareViewer ? 'overlay': 'full'}
               audioSinkId={audioSinkId}
@@ -1302,7 +1304,7 @@ CallView.propTypes = {
 
 const mapStateToProps = state => {
   const { hidden, profile, config } = state.common;
-  const { guest, auto, muteMic, mode, muted, cover, localStream } = state.meet;
+  const { guest, auto, muteMic, mode, muted, cover, localStream, localStreamTalking } = state.meet;
   const { connected, channel, ts, ringing, calling } = state.kwm;
   const {
     gDMSupported,
@@ -1332,6 +1334,7 @@ const mapStateToProps = state => {
     cover,
 
     localStream,
+    localStreamTalking,
     remoteAudioVideoStreams,
     remoteScreenshareStreams,
 

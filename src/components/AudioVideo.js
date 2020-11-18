@@ -128,6 +128,7 @@ const styles = (theme) => ({
     overflow: 'hidden',
     left: theme.spacing(2),
     top: theme.spacing(2),
+    right: theme.spacing(2),
     zIndex: 1,
     userSelect: 'none',
     '& > *': {
@@ -144,6 +145,13 @@ const styles = (theme) => ({
   },
   overlayTextIconVisible: {
     opacity: 1,
+  },
+  overlayDisplayName: {
+    display: 'inline-block',
+    verticalAlign: 'text-bottom',
+    maxWidth: '90%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   callIcon: {
     flex: 1,
@@ -469,7 +477,7 @@ class AudioVideo extends React.PureComponent {
     if (user) {
       overlay = <div className={classes.overlayText}>
         <Typography variant="h5" gutterBottom>
-          <DisplayNameLabel user={user} id={id}/> <TalkingIcon className={classNames(
+          <span className={classes.overlayDisplayName}><DisplayNameLabel user={user} id={id}/></span> <TalkingIcon className={classNames(
             classes.overlayTextIcon, {
               [classes.overlayTextIconVisible]: !hasAudio || talking,
             }

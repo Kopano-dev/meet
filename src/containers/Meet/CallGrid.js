@@ -126,6 +126,9 @@ const styles = theme => ({
     minWidth: 100,
     boxShadow: theme.shadows[6],
   },
+  floatingLocalTalking: {
+    boxShadow: '0px 3px 5px -1px rgba(0,255,0,0.2),0px 6px 10px 0px rgba(44,238,144,0.14),0px 1px 18px 0px rgba(0,255,0,0.12)',
+  },
   floatingOverlay: {
     maxWidth: 112,
     maxHeight: 112,
@@ -238,6 +241,7 @@ class CallGrid extends React.PureComponent {
       cover,
       labels,
       localStream,
+      localStreamTalking,
       remoteStreamsKey,
       remoteStreams,
       audioSinkId,
@@ -364,6 +368,7 @@ class CallGrid extends React.PureComponent {
           <DragableFloatingAudioVideo
             className={classNames(classes.floatingLocal, {
               [classes.floatingOverlay]: overlay,
+              [classes.floatingLocalTalking]: localStreamTalking,
             })}
             stream={localStream}
             mirrored
@@ -402,6 +407,7 @@ CallGrid.propTypes = {
   labels: PropTypes.bool,
 
   localStream: PropTypes.object,
+  localStreamTalking: PropTypes.bool,
   remoteStreamsKey: PropTypes.string.isRequired,
   remoteStreams: PropTypes.array.isRequired,
 
