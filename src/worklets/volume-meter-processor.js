@@ -16,8 +16,9 @@ class VolumeMeterProcessor extends AudioWorkletProcessor {
 
     this.volume = 0;
     this.talking = false;
-    this.updateInterval = 200;
+    this.updateInterval = 100;
     this.nextUpdateFrame = this.updateInterval;
+    this.updateIntervalInFrames = this.updateInterval / 1000 * sampleRate; // NOTE(longsleep): sampleRate comes from AudioWorkletGlobalScope.
     this.running = true;
     this.mode = modeVm;
 
@@ -25,39 +26,36 @@ class VolumeMeterProcessor extends AudioWorkletProcessor {
       // Handling data from the node.
       if (event.data.shutdown) {
         this.running = false;
-      } else if (event.data.updateInterval) {
-        this.updateInterval = event.data.updateInterval;
       } else if (event.data.mode) {
         this.mode = event.data.mode;
       }
     };
   }
 
-  get intervalInFrames() {
-    return this.updateInterval / 1000 * sampleRate; // NOTE(longsleep): sampleRate comes from AudioWorkletGlobalScope.
-  }
-
   process(inputs, outputs, parameters) {
     const input = inputs[0];
     if (input.length > 0) {
       const inputChannel = input[0];
-      let sum = 0;
-      let rms = 0;
+      const inputChannelLength = inputChannel.length;
 
       // Calculate the square sum.
-      for (let i=0; i < inputChannel.length; i++) {
-        sum += inputChannel[i] * inputChannel[i];
+      let sum = 0;
+      let i=0;
+      let v;
+      for (; i < inputChannelLength; i++) {
+        v = inputChannel[i];
+        sum += v * v;
       }
       // Calculate the root mean square (RMS).
-      rms = Math.sqrt(sum / inputChannel.length);
+      const rms = Math.sqrt(sum / inputChannelLength);
+
       // Smooth things out.
       this.volume = Math.max(rms, this.volume * avaragingFactor);
 
       // Trigger volume change to main thread.
-      this.nextUpdateFrame -= inputChannel.length;
+      this.nextUpdateFrame -= inputChannelLength;
       if (this.nextUpdateFrame < 0) {
-        this.nextUpdateFrame += this.intervalInFrames;
-
+        this.nextUpdateFrame += this.updateIntervalInFrames;
         switch (this.mode) {
           case modeVm:
             this.port.postMessage({
