@@ -59,7 +59,7 @@ export const getCurrentParticipants = createSelector(
       id: profile.guid,
       audio: !muteMic,
       video: !muteCam,
-      talking: localStreamTalking,
+      talking: localStreamTalking && !muteMic,
     });
     participants.sort(sorter);
 

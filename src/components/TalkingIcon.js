@@ -41,7 +41,7 @@ const TalkingIcon = React.forwardRef(function TalkingIcon({
 
   return <C ref={ref} className={classNames(classes.root, {
     [classes.audio]: audio,
-    [classes.pulse]: talking,
+    [classes.pulse]: talking && audio,
   }, classNameProp)} {...others}/>;
 });
 
