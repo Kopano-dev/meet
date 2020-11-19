@@ -70,6 +70,7 @@ const styles = theme => ({
     opacity: 0,
     transition: 'opacity 0.2s',
     verticalAlign: 'text-bottom',
+    fontSize: '1.25em',
   },
   entryIconVisible: {
     opacity: 1,
