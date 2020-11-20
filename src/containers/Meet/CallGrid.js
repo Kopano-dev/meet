@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
+import CamOffIcon from '@material-ui/icons/VideocamOff';
+import PeopleOutlinedIcon from '@material-ui/icons/PeopleOutlined';
 
 import renderIf from 'render-if';
 
@@ -90,6 +92,13 @@ const styles = theme => ({
     justifyContent: 'center',
     textAlign: 'center',
     color: 'white',
+  },
+  novideos: {
+    flex: '1',
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
+    color: theme.palette.primary.contrastText,
   },
   container: {
     position: 'relative',
@@ -259,7 +268,6 @@ class CallGrid extends React.PureComponent {
       classNameProp,
     );
 
-    const renderMode = mode;
     const overlay = variant === 'overlay';
     const classify = remoteStreamsKey === defaultRemoteStreamsKey;
     const detectTalking = classify && remoteTalkingDetection;
@@ -271,12 +279,14 @@ class CallGrid extends React.PureComponent {
     } = this.splitStreams(
       remoteStreams,
       remoteStreamsKey,
-      renderMode,
+      mode,
       videoOnly,
       remoteStreamMarker,
       localStream,
       localStreamIsRemoteFallback,
     );
+
+    const renderMode = (videoStreams.length === 0) ? 'novideos' : mode;
 
     return (
       <div className={className} {...other}>
@@ -363,9 +373,26 @@ class CallGrid extends React.PureComponent {
         {renderIf(renderMode === 'standby')(() => (
           <Grid className={classes.standby} container alignItems="center" direction="row" justify="center">
             <Grid item>
-              <Typography color="inherit" variant="h5">
+              <Typography color="inherit" variant="body1">
                 <FormattedMessage id="callGrid.suspended.headline" defaultMessage="Suspended"></FormattedMessage>
               </Typography>
+            </Grid>
+          </Grid>
+        ))}
+        {renderIf(renderMode === 'novideos')(() => (
+          <Grid className={classes.novideos} container alignItems="center" direction="row" justify="center">
+            <Grid item>
+              <div>{audioStreams.length === 0 ? <PeopleOutlinedIcon fontSize="large"/> : <CamOffIcon fontSize="large"/>} <Typography color="inherit" variant="body1">
+                {audioStreams.length === 0 ?
+                  <FormattedMessage id="callGrid.noPeers.headline" defaultMessage="Please wait for others to join ..."></FormattedMessage> :
+                  <FormattedMessage
+                    id="callGrid.noVideoPeers.headline"
+                    defaultMessage="{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
+                    values={{count: audioStreams.length}}
+                  >
+                  </FormattedMessage>
+                }
+              </Typography></div>
             </Grid>
           </Grid>
         ))}
