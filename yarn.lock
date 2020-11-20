@@ -7936,9 +7936,9 @@ kleur@^3.0.3:
     hsv-rgb "^1.0.0"
     iso-639-1 "^2.0.5"
 
-"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-1.2.1.tgz":
+"kwmjs@https://download.kopano.io/community/kapp:/kwmjs-1.2.2.tgz":
   version "1.0.0"
-  resolved "https://download.kopano.io/community/kapp:/kwmjs-1.2.1.tgz#9691aaa73a7af2526fa988bca4a69787dffbf56e"
+  resolved "https://download.kopano.io/community/kapp:/kwmjs-1.2.2.tgz#5f77770290687cb91f129ff71f0a220bf6a02927"
 
 language-subtag-registry@~0.3.2:
   version "0.3.21"
