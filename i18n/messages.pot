@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-06-10T14:27:03.392Z\n"
+"POT-Creation-Date: 2020-11-20T15:24:47.295Z\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
@@ -559,6 +559,14 @@ msgid "Participants"
 msgstr ""
 
 #: ./i18n/src/messages.json
+#. [callGrid.noPeers.headline]
+#. defaultMessage is:
+#. Please wait for others to join ...
+msgctxt "callGrid.noPeers.headline"
+msgid "Please wait for others to join ..."
+msgstr ""
+
+#: ./i18n/src/messages.json
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -916,6 +924,14 @@ msgstr ""
 #. unmute
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
+msgstr ""
+
+#: ./i18n/src/messages.json
+#. [callGrid.noVideoPeers.headline]
+#. defaultMessage is:
+#. {count, plural, one {{count} other (no video)} other {{count} others (no video)}}
+msgctxt "callGrid.noVideoPeers.headline"
+msgid "{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
 msgstr ""
 
 #: ./i18n/src/messages.json

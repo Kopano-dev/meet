@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-06-10T14:27:03.392Z\n"
-"PO-Revision-Date: 2020-06-10 16:27+0200\n"
+"POT-Creation-Date: 2020-11-20T15:24:47.295Z\n"
+"PO-Revision-Date: 2020-11-20 16:32+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -584,6 +584,14 @@ msgctxt "channelControl.tabParticipants.label"
 msgid "Participants"
 msgstr "Teilnehmer"
 
+#. [callGrid.noPeers.headline]
+#. defaultMessage is:
+#. Please wait for others to join ...
+#: i18n/src/messages.json
+msgctxt "callGrid.noPeers.headline"
+msgid "Please wait for others to join ..."
+msgstr "Warten auf andere Teilnehmer ..."
+
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -943,6 +951,14 @@ msgstr "lautschalten"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "lautschalten"
+
+#. [callGrid.noVideoPeers.headline]
+#. defaultMessage is:
+#. {count, plural, one {{count} other (no video)} other {{count} others (no video)}}
+#: i18n/src/messages.json
+msgctxt "callGrid.noVideoPeers.headline"
+msgid "{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
+msgstr "{count, plural, one {{count}  anderer Teilnehmer (ohne Video)} other {{count} andere Teilnehmer (ohne Video)}}"
 
 #. [participants.subheaderLabel]
 #. defaultMessage is:

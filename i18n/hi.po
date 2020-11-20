@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-06-10T14:27:03.392Z\n"
+"POT-Creation-Date: 2020-11-20T15:24:47.295Z\n"
 "PO-Revision-Date: 2019-09-04 12:17+0000\n"
 "Last-Translator: Mayank <m.dabhi@kopano.com>\n"
 "Language-Team: Hindi <http://translate.kopano.io/projects/kopano/meet/hi/>\n"
@@ -591,6 +591,14 @@ msgctxt "channelControl.tabParticipants.label"
 msgid "Participants"
 msgstr ""
 
+#. [callGrid.noPeers.headline]
+#. defaultMessage is:
+#. Please wait for others to join ...
+#: i18n/src/messages.json
+msgctxt "callGrid.noPeers.headline"
+msgid "Please wait for others to join ..."
+msgstr ""
+
 #. [recents.subheaderLabel]
 #. defaultMessage is:
 #. Recent
@@ -953,6 +961,14 @@ msgstr "अनम्यूट"
 msgctxt "callView.microphoneIsMutedSnack.button.text"
 msgid "unmute"
 msgstr "अनम्यूट"
+
+#. [callGrid.noVideoPeers.headline]
+#. defaultMessage is:
+#. {count, plural, one {{count} other (no video)} other {{count} others (no video)}}
+#: i18n/src/messages.json
+msgctxt "callGrid.noVideoPeers.headline"
+msgid "{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
+msgstr ""
 
 #. [participants.subheaderLabel]
 #. defaultMessage is:
