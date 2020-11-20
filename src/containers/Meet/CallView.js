@@ -1229,6 +1229,7 @@ class CallView extends React.PureComponent {
               localStream={localStream}
               localStreamTalking={localStreamTalking}
               remoteStreams={remoteAudioVideoStreams}
+              remoteTalkingDetection={!config.disableRemoteTalkingDetection}
               variant={screenShareViewer ? 'overlay': 'full'}
               audioSinkId={audioSinkId}
               AudioVideoProps={{

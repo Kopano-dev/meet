@@ -13,5 +13,6 @@
       "defaultPublicGroupPrefix": "public/",
       "publicGroupRegexp": "^(group|conference)/public/.*"
   },
-  "disableFullGAB": false
+  "disableFullGAB": false,
+  "disableRemoteTalkingDetection": false
 }

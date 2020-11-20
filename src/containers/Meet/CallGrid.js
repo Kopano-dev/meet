@@ -244,6 +244,7 @@ class CallGrid extends React.PureComponent {
       localStreamTalking,
       remoteStreamsKey,
       remoteStreams,
+      remoteTalkingDetection,
       audioSinkId,
       AudioVideoProps,
       intl, // eslint-disable-line no-unused-vars
@@ -261,6 +262,7 @@ class CallGrid extends React.PureComponent {
     const renderMode = mode;
     const overlay = variant === 'overlay';
     const classify = remoteStreamsKey === defaultRemoteStreamsKey;
+    const detectTalking = classify && remoteTalkingDetection;
 
     const {
       videoStreams,
@@ -289,6 +291,7 @@ class CallGrid extends React.PureComponent {
               user={stream.user}
               calling={stream.calling}
               classify={classify}
+              detectTalking={detectTalking}
               audio
             ></AudioVideo>
           )}
@@ -323,6 +326,7 @@ class CallGrid extends React.PureComponent {
                 user={labels ? stream.user : undefined}
                 calling={stream.calling}
                 classify={classify}
+                detectTalking={detectTalking}
                 audioSinkId={audioSinkId}
                 {...AudioVideoProps}
                 className={classNames(classes.video, AudioVideoProps.className)}
@@ -347,6 +351,7 @@ class CallGrid extends React.PureComponent {
                 user={stream.user}
                 calling={stream.calling}
                 classify={classify}
+                detectTalking={detectTalking}
                 audioSinkId={audioSinkId}
                 {...AudioVideoProps}
                 className={classNames(classes.video, AudioVideoProps.className)}
@@ -410,6 +415,7 @@ CallGrid.propTypes = {
   localStreamTalking: PropTypes.bool,
   remoteStreamsKey: PropTypes.string.isRequired,
   remoteStreams: PropTypes.array.isRequired,
+  remoteTalkingDetection: PropTypes.bool,
 
   audioSinkId: PropTypes.string,
 

@@ -328,7 +328,7 @@ class AudioVideo extends React.PureComponent {
   }
 
   classifyStream(stream) {
-    const { id, classify, setStreamClassification } = this.props;
+    const { id, classify, setStreamClassification, detectTalking } = this.props;
 
     this.clearProcessor();
     if (stream) {
@@ -337,12 +337,12 @@ class AudioVideo extends React.PureComponent {
       this.setState(classification);
       if (classify && id) {
         setStreamClassification(id, classification);
+      }
 
-        if (classification.audio) {
-          this.talkingMeter.start(stream, classification);
-        } else {
-          this.talkingMeter.stop();
-        }
+      if (detectTalking && classification.audio) {
+        this.talkingMeter.start(stream, classification);
+      } else {
+        this.talkingMeter.stop();
       }
     }
   }
@@ -442,6 +442,7 @@ class AudioVideo extends React.PureComponent {
     delete other.classify;
     delete other.setStreamClassification;
     delete other.setStreamTalking;
+    delete other.detectTalking;
 
     let mirrorVideo = mirrored;
     if (mirrorVideo && videoFacingMode && videoFacingMode !== 'user') {
@@ -555,6 +556,7 @@ AudioVideo.defaultProps = {
   cover: true,
   stream: null,
   classify: false,
+  detectTalking: false,
 
   muted: false,
   calling: false,
@@ -573,6 +575,7 @@ AudioVideo.propTypes = {
   cover: PropTypes.bool,
   stream: PropTypes.object,
   classify: PropTypes.bool,
+  detectTalking: PropTypes.bool,
 
   audioSinkId: PropTypes.string,
 
