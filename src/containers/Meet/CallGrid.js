@@ -134,9 +134,10 @@ const styles = theme => ({
     minHeight: 100,
     minWidth: 100,
     boxShadow: theme.shadows[6],
+    border: '1px solid transparent',
   },
   floatingLocalTalking: {
-    boxShadow: '0px 3px 5px -1px rgba(0,255,0,0.2),0px 6px 10px 0px rgba(44,238,144,0.14),0px 1px 18px 0px rgba(0,255,0,0.12)',
+    border: '1px solid rgba(44,238,144,0.4)',
   },
   floatingOverlay: {
     maxWidth: 112,

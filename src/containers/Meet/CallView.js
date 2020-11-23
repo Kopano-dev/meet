@@ -322,7 +322,7 @@ const styles = theme => ({
         fontSize: 10,
         marginBottom: 0,
         '& > svg': {
-          display: 'none',
+          fontSize: '1.6em',
         },
       },
     },
