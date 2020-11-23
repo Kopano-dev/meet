@@ -848,6 +848,7 @@ class CallView extends React.PureComponent {
         cover={false}
         labels={false}
         variant="full"
+        channel={channel}
       />;
     }
 
@@ -1235,6 +1236,7 @@ class CallView extends React.PureComponent {
               AudioVideoProps={{
                 className: callAudioVideoClassName,
               }}
+              channel={channel}
             />
             <Hidden mdUp>{menu}</Hidden>
           </div>

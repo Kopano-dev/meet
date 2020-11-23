@@ -258,6 +258,7 @@ class CallGrid extends React.PureComponent {
       audioSinkId,
       AudioVideoProps,
       intl, // eslint-disable-line no-unused-vars
+      channel,
       ...other
     } = this.props;
     const {
@@ -287,7 +288,7 @@ class CallGrid extends React.PureComponent {
       localStreamIsRemoteFallback,
     );
 
-    const renderMode = (videoStreams.length === 0) ? 'novideos' : mode;
+    const renderMode = (channel && videoStreams.length === 0) ? 'novideos' : mode;
 
     return (
       <div className={className} {...other}>
@@ -448,6 +449,8 @@ CallGrid.propTypes = {
   audioSinkId: PropTypes.string,
 
   AudioVideoProps: PropTypes.object,
+
+  channel: PropTypes.string,
 };
 
 export default withStyles(styles)(injectIntl(CallGrid));
