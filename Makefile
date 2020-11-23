@@ -36,7 +36,6 @@ lint: vendor ; $(info running eslint ...)	@
 
 .PHONY: lint-checkstyle
 lint-checkstyle: vendor ; $(info running eslint checkstyle ...)	@
-	@mkdir -p ../test
 	@$(YARN) eslint -f checkstyle -o ./test/tests.eslint.xml . || true
 
 # Tests
