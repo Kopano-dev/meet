@@ -32,7 +32,7 @@ const styles = theme => {
       height: '25vh',
       flex: 1,
       position: 'relative',
-
+      overflow: 'hidden',
     },
     av: {
       backgroundImage: `linear-gradient(${theme.videoBackground.top}, ${theme.videoBackground.bottom} 100%)`,
