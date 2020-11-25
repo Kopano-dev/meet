@@ -181,7 +181,7 @@ class Main extends PureComponent {
 
   render() {
     const { initialized } = this.state;
-    const { config, user, error, history, ...other } = this.props;
+    const { config, user, error, history, auto, ...other } = this.props;
     const ready = config && initialized ? true : false;
 
     const soundSrc = [ soundSprite1Ogg, soundSprite1Mp3 ];
@@ -206,7 +206,7 @@ class Main extends PureComponent {
           <MainContainer>
             <ConnectedRouter history={history}>
               <ManagedDialogProvider>
-                <Routes authenticated={!!user}/>
+                <Routes authenticated={!!user} auto={auto}/>
                 <SettingsDialog
                   disableBackdropClick
                 ></SettingsDialog>
@@ -227,6 +227,7 @@ Main.propTypes = {
   user: PropTypes.object,
   error: PropTypes.object,
   guest: PropTypes.object.isRequired,
+  auto: PropTypes.object,
 
   history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -235,7 +236,7 @@ Main.propTypes = {
 const mapStateToProps = (state) => {
   const { offline, updateAvailable, config, user, error, notifications } = state.common;
   const { available: a2HsAvailable } = state.pwa.a2hs;
-  const { guest } = state.meet;
+  const { guest, auto } = state.meet;
 
   return {
     offline,
@@ -244,6 +245,7 @@ const mapStateToProps = (state) => {
     config,
     user,
     guest,
+    auto,
     error,
     notifications,
   };
