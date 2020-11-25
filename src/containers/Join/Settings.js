@@ -23,6 +23,7 @@ import AudioVideo from '../../components/AudioVideo';
 import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
 import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
 import ScopeLabel from '../../components/ScopeLabel';
+import DisplayNameLabel from '../../components/DisplayNameLabel';
 
 const styles = theme => {
   return {
@@ -179,7 +180,7 @@ class Settings extends React.PureComponent {
               id="joinscreen.settings.joiningAs"
               defaultMessage="Joining as: {displayName}"
               values={{
-                displayName: <strong>{profile.displayName}</strong>,
+                displayName: <strong><DisplayNameLabel user={profile} id={''}/></strong>,
               }}
             ></FormattedMessage>
           </Typography>
