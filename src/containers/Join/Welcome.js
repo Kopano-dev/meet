@@ -153,7 +153,7 @@ class Welcome extends React.PureComponent {
             >
               <FormattedMessage
                 id="joinscreen.signInButton.text"
-                defaultMessage="Sign in">
+                defaultMessage="Next">
               </FormattedMessage>
             </Button>
           }
