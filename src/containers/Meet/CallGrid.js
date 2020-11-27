@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
 import CamOffIcon from '@material-ui/icons/VideocamOff';
-import PeopleOutlinedIcon from '@material-ui/icons/PeopleOutlined';
+import PeopleIcon from '@material-ui/icons/People';
 
 import renderIf from 'render-if';
 
@@ -384,7 +384,7 @@ class CallGrid extends React.PureComponent {
         {renderIf(renderMode === 'novideos')(() => (
           <Grid className={classes.novideos} container alignItems="center" direction="row" justify="center">
             <Grid item>
-              <div>{audioStreams.length === 0 ? <PeopleOutlinedIcon fontSize="large"/> : <CamOffIcon fontSize="large"/>} <Typography color="inherit" variant="body1">
+              <div>{audioStreams.length === 0 ? <PeopleIcon fontSize="large"/> : <CamOffIcon fontSize="large"/>} <Typography color="inherit" variant="body1">
                 {audioStreams.length === 0 ?
                   <FormattedMessage id="callGrid.noPeers.headline" defaultMessage="Please wait for others to join ..."></FormattedMessage> :
                   <FormattedMessage
