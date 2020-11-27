@@ -5,6 +5,7 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 
 import AsyncComponent from 'kpop/es/AsyncComponent';
 import BaseContext from 'kpop/es/BaseContainer/BaseContext';
+import { isLoadAfterUpdate } from 'kpop/es/config/utils';
 
 import UserRequired from './components/UserRequired';
 
@@ -61,7 +62,14 @@ function AuthenticatedRouteFirstRouteRedirect({ component: C, authenticated, pro
 
       if (!firstRouteDone) {
         firstRouteDone = true;
-        if (!auto && match && match.params.view && match.params.view !== 'call' && match.params.id) {
+        if (
+          !auto &&
+          match &&
+          match.params.view &&
+          match.params.view !== 'call' &&
+          match.params.id &&
+          !isLoadAfterUpdate()
+        ) {
           // Redirect to join flow for this particular group.
           return <Redirect to={{
             pathname: '/r/join/' + match.url.substr(3),
