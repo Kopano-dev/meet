@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { withStyles, useTheme } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import CallIcon from '@material-ui/icons/Call';
-import ContactsIcon from '@material-ui/icons/Contacts';
 import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
@@ -17,7 +12,6 @@ import green from '@material-ui/core/colors/green';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
-import AddCallIcon from 'mdi-material-ui/PhonePlus';
 import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
@@ -26,7 +20,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import renderIf from 'render-if';
 
-import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import TopBar from 'kpop/es/TopBar';
 import TopBarBound from 'kpop/es/TopBar/TopBarBound';
@@ -34,7 +28,6 @@ import { userShape } from 'kpop/es/shapes';
 import AppsSwitcherButton from 'kpop/es/AppsGrid/AppsSwitcherButton';
 import AppsSwitcherListItem from 'kpop/es/AppsGrid/AppsSwitcherListItem';
 import KopanoMeetIcon from 'kpop/es/icons/KopanoMeetIcon';
-import MasterButton from 'kpop/es/MasterButton/MasterButton';
 import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 import { writeTextToClipboard } from 'kpop/es/clipboard';
@@ -71,14 +64,13 @@ import SettingsList from '../../../components/SettingsList';
 
 import CallGrid from '../CallGrid';
 import IncomingCallDialog from '../IncomingCallDialog';
-import Recents from '../Recents';
-import ContactSearch from '../ContactSearch';
-import Invite from '../Invite';
 import BackdropOverlay from '../BackdropOverlay';
-import GroupControl from '../GroupControl';
-import ContactControl from '../ContactControl';
 import NewPublicGroup from '../NewPublicGroup';
 import RTCStats from '../RTCStats';
+import ContactSearch from '../ContactSearch';
+
+import translations from './translations';
+import SwitchPanel from './SwitchPanel';
 
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
@@ -151,9 +143,6 @@ const styles = theme => ({
   },
   topBar: {
   },
-  topBarHidden: {
-    opacity: 0,
-  },
   controlsOuter: {
     display: 'flex',
     flexDirection: 'column',
@@ -176,16 +165,6 @@ const styles = theme => ({
   },
   controls: {
     height: 0,
-  },
-  wrappedButton: {
-    position: 'relative',
-  },
-  fabProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    zIndex: 1,
   },
   controlsMiddle: {
     position: 'absolute',
@@ -344,39 +323,12 @@ const styles = theme => ({
       flex: 0,
     },
   },
-  tabs: {
-    borderTop: '1px solid #eee',
-    borderBottom: '1px solid #eee',
-  },
-  tab: {
-    fontSize: '0.7em',
-  },
   menuContainer: {
     flex: 1,
     minHeight: 0,
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-  },
-  mainView: {
-    flex: 1,
-    minWidth: 300,
-  },
-  contactSearchView: {
-    background: 'white',
-    paddingTop: 10 + theme.spacing(1),
-    [theme.breakpoints.meet.minimalHeightDown]: {
-      paddingTop: 0,
-    },
-  },
-  fab: {
-    position: 'absolute',
-    zIndex: theme.zIndex.drawer - 1,
-    bottom: theme.spacing(4),
-    right: theme.spacing(3),
-  },
-  searchButton: {
-    display: 'none',
   },
   navDrawer: {
   },
@@ -393,79 +345,8 @@ const styles = theme => ({
       paddingTop: 1,
     },
   },
-  dialog: {
-    [theme.breakpoints.up('md')]: {
-      height: '60%',
-      width: '80vw',
-      maxHeight: 600,
-      minHeight: 340,
-      minWidth: 480,
-    },
-  },
-  masterButton: {
-    margin: `${theme.spacing(2)}px 24px`,
-  },
   flexDirectionRow: {
     flexDirection: 'row',
-  },
-});
-
-const translations = defineMessages({
-  audioIsMutedSnack: {
-    id: 'callView.audioIsMutedSnack.message',
-    defaultMessage: 'Audio playback is muted.',
-  },
-  microphoneIsMutedSnack: {
-    id: 'callView.microphoneIsMutedSnack.message',
-    defaultMessage: 'Your microphone is muted.',
-  },
-  noConnectionTooltipTitle: {
-    id: 'callView.noConnectionTooltip.title',
-    defaultMessage: 'No connection - check your Internet connection.',
-  },
-  tabLabelCalls: {
-    id: 'callView.tabCalls.label',
-    defaultMessage: 'Calls',
-  },
-  tabLabelContacts: {
-    id: 'callView.tabContacts.label',
-    defaultMessage: 'Contacts',
-  },
-  fabButtonAriaLabel: {
-    id: 'callView.fabButton.aria',
-    defaultMessage: 'add',
-  },
-  masterButtonLabel: {
-    id: 'callView.masterButton.label',
-    defaultMessage: 'New call',
-  },
-  newCallDialogTopTitle: {
-    id: 'callView.newCallDialog.topTitle',
-    defaultMessage: 'New call',
-  },
-  newPublicGroupDialogTopTitle: {
-    id: 'callView.newPublicGroupDialog.topTitle',
-    defaultMessage: 'Join or create group',
-  },
-  inviteDialogTopTitle: {
-    id: 'callView.inviteDialog.topTitle',
-    defaultMessage: 'Invite to "{id}"',
-  },
-  copiedLinkToClipboardSnack: {
-    id: 'callView.copiedLinkToClipboard.snack',
-    defaultMessage: 'Link copied to clipboard.',
-  },
-  inviteByMailtoSnack: {
-    id: 'callView.inviteByMailTo.snack',
-    defaultMessage: 'Invitation email created, opening your mail program now.',
-  },
-  inviteShareLinkSubject: {
-    id: 'callView.inviteByShareLink.subject.template',
-    defaultMessage: 'Invitation to "{id}"',
-  },
-  inviteShareLinkText: {
-    id: 'callView.inviteByShareLink.text.template',
-    defaultMessage: 'You can join this meeting from your computer, tablet or smartphone.\n\n',
   },
 });
 
@@ -483,7 +364,6 @@ class CallView extends React.PureComponent {
       sidebarOpen: isGroupChannel(channel) || (!auto && !channel),
       sidebarMobileOpen: false,
       openDialogs: {},
-      openTab: 'recents',
     };
 
     this.touchedTimer = null;
@@ -783,12 +663,6 @@ class CallView extends React.PureComponent {
     }
   }
 
-  handleTabChange = (event, value) => {
-    this.setState({
-      openTab: value,
-    });
-  }
-
   openDialog = (updates = {}) => {
     const { openDialogs } = this.state;
 
@@ -827,7 +701,7 @@ class CallView extends React.PureComponent {
       intl,
       theme,
     } = this.props;
-    const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, openTab } = this.state;
+    const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen } = this.state;
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
 
@@ -872,6 +746,7 @@ class CallView extends React.PureComponent {
         <ScreenShareIcon />
       </FabWithProgress>;
     }
+
     if (mode === 'videocall' || mode === 'call' || mode === 'standby') {
       muteMicButton = <FloatingMicMuteButton className={classes.muteMicButton}/>;
     }
@@ -988,116 +863,16 @@ class CallView extends React.PureComponent {
       <div className={menuClassName}>
         {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
           <div className={classes.menuContainer}>
-            <Switch>
-              <Route exact path="/r/call" render={() => (
-                <React.Fragment>
-                  <Hidden smDown>
-                    <MasterButton icon={<AddCallIcon />} onClick={this.handleFabClick} className={classes.masterButton}>
-                      {intl.formatMessage(translations.masterButtonLabel)}
-                    </MasterButton>
-                  </Hidden>
-                  <Tabs
-                    value={openTab}
-                    className={classes.tabs}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    onChange={this.handleTabChange}
-                    centered
-                    variant="fullWidth"
-                  >
-                    <Tab value="recents" className={classes.tab} icon={<CallIcon />} label={intl.formatMessage(translations.tabLabelCalls)} />
-                    <Tab value="people" className={classes.tab} icon={<ContactsIcon />} label={intl.formatMessage(translations.tabLabelContacts)} />
-                  </Tabs>
-                  { openTab === 'recents' ?
-                    <Recents
-                      className={classes.mainView}
-                      onEntryClick={this.handleEntryClick}
-                      onCallClick={this.handleFabClick}
-                    /> :
-                    <ContactSearch
-                      className={classNames(classes.mainView, classes.contactSearchView)}
-                      onEntryClick={(...args) => {
-                        this.handleEntryClick(...args);
-                        this.openDialog({newCall: false});
-                      }}
-                      onActionClick={(action) => {
-                        this.handleDialogActionClick(action);
-                      }}
-                      embedded
-                    ></ContactSearch>
-                  }
-                  <Hidden smUp>
-                    <Fab
-                      className={classes.fab}
-                      aria-label={intl.formatMessage(translations.fabButtonAriaLabel)}
-                      color="primary"
-                      onClick={this.handleFabClick}
-                    >
-                      <AddCallIcon />
-                    </Fab>
-                  </Hidden>
-                </React.Fragment>
-              )}/>
-              <Route exact
-                path="/r/call/:id(.*)"
-                render={({ match, location, ...other }) => {
-                  const { entry } = location.state ? location.state : {};
-                  if (!entry || entry.id !== match.params.id) {
-                    return <Redirect to="/r/call"/>;
-                  }
-                  return <ContactControl
-                    className={classes.mainView}
-                    onEntryClick={this.handleEntryClick}
-                    entry={entry}
-                    channel={channel}
-                    ts={ts}
-                    {...other}
-                  />;
-                }}
-              />
-              <Route exact
-                path="/r/:scope(conference|group)/:id(.*)?"
-                render={({ match, ...other }) => {
-                  const group = {
-                    scope: match.params.scope,
-                    id: match.params.id,
-                  };
-
-                  return <GroupControl
-                    className={classes.mainView}
-                    onEntryClick={this.handleEntryClick}
-                    onActionClick={(action, props) => {
-                      this.handleDialogActionClick(action, props);
-                    }}
-                    channel={channel}
-                    ts={ts}
-                    group={group}
-                    config={config}
-                    {...other}
-                  >
-                    <FullscreenDialog
-                      topTitle={intl.formatMessage(translations.inviteDialogTopTitle, {id: group.id})}
-                      topElevation={0}
-                      responsive
-                      disableBackdropClick
-                      PaperProps={{
-                        className: classes.dialog,
-                      }}
-                      open={openDialogs.invite || false}
-                      onClose={() => { this.openDialog({invite: false}); }}
-                    >
-                      <Invite
-                        group={group}
-                        onActionClick={(action, props) => {
-                          this.handleDialogActionClick(action, props);
-                        }}
-                        config={config}
-                      />
-                    </FullscreenDialog>
-                  </GroupControl>;
-                }}
-              />
-            </Switch>
+            <SwitchPanel
+              config={config}
+              onFabClick={this.handleFabClick}
+              onEntryClick={this.handleEntryClick}
+              oneActionClick={this.handleDialogActionClick}
+              openDialog={this.openDialog}
+              openDialogs={openDialogs}
+              ts={ts}
+              channel={channel}
+            />
           </div>
         ))}
       </div>
@@ -1125,9 +900,6 @@ class CallView extends React.PureComponent {
         topTitle={intl.formatMessage(translations.newCallDialogTopTitle)}
         topElevation={0}
         responsive
-        PaperProps={{
-          className: classes.dialog,
-        }}
         open={openDialogs.newCall || false}
         onClose={() => { this.openDialog({newCall: false}); }}
       >
@@ -1149,9 +921,6 @@ class CallView extends React.PureComponent {
         topTitle={intl.formatMessage(translations.newPublicGroupDialogTopTitle)}
         topElevation={0}
         responsive
-        PaperProps={{
-          className: classes.dialog,
-        }}
         open={openDialogs.newPublicGroup || false}
         onClose={() => { this.openDialog({newPublicGroup: false}); }}
       >

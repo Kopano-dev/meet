@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,7 +14,7 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { injectIntl, intlShape, defineMessages, FormattedMessage } from 'react-intl';
 
-const styles = () => ({
+const styles = (theme) => ({
   appBar: {
     position: 'relative',
   },
@@ -27,6 +28,15 @@ const styles = () => ({
     maxWidth: '60vw',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  default: {
+    [theme.breakpoints.up('md')]: {
+      height: '60%',
+      width: '80vw',
+      maxHeight: 600,
+      minHeight: 340,
+      minWidth: 480,
+    },
   },
 });
 
@@ -47,7 +57,7 @@ class FullscreenDialog extends React.PureComponent {
   }
 
   render() {
-    const { children, classes, topTitle, topElevation, open, responsive, fullScreen, intl, ...other } = this.props;
+    const { children, classes, topTitle, topElevation, open, responsive, fullScreen, intl, variant, PaperProps: paperPropsProp, ...other } = this.props;
 
     const isfullScreen = !responsive || fullScreen;
 
@@ -56,6 +66,12 @@ class FullscreenDialog extends React.PureComponent {
         fullScreen={isfullScreen}
         open={open}
         onClose={this.handleClose}
+        PaperProps={{
+          ...paperPropsProp,
+          className: classNames(paperPropsProp.className, {
+            [classes.default]: variant === 'default',
+          }),
+        }}
         {...other}
       >
         <AppBar className={classes.appBar} color="inherit" elevation={topElevation}>
@@ -79,12 +95,17 @@ class FullscreenDialog extends React.PureComponent {
 
 FullscreenDialog.defaultProps = {
   topElevation: 4,
+
+  variant: 'default',
+  PaperProps: {},
 };
 
 FullscreenDialog.propTypes = {
   children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+
+  variant: PropTypes.oneOf(['default', 'inherit']),
 
   open: PropTypes.bool.isRequired,
   responsive: PropTypes.bool,
@@ -93,6 +114,8 @@ FullscreenDialog.propTypes = {
 
   topTitle: PropTypes.string,
   topElevation: PropTypes.number.isRequired,
+
+  PaperProps: PropTypes.object,
 };
 
 export default withStyles(styles)(withMobileDialog()(injectIntl(FullscreenDialog)));
