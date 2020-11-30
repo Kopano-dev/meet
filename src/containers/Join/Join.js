@@ -85,7 +85,7 @@ const translations = defineMessages({
   },
 });
 
-class Joinscreen extends React.PureComponent {
+class Join extends React.PureComponent {
   /**
    * Join screen flow:
    *
@@ -324,7 +324,7 @@ class Joinscreen extends React.PureComponent {
   }
 }
 
-Joinscreen.propTypes = {
+Join.propTypes = {
   classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   location: PropTypes.object.isRequired,
@@ -357,4 +357,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   replaceHistory,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(injectIntl(Joinscreen)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(injectIntl(Join)));

@@ -13,7 +13,7 @@ import adapter from 'webrtc-adapter';
 
 import { setError } from 'kpop/es/common/actions';
 
-import CallView from './CallView';
+import Call from './Call';
 
 
 const styles = theme => {
@@ -47,7 +47,7 @@ const translations = defineMessages({
   },
 });
 
-class Meetscreen extends React.PureComponent {
+class Meet extends React.PureComponent {
   componentDidMount() {
     Promise.resolve().then(this.checkWebRTCSupport);
   }
@@ -130,14 +130,14 @@ class Meetscreen extends React.PureComponent {
         <main
           className={classes.content}
         >
-          <CallView/>
+          <Call/>
         </main>
       </div>
     );
   }
 }
 
-Meetscreen.propTypes = {
+Meet.propTypes = {
   classes: PropTypes.object.isRequired,
   setError: PropTypes.func.isRequired,
 };
@@ -157,7 +157,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles, {withTheme: true})(
     DragDropContext(HTML5Backend)(
-      Meetscreen
+      Meet
     )
   )
 );
