@@ -47,7 +47,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     flex: 1,
     gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       gridTemplateColumns: 'repeat(auto-fit, minmax(50%, 1fr) ) ;',
     },
     [theme.breakpoints.up('xl')]: {
@@ -60,7 +60,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     flex: 1,
     gridTemplateColumns: 'repeat(auto-fit, minmax(100%, 1fr) ) ;',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       gridTemplateColumns: 'repeat(auto-fit, minmax(50%, 1fr) ) ;',
     },
     [theme.breakpoints.up('xl')]: {
