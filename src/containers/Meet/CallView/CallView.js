@@ -39,10 +39,10 @@ import AsideBar from 'kpop/es/AsideBar';
 import { enqueueSnackbar, closeSnackbar } from 'kpop/es/common/actions';
 import { writeTextToClipboard } from 'kpop/es/clipboard';
 
-import { getAudioContext } from '../../base';
-import { isGroupChannel } from '../../utils';
-import { fetchAndAddContacts, initializeContactsWithRecents } from '../../actions/contacts';
-import { fetchRecents } from '../../actions/recents';
+import { getAudioContext } from '../../../base';
+import { isGroupChannel } from '../../../utils';
+import { fetchAndAddContacts, initializeContactsWithRecents } from '../../../actions/contacts';
+import { fetchRecents } from '../../../actions/recents';
 import {
   doAccept,
   doHangup,
@@ -56,29 +56,29 @@ import {
   doViewGroup,
   updateOfferAnswerConstraints,
   SCREENSHARE_SCREEN_ID,
-} from '../../actions/meet';
-import { getStreamsByType } from '../../selectors/streams';
-import Howling from '../../components/Howling';
-import { isMobile, isTouchDevice } from '../../utils';
-import FullscreenDialog from '../../components/FullscreenDialog';
-import AutoStandby from '../../components/AutoStandby';
-import QuickSettingsList from '../../components/QuickSettingsList';
-import FabWithProgress from '../../components/FabWithProgress';
-import FloatingCamMuteButton from '../../components/FloatingCamMuteButton';
-import FloatingMicMuteButton from '../../components/FloatingMicMuteButton';
-import SettingsButton from '../../components/SettingsButton';
-import SettingsList from '../../components/SettingsList';
+} from '../../../actions/meet';
+import { getStreamsByType } from '../../../selectors/streams';
+import Howling from '../../../components/Howling';
+import { isMobile, isTouchDevice } from '../../../utils';
+import FullscreenDialog from '../../../components/FullscreenDialog';
+import AutoStandby from '../../../components/AutoStandby';
+import QuickSettingsList from '../../../components/QuickSettingsList';
+import FabWithProgress from '../../../components/FabWithProgress';
+import FloatingCamMuteButton from '../../../components/FloatingCamMuteButton';
+import FloatingMicMuteButton from '../../../components/FloatingMicMuteButton';
+import SettingsButton from '../../../components/SettingsButton';
+import SettingsList from '../../../components/SettingsList';
 
-import CallGrid from './CallGrid';
-import IncomingCallDialog from './IncomingCallDialog';
-import Recents from './Recents';
-import ContactSearch from './ContactSearch';
-import Invite from './Invite';
-import BackdropOverlay from './BackdropOverlay';
-import GroupControl from './GroupControl';
-import ContactControl from './ContactControl';
-import NewPublicGroup from './NewPublicGroup';
-import RTCStats from './RTCStats';
+import CallGrid from '../CallGrid';
+import IncomingCallDialog from '../IncomingCallDialog';
+import Recents from '../Recents';
+import ContactSearch from '../ContactSearch';
+import Invite from '../Invite';
+import BackdropOverlay from '../BackdropOverlay';
+import GroupControl from '../GroupControl';
+import ContactControl from '../ContactControl';
+import NewPublicGroup from '../NewPublicGroup';
+import RTCStats from '../RTCStats';
 
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
