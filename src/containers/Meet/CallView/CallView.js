@@ -109,7 +109,7 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'relative',
     minHeight: 0, // See https://bugzilla.mozilla.org/show_bug.cgi?id=1043520
-    [theme.breakpoints.meet.desktopWidth]: {
+    [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
     },
   },
@@ -149,15 +149,30 @@ const styles = theme => ({
       marginRight: drawerWidth,
     },
   },
-  flexDirectionRow: {
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-    },
-  },
   topBar: {
   },
   topBarHidden: {
     opacity: 0,
+  },
+  controlsOuter: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    [theme.breakpoints.meet.xsHeightDown]: {
+      minHeight: 65,
+      height: '10vh',
+    },
+    [theme.breakpoints.meet.minimalHeightDown]: {
+      minHeight: 0,
+      height: 0,
+    },
+    [theme.breakpoints.up('md')]: {
+      height: 'auto',
+      flex: 1,
+    },
+  },
+  controlsOuterWithCall: {
+    flex: 1,
   },
   controls: {
     height: 0,
@@ -279,31 +294,17 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    [theme.breakpoints.meet.xsHeightDown]: {
-      minHeight: 65,
-      height: '10vh',
-    },
-    [theme.breakpoints.meet.minimalHeightDown]: {
-      minHeight: 0,
-      height: 0,
-    },
-    [theme.breakpoints.up('md')]: {
-      height: 'auto',
-      flex: 1,
-    },
+    flex: 1,
   },
   callWithCall: {
-    flex: 1,
     transform: 'rotateY(0deg)',
   },
   callAsSidebar: {
-    [theme.breakpoints.meet.desktopWidth]: {
-      flex: 'auto',
-      maxWidth: 135,
-      height: 'auto',
-      backgroundColor: theme.videoBackground.bottom,
-      paddingBottom: 130 + theme.spacing(2),
-    },
+    flex: 'auto',
+    maxWidth: 135,
+    height: 'auto',
+    backgroundColor: theme.videoBackground.bottom,
+    paddingBottom: 130 + theme.spacing(2),
     '& ::-webkit-scrollbar-track': {
       backgroundColor: 'transparent',
     },
@@ -403,6 +404,9 @@ const styles = theme => ({
   },
   masterButton: {
     margin: `${theme.spacing(2)}px 24px`,
+  },
+  flexDirectionRow: {
+    flexDirection: 'row',
   },
 });
 
@@ -875,6 +879,13 @@ class CallView extends React.PureComponent {
     const containerClassName = classNames(
       classes.container,
       {
+      }
+    );
+
+    const controlsOuterClassName = classNames(
+      classes.controlsOuter,
+      {
+        [classes.controlsOuterWithCall]: !!channel,
         [classes.flexDirectionRow]: !!screenShareViewer,
       }
     );
@@ -1215,29 +1226,31 @@ class CallView extends React.PureComponent {
           })}
         >
           <div className={containerClassName}>
-            <div className={classes.controls}>
-              {controls}
+            <div className={controlsOuterClassName}>
+              <div className={classes.controls}>
+                {controls}
+              </div>
+              {screenShareViewer}
+              <CallGrid
+                onClick={this.handleCallGridClick}
+                className={callClassName}
+                mode={mode}
+                videoOnly={isGroupChannel(channel)}
+                localStreamIsRemoteFallback={!channel}
+                muted={muted}
+                cover={cover}
+                localStream={localStream}
+                localStreamTalking={localStreamTalking}
+                remoteStreams={remoteAudioVideoStreams}
+                remoteTalkingDetection={!config.disableRemoteTalkingDetection}
+                variant={screenShareViewer ? 'overlay': 'full'}
+                audioSinkId={audioSinkId}
+                AudioVideoProps={{
+                  className: callAudioVideoClassName,
+                }}
+                channel={channel}
+              />
             </div>
-            {screenShareViewer}
-            <CallGrid
-              onClick={this.handleCallGridClick}
-              className={callClassName}
-              mode={mode}
-              videoOnly={isGroupChannel(channel)}
-              localStreamIsRemoteFallback={!channel}
-              muted={muted}
-              cover={cover}
-              localStream={localStream}
-              localStreamTalking={localStreamTalking}
-              remoteStreams={remoteAudioVideoStreams}
-              remoteTalkingDetection={!config.disableRemoteTalkingDetection}
-              variant={screenShareViewer ? 'overlay': 'full'}
-              audioSinkId={audioSinkId}
-              AudioVideoProps={{
-                className: callAudioVideoClassName,
-              }}
-              channel={channel}
-            />
             <Hidden mdUp>{menu}</Hidden>
           </div>
           {!guest.user && <AsideBar/>}
