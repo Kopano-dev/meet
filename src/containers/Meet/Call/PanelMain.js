@@ -55,7 +55,7 @@ const PanelMain = ({
   intl,
   onFabClick,
   onEntryClick,
-  oneActionClick,
+  onActionClick,
   openDialog,
 }) => {
   const [openTab, setOpenTab] = useState('recents');
@@ -94,9 +94,7 @@ const PanelMain = ({
           onEntryClick(...args);
           openDialog({newCall: false});
         }}
-        onActionClick={(action) => {
-          oneActionClick(action);
-        }}
+        onActionClick={onActionClick}
         embedded
       ></ContactSearch>
     }
@@ -119,7 +117,7 @@ PanelMain.propTypes = {
 
   onFabClick: PropTypes.func.isRequired,
   onEntryClick: PropTypes.func.isRequired,
-  oneActionClick: PropTypes.func.isRequired,
+  onActionClick: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
 };
 

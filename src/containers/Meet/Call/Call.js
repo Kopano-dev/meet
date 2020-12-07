@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { withStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import Button from '@material-ui/core/Button';
 import HangupIcon from '@material-ui/icons/CallEnd';
 import red from '@material-ui/core/colors/red';
@@ -16,11 +17,12 @@ import OfflineIcon from 'mdi-material-ui/LanDisconnect';
 import Divider from '@material-ui/core/Divider';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import Fab from '@material-ui/core/Fab';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import renderIf from 'render-if';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+
+import { ReflexContainer, ReflexElement, ReflexHandle, ReflexSplitter } from 'react-reflex';
 
 import TopBar from 'kpop/es/TopBar';
 import TopBarBound from 'kpop/es/TopBar/TopBarBound';
@@ -61,6 +63,8 @@ import FloatingCamMuteButton from '../../../components/FloatingCamMuteButton';
 import FloatingMicMuteButton from '../../../components/FloatingMicMuteButton';
 import SettingsButton from '../../../components/SettingsButton';
 import SettingsList from '../../../components/SettingsList';
+import CollapseIcon from '../../../icons/Collapse';
+import ExpandIcon from '../../../icons/Expand';
 
 import CallGrid from '../CallGrid';
 import IncomingCallDialog from '../IncomingCallDialog';
@@ -71,6 +75,8 @@ import ContactSearch from '../ContactSearch';
 
 import translations from './translations';
 import SwitchPanel from './SwitchPanel';
+import SwitchDialogs from './SwitchDialogs';
+import MobilePanel from './MobilePanel';
 
 console.info('Is mobile', isMobile); // eslint-disable-line no-console
 console.info('Is touch device', isTouchDevice); // eslint-disable-line no-console
@@ -261,6 +267,9 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamily,
     color: 'white',
     textShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)',
+    [theme.breakpoints.down('md')]: {
+      bottom: -28 + theme.spacing(),
+    },
   },
   call: {
     height: '20vh',
@@ -329,6 +338,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
+    background: theme.palette.background.default,
   },
   navDrawer: {
   },
@@ -348,6 +358,32 @@ const styles = theme => ({
   flexDirectionRow: {
     flexDirection: 'row',
   },
+  reflexSplitter: {
+    height: 0,
+  },
+  forceFlex: {
+    flex: '1 !important',
+  },
+  mobilePanel: {
+    position: 'relative',
+    marginTop: -8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    overflow: 'hidden',
+  },
+  mobilePanelHandle: {
+    height: 70,
+    width: 48,
+    position: 'absolute',
+    left: '50%',
+    marginLeft: -24,
+    zIndex: 1,
+    textAlign: 'center',
+    '& > svg': {
+      fontSize: '2rem',
+      pointerEvents: 'none',
+    },
+  },
 });
 
 class CallView extends React.PureComponent {
@@ -363,6 +399,7 @@ class CallView extends React.PureComponent {
       shareScreen: false,
       sidebarOpen: isGroupChannel(channel) || (!auto && !channel),
       sidebarMobileOpen: false,
+      bottombarMobileExpanded: false,
       openDialogs: {},
     };
 
@@ -594,12 +631,12 @@ class CallView extends React.PureComponent {
   }
 
   handleSidebarToggle = () => {
-    const { isMobile } = this.props;
+    const { width } = this.props;
     const { sidebarOpen, sidebarMobileOpen } = this.state;
 
     const update = {};
-    if (isMobile) {
-      // Mobile sid bar.
+    if (!isWidthUp('md', width)) {
+      // Mobile side bar.
       update.sidebarMobileOpen = !sidebarMobileOpen;
     } else {
       // Desktop side bar.
@@ -663,6 +700,14 @@ class CallView extends React.PureComponent {
     }
   }
 
+  handleBottombarStopResize = () => {
+    const { bottombarMobileExpanded } = this.state;
+
+    this.setState({
+      bottombarMobileExpanded: !bottombarMobileExpanded,
+    });
+  }
+
   openDialog = (updates = {}) => {
     const { openDialogs } = this.state;
 
@@ -700,10 +745,13 @@ class CallView extends React.PureComponent {
       dmPending,
       intl,
       theme,
+      width,
     } = this.props;
-    const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen } = this.state;
+    const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, bottombarMobileExpanded } = this.state;
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left';
+
+    const mdUp = isWidthUp('md', width);
 
     let controls = [];
     let icons = [];
@@ -860,14 +908,14 @@ class CallView extends React.PureComponent {
     );
 
     menu = (
-      <div className={menuClassName}>
+      <React.Fragment>
         {renderIf(mode === 'videocall' || mode === 'call' || mode === 'standby')(() => (
           <div className={classes.menuContainer}>
             <SwitchPanel
               config={config}
               onFabClick={this.handleFabClick}
               onEntryClick={this.handleEntryClick}
-              oneActionClick={this.handleDialogActionClick}
+              onActionClick={this.handleDialogActionClick}
               openDialog={this.openDialog}
               openDialogs={openDialogs}
               ts={ts}
@@ -875,7 +923,7 @@ class CallView extends React.PureComponent {
             />
           </div>
         ))}
-      </div>
+      </React.Fragment>
     );
 
     for (const id in ringing) {
@@ -934,9 +982,17 @@ class CallView extends React.PureComponent {
       </FullscreenDialog>
     );
 
+    dialogs.push(<SwitchDialogs
+      key="switch-dialogs"
+      config={config}
+      onActionClick={this.handleDialogActionClick}
+      openDialog={this.openDialog}
+      openDialogs={openDialogs}
+    />);
+
     const drawer = <React.Fragment>
       <Hidden smDown>
-        {menu}
+        <div className={menuClassName}>{menu}</div>
         <Divider/>
       </Hidden>
       <Hidden mdUp>
@@ -994,8 +1050,13 @@ class CallView extends React.PureComponent {
             [classes[`contentShift-${anchor}`]]: sidebarOpen,
           })}
         >
-          <div className={containerClassName}>
-            <div className={controlsOuterClassName}>
+          <ReflexContainer
+            className={containerClassName}
+            orientation="horizontal"
+          >
+            <ReflexElement
+              className={controlsOuterClassName}
+            >
               <div className={classes.controls}>
                 {controls}
               </div>
@@ -1019,9 +1080,25 @@ class CallView extends React.PureComponent {
                 }}
                 channel={channel}
               />
-            </div>
-            <Hidden mdUp>{menu}</Hidden>
-          </div>
+            </ReflexElement>
+            {!mdUp && <ReflexSplitter className={classes.reflexSplitter}/>}
+            {!mdUp && <ReflexElement
+              className={classNames(menuClassName, classes.mobilePanel, {[classes.forceFlex]: !channel})}
+              minSize={72}
+              size={bottombarMobileExpanded ? document.body.scrollHeight / 2 : 72}
+              direction={-1}
+              onStopResize={this.handleBottombarStopResize}
+            >
+              {channel && <ReflexHandle className={classes.mobilePanelHandle}>
+                {bottombarMobileExpanded ? <CollapseIcon fontSize="large" color="inherit"/> : <ExpandIcon fontSize="large" color="inherit"/>}
+              </ReflexHandle>}
+              {!channel ? menu : <MobilePanel
+                channel={channel}
+                config={config}
+                onActionClick={this.handleDialogActionClick}
+              />}
+            </ReflexElement>}
+          </ReflexContainer>
           {!guest.user && <AsideBar/>}
         </TopBarBound>
         {dialogs}
@@ -1038,7 +1115,7 @@ CallView.propTypes = {
   intl: intlShape.isRequired,
 
   theme: PropTypes.object.isRequired,
-  isMobile: PropTypes.bool.isRequired,
+  width: PropTypes.string.isRequired,
 
   enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
@@ -1150,13 +1227,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   closeSnackbar,
 }, dispatch);
 
-const withMobile = Component => {
-  return function useWithMobile(props) {
-    const theme = useTheme();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
-
-    return <Component theme={theme} isMobile={!isDesktop} {...props}></Component>;
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withMobile(injectIntl(CallView))));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(withWidth()(injectIntl(CallView))));

@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/Share';
-import Hidden from '@material-ui/core/Hidden';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import Persona from 'kpop/es/Persona';
@@ -25,8 +24,6 @@ import { makeGroupLink, mapGroupEntryToUserShape } from '../../utils';
 import { pushHistory } from '../../actions/meet';
 import ScopeLabel from '../../components/ScopeLabel';
 import ChannelDuration from '../../components/ChannelDuration';
-
-import ChannelControl from './ChannelControl';
 
 const styles = theme => ({
   root: {
@@ -68,10 +65,6 @@ const styles = theme => ({
   },
   rightButton: {
     marginLeft: 'auto',
-  },
-  control: {
-    background: 'white',
-    flex: 1,
   },
   leftIcon: {
     marginRight: theme.spacing(1),
@@ -154,9 +147,6 @@ class GroupControl extends React.PureComponent {
       group,
       channel,
       ts,
-      config,
-
-      onActionClick,
     } = this.props;
 
     const className = classNames(
@@ -217,14 +207,6 @@ class GroupControl extends React.PureComponent {
             </div>}
           </Card>
         </div>
-        <Hidden smDown>
-          <ChannelControl
-            channel={channel}
-            config={config}
-            className={classes.control}
-            onActionClick={onActionClick}
-          />
-        </Hidden>
         {children}
       </div>
     );
