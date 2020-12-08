@@ -168,6 +168,9 @@ const styles = theme => ({
   },
   controlsOuterWithCall: {
     flex: 1,
+    [theme.breakpoints.meet.minimalHeightDown]: {
+      flex: '1 !important',
+    },
   },
   controls: {
     height: 0,
@@ -370,6 +373,11 @@ const styles = theme => ({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     overflow: 'hidden',
+  },
+  mobilePanelCall: {
+    [theme.breakpoints.meet.minimalHeightDown]: {
+      display: 'none',
+    },
   },
   mobilePanelHandle: {
     height: 70,
@@ -1083,7 +1091,7 @@ class CallView extends React.PureComponent {
             </ReflexElement>
             {!mdUp && <ReflexSplitter className={classes.reflexSplitter}/>}
             {!mdUp && <ReflexElement
-              className={classNames(menuClassName, classes.mobilePanel, {[classes.forceFlex]: !channel})}
+              className={classNames(menuClassName, classes.mobilePanel, {[classes.forceFlex]: !channel, [classes.mobilePanelCall]: !!channel})}
               minSize={72}
               size={bottombarMobileExpanded ? document.body.scrollHeight / 2 : 72}
               direction={-1}
