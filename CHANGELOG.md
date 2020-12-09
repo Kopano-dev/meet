@@ -4,6 +4,75 @@
 
 
 
+## v2.3.0 (2020-12-09)
+
+- Resolve a flex issue for older browsers
+- Hide mobile bottom pane if minimal height is reached
+- Implement swipable bottom pane for mobile view
+- Use consistent names for container components
+- Split CallView component into sub components
+- Visually bind call grid controls position to call grid bottom
+- Prepare to split up CallView
+- Reduce required width for 2 cols of videos
+- Use solid icon for empty room message
+- Prevent redirect to join flow on reload triggered by update
+- Update kpop to v2.5.0
+- Auto redirect to join flow on direct group access
+- Properly format display name in join flow
+- Always use next button label in join flow welcome
+- Fix video overlap in join flow with Firefox
+- Update kwmjs to v1.2.3
+- Make call grind to require channel for novideos state
+- Make talking indicator visbile in sidebar mode
+- Remove incorrect folder creation in test
+- Update kwmjs to v1.2.2
+- Rebuild translations and translate to German
+- Add text messages when no video is received in groups
+- Add config option to disable remote talking detection
+- Update participant list minor design inconsistencies
+- Ensure talking icon is visible only when with audio
+- Add local talking indicator to local floating video
+- Add talking detection for local stream
+- Move talking detection into its own rights
+- Optimize volume meter audio worklet
+- Allow license ranger to ignore worker without map
+- Add global click handler to resume audio node quickly
+- Add audio worklet to process stream volume threaded
+- Avoid to add incomplete stream records in store
+- Update webrtc-adapter to 7.7.0
+- Reduce main tab visual font size to match design
+- Add talking indicator for remote streams
+- Add talking audio detection for remote streams
+- Fix linter warnings after rule update
+- Only log redux actions in development mode
+- Bump copyright year to 2020
+- Add indicator for audio and video status to participants
+- Update kpop to v2.4.0
+- Add service worker stale cache for public png file
+- Use a copy instead of symlink for app icon
+- Update react-scripts to 4
+- Make manifest icons maskable
+- Update to kpop v2.3.0 and its dependencies
+- Improve Guest and Me in display name
+- Fix linter issue for a very long line
+- Fix break points for sidebar changes
+- Update browserlist rules
+- Improve and unify connecting animation status
+- Hide peers without video in call grid for groups
+- Add i18n support to label prefixes
+- Ensure to show invite button when group but not dialed in
+- Cleanup and prepare for roles and permissions
+- Add participants list to left drawer in groups
+- Clone local stream for fake stream debug helper
+- Improve visibility and styles for call grid
+- Refactor channel control
+- Keep left pane open when joining group calls
+- Bump CI environment to Node 14
+- Add clean check to CI pipeline
+- Use warningsng plugin as checkstyle is deprecated
+- Pull in translation from Weblate
+
+
 ## v2.2.3 (2020-07-02)
 
 - Update kpop to v2.2.4
