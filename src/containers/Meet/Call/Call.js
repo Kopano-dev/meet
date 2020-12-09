@@ -285,7 +285,7 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    flex: 1,
+    flex: '1 1 auto', // NOTE(longsleep): Set grow, shink and basis to work around size issue in Samsung Internet Browser.
   },
   callWithCall: {
     transform: 'rotateY(0deg)',
