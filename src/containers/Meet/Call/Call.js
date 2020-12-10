@@ -165,6 +165,7 @@ const styles = theme => ({
       height: 'auto',
       flex: 1,
     },
+    transform: 'translateZ(0px)', // Bug in Safari (see https://stackoverflow.com/questions/18146511/bug-in-css3-rotatey-transition-on-safari)
   },
   controlsOuterWithCall: {
     flex: 1,
