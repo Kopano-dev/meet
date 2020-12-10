@@ -38,7 +38,8 @@ const styles = () => {
         top: 10,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage: `url("${JoinBackground}#svgView(preserveAspectRatio(none))")`,
+        backgroundImage: `url("${JoinBackground}")`,
+        backgroundRepeat: 'no-repeat',
       },
     },
     header: {
