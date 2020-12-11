@@ -4,6 +4,13 @@
 
 
 
+## v2.3.1 (2020-12-11)
+
+- Remove svgView URL parameter for Safari
+- Add workaround for Safari transform, rotate rendering issue
+- Ensure the call timer always updates as needed
+
+
 ## v2.3.0 (2020-12-09)
 
 - Resolve a flex issue for older browsers
