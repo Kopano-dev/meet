@@ -43,6 +43,7 @@ DialogsGroup.propTypes = {
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
 
+  config: PropTypes.object,
   onActionClick: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
   openDialogs: PropTypes.object.isRequired,

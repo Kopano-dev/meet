@@ -62,7 +62,7 @@ class VolumeMeter extends React.PureComponent {
     if (audioContext) {
       try {
         audioContext.resume();
-      } catch(err) {};
+      } catch(err) { /* empty */ }
       this.processor = audioContext.createScriptProcessor(512);
       this.processor.onaudioprocess = this.handleAudioProcess;
       this.processor.connect(audioContext.destination);

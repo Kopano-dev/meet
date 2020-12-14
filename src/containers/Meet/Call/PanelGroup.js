@@ -58,6 +58,10 @@ PanelGroup.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 
+  channel: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
+  ts: PropTypes.object,
+
   onEntryClick: PropTypes.func.isRequired,
   onActionClick: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,

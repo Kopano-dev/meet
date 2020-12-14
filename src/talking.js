@@ -48,7 +48,7 @@ export class TalkingMeter {
         // Unfortunately this is not supported in Safari as of now.
         try {
           this.audioContext.resume();
-        } catch(err) {};
+        } catch(err) {/* empty */}
         const source = this.audioContext.createMediaStreamSource(stream);
         if (this.audioContext.audioWorklet) {
           const node = new AudioWorkletNode(this.audioContext, 'volume-meter-processor');

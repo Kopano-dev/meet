@@ -564,7 +564,7 @@ class CallView extends React.PureComponent {
     if (audioContext) {
       try {
         audioContext.resume();
-      } catch(err) {};
+      } catch(err) { /* empty */ }
     }
 
     doMuteOrUnmute({muteAudio: false});
@@ -1163,6 +1163,7 @@ CallView.propTypes = {
   updateOfferAnswerConstraints: PropTypes.func.isRequired,
 
   localStream: PropTypes.instanceOf(MediaStream),
+  localStreamTalking: PropTypes.bool,
   remoteAudioVideoStreams: PropTypes.array.isRequired,
   remoteScreenshareStreams: PropTypes.array.isRequired,
 

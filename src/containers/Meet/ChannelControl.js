@@ -12,6 +12,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import Participants from './Participants';
+import ChannelChat, { ChannelChatBadge } from './ChannelChat';
 
 const styles = () => ({
   root: {
@@ -62,7 +63,7 @@ class ChannelControl extends React.PureComponent {
       intl,
 
       channel,
-      withChat,
+      withInvite,
 
       onActionClick,
     } = this.props;
@@ -79,6 +80,8 @@ class ChannelControl extends React.PureComponent {
       return null;
     }
 
+    const channelChatSession = 'current';
+
     return (
       <div className={className}>
         <Tabs
@@ -91,11 +94,15 @@ class ChannelControl extends React.PureComponent {
           variant="fullWidth"
         >
           <Tab value="participants" className={classes.tab} icon={<PeopleIcon />} label={intl.formatMessage(translations.tabLabelParticipants)} />
-          {withChat ? <Tab value="chat" className={classes.tab} icon={<ChatIcon />} label={intl.formatMessage(translations.tabLabelChat)} /> : <Tab disabled className={classes.tab}/>}
+          <Tab value="chat" className={classes.tab} icon={
+            <ChannelChatBadge color="primary" channel={channel} session={channelChatSession}>
+              <ChatIcon />
+            </ChannelChatBadge>
+          } label={intl.formatMessage(translations.tabLabelChat)} />
         </Tabs>
         { openTab === 'participants' ?
-          <Participants className={classes.container} onActionClick={onActionClick}/> :
-          <div className={classes.container}></div>
+          <Participants className={classes.container} onActionClick={onActionClick} withInvite={withInvite}/> :
+          <ChannelChat className={classes.container} channel={channel} session={channelChatSession}/>
         }
         {children}
       </div>
@@ -114,7 +121,7 @@ ChannelControl.propTypes = {
   config: PropTypes.object.isRequired,
 
   channel: PropTypes.string,
-  withChat: PropTypes.bool,
+  withInvite: PropTypes.bool,
 
   onActionClick: PropTypes.func.isRequired,
 };

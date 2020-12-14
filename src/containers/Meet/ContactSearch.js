@@ -400,7 +400,7 @@ class ContactSearch extends React.PureComponent {
         <Button color="primary"
           onClick={this.handleActionClick.bind(this, 'new-public-group')}>
           <PublicConferenceIcon className={classes.leftIcon}/>
-          <FormattedMessage id="contactSearch.newPublicGroup.button.text" defaultMessage="Join  or create group"></FormattedMessage>
+          <FormattedMessage id="contactSearch.newPublicGroup.button.text" defaultMessage="Join or create group"></FormattedMessage>
         </Button>
       </Toolbar> }
       {embedded ? null : <Divider/>}

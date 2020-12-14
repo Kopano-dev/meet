@@ -24,7 +24,7 @@ let count = 0;
 const cache = new Map();
 
 const DisplayNameLabel = React.forwardRef(function DisplayNameLabel({intl, user, id, isSelf}, ref) {
-  let { displayName } = user;
+  let { displayName } = user ? user : {};
 
   if (displayName && displayName.trim() !== '') {
     const rawDisplayName = displayName.replace(guestDisplayNamePrefixMatcher, '');

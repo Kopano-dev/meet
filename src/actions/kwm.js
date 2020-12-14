@@ -433,6 +433,13 @@ function createKWMManager(eventCallback) {
 
       dispatch(streamReceived(event));
     };
+    k.chats.onmessage = event => {
+      if (!kwm || event.target !== kwm.chats) {
+        return;
+      }
+
+      dispatch(chatsMessageReceived(event));
+    };
 
     k.webrtc.setMode(mode);
 
@@ -771,6 +778,24 @@ export function doGroup(id, errorCallback) {
   };
 }
 
+export function doSendChatMessage(channel, message, errorCallback) {
+  return async dispatch => {
+    if (!kwm || !kwm.chats) {
+      throw new Error('no kwm');
+    }
+    return kwm.chats.doSendChatMessage(channel, message).then(replyMessage => {
+      return replyMessage;
+    }).catch(err => {
+      err = errorCallback ? errorCallback(err) : err;
+      if (err) {
+        console.error('KWM doSendChatMessage failed', err); // eslint-disable-line no-console
+        // TODO(longsleep): Dispatch proper error.
+      }
+      return null;
+    });
+  };
+}
+
 export function doAccept(id) {
   return async dispatch => {
     if (!kwm || !kwm.webrtc) {
@@ -957,5 +982,20 @@ export function tryGuestLogon(settings) {
         ok: false,
       };
     });
+  };
+}
+
+function chatsMessageReceived(event) {
+  const { channel, message, profile } = event;
+
+  return {
+    type: types.CHATS_MESSAGES_RECEIVED,
+    channel,
+    session: 'current',
+    messages: [{
+      ...message,
+      ts: new Date(message.ts * 1000),
+      profile,
+    }],
   };
 }

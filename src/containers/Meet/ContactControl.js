@@ -97,6 +97,7 @@ class ContactControl extends React.PureComponent {
 
   render() {
     const {
+      children,
       classes,
       className: classNameProp,
       intl,
@@ -145,6 +146,7 @@ class ContactControl extends React.PureComponent {
             </CardActions>
           </Card>
         </div>
+        {children}
       </div>
     );
   }
@@ -153,6 +155,7 @@ class ContactControl extends React.PureComponent {
 ContactControl.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
+  children: PropTypes.node,
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   intl: intlShape.isRequired,

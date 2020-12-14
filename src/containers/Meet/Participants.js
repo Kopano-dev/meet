@@ -117,6 +117,7 @@ class Participants extends React.PureComponent {
       className: classNameProp,
       participants,
       intl,
+      withInvite,
     } = this.props;
 
     const className = classNames(
@@ -134,7 +135,7 @@ class Participants extends React.PureComponent {
             subheader={
               <ListSubheader component="div" className={classes.subHeader}>
                 <div className={classes.subHeaderLabel}>{intl.formatMessage(translations.subheaderLabel, {participants: items.length})}</div>
-                <div>
+                {withInvite && <div>
                   <Button
                     color="primary"
                     size="small"
@@ -146,7 +147,7 @@ class Participants extends React.PureComponent {
                       defaultMessage="invite"
                     ></FormattedMessage>
                   </Button>
-                </div>
+                </div>}
               </ListSubheader>
             }
           >
@@ -193,6 +194,10 @@ class Participants extends React.PureComponent {
   }
 }
 
+Participants.defaultProps = {
+  withInvite: true,
+};
+
 Participants.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
@@ -201,6 +206,7 @@ Participants.propTypes = {
   participants: PropTypes.array.isRequired,
 
   onActionClick: PropTypes.func.isRequired,
+  withInvite: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

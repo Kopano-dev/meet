@@ -7,6 +7,7 @@ import media from './media';
 import streams from './streams';
 import recents from './recents';
 import glue from './glue';
+import chats from './chats';
 
 const reducers = {
   common,
@@ -18,6 +19,7 @@ const reducers = {
   streams,
   recents,
   glue,
+  chats,
 };
 
 export default reducers;

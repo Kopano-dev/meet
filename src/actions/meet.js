@@ -809,7 +809,7 @@ export function unmuteAudioIfAutoplayAllowed() {
             if (ac) {
               try {
                 ac.resume();
-              } catch(err) {};
+              } catch(err) { /* empty */ }
             }
             document.removeEventListener('click', handler);
           };
