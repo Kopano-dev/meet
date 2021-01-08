@@ -39,6 +39,7 @@ const Routes = ({ authenticated, auto }) => (
 
 Routes.propTypes = {
   authenticated: PropTypes.bool.isRequired,
+  auto: PropTypes.object,
 };
 
 function RouteFirstRoute(props) {
@@ -96,13 +97,16 @@ function AuthenticatedRouteFirstRouteRedirect({ component: C, authenticated, pro
         : A !== undefined ? <A  {...props}/> : null;
     }}
   />;
-};
+}
 
 AuthenticatedRouteFirstRouteRedirect.propTypes = {
   component: PropTypes.elementType.isRequired,
   alternative: PropTypes.elementType,
   authenticated: PropTypes.bool.isRequired,
   props: PropTypes.object,
+  auto: PropTypes.object,
+  match: PropTypes.object,
+  location: PropTypes.object,
 };
 
 
