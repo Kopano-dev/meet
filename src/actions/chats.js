@@ -79,48 +79,75 @@ export function sendChatMessage(channel, session, message) {
       default:
     }
 
-    const messageData = {
-      ...message,
+    // Filter potentially locally added data.
+    const { id: _id, pending: _pending, error: _error, sender: _sender, target: _target, ts: _ts, ...sendMessageData } = message;
+    // Create full message data.
+    const initialMessageData = {
+      ...sendMessageData,
+      kind: '',
       sender: '', // Empty string means sender is self local.
       target: '', // Empty string means target is everyone in the channel.
       id: makeRandomChatID(),
+      ts: new Date(),
     };
-
-    /*await dispatch(addChatMessages(channel, session, [{
-      ...messageData,
-      pending: true,
-      ts: moment(),
-    }]));*/
-
-    dispatch(doSendChatMessage(channel, {
-      ...message,
-      sender: '',
-      id: messageData.id,
-    })).then(replyMessage => {
-      console.debug('meet sent message reply', messageData.id, replyMessage);
-      if (replyMessage === null) {
-        // Failed to send.
-        // TODO(longsleep): Dispatch error event, remove/update pending message.
-      } else {
-        dispatch(addChatMessages(channel, session, [{
-          ...replyMessage,
-          ts: new Date(replyMessage.ts * 1000),
-          sender: '',
-          localID: messageData.id,
-        }]));
+    // Add locally first.
+    await (() => {
+      const remove = [];
+      if (_id) {
+        // If with id, this send is a resend. So ensure to replace the old.
+        remove.push(_id);
       }
+      return dispatch(addChatMessages(channel, session, [{
+        ...initialMessageData,
+        pending: true,
+      }], false, remove));
+    })();
+    // Then send to server.
+    await dispatch(doSendChatMessage(channel, {
+      ...sendMessageData,
+      id: initialMessageData.id,
+      kind: initialMessageData.kind,
+      sender: initialMessageData.sender,
+      target: initialMessageData.target,
+    }, err => {
+      // Error callback.
+      return err;
+    })).then(replyMessageData => {
+      // Server reply or error.
+      console.debug('meet sent, reply:', initialMessageData.id, replyMessageData);
+      if (replyMessageData === null) {
+        // Failed to send, update with error flag set.
+        return {
+          ...initialMessageData,
+          pending: true,
+          error: true,
+        };
+      } else {
+        // Successful send, update with reply data.
+        return {
+          ...replyMessageData,
+          ts: new Date(replyMessageData.ts * 1000),
+          sender: '',
+        };
+      }
+    }).then(updatedMessageData => {
+      // Add result message data.
+      return dispatch(addChatMessages(channel, session, [
+        updatedMessageData,
+      ], false, [initialMessageData.id]));
     });
 
-    return messageData.id;
+    return initialMessageData.id;
   };
 }
 
-export const addChatMessages = (channel, session, messages, clear=false) => ({
+export const addChatMessages = (channel, session, messages, clear=false, remove=null) => ({
   type: CHATS_MESSAGES_ADD,
   channel,
   session,
   messages,
   clear,
+  remove,
 });
 
 export const setChatVisibility = (channel, session, visible=true) => ({

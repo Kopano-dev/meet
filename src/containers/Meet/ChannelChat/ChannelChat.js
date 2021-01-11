@@ -168,6 +168,7 @@ class ChannelChat extends React.PureComponent {
           key={message.id}
           message={message}
           noHeader={noHeader}
+          onRetry={this.handleRetry}
         />;
       }
 
@@ -271,7 +272,6 @@ class ChannelChat extends React.PureComponent {
   }
 
   handleSend = async () => {
-    const { channel, session, sendChatMessage } = this.props;
     const { inputText } = this.state;
 
     if (!inputText) {
@@ -287,10 +287,24 @@ class ChannelChat extends React.PureComponent {
       text,
       richText: sanitize(text, 'text', true, false, true),
     };
-    await sendChatMessage(channel, session, message);
-    this.scrollToBottom('auto');
+
+    await this.doSendChatMessage(message);
+
+    /*await sendChatMessage(channel, session, message);
+    this.scrollToBottom('auto');*/
 
     this.setState(updates);
+  }
+
+  handleRetry = async (message) => {
+    await this.doSendChatMessage(message);
+  }
+
+  doSendChatMessage = async (message) => {
+    const { channel, session, sendChatMessage } = this.props;
+
+    await sendChatMessage(channel, session, message);
+    this.scrollToBottom('auto');
   }
 
   render() {

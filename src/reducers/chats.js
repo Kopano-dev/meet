@@ -61,7 +61,7 @@ function chatsReducer(state = defaultState, action) {
 
     case CHATS_MESSAGES_RECEIVED:
     case CHATS_MESSAGES_ADD: {
-      const { channel, session, messages, clear } = action;
+      const { channel, session, messages, clear, remove } = action;
       const [ channelChats, channelChatsSession ] = getOrCreateChatsSession(state, channel, session);
       if (clear) {
         channelChatsSession.messages = [...messages];
@@ -71,7 +71,14 @@ function chatsReducer(state = defaultState, action) {
           channelChatsSession.unreadCount = 0;
         }
       } else {
-        channelChatsSession.messages = [...channelChatsSession.messages, ...messages];
+        if (remove) {
+          channelChatsSession.messages = channelChatsSession.messages.filter(m => {
+            return !remove.includes(m.id);
+          });
+        } else {
+          channelChatsSession.messages = [...channelChatsSession.messages];
+        }
+        channelChatsSession.messages.push(...messages);
         if (channelChatsSession.hidden) {
           channelChatsSession.unreadCount += messages.length;
         }

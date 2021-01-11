@@ -6,6 +6,12 @@ import { FormattedMessage } from 'react-intl';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import DoneIcon from '@material-ui/icons/Done';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 import Moment from 'react-moment';
 
@@ -79,6 +85,9 @@ const styles = theme => ({
   messageWithHeader: {
     marginTop: theme.spacing() + 4,
   },
+  messageWithError: {
+    marginBottom: theme.spacing(3.5),
+  },
   messageHeader: {
     display: 'flex',
     paddingBottom: 4,
@@ -114,6 +123,20 @@ const styles = theme => ({
       },
     },
   },
+  messageStatus: {
+    position: 'absolute',
+    left: '-1.3em',
+    bottom: 0,
+    color: theme.palette.primary.light,
+  },
+  messageError: {
+    position: 'absolute',
+    right: 0,
+    whiteSpace: 'nowrap',
+    '& > *': {
+      verticalAlign: 'middle',
+    },
+  },
 });
 
 class ChatMessage extends React.PureComponent {
@@ -127,6 +150,11 @@ class ChatMessage extends React.PureComponent {
     }
   }
 
+  handleRetryClick = () => {
+    const { message, onRetry } = this.props;
+    onRetry(message);
+  }
+
   render() {
     const {
       classes,
@@ -136,6 +164,7 @@ class ChatMessage extends React.PureComponent {
       message,
       ...other
     } = this.props;
+    delete other.onRetry;
 
     const fromSelf = message.sender === '';
     const user = fromSelf ? null : this.getUserFromMessage(message);
@@ -145,6 +174,7 @@ class ChatMessage extends React.PureComponent {
       fromSelf ? classes.messageRight : classes.messageLeft,
       {
         [classes.messageWithHeader]: !noHeader,
+        [classes.messageWithError]: fromSelf && message.error,
       },
       classNameProp,
     );
@@ -170,6 +200,27 @@ class ChatMessage extends React.PureComponent {
           }}
         />
       </div>
+      {fromSelf && <div className={classes.messageStatus}>
+        {message.pending ?
+          (message.error ?
+            <ErrorOutlineIcon fontSize="inherit" color="error"/>
+            :
+            null
+          )
+          : (message.delivered ?
+            <DoneAllIcon fontSize="inherit"/>
+            :
+            <DoneIcon fontSize="inherit"/>)
+        }
+      </div>}
+      {fromSelf && message.error &&
+        <Typography
+          variant="caption" display="block" className={classes.messageError} color="error">
+          <span>
+            <FormattedMessage id="chatsMessage.notDelivered.message" defaultMessage="Not delivered"/>
+          </span> <IconButton size="small" onClick={this.handleRetryClick}><ReplayIcon color="error" fontSize="inherit"/></IconButton>
+        </Typography>
+      }
     </Card>;
   }
 }
@@ -180,6 +231,7 @@ ChatMessage.propTypes = {
 
   noHeader: PropTypes.bool,
   message: PropTypes.object.isRequired,
+  onRetry: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ChatMessage);
