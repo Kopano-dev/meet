@@ -2,6 +2,7 @@ import {
   KWM_CHANNEL_CHANGED,
   CHATS_MESSAGES_ADD,
   CHATS_MESSAGES_RECEIVED,
+  CHATS_MESSAGES_DELIVERY_QUEUED,
   CHATS_VISIBILITY_SET,
 } from '../actions/types';
 
@@ -83,6 +84,28 @@ function chatsReducer(state = defaultState, action) {
           channelChatsSession.unreadCount += messages.length;
         }
       }
+      channelChats[session] = channelChatsSession;
+      return {
+        ...state,
+        [channel]: channelChats,
+      };
+    }
+
+    case CHATS_MESSAGES_DELIVERY_QUEUED: {
+      const { channel, session, ids } = action;
+      const [ channelChats, channelChatsSession ] = getOrCreateChatsSession(state, channel, session);
+      if (!channelChatsSession.messages) {
+        break;
+      }
+      channelChatsSession.messages = channelChatsSession.messages.map(m => {
+        if (ids.includes(m.id)) {
+          return {
+            ...m,
+            delivered: true,
+          };
+        }
+        return m;
+      });
       channelChats[session] = channelChatsSession;
       return {
         ...state,

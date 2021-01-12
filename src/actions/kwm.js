@@ -440,6 +440,13 @@ function createKWMManager(eventCallback) {
 
       dispatch(chatsMessageReceived(event));
     };
+    k.chats.onsystem = event => {
+      if (!kwm || event.target !== kwm.chats) {
+        return;
+      }
+
+      dispatch(chatsSystemReceived(event));
+    };
 
     k.webrtc.setMode(mode);
 
@@ -997,5 +1004,23 @@ function chatsMessageReceived(event) {
       ts: new Date(message.ts * 1000),
       profile,
     }],
+  };
+}
+
+function chatsSystemReceived(event) {
+  return async dispatch => {
+    const { channel, message } = event;
+
+    switch (message.kind) {
+      case 'delivery_queued':
+        return dispatch({
+          type: types.CHATS_MESSAGES_DELIVERY_QUEUED,
+          channel,
+          session: 'current',
+          ids: [message.id],
+        });
+      default:
+        console.warn('unknown chats system message kind received', message.kind); // eslint-disable-line no-console
+    }
   };
 }
