@@ -7,8 +7,6 @@ import classNames from 'classnames';
 import memoize from 'memoize-one';
 import moment from '../../../moment';
 
-import Moment from 'react-moment';
-
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,7 +14,6 @@ import SendIcon from '@material-ui/icons/Send';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import ArrowDownwardRoundedIcon from '@material-ui/icons/ArrowDownwardRounded';
-import Typography from '@material-ui/core/Typography';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -26,6 +23,7 @@ import { sanitize } from '../../../sanitize';
 import { isMobile } from '../../../utils';
 
 import Message from './Message';
+import System from './System';
 
 const styles = theme => ({
   root: {
@@ -107,9 +105,6 @@ const styles = theme => ({
     marginLeft: 9,
     marginBottom: theme.spacing(0.5),
     marginTop: theme.spacing() + 4,
-    '& > span': {
-      paddingLeft: theme.spacing(),
-    },
   },
   fob: {
     position: 'absolute',
@@ -153,16 +148,18 @@ class ChannelChat extends React.PureComponent {
     let noHeader = false;
     if (index > 0) {
       const previousMessage = array[index-1];
-      if (previousMessage.sender === message.sender && moment(message.ts).diff(previousMessage.ts) < 95 * 1000) {
+      if (previousMessage.sender === message.sender
+        && previousMessage.kind === message.kind
+        && moment(message.ts).diff(previousMessage.ts) < 95 * 1000
+      ) {
         noHeader = true;
       }
     }
 
     switch (message.kind) {
-      case '': {
+      case '':
         // TODO(longsleep): Add more conditions which force header, like time too
         // long since last message etc ..
-
         return <Message
           className={classes.message}
           key={message.id}
@@ -170,12 +167,13 @@ class ChannelChat extends React.PureComponent {
           noHeader={noHeader}
           onRetry={this.handleRetry}
         />;
-      }
 
       case 'system':
-        return <Typography display="block" className={classes.system} key={message.id}>
-          {message.richText} <span><Moment format="LT" date={message.ts} interval={0}/></span>
-        </Typography>;
+        return <System
+          className={classes.system}
+          key={message.id}
+          message={message}
+        />;
 
       default:
     }
@@ -289,9 +287,6 @@ class ChannelChat extends React.PureComponent {
     };
 
     await this.doSendChatMessage(message);
-
-    /*await sendChatMessage(channel, session, message);
-    this.scrollToBottom('auto');*/
 
     this.setState(updates);
   }

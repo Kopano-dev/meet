@@ -45,7 +45,6 @@ function chatsReducer(state = defaultState, action) {
           kind: 'system',
           id: makeRandomChatID(),
           ts: new Date(),
-          richText: 'You have joined the meeting.',
           extra: {
             id: 'joined_self',
             values: {},
@@ -62,14 +61,16 @@ function chatsReducer(state = defaultState, action) {
 
     case CHATS_MESSAGES_RECEIVED:
     case CHATS_MESSAGES_ADD: {
-      const { channel, session, messages, clear, remove } = action;
+      const { channel, session, messages, clear, remove, skipUnreadCounting } = action;
       const [ channelChats, channelChatsSession ] = getOrCreateChatsSession(state, channel, session);
       if (clear) {
         channelChatsSession.messages = [...messages];
-        if (channelChatsSession.hidden) {
-          channelChatsSession.unreadCount = messages.length;
-        } else {
-          channelChatsSession.unreadCount = 0;
+        if (!skipUnreadCounting) {
+          if (channelChatsSession.hidden) {
+            channelChatsSession.unreadCount = messages.length;
+          } else {
+            channelChatsSession.unreadCount = 0;
+          }
         }
       } else {
         if (remove) {
@@ -80,7 +81,7 @@ function chatsReducer(state = defaultState, action) {
           channelChatsSession.messages = [...channelChatsSession.messages];
         }
         channelChatsSession.messages.push(...messages);
-        if (channelChatsSession.hidden) {
+        if (channelChatsSession.hidden && !skipUnreadCounting) {
           channelChatsSession.unreadCount += messages.length;
         }
       }

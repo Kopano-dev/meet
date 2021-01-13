@@ -139,17 +139,17 @@ const styles = theme => ({
   },
 });
 
-class ChatMessage extends React.PureComponent {
-  getUserFromMessage = message => {
-    const { profile } = message;
+export const getUserFromMessage = message => {
+  const { profile } = message;
 
-    if (profile) {
-      return {
-        displayName: profile.name ? profile.name : '',
-      };
-    }
+  if (profile) {
+    return {
+      displayName: profile.name ? profile.name : '',
+    };
   }
+};
 
+class ChatMessage extends React.PureComponent {
   handleRetryClick = () => {
     const { message, onRetry } = this.props;
     onRetry(message);
@@ -167,7 +167,7 @@ class ChatMessage extends React.PureComponent {
     delete other.onRetry;
 
     const fromSelf = message.sender === '';
-    const user = fromSelf ? null : this.getUserFromMessage(message);
+    const user = fromSelf ? null : getUserFromMessage(message);
 
     const className = classNames(
       classes.root,

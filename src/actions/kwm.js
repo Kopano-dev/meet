@@ -438,6 +438,17 @@ function createKWMManager(eventCallback) {
         return;
       }
 
+      // Ensure to let through only message kinds we know about.
+      const { message } = event;
+      switch (message.kind) {
+        case '':
+          break;
+
+        default:
+          console.warn('unknown chats message kind received', message.kind); // eslint-disable-line no-console
+          return;
+      }
+
       dispatch(chatsMessageReceived(event));
     };
     k.chats.onsystem = event => {
@@ -992,7 +1003,7 @@ export function tryGuestLogon(settings) {
   };
 }
 
-function chatsMessageReceived(event) {
+function chatsMessageReceived(event, options={}) {
   const { channel, message, profile } = event;
 
   return {
@@ -1004,6 +1015,7 @@ function chatsMessageReceived(event) {
       ts: new Date(message.ts * 1000),
       profile,
     }],
+    ...options,
   };
 }
 
@@ -1011,6 +1023,7 @@ function chatsSystemReceived(event) {
   return async dispatch => {
     const { channel, message } = event;
 
+    // Filter incoming messages to let only the ones through we know about.
     switch (message.kind) {
       case 'delivery_queued':
         return dispatch({
@@ -1019,6 +1032,11 @@ function chatsSystemReceived(event) {
           session: 'current',
           ids: [message.id],
         });
+
+      case 'system':
+        // System message.
+        return dispatch(chatsMessageReceived(event, { skipUnreadCounting: true }));
+
       default:
         console.warn('unknown chats system message kind received', message.kind); // eslint-disable-line no-console
     }
