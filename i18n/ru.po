@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2020-11-20T15:24:47.295Z\n"
+"POT-Creation-Date: 2021-02-22T13:25:21.984Z\n"
 "PO-Revision-Date: 2019-08-29 05:50+0000\n"
 "Last-Translator: Sotneo <kerovsot@gmail.com>\n"
 "Language-Team: Russian <http://translate.kopano.io/projects/kopano/meet/ru/>\n"
@@ -277,6 +277,14 @@ msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
 msgstr ""
 
+#. [chatsSystem.message.disconnected_self]
+#. defaultMessage is:
+#. Disconnected from server.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.disconnected_self"
+msgid "Disconnected from server."
+msgstr ""
+
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -463,14 +471,6 @@ msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
 msgstr "Присоединиться"
 
-#. [contactSearch.newPublicGroup.button.text]
-#. defaultMessage is:
-#. Join  or create group
-#: i18n/src/messages.json
-msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "Join  or create group"
-msgstr "Присоединиться или создать группу"
-
 #. [joinscreen.joinCallButton.text]
 #. defaultMessage is:
 #. Join call
@@ -485,6 +485,15 @@ msgstr "Видеозвонок"
 #. Join or create group
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Join or create group"
+msgstr "Присоединиться или создать группу"
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join or create group
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join or create group"
 msgstr "Присоединиться или создать группу"
 
@@ -511,6 +520,15 @@ msgstr "Ссылка скопирована в буфер обмена."
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
 msgstr "Загрузка контактов ..."
+
+#. [chatsMessage.isSelf.displayName]
+#. defaultMessage is:
+#. Me
+#: i18n/src/messages.json
+#, fuzzy
+msgctxt "chatsMessage.isSelf.displayName"
+msgid "Me"
+msgstr "Ещё"
 
 #. [deviceSettings.microphoneSelect.label]
 #. defaultMessage is:
@@ -552,6 +570,14 @@ msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
 msgstr "Новый звонок"
 
+#. [chat.newMessagesFob.label]
+#. defaultMessage is:
+#. New messages
+#: i18n/src/messages.json
+msgctxt "chat.newMessagesFob.label"
+msgid "New messages"
+msgstr ""
+
 #. [joinscreen.nextButton.text]
 #. defaultMessage is:
 #. Next
@@ -560,6 +586,14 @@ msgstr "Новый звонок"
 #. Next
 #: i18n/src/messages.json
 msgctxt "joinscreen.nextButton.text"
+msgid "Next"
+msgstr ""
+
+#. [joinscreen.signInButton.text]
+#. defaultMessage is:
+#. Next
+#: i18n/src/messages.json
+msgctxt "joinscreen.signInButton.text"
 msgid "Next"
 msgstr ""
 
@@ -588,12 +622,20 @@ msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
 msgstr "Нет прав на доступ к серверу"
 
+#. [chatsMessage.notDelivered.message]
+#. defaultMessage is:
+#. Not delivered
+#: i18n/src/messages.json
+msgctxt "chatsMessage.notDelivered.message"
+msgid "Not delivered"
+msgstr ""
+
 #. [channelControl.tabParticipants.label]
 #. defaultMessage is:
-#. Participants
+#. Participants ({participants, number})
 #: i18n/src/messages.json
 msgctxt "channelControl.tabParticipants.label"
-msgid "Participants"
+msgid "Participants ({participants, number})"
 msgstr ""
 
 #. [callGrid.noPeers.headline]
@@ -645,6 +687,14 @@ msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
 msgstr "Поиск контактов ..."
 
+#. [chatsSystem.message.connected_self]
+#. defaultMessage is:
+#. Server connection re-established.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.connected_self"
+msgid "Server connection re-established."
+msgstr ""
+
 #. [callView.settingsList.label]
 #. defaultMessage is:
 #. Settings
@@ -661,14 +711,6 @@ msgstr "Настройки"
 msgctxt "groupControl.shareLinkButton.aria"
 msgid "Share {scope} link"
 msgstr "Поделиться ссылкой {scope}"
-
-#. [joinscreen.signInButton.text]
-#. defaultMessage is:
-#. Sign in
-#: i18n/src/messages.json
-msgctxt "joinscreen.signInButton.text"
-msgid "Sign in"
-msgstr ""
 
 #. [joinscreen.singOutButton.text]
 #. defaultMessage is:
@@ -710,6 +752,14 @@ msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
 msgstr ""
 
+#. [snackStack.kustomerNotZero.snack]
+#. defaultMessage is:
+#. The license keys installed on this Kopano Meet system have expired or are being overused.
+#: i18n/src/messages.json
+msgctxt "snackStack.kustomerNotZero.snack"
+msgid "The license keys installed on this Kopano Meet system have expired or are being overused."
+msgstr ""
+
 #. [joinscreen.guest.suffixText]
 #. defaultMessage is:
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
@@ -749,6 +799,14 @@ msgstr "Эта группа защищена - требуется аккаунт
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
 msgstr "Эта группа публичная - любой может присоединиться."
+
+#. [chat.inputText.placeholder]
+#. defaultMessage is:
+#. Type a message
+#: i18n/src/messages.json
+msgctxt "chat.inputText.placeholder"
+msgid "Type a message"
+msgstr ""
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -846,6 +904,22 @@ msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
 msgstr "У вас недостаточно прав."
 
+#. [chatsSystem.message.joined_self]
+#. defaultMessage is:
+#. You have joined.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.joined_self"
+msgid "You have joined."
+msgstr ""
+
+#. [chatsSystem.message.left_self]
+#. defaultMessage is:
+#. You have left.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.left_self"
+msgid "You have left."
+msgstr ""
+
 #. [meetscreen.errorMessage.browserUnsupported.message]
 #. defaultMessage is:
 #. Your browser is not supported - expect issues.
@@ -877,6 +951,14 @@ msgstr ""
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
 msgstr "Ваша история звонков пуста."
+
+#. [chat.inputErrorMessage.tooLong]
+#. defaultMessage is:
+#. Your message is too long.
+#: i18n/src/messages.json
+msgctxt "chat.inputErrorMessage.tooLong"
+msgid "Your message is too long."
+msgstr ""
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -917,6 +999,14 @@ msgstr "конференция"
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
 msgstr "удалить"
+
+#. [snackStack.kustomerNotZero.snackButton.text]
+#. defaultMessage is:
+#. dismiss
+#: i18n/src/messages.json
+msgctxt "snackStack.kustomerNotZero.snackButton.text"
+msgid "dismiss"
+msgstr ""
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -976,6 +1066,22 @@ msgctxt "callGrid.noVideoPeers.headline"
 msgid "{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
 msgstr ""
 
+#. [chatsSystem.message.userJoined]
+#. defaultMessage is:
+#. {displayName} has joined.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.userJoined"
+msgid "{displayName} has joined."
+msgstr ""
+
+#. [chatsSystem.message.userLeft]
+#. defaultMessage is:
+#. {displayName} has left.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.userLeft"
+msgid "{displayName} has left."
+msgstr ""
+
 #. [participants.subheaderLabel]
 #. defaultMessage is:
 #. {participants, number} {participants, plural, one {participant} other {participants}}
@@ -999,6 +1105,10 @@ msgstr ""
 msgctxt "joinscreen.welcome.scope"
 msgid "{scope} \"{id}\""
 msgstr ""
+
+#~ msgctxt "contactSearch.newPublicGroup.button.text"
+#~ msgid "Join  or create group"
+#~ msgstr "Присоединиться или создать группу"
 
 #~ msgctxt "callView.notActive.snack"
 #~ msgid "There is currently nothing active here."

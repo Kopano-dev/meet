@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-11-20T15:24:47.295Z\n"
-"PO-Revision-Date: 2020-11-20 16:32+0100\n"
+"POT-Creation-Date: 2021-02-22T13:25:21.984Z\n"
+"PO-Revision-Date: 2021-02-22 19:59+0100\n"
 "Last-Translator: Simon Eisenmann <simon@longsleep.org>\n"
 "Language-Team: German <http://translate.kopano.io/projects/kopano/meet/de/>\n"
 "Language: de\n"
@@ -272,6 +272,14 @@ msgctxt "settingsDialog.devicesTab.label"
 msgid "Devices"
 msgstr "Geräte"
 
+#. [chatsSystem.message.disconnected_self]
+#. defaultMessage is:
+#. Disconnected from server.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.disconnected_self"
+msgid "Disconnected from server."
+msgstr "Verbindung zum Server ist getrennt."
+
 #. [settingDialog.doneButton.label]
 #. defaultMessage is:
 #. Done
@@ -453,14 +461,6 @@ msgctxt "newPublicGroup.createButton.text"
 msgid "Join"
 msgstr "Betreten"
 
-#. [contactSearch.newPublicGroup.button.text]
-#. defaultMessage is:
-#. Join  or create group
-#: i18n/src/messages.json
-msgctxt "contactSearch.newPublicGroup.button.text"
-msgid "Join  or create group"
-msgstr "Gruppe betreten oder erstellen"
-
 #. [joinscreen.joinCallButton.text]
 #. defaultMessage is:
 #. Join call
@@ -474,6 +474,14 @@ msgstr "Los geht's"
 #. Join or create group
 #: i18n/src/messages.json
 msgctxt "callView.newPublicGroupDialog.topTitle"
+msgid "Join or create group"
+msgstr "Gruppe betreten oder erstellen"
+
+#. [contactSearch.newPublicGroup.button.text]
+#. defaultMessage is:
+#. Join or create group
+#: i18n/src/messages.json
+msgctxt "contactSearch.newPublicGroup.button.text"
 msgid "Join or create group"
 msgstr "Gruppe betreten oder erstellen"
 
@@ -500,6 +508,14 @@ msgstr "Der Link wurde in die Zwischenablage kopiert."
 msgctxt "contactSearch.messageLoadingContacts"
 msgid "Loading contacts ..."
 msgstr "Kontakte werden geladen ..."
+
+#. [chatsMessage.isSelf.displayName]
+#. defaultMessage is:
+#. Me
+#: i18n/src/messages.json
+msgctxt "chatsMessage.isSelf.displayName"
+msgid "Me"
+msgstr "Ich"
 
 #. [deviceSettings.microphoneSelect.label]
 #. defaultMessage is:
@@ -541,6 +557,14 @@ msgctxt "callView.newCallDialog.topTitle"
 msgid "New call"
 msgstr "Neuer Anruf"
 
+#. [chat.newMessagesFob.label]
+#. defaultMessage is:
+#. New messages
+#: i18n/src/messages.json
+msgctxt "chat.newMessagesFob.label"
+msgid "New messages"
+msgstr "Neue Nachrichten"
+
 #. [joinscreen.nextButton.text]
 #. defaultMessage is:
 #. Next
@@ -549,6 +573,14 @@ msgstr "Neuer Anruf"
 #. Next
 #: i18n/src/messages.json
 msgctxt "joinscreen.nextButton.text"
+msgid "Next"
+msgstr "Weiter"
+
+#. [joinscreen.signInButton.text]
+#. defaultMessage is:
+#. Next
+#: i18n/src/messages.json
+msgctxt "joinscreen.signInButton.text"
 msgid "Next"
 msgstr "Weiter"
 
@@ -576,13 +608,21 @@ msgctxt "meet.kwm.no_permission"
 msgid "No permission to access server"
 msgstr "Keine Berechtigung für Serverzugriff"
 
+#. [chatsMessage.notDelivered.message]
+#. defaultMessage is:
+#. Not delivered
+#: i18n/src/messages.json
+msgctxt "chatsMessage.notDelivered.message"
+msgid "Not delivered"
+msgstr "Nicht verschickt"
+
 #. [channelControl.tabParticipants.label]
 #. defaultMessage is:
-#. Participants
+#. Participants ({participants, number})
 #: i18n/src/messages.json
 msgctxt "channelControl.tabParticipants.label"
-msgid "Participants"
-msgstr "Teilnehmer"
+msgid "Participants ({participants, number})"
+msgstr "Teilnehmer ({participants, number})"
 
 #. [callGrid.noPeers.headline]
 #. defaultMessage is:
@@ -632,6 +672,14 @@ msgctxt "contactSearch.messageSearchingForContacts"
 msgid "Searching for contacts ..."
 msgstr "Suche nach Kontakten ..."
 
+#. [chatsSystem.message.connected_self]
+#. defaultMessage is:
+#. Server connection re-established.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.connected_self"
+msgid "Server connection re-established."
+msgstr "Verbindung zum Server wiederhergestellt."
+
 #. [callView.settingsList.label]
 #. defaultMessage is:
 #. Settings
@@ -647,14 +695,6 @@ msgstr "Einstellungen"
 msgctxt "groupControl.shareLinkButton.aria"
 msgid "Share {scope} link"
 msgstr "Link teilen"
-
-#. [joinscreen.signInButton.text]
-#. defaultMessage is:
-#. Sign in
-#: i18n/src/messages.json
-msgctxt "joinscreen.signInButton.text"
-msgid "Sign in"
-msgstr "Einloggen"
 
 #. [joinscreen.singOutButton.text]
 #. defaultMessage is:
@@ -696,6 +736,14 @@ msgctxt "deviceSettings.speakerTestButton.label"
 msgid "Test"
 msgstr "Testen"
 
+#. [snackStack.kustomerNotZero.snack]
+#. defaultMessage is:
+#. The license keys installed on this Kopano Meet system have expired or are being overused.
+#: i18n/src/messages.json
+msgctxt "snackStack.kustomerNotZero.snack"
+msgid "The license keys installed on this Kopano Meet system have expired or are being overused."
+msgstr "Die installierte Lizenz für Kopano Meet ist abgelaufen oder ist nicht ausreichend."
+
 #. [joinscreen.guest.suffixText]
 #. defaultMessage is:
 #. The name defines how you are visible to others as guest. If you have an account, you can {signInLink} too
@@ -735,6 +783,14 @@ msgstr "Diese Gruppe ist geschützt - Teilnehmer benötigen ein Benutzerkonto."
 msgctxt "invite.groupIsProtected.text"
 msgid "This group is public - guests are allowed to join."
 msgstr "Diese Gruppe ist öffentlich  - Gäste sind erlaubt."
+
+#. [chat.inputText.placeholder]
+#. defaultMessage is:
+#. Type a message
+#: i18n/src/messages.json
+msgctxt "chat.inputText.placeholder"
+msgid "Type a message"
+msgstr "Geben Sie eine Nachricht ein"
 
 #. [meet.kwm.unable_to_accept]
 #. defaultMessage is:
@@ -832,6 +888,22 @@ msgctxt "callView.noAccess.snack"
 msgid "You do not have access here."
 msgstr "Sie haben hier keinen Zugriff."
 
+#. [chatsSystem.message.joined_self]
+#. defaultMessage is:
+#. You have joined.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.joined_self"
+msgid "You have joined."
+msgstr "Sind sind beigetreten."
+
+#. [chatsSystem.message.left_self]
+#. defaultMessage is:
+#. You have left.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.left_self"
+msgid "You have left."
+msgstr "Sie sind gegangen."
+
 #. [meetscreen.errorMessage.browserUnsupported.message]
 #. defaultMessage is:
 #. Your browser is not supported - expect issues.
@@ -863,6 +935,14 @@ msgstr "Ihr Browser konnte nicht erkannt werden und wird deshalb nicht unterstü
 msgctxt "recents.callHistoryEmpty.message"
 msgid "Your call history is empty."
 msgstr "Ihr Anrufverlauf ist leer."
+
+#. [chat.inputErrorMessage.tooLong]
+#. defaultMessage is:
+#. Your message is too long.
+#: i18n/src/messages.json
+msgctxt "chat.inputErrorMessage.tooLong"
+msgid "Your message is too long."
+msgstr "Ihre Nachricht ist zu lang."
 
 #. [callView.microphoneIsMutedSnack.message]
 #. defaultMessage is:
@@ -903,6 +983,14 @@ msgstr "Konferenz"
 msgctxt "recents.deleteSwipeButton.text"
 msgid "delete"
 msgstr "löschen"
+
+#. [snackStack.kustomerNotZero.snackButton.text]
+#. defaultMessage is:
+#. dismiss
+#: i18n/src/messages.json
+msgctxt "snackStack.kustomerNotZero.snackButton.text"
+msgid "dismiss"
+msgstr "ausblenden"
 
 #. [scopeLabel.group.label]
 #. defaultMessage is:
@@ -960,6 +1048,22 @@ msgctxt "callGrid.noVideoPeers.headline"
 msgid "{count, plural, one {{count} other (no video)} other {{count} others (no video)}}"
 msgstr "{count, plural, one {{count}  anderer Teilnehmer (ohne Video)} other {{count} andere Teilnehmer (ohne Video)}}"
 
+#. [chatsSystem.message.userJoined]
+#. defaultMessage is:
+#. {displayName} has joined.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.userJoined"
+msgid "{displayName} has joined."
+msgstr "{displayName} ist beigetreten."
+
+#. [chatsSystem.message.userLeft]
+#. defaultMessage is:
+#. {displayName} has left.
+#: i18n/src/messages.json
+msgctxt "chatsSystem.message.userLeft"
+msgid "{displayName} has left."
+msgstr "{displayName} ist gegangen."
+
 #. [participants.subheaderLabel]
 #. defaultMessage is:
 #. {participants, number} {participants, plural, one {participant} other {participants}}
@@ -983,6 +1087,18 @@ msgstr "{scope} \"{id}\""
 msgctxt "joinscreen.welcome.scope"
 msgid "{scope} \"{id}\""
 msgstr "{scope} \"{id}\""
+
+#~ msgctxt "contactSearch.newPublicGroup.button.text"
+#~ msgid "Join  or create group"
+#~ msgstr "Gruppe betreten oder erstellen"
+
+#~ msgctxt "channelControl.tabParticipants.label"
+#~ msgid "Participants"
+#~ msgstr "Teilnehmer"
+
+#~ msgctxt "joinscreen.signInButton.text"
+#~ msgid "Sign in"
+#~ msgstr "Einloggen"
 
 #~ msgctxt "meetscreen.errorMessage.appleStandalone.message"
 #~ msgid "Apple devices do not support camera/mic access when started as App."
