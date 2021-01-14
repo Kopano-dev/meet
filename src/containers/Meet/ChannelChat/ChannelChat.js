@@ -98,13 +98,7 @@ const styles = theme => ({
     marginBottom: theme.spacing(-1),
   },
   system: {
-    ...theme.typography.body2,
-    fontSize: '0.75rem',
-    lineHeight: 1.35,
-    color: theme.palette.grey[500],
     marginLeft: 9,
-    marginBottom: theme.spacing(0.5),
-    marginTop: theme.spacing() + 4,
   },
   fob: {
     position: 'absolute',
@@ -173,6 +167,7 @@ class ChannelChat extends React.PureComponent {
           className={classes.system}
           key={message.id}
           message={message}
+          noHeader={noHeader}
         />;
 
       default:

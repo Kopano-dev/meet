@@ -14,7 +14,16 @@ import DisplayNameLabel from '../../../components/DisplayNameLabel';
 import { getUserFromMessage } from './Message';
 
 const styles = theme => ({
-  root: {},
+  root: {
+    ...theme.typography.body2,
+    fontSize: '0.75rem',
+    lineHeight: 1.35,
+    color: theme.palette.grey[500],
+    marginBottom: theme.spacing(0.5),
+  },
+  withHeader: {
+    marginTop: theme.spacing(),
+  },
   ts: {
     paddingLeft: theme.spacing(),
   },
@@ -26,12 +35,16 @@ class System extends React.PureComponent {
       classes,
       className: classNameProp,
 
+      noHeader,
       message,
       ...other
     } = this.props;
 
     const className = classNames(
       classes.root,
+      {
+        [classes.withHeader]: !noHeader,
+      },
       classNameProp,
     );
 
@@ -41,7 +54,7 @@ class System extends React.PureComponent {
         case 'joined_self':
           content = <FormattedMessage
             id="chatsSystem.message.joined_self"
-            defaultMessage="You have joined the meeting."
+            defaultMessage="You have joined."
           />;
           break;
 
@@ -49,7 +62,7 @@ class System extends React.PureComponent {
           const displayName = <DisplayNameLabel user={getUserFromMessage(message)} id={message.sender}/>;
           content = <FormattedMessage
             id="chatsSystem.message.userJoined"
-            defaultMessage="{displayName} has joined the meeting."
+            defaultMessage="{displayName} has joined."
             values={{displayName}}
           />;
           break;
@@ -59,7 +72,7 @@ class System extends React.PureComponent {
           const displayName = <DisplayNameLabel user={getUserFromMessage(message)} id={message.sender}/>;
           content = <FormattedMessage
             id="chatsSystem.message.userLeft"
-            defaultMessage="{displayName} has left the meeting."
+            defaultMessage="{displayName} has left."
             values={{displayName}}
           />;
           break;
@@ -82,6 +95,7 @@ System.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
 
+  noHeader: PropTypes.bool,
   message: PropTypes.object.isRequired,
 };
 
