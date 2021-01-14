@@ -50,8 +50,14 @@ class ChannelControl extends React.PureComponent {
   }
 
   handleTabChange = (event, value) => {
+    const { onTabChange } = this.props;
+
     this.setState({
       openTab: value,
+    }, () => {
+      if (onTabChange) {
+        onTabChange(value);
+      }
     });
   }
 
@@ -124,6 +130,7 @@ ChannelControl.propTypes = {
   withInvite: PropTypes.bool,
 
   onActionClick: PropTypes.func.isRequired,
+  onTabChange: PropTypes.func,
 };
 
 const mapStateToProps = () => {

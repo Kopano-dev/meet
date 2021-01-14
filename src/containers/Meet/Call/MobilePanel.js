@@ -12,12 +12,13 @@ const styles = theme => ({
   },
 });
 
-const MobilePanel = ({classes, channel, config, onActionClick}) => {
+const MobilePanel = ({classes, channel, config, onActionClick, onChange}) => {
   return <ChannelControl
     channel={channel}
     config={config}
     className={classes.control}
     onActionClick={onActionClick}
+    onTabChange={onChange}
   />;
 };
 
@@ -29,6 +30,7 @@ MobilePanel.propTypes = {
   channel: PropTypes.string,
 
   onActionClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default withStyles(styles)(MobilePanel);

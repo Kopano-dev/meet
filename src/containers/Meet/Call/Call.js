@@ -730,6 +730,15 @@ class CallView extends React.PureComponent {
     });
   }
 
+  handleBottombarChange = () => {
+    const { bottombarMobileExpanded } = this.state;
+    if (!bottombarMobileExpanded) {
+      this.setState({
+        bottombarMobileExpanded: true,
+      });
+    }
+  }
+
   openDialog = (updates = {}) => {
     const { openDialogs } = this.state;
 
@@ -1120,6 +1129,7 @@ class CallView extends React.PureComponent {
                 channel={channel}
                 config={config}
                 onActionClick={this.handleDialogActionClick}
+                onChange={this.handleBottombarChange}
               />}
             </ReflexElement>}
           </ReflexContainer>
