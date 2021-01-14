@@ -108,7 +108,7 @@ const styles = theme => ({
     boxSizing: 'border-box',
     minHeight: 68,
     display: 'flex',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       minHeight: '35vh',
     },
   },
