@@ -66,3 +66,10 @@ export const getCurrentParticipants = createSelector(
     return participants;
   }
 );
+
+export const getCurrentParticipantsCount = createSelector(
+  [ getStreams ],
+  (streams) => {
+    return Object.keys(streams).length + 1; // One extra, to counts ourselves.
+  }
+);

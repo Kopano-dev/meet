@@ -11,6 +11,8 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
+import { getCurrentParticipantsCount } from '../../selectors/participants';
+
 import Participants from './Participants';
 import ChannelChat, { ChannelChatBadge } from './ChannelChat';
 
@@ -36,7 +38,7 @@ const styles = () => ({
 const translations = defineMessages({
   tabLabelParticipants: {
     id: 'channelControl.tabParticipants.label',
-    defaultMessage: 'Participants',
+    defaultMessage: 'Participants ({participants, number})',
   },
   tabLabelChat: {
     id: 'channelControl.tabChat.label',
@@ -71,6 +73,8 @@ class ChannelControl extends React.PureComponent {
       channel,
       withInvite,
 
+      participantsCount,
+
       onActionClick,
     } = this.props;
     const {
@@ -99,7 +103,7 @@ class ChannelControl extends React.PureComponent {
           centered
           variant="fullWidth"
         >
-          <Tab value="participants" className={classes.tab} icon={<PeopleIcon />} label={intl.formatMessage(translations.tabLabelParticipants)} />
+          <Tab value="participants" className={classes.tab} icon={<PeopleIcon />} label={intl.formatMessage(translations.tabLabelParticipants, {participants: participantsCount})} />
           <Tab value="chat" className={classes.tab} icon={
             <ChannelChatBadge color="primary" channel={channel} session={channelChatSession}>
               <ChatIcon />
@@ -129,12 +133,15 @@ ChannelControl.propTypes = {
   channel: PropTypes.string,
   withInvite: PropTypes.bool,
 
+  participantsCount: PropTypes.number.isRequired,
+
   onActionClick: PropTypes.func.isRequired,
   onTabChange: PropTypes.func,
 };
 
-const mapStateToProps = () => {
+const mapStateToProps = state => {
   return {
+    participantsCount: getCurrentParticipantsCount(state),
   };
 };
 
