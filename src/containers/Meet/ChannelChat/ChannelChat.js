@@ -43,12 +43,12 @@ const styles = theme => ({
       position: 'absolute',
       content: '""',
       height: 6,
-      top: -6,
+      top: -7,
       left: 0,
       right: 0,
       boxShadow: theme.shadows[6].split(',0px')[0],
       opacity: 0,
-      ransition: 'opacity 0.5s',
+      transition: 'opacity 0.5s',
       zIndex: 1,
     },
   },
@@ -186,7 +186,7 @@ class ChannelChat extends React.PureComponent {
   componentDidMount() {
     const { setChatVisibility, channel, session } = this.props;
 
-    this.computeScrollOverflow();
+    setTimeout(this.computeScrollOverflow, 0); // Do async, so that has a size before run first.
     this.scrollToBottom('auto');
 
     this.containerRef.current.addEventListener('scroll', this.handleScroll, {passive: true});
