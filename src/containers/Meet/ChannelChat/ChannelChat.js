@@ -51,6 +51,17 @@ const styles = theme => ({
       transition: 'opacity 0.5s',
       zIndex: 1,
     },
+    '&::-webkit-scrollbar': {
+      width: theme.spacing(1.5),
+      height: theme.spacing(1.5),
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'transparent',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      border: `2px solid ${theme.palette.common.white}`,
+      borderRadius: theme.spacing(1),
+    },
   },
   containerScrolledDown: {
     '&:before': {

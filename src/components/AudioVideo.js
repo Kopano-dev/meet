@@ -122,7 +122,7 @@ const styles = (theme) => ({
   },
   overlayText: {
     position: 'absolute',
-    maxWidth: '80%',
+    maxWidth: '90%',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -149,7 +149,7 @@ const styles = (theme) => ({
   overlayDisplayName: {
     display: 'inline-block',
     verticalAlign: 'text-bottom',
-    maxWidth: '90%',
+    maxWidth: '80%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },

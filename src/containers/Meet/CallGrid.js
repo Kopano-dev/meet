@@ -129,6 +129,10 @@ const styles = theme => ({
     maxWidth: '12vh',
     maxHeight: '12vh',
   },
+  roundedNoCover: {
+    height: 'auto',
+    minHeight: 58,
+  },
   floatingLocal: {
     position: 'absolute',
     right: theme.spacing(2),
@@ -329,6 +333,7 @@ class CallGrid extends React.PureComponent {
                     classes.container,
                     {
                       [classes.rounded]: overlay,
+                      [classes.roundedNoCover]: overlay && !cover,
                     }
                   ),
                 }}
