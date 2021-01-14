@@ -132,6 +132,7 @@ class ChannelChat extends React.PureComponent {
 
     this.containerRef = React.createRef();
     this.messagesBottomRef = React.createRef();
+    this.inputTextFieldRef = React.createRef();
   }
 
   makeMessage(message, index, array) {
@@ -267,23 +268,27 @@ class ChannelChat extends React.PureComponent {
   handleSend = async () => {
     const { inputText } = this.state;
 
-    if (!inputText) {
-      return;
-    }
+    await (async () => {
+      if (!inputText) {
+        return;
+      }
 
-    const updates = {
-      inputText: '',
-    };
+      const updates = {
+        inputText: '',
+      };
 
-    const text = new Option(inputText).innerHTML;
-    const message = {
-      text,
-      richText: sanitize(text, 'text', true, false, true),
-    };
+      const text = new Option(inputText).innerHTML;
+      const message = {
+        text,
+        richText: sanitize(text, 'text', true, false, true),
+      };
 
-    await this.doSendChatMessage(message);
+      await this.doSendChatMessage(message);
 
-    this.setState(updates);
+      this.setState(updates);
+    })();
+
+    this.inputTextFieldRef.current.focus();
   }
 
   handleRetry = async (message) => {
@@ -350,6 +355,7 @@ class ChannelChat extends React.PureComponent {
             onChange={this.handleInputTextChange}
             onKeyPress={this.handleInputTextKeyPress}
             autoFocus={!isMobile}
+            inputRef={this.inputTextFieldRef}
           />
           <IconButton color="primary" onClick={this.handleSend}>
             <SendIcon />
