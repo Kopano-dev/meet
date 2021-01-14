@@ -58,6 +58,27 @@ class System extends React.PureComponent {
           />;
           break;
 
+        case 'left_self':
+          content = <FormattedMessage
+            id="chatsSystem.message.left_self"
+            defaultMessage="You have left."
+          />;
+          break;
+
+        case 'connected_self':
+          content = <FormattedMessage
+            id="chatsSystem.message.connected_self"
+            defaultMessage="Server connection re-established."
+          />;
+          break;
+
+        case 'disconnected_self':
+          content = <FormattedMessage
+            id="chatsSystem.message.disconnected_self"
+            defaultMessage="Disconnected from server."
+          />;
+          break;
+
         case 'joined': {
           const displayName = <DisplayNameLabel user={getUserFromMessage(message)} id={message.sender}/>;
           content = <FormattedMessage

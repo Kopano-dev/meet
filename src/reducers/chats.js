@@ -1,5 +1,6 @@
 import {
   KWM_CHANNEL_CHANGED,
+  KWM_STATE_CHANGED,
   CHATS_MESSAGES_ADD,
   CHATS_MESSAGES_RECEIVED,
   CHATS_MESSAGES_DELIVERY_QUEUED,
@@ -20,6 +21,10 @@ const defaultState = {
   */
 };
 
+const currentStateCache = {
+  channel: null,
+};
+
 function getOrCreateChatsSession(state, channel, session) {
   const channelChats = {
     ...state[channel],
@@ -36,17 +41,54 @@ function getOrCreateChatsSession(state, channel, session) {
 function chatsReducer(state = defaultState, action) {
   switch (action.type) {
     case KWM_CHANNEL_CHANGED: {
-      const { channel } = action;
+      let { channel } = action;
+      const session = 'current';
+      const messageID = channel ? 'joined_self' : 'left_self';
+
+      if (!channel) {
+        if (currentStateCache.channel) {
+          channel = currentStateCache.channel;
+          currentStateCache.channel = null;
+        } else {
+          // Do nothing.
+          break;
+        }
+      } else {
+        currentStateCache.channel = channel;
+      }
+
+      const [ channelChats, channelChatsSession ] = getOrCreateChatsSession(state, channel, session);
+      channelChatsSession.messages = [...channelChatsSession.messages, {
+        kind: 'system',
+        id: makeRandomChatID(),
+        ts: new Date(),
+        extra: {
+          id: messageID,
+          values: {},
+        },
+      }];
+      channelChats[session] = channelChatsSession;
+      return {
+        ...state,
+        [channel]: channelChats,
+      };
+    }
+
+    case KWM_STATE_CHANGED: {
+      const { connected } = action;
+      const { channel, connected: connectedCached } = currentStateCache;
       const session = 'current';
 
-      if (channel) {
+      currentStateCache.connected = connected;
+      if (channel && connectedCached !== undefined && connectedCached !== connected) {
+        const messageID = connected ? 'connected_self' : 'disconnected_self';
         const [ channelChats, channelChatsSession ] = getOrCreateChatsSession(state, channel, session);
         channelChatsSession.messages = [...channelChatsSession.messages, {
           kind: 'system',
           id: makeRandomChatID(),
           ts: new Date(),
           extra: {
-            id: 'joined_self',
+            id: messageID,
             values: {},
           },
         }];
