@@ -15,7 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
 import ArrowDownwardRoundedIcon from '@material-ui/icons/ArrowDownwardRounded';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
 
 import { getChatMessagesByChannelAndSession } from '../../../selectors/chats';
 import { sendChatMessage, setChatVisibility } from '../../../actions/chats';
@@ -128,6 +128,13 @@ const styles = theme => ({
   },
 });
 
+const translations = defineMessages({
+  inputTextPlaceholder: {
+    id: "chat.inputText.placeholder",
+    defaultMessage: "Type a message",
+  },
+});
+
 class ChannelChat extends React.PureComponent {
   scrollPosition = 0;
   scrollTicking = false;
@@ -139,6 +146,8 @@ class ChannelChat extends React.PureComponent {
       scrollLastSeenMessageID: null,
       scrollOverflow: false,
       inputText: '',
+      inputTextValid: false,
+      inputTextTooLong: false,
     };
 
     this.containerRef = React.createRef();
@@ -259,8 +268,16 @@ class ChannelChat extends React.PureComponent {
   }
 
   handleInputTextChange = event => {
+    const { maxInputTextLength } = this.props;
+
+    const inputText = event.target.value;
+    const inputTextTooLong = inputText.length > maxInputTextLength;
+    const inputTextValid = inputText.length > 0 && !inputTextTooLong;
+
     this.setState({
-      inputText: event.target.value,
+      inputText,
+      inputTextValid,
+      inputTextTooLong,
     });
   }
 
@@ -277,15 +294,17 @@ class ChannelChat extends React.PureComponent {
   }
 
   handleSend = async () => {
-    const { inputText } = this.state;
+    const { inputText, inputTextValid } = this.state;
 
     await (async () => {
-      if (!inputText) {
+      if (!inputTextValid) {
         return;
       }
 
       const updates = {
         inputText: '',
+        inputTextValid: false,
+        inputTextTooLong: false,
       };
 
       const text = new Option(inputText).innerHTML;
@@ -317,11 +336,12 @@ class ChannelChat extends React.PureComponent {
     const {
       classes,
       className: classNameProp,
+      intl,
 
       messages,
     } = this.props;
 
-    const { inputText, scrollOverflow, scrollLastSeenMessageID } = this.state;
+    const { inputText, scrollOverflow, scrollLastSeenMessageID, inputTextValid, inputTextTooLong } = this.state;
 
     const className = classNames(
       classes.root,
@@ -360,15 +380,20 @@ class ChannelChat extends React.PureComponent {
             fullWidth={true}
             margin="dense"
             multiline
-            placeholder="Type a message"
+            placeholder={intl.formatMessage(translations.inputTextPlaceholder)}
             rowsMax={5}
             value={inputText}
             onChange={this.handleInputTextChange}
             onKeyPress={this.handleInputTextKeyPress}
             autoFocus={!isMobile}
             inputRef={this.inputTextFieldRef}
+            error={inputTextTooLong}
+            helperText={inputTextTooLong ?
+              <FormattedMessage id="chat.inputErrorMessage.tooLong" defaultMessage="Your message is too long."/>
+              : null
+            }
           />
-          <IconButton color="primary" onClick={this.handleSend}>
+          <IconButton color="primary" onClick={this.handleSend} disabled={!inputTextValid}>
             <SendIcon />
           </IconButton>
         </div>
@@ -377,15 +402,21 @@ class ChannelChat extends React.PureComponent {
   }
 }
 
+ChannelChat.defaultProps = {
+  maxInputTextLength: 1 << 14, // NOTE(longsleep): server has its own limit.
+};
+
 ChannelChat.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
+  intl: intlShape.isRequired,
 
   channel: PropTypes.string.isRequired,
   session: PropTypes.string.isRequired,
   sendWithCTRLEnter: PropTypes.bool,
 
   messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  maxInputTextLength: PropTypes.number.isRequired,
 
   sendChatMessage: PropTypes.func.isRequired,
   setChatVisibility: PropTypes.func.isRequired,
@@ -404,5 +435,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   setChatVisibility,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ChannelChat));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(injectIntl(ChannelChat)));
 

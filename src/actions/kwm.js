@@ -802,6 +802,11 @@ export function doSendChatMessage(channel, message, errorCallback) {
       throw new Error('no kwm');
     }
     return kwm.chats.doSendChatMessage(channel, message).then(replyMessage => {
+      if (replyMessage === undefined) {
+        // NOTE(longsleep): undefined happens when kwmserver rejects the message
+        // as this case is currently not handled in kwmjs at the moment.
+        throw new Error('no reply data');
+      }
       return replyMessage;
     }).catch(err => {
       err = errorCallback ? errorCallback(err) : err;
