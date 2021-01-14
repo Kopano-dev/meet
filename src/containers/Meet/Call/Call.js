@@ -53,6 +53,7 @@ import {
   SCREENSHARE_SCREEN_ID,
 } from '../../../actions/meet';
 import { getStreamsByType } from '../../../selectors/streams';
+import { getMainBadgeVisibility } from '../../../selectors/meet';
 import Howling from '../../../components/Howling';
 import { isMobile, isTouchDevice } from '../../../utils';
 import FullscreenDialog from '../../../components/FullscreenDialog';
@@ -654,6 +655,18 @@ class CallView extends React.PureComponent {
     this.setState(update);
   }
 
+  isCurrentSidebarOpen = () => {
+    const { width } = this.props;
+    const { sidebarOpen, sidebarMobileOpen } = this.state;
+
+    if (!isWidthUp('md', width)) {
+      return sidebarMobileOpen;
+    } else {
+      // Desktop side bar.
+      return sidebarOpen;
+    }
+  }
+
   handleDialogActionClick = (action, props) => {
     const { intl, enqueueSnackbar } = this.props;
 
@@ -755,6 +768,7 @@ class CallView extends React.PureComponent {
       intl,
       theme,
       width,
+      mainBadgeVisibility,
     } = this.props;
     const { shareScreen, wasTouched, withChannel, openDialogs, sidebarOpen, sidebarMobileOpen, bottombarMobileExpanded } = this.state;
 
@@ -1020,6 +1034,7 @@ class CallView extends React.PureComponent {
           appLogo={<KopanoMeetIcon alt="Kopano"/>}
           onAnchorClick={this.handleSidebarToggle}
           profile={profile}
+          BadgeProps={{invisible: this.isCurrentSidebarOpen() || !mainBadgeVisibility}}
         >
           {icons}
         </TopBar>
@@ -1172,6 +1187,8 @@ CallView.propTypes = {
   audioSinkId: PropTypes.string.isRequired,
 
   dmPending: PropTypes.bool.isRequired,
+
+  mainBadgeVisibility: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -1215,6 +1232,8 @@ const mapStateToProps = state => {
     audioSinkId,
 
     dmPending,
+
+    mainBadgeVisibility: getMainBadgeVisibility(state),
   };
 };
 

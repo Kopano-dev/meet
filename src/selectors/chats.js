@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect';
+
+const getChannel = (state) => state.kwm.channel;
 const getChatsTable = (state) => state.chats;
 
 const getChatsSession = (state, channel, session) => {
@@ -34,3 +37,24 @@ export const getChatUnreadCountByChannelAndSession = (channel, session='current'
 
   return channelChatsSession.unreadCount || 0;
 };
+
+export const getCurrentChannelChatsSession = createSelector(
+  [ getChannel, getChatsTable ],
+  (channel, chatsTable) => {
+    if (!channel) {
+      return null;
+    }
+
+    const channelChats = chatsTable[channel];
+    if (!channelChats) {
+      return null;
+    }
+
+    const channelChatsSession = channelChats.current;
+    if (!channelChatsSession) {
+      return null;
+    }
+
+    return channelChatsSession;
+  }
+);
