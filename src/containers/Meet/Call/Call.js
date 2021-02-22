@@ -66,6 +66,7 @@ import SettingsButton from '../../../components/SettingsButton';
 import SettingsList from '../../../components/SettingsList';
 import CollapseIcon from '../../../icons/Collapse';
 import ExpandIcon from '../../../icons/Expand';
+import SnackStack from '../../../components/SnackStack';
 
 import CallGrid from '../CallGrid';
 import IncomingCallDialog from '../IncomingCallDialog';
@@ -1139,6 +1140,7 @@ class CallView extends React.PureComponent {
         <Howling label="ring2" playing={Object.keys(ringing).length > 0} loop/>
         <Howling label="dial1" playing={Object.keys(calling).length > 0} interval={4}/>
         <AutoStandby wakeLock={!!channel}/>
+        <SnackStack/>
       </div>
     );
   }

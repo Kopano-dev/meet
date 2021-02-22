@@ -345,6 +345,14 @@ function createKWMManager(eventCallback) {
 
       dispatch(stateChanged(event));
     };
+    k.onserverstatus = event => {
+      if (event.target !== kwm) {
+        return;
+      }
+
+      console.info('KWM server status update', event.serverStatus); // eslint-disable-line no-console
+      dispatch(serverStatus(event));
+    };
     k.onerror = event => {
       if (event.target !== kwm) {
         return;
@@ -542,6 +550,17 @@ function stateChanged(event) {
       connecting,
       connected,
       reconnecting,
+    });
+  };
+}
+
+function serverStatus(event) {
+  return (dispatch, getState) => {
+    const { serverStatus } = event;
+
+    dispatch( {
+      type: types.KWM_SERVERSTATUS_CHANGED,
+      serverStatus,
     });
   };
 }

@@ -1,6 +1,7 @@
 import {
   KWM_STATE_CHANGED,
   KWM_CHANNEL_CHANGED,
+  KWM_SERVERSTATUS_CHANGED,
   KWM_DO_CALL,
   KWM_DO_ACCEPT,
   KWM_DO_IGNORE,
@@ -28,6 +29,8 @@ const defaultState = {
   connected: undefined,
   reconnecting: false,
 
+  serverStatus: {},
+
   channel: null,
   ts: null,
   calling: {},
@@ -51,6 +54,13 @@ function kwmReducer(state = defaultState, action) {
         connecting: action.connecting,
         connected: action.connected,
         reconnecting: action.reconnecting,
+      });
+
+    case KWM_SERVERSTATUS_CHANGED:
+      return Object.assign({}, state, {
+        serverStatus: {
+          ...action.serverStatus,
+        },
       });
 
     case KWM_DO_CALL: {
@@ -141,8 +151,9 @@ function kwmReducer(state = defaultState, action) {
     }
 
     default:
-      return state;
   }
+
+  return state;
 }
 
 export default kwmReducer;
