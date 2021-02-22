@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+- Rebuild translations and translate to German
+- Support to display KWM server status information
+- Update kwmjs to v1.3.1
+- Limit maximum size of chat messages
+- Force minimal video height only on xs displays
+- Improve UI style scrollbars and min sizes
+- Generate server disconnect/reconnect system messages in chat
+- Show participants count in tab label
+- Improve chat ui scroll behavior styles
+- Auto expand mobile bottom bar on tab change
+- Keep channel chat input focus after send
+- Improve join/left chat system message display
+- Update kwmjs to 1.3.0
+- Use top bar badge to indicate chat messages when drawer is hidden
+- Update kpop to v2.6.0
+- Support server generate system chat messages
+- Implement chat delivery queued status
+- Implement chat send status and retry
+- Add chat support
+- Bring back recommended linting
 
 
 ## v2.3.1 (2020-12-11)
