@@ -25,7 +25,7 @@
     "lunr": "^2.2.0",
     "mdi-material-ui": "^6.9.0",
     "memoize-one": "^5.0.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "notistack": "^0.8.8",
     "oidc-client": "^1.9.1",
     "prop-types": "^15.6.0",
